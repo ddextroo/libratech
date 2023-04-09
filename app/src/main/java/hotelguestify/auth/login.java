@@ -6,6 +6,8 @@ package hotelguestify.auth;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.*;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import hotelguestify.models.RoundedTextField;
 import hotelguestify.util.firebaseInit;
@@ -15,6 +17,16 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  *
@@ -22,7 +34,11 @@ import javax.swing.JOptionPane;
  */
 public class login extends javax.swing.JFrame {
 
+    private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
+    private DatabaseReference user = _firebase.getReference("user");
+    private FirebaseAuth auth;
+    
 
     /**
      * Creates new form login
