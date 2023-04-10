@@ -8,7 +8,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.common.collect.ImmutableList;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserRecord;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
@@ -23,7 +23,7 @@ public class auth {
     private DatabaseReference user = _firebase.getReference("user");
     private ChildEventListener _user_child_listener;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    private FirebaseUser useruid;
+    private UserRecord userRecord;
     
     public auth(String email, String password) throws IOException {
         new firebaseInit().initFirebase();
@@ -45,6 +45,7 @@ public class auth {
             JsonObject jsonResponse = new Gson().fromJson(response.body().string(), JsonObject.class);
             String idToken = jsonResponse.get("idToken").getAsString();
             JOptionPane.showMessageDialog(null, "Login successfully " + idToken);
+            userRecord = FirebaseAuth.getInstance().getUser(uid);
             if (user != null) {
                 String uid = useruid.getUid();
                 System.out.println("The user's UID is: " + uid);
