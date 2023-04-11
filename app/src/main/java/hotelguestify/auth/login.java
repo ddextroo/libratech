@@ -72,6 +72,7 @@ public class login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -99,7 +100,7 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2);
-        jButton2.setBounds(510, 330, 320, 30);
+        jButton2.setBounds(510, 400, 320, 30);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
@@ -166,6 +167,18 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(jLabel7);
         jLabel7.setBounds(688, 360, 37, 16);
 
+        jButton3.setBackground(new java.awt.Color(255, 165, 0));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Sign up");
+        jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3);
+        jButton3.setBounds(510, 330, 320, 30);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(872, 558));
@@ -201,6 +214,32 @@ public class login extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        boolean loginn = false;
+        String email_address = email.getText();
+        char[] passwordChars = pass.getPassword();
+        String password = new String(passwordChars);
+
+        if (email.getText().toString().equals("") || pass.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            try {
+                auth auth = new auth(email_address, password);
+                loginn = auth.login();
+            } catch (FileNotFoundException ex) {
+                loginn = false;
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FirebaseAuthException ex) {
+                loginn = false;
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (loginn) {
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\undraw_travel_booking_re_6umu.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -262,6 +301,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
