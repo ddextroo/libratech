@@ -1,4 +1,3 @@
-
 package hotelguestify.util;
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -9,16 +8,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
+import com.google.firebase.auth.FirebaseAuth;
 
 public class firebaseInit {
+
     public void initFirebase() {
         try {
             FileInputStream refreshToken = null;
             
             refreshToken = new FileInputStream("credentials.json");
-            
+
             FirebaseOptions options = null;
             try {
                 options = FirebaseOptions.builder()
@@ -28,11 +27,14 @@ public class firebaseInit {
             } catch (IOException ex) {
                 Logger.getLogger(firebaseInit.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            FirebaseApp.initializeApp(options);
+
+            if (FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(options);
+            }
+          
         } catch (FileNotFoundException ex) {
             Logger.getLogger(firebaseInit.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    }
+}
