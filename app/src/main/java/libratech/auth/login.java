@@ -23,14 +23,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.Container;
 import libratech.dashboard.home;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import libratech.models.auth;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import libratech.models.RoundedPanel;
 
 /**
  *
@@ -41,10 +47,23 @@ public class login extends javax.swing.JFrame {
     private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
     private DatabaseReference user = _firebase.getReference("user");
-    private Font customFont;
+    private RoundedPanel cornerRadius;
+    int posX = 0, posY = 0;
 
     public login() {
-        customFont = new Font("poppinsr", Font.BOLD, 12);
+        this.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                posX = e.getX();
+                posY = e.getY();
+            }
+        });
+        this.addMouseMotionListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent evt) {
+                //sets frame position when mouse dragged			
+                setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
+
+            }
+        });
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
@@ -143,7 +162,8 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(jPanel3);
         jPanel3.setBounds(500, 170, 330, 140);
 
-        jPanel4.setBackground(new java.awt.Color(255, 165, 0));
+        jPanel4.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel4MouseClicked(evt);
@@ -240,16 +260,24 @@ public class login extends javax.swing.JFrame {
             }
         }
         System.out.println("Login: " + loginn);
-        if (loginn.equals("true")) {
-            home home = new home();
-            login l = new login();
-            l.setVisible(false);
-            home.jLabel1.setText(key);
-            home.setVisible(true);
+        if (validateGmail(email_address)) {
+            if (loginn.equals("true")) {
+                home home = new home();
+                login l = new login();
+                l.setVisible(false);
+                home.jLabel1.setText(key);
+                home.setVisible(true);
+            } else if (loginn.equals("null")) {
+                email.setText("");
+                pass.setText("");
+                JOptionPane.showMessageDialog(null, "Error: Not registered", "Error", ERROR_MESSAGE);
+            } else {
+                email.setText("");
+                pass.setText("");
+                JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
+            }
         } else {
-            email.setText("");
-            pass.setText("");
-            JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     public void ScaleImage() {
@@ -341,6 +369,20 @@ public class login extends javax.swing.JFrame {
         jButton3.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         forgot.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+    }
 
+    public static boolean validateGmail(String email) {
+        if (email == null) {
+            return false;
+        }
+        // Check if the email is from Gmail
+        if (!email.endsWith("@gmail.com")) {
+            return false;
+        }
+        // Check if the email has a valid format
+        String regex = "^[\\w-_.+]*[\\w-_.]@gmail\\.com$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }
