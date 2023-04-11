@@ -1,4 +1,4 @@
-package hotelguestify.util;
+package libratech.util;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;

@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package hotelguestify.auth;
+package libratech.auth;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import hotelguestify.util.firebaseInit;
+import libratech.util.firebaseInit;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.BorderFactory;
@@ -23,7 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
-import hotelguestify.models.auth;
+import java.awt.Font;
+import libratech.models.auth;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -32,22 +33,23 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  *
- * @author HB-user
+ * @author DEXTER GWAPO
  */
 public class login extends javax.swing.JFrame {
 
     private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
     private DatabaseReference user = _firebase.getReference("user");
+    private Font customFont;
 
-    /**
-     * Creates new form login
-     */
+
     public login() {
+        customFont = new Font("poppinsr", Font.BOLD, 12);
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
         ScaleImage();
+        initFont();
         new firebaseInit().initFirebase();
 
     }
@@ -61,17 +63,17 @@ public class login extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        emailaddlabel = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        pwdlabel = new javax.swing.JLabel();
         pass = new javax.swing.JPasswordField();
-        jLabel8 = new javax.swing.JLabel();
+        forgot = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        donthave = new javax.swing.JLabel();
+        here = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
@@ -102,28 +104,28 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(jButton2);
         jButton2.setBounds(510, 400, 320, 30);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("LOGIN");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(620, 90, 90, 30);
+        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setForeground(new java.awt.Color(51, 51, 51));
+        title.setText("LOGIN");
+        jPanel1.add(title);
+        title.setBounds(620, 90, 90, 30);
 
         jPanel3.setBackground(new java.awt.Color(245, 245, 245));
         jPanel3.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel1.setText("Email Address");
-        jPanel3.add(jLabel1);
-        jLabel1.setBounds(10, 10, 90, 16);
+        emailaddlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        emailaddlabel.setForeground(new java.awt.Color(51, 51, 51));
+        emailaddlabel.setText("Email Address");
+        jPanel3.add(emailaddlabel);
+        emailaddlabel.setBounds(10, 10, 90, 16);
         jPanel3.add(email);
         email.setBounds(10, 30, 310, 30);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("Password");
-        jPanel3.add(jLabel3);
-        jLabel3.setBounds(10, 70, 70, 16);
+        pwdlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pwdlabel.setForeground(new java.awt.Color(51, 51, 51));
+        pwdlabel.setText("Password");
+        jPanel3.add(pwdlabel);
+        pwdlabel.setBounds(10, 70, 70, 16);
 
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,9 +135,9 @@ public class login extends javax.swing.JFrame {
         jPanel3.add(pass);
         pass.setBounds(10, 90, 310, 30);
 
-        jLabel8.setText("Forgot Password?");
-        jPanel3.add(jLabel8);
-        jLabel8.setBounds(230, 120, 100, 16);
+        forgot.setText("Forgot Password?");
+        jPanel3.add(forgot);
+        forgot.setBounds(230, 120, 100, 20);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(500, 170, 330, 140);
@@ -157,15 +159,15 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(jPanel4);
         jPanel4.setBounds(820, 0, 50, 20);
 
-        jLabel6.setText("Don't have an account yet? Click");
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(510, 360, 180, 16);
+        donthave.setText("Don't have an account yet? Click");
+        jPanel1.add(donthave);
+        donthave.setBounds(510, 360, 180, 16);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 165, 0));
-        jLabel7.setText("here");
-        jPanel1.add(jLabel7);
-        jLabel7.setBounds(688, 360, 37, 16);
+        here.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        here.setForeground(new java.awt.Color(255, 165, 0));
+        here.setText("here");
+        jPanel1.add(here);
+        here.setBounds(688, 360, 37, 16);
 
         jButton3.setBackground(new java.awt.Color(255, 165, 0));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -298,22 +300,30 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel donthave;
     private javax.swing.JTextField email;
+    private javax.swing.JLabel emailaddlabel;
+    private javax.swing.JLabel forgot;
+    private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPasswordField pass;
+    private javax.swing.JLabel pwdlabel;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
+    private void setCustomFont(JLabel label) {
+        label.setFont(customFont);
+    }
+    public void initFont() {
+        setCustomFont(title);
+        setCustomFont(emailaddlabel);
+        setCustomFont(donthave);
+    }
 }

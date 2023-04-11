@@ -33,7 +33,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'hotelguestify.App'
+    mainClass = 'libratech.App'
 }
 
 tasks.named('test') {
