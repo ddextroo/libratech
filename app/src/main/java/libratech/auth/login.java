@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
-import dashboard.home;
+import libratech.dashboard.home;
 import java.awt.Font;
 import libratech.models.auth;
 import java.io.FileNotFoundException;
