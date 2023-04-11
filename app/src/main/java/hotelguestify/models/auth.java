@@ -56,10 +56,11 @@ public class auth {
 
     }
 
-    public String login() throws FirebaseAuthException {
+    public boolean login() throws FirebaseAuthException {
+        //todo retrieve all users then condition if uid is equals to the stored users on the database
         UserRecord userRecord = firebaseAuth.getUserByEmail(email);
         String uid = firebaseAuth.createCustomToken(userRecord.getUid());
-        return uid;
+        return true;
     }
 
 //    public void forgotPassword(String email) throws FirebaseAuthException {
