@@ -23,8 +23,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'com.google.firebase:firebase-admin:8.0.0'
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
     implementation 'com.formdev:flatlaf:3.1'
+
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:0.22.0'
 }
 
 application {
