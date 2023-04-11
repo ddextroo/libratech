@@ -9,7 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import hotelguestify.models.RoundedTextField;
 import hotelguestify.util.firebaseInit;
 import java.awt.Color;
 import java.awt.Image;
@@ -19,14 +18,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-//import com.google.firebase.auth.AuthResult;
-//import com.google.android.gms.tasks.OnCompleteListener;
-//import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
+import hotelguestify.models.auth;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,8 +38,6 @@ public class login extends javax.swing.JFrame {
     private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
     private DatabaseReference user = _firebase.getReference("user");
-    private FirebaseAuth auth;
-    
 
     /**
      * Creates new form login
@@ -48,8 +47,8 @@ public class login extends javax.swing.JFrame {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
         ScaleImage();
-        new firebaseInit().initFirebase();   
-        
+        new firebaseInit().initFirebase();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -64,9 +63,9 @@ public class login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        pass = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -115,8 +114,8 @@ public class login extends javax.swing.JFrame {
         jLabel1.setText("Email Address");
         jPanel3.add(jLabel1);
         jLabel1.setBounds(10, 10, 90, 16);
-        jPanel3.add(jTextField2);
-        jTextField2.setBounds(10, 30, 310, 30);
+        jPanel3.add(email);
+        email.setBounds(10, 30, 310, 30);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
@@ -124,13 +123,13 @@ public class login extends javax.swing.JFrame {
         jPanel3.add(jLabel3);
         jLabel3.setBounds(10, 70, 70, 16);
 
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+        pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
+                passActionPerformed(evt);
             }
         });
-        jPanel3.add(jPasswordField2);
-        jPasswordField2.setBounds(10, 90, 310, 30);
+        jPanel3.add(pass);
+        pass.setBounds(10, 90, 310, 30);
 
         jLabel8.setText("Forgot Password?");
         jPanel3.add(jLabel8);
@@ -172,9 +171,9 @@ public class login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
+    }//GEN-LAST:event_passActionPerformed
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
         // TODO add your handling code here:
@@ -182,7 +181,22 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            // TODO add your handling code here:
+            String email_address = email.getText();
+            char[] passwordChars = pass.getPassword();
+            String password = new String(passwordChars);
+            
+            auth auth = new auth(email_address, password);
+            String customToken = null;
+            auth.signUp();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FirebaseAuthException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\undraw_travel_booking_re_6umu.png");
@@ -203,7 +217,6 @@ public class login extends javax.swing.JFrame {
         label.setBounds(x, y, iconWidth, iconHeight);
 
 // add the label to the panel
-
         jPanel2.add(label);
     }
 
@@ -243,6 +256,7 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -257,7 +271,6 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField pass;
     // End of variables declaration//GEN-END:variables
 }
