@@ -28,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  *
@@ -181,21 +182,23 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String email_address = email.getText();
+        char[] passwordChars = pass.getPassword();
+        String password = new String(passwordChars);
 
-        try {
-            // TODO add your handling code here:
-            String email_address = email.getText();
-            char[] passwordChars = pass.getPassword();
-            String password = new String(passwordChars);
-            
-            auth auth = new auth(email_address, password);
-            String customToken = null;
-            auth.signUp();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FirebaseAuthException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        if (email.getText().toString().equals("") || pass.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            try {
+                auth auth = new auth(email_address, password);
+                auth.signUp();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FirebaseAuthException ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
     public void ScaleImage() {
