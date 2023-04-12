@@ -70,6 +70,7 @@ public class auth {
         String authentication = "false";
         UserRecord userRecord = firebaseAuth.getUserByEmail(email);
         String uid = userRecord.getUid();
+
         r = new retrieve("users");
         r.retrieveData();
         while (r.getPolmap().isEmpty()) {
@@ -96,7 +97,7 @@ public class auth {
                     authentication = "false";
                 }
             } else {
-            authentication = "false";
+                authentication = "notreg";
             }
         }
         ret[1] = authentication;

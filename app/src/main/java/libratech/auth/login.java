@@ -35,8 +35,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import libratech.models.RoundedPanel;
+import libratech.design.RoundedPanel;
+import libratech.design.RoundedPanelBorderless;
 
 /**
  *
@@ -67,7 +69,7 @@ public class login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
-        ScaleImage();
+        //ScaleImage();
         initFont();
         new firebaseInit().initFirebase();
 
@@ -78,57 +80,56 @@ public class login extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        signupbutton = new javax.swing.JButton();
         title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         emailaddlabel = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
         pwdlabel = new javax.swing.JLabel();
+        jPanel6 = new RoundedPanel(12, new Color(245,245,245));
+        email = new javax.swing.JTextField();
+        jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
-        forgot = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel4 = new RoundedPanelBorderless(12, new Color(41,182,246));
         jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
+        jPanel8 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jLabel6 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
+        jTextField1.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
-        jPanel1.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(41, 182, 246));
         jPanel2.setLayout(null);
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(30, 120, 380, 320);
+        jLabel2.setBounds(70, 130, 310, 280);
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 440, 560);
-
-        jButton2.setBackground(new java.awt.Color(41, 182, 246));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Sign up");
-        jButton2.setToolTipText("");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        signupbutton.setBackground(new java.awt.Color(41, 182, 246));
+        signupbutton.setForeground(new java.awt.Color(255, 255, 255));
+        signupbutton.setText("Sign up");
+        signupbutton.setToolTipText("");
+        signupbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                signupbuttonActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(510, 400, 320, 30);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setForeground(new java.awt.Color(51, 51, 51));
         title.setText("LOGIN");
-        jPanel1.add(title);
-        title.setBounds(620, 90, 90, 30);
 
         jPanel3.setBackground(new java.awt.Color(245, 245, 245));
         jPanel3.setLayout(null);
@@ -138,8 +139,6 @@ public class login extends javax.swing.JFrame {
         emailaddlabel.setText("Email Address");
         jPanel3.add(emailaddlabel);
         emailaddlabel.setBounds(10, 10, 90, 16);
-        jPanel3.add(email);
-        email.setBounds(10, 30, 310, 30);
 
         pwdlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pwdlabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -147,21 +146,71 @@ public class login extends javax.swing.JFrame {
         jPanel3.add(pwdlabel);
         pwdlabel.setBounds(10, 70, 70, 16);
 
+        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
+
+        email.setBackground(new java.awt.Color(245, 245, 245));
+        email.setBorder(null);
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel6.setOpaque(false);
+
+        jPanel3.add(jPanel6);
+        jPanel6.setBounds(10, 30, 310, 33);
+
+        jPanel7.setBackground(new java.awt.Color(0, 0, 0));
+
+        pass.setBackground(new java.awt.Color(245, 245, 245));
+        pass.setBorder(null);
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passActionPerformed(evt);
             }
         });
-        jPanel3.add(pass);
-        pass.setBounds(10, 90, 310, 30);
 
-        forgot.setText("Forgot Password?");
-        jPanel3.add(forgot);
-        forgot.setBounds(210, 120, 120, 20);
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        jPanel1.add(jPanel3);
-        jPanel3.setBounds(500, 170, 330, 140);
+        jPanel7.setOpaque(false);
 
+        jPanel3.add(jPanel7);
+        jPanel7.setBounds(10, 90, 310, 33);
+
+        jPanel4.setOpaque(false);
         jPanel4.setBackground(new java.awt.Color(41, 182, 246));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -177,9 +226,6 @@ public class login extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
-        jPanel1.add(jPanel4);
-        jPanel4.setBounds(820, 0, 50, 20);
-
         jButton3.setBackground(new java.awt.Color(41, 182, 246));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Login");
@@ -189,8 +235,6 @@ public class login extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3);
-        jButton3.setBounds(510, 330, 320, 30);
 
         donthave.setText("Don't have an account yet? Click");
         jPanel5.add(donthave);
@@ -198,12 +242,79 @@ public class login extends javax.swing.JFrame {
         here.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         here.setForeground(new java.awt.Color(41, 182, 246));
         here.setText("here");
+        here.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        here.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hereMouseClicked(evt);
+            }
+        });
         jPanel5.add(here);
 
-        jPanel1.add(jPanel5);
-        jPanel5.setBounds(530, 360, 290, 20);
+        jPanel8.setOpaque(false);
+        jPanel8.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
+        jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("_");
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(274, 274, 274)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(signupbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(90, 90, 90)
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(signupbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+        );
+
+        getContentPane().add(jPanel1, new java.awt.GridBagConstraints());
 
         setSize(new java.awt.Dimension(872, 558));
         setLocationRelativeTo(null);
@@ -218,7 +329,7 @@ public class login extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jPanel4MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void signupbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupbuttonActionPerformed
         String email_address = email.getText();
         char[] passwordChars = pass.getPassword();
         String password = new String(passwordChars);
@@ -237,7 +348,7 @@ public class login extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_signupbuttonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -263,11 +374,10 @@ public class login extends javax.swing.JFrame {
         if (validateGmail(email_address)) {
             if (loginn.equals("true")) {
                 home home = new home();
-                login l = new login();
-                l.setVisible(false);
                 home.jLabel1.setText(key);
                 home.setVisible(true);
-            } else if (loginn.equals("null")) {
+                this.dispose();
+            } else if (loginn.equals("notreg")) {
                 email.setText("");
                 pass.setText("");
                 JOptionPane.showMessageDialog(null, "Error: Not registered", "Error", ERROR_MESSAGE);
@@ -280,8 +390,21 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void hereMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hereMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hereMouseClicked
+
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_jPanel8MouseClicked
     public void ScaleImage() {
-        ImageIcon icon = new ImageIcon("resources1\\undraw_travel_booking_re_6umu.png");
+        ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(img);
         int iconWidth = scaledIcon.getIconWidth();
@@ -341,20 +464,24 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel donthave;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emailaddlabel;
-    private javax.swing.JLabel forgot;
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel pwdlabel;
+    private javax.swing.JButton signupbutton;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
@@ -365,10 +492,12 @@ public class login extends javax.swing.JFrame {
         pass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emailaddlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         pwdlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        jButton2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        signupbutton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         jButton3.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
-        forgot.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        signupbutton.setVisible(false);
     }
 
     public static boolean validateGmail(String email) {
