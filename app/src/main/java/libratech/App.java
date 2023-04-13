@@ -6,8 +6,10 @@ package libratech;
 import libratech.auth.login;
 import libratech.models.fontInit;
 import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.ImageIcon;
 import libratech.util.firebaseInit;
 import javax.swing.UIManager;
+import libratech.auth.splash;
 
 public class App {
 
@@ -29,7 +31,10 @@ public class App {
             System.err.println("Failed to initialize LaF");
         }
 
-        new login().setVisible(true);
+        //ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResources("resources1/logo.png"));
+
+
+        new splash().setVisible(true);
 
     }
 }

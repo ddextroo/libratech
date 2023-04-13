@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class auth {
 
@@ -32,6 +35,7 @@ public class auth {
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
+    private Calendar cal = Calendar.getInstance();
 
     public auth(String email, String password) throws FileNotFoundException {
         this.firebaseAuth = FirebaseAuth.getInstance();
@@ -41,8 +45,10 @@ public class auth {
         this.uid = uid;
     }
 
-    public void signUp() throws FirebaseAuthException {
+    public boolean signUp(String fname, String lname, String libname) throws FirebaseAuthException {
         try {
+            String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
             UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                     .setEmail(email)
                     .setPassword(password);
@@ -52,16 +58,23 @@ public class auth {
             m = new HashMap<>();
             m.put("email", email);
             m.put("pass", password);
+            m.put("fname", fname);
+            m.put("lname", lname);
+            m.put("libname", libname);
+            m.put("timestamp", getnow);
             m.put("uid", uid);
             v.pushData("users", m);
+            JOptionPane.showMessageDialog(null, "Success: Account Created Successfully", "Welcome to LibraTech", INFORMATION_MESSAGE);
+            return true;
+
         } catch (FirebaseAuthException e) {
             if (e.getErrorCode().equals(AuthErrorCode.EMAIL_ALREADY_EXISTS)) {
                 JOptionPane.showMessageDialog(null, "Error: Email already exists", "Error", ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
             }
+            return false;
         }
-
     }
 
     public String[] login() throws FirebaseAuthException {
