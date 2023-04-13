@@ -10,6 +10,7 @@ import com.google.firebase.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import libratech.util.firebaseInit;
+import libratech.util.storage;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.BorderFactory;
@@ -79,6 +80,15 @@ public class signup extends javax.swing.JFrame {
         new firebaseInit().initFirebase();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
 
+        String localFilePath = "C:\\Users\\HB-user\\Downloads\\logo.png";
+        String remoteFilePath = "images/logo.png";
+
+        storage uploader = new storage(localFilePath, remoteFilePath);
+        try {
+            uploader.upload();
+        } catch (IOException ex) {
+            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
