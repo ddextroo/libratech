@@ -79,16 +79,6 @@ public class signup extends javax.swing.JFrame {
         initFont();
         new firebaseInit().initFirebase();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
-
-        String localFilePath = "C:\\Users\\HB-user\\Downloads\\logo.png";
-        String remoteFilePath = "images/logo.png";
-
-        storage uploader = new storage(localFilePath, remoteFilePath);
-        try {
-            uploader.upload();
-        } catch (IOException ex) {
-            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @SuppressWarnings("unchecked")

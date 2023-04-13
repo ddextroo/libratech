@@ -53,3 +53,12 @@ public class storage {
         }
     }
 }
+//        String localFilePath = "C:\\Users\\HB-user\\Downloads\\logo.png";
+//        String remoteFilePath = "images/logo.png";
+//
+//        storage uploader = new storage(localFilePath, remoteFilePath);
+//        try {
+//            uploader.upload();
+//        } catch (IOException ex) {
+//            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+//        }
