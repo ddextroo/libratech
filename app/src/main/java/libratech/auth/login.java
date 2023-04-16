@@ -87,6 +87,8 @@ public class login extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jPanel8 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new RoundedPanel(360, new Color(245,245,245));
@@ -105,12 +107,26 @@ public class login extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel8 = new RoundedPanelBorderless(12, new Color(41,182,246));
-        jLabel6 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
         jTextField1.setText("jTextField1");
+
+        jPanel8.setOpaque(false);
+        jPanel8.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("_");
+        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -273,22 +289,6 @@ public class login extends javax.swing.JFrame {
         });
         jPanel5.add(here);
 
-        jPanel8.setOpaque(false);
-        jPanel8.setBackground(new java.awt.Color(41, 182, 246));
-        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel8MouseClicked(evt);
-            }
-        });
-        jPanel8.setLayout(new java.awt.GridBagLayout());
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("_");
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -301,9 +301,7 @@ public class login extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(274, 274, 274)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(320, 320, 320)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
@@ -322,9 +320,7 @@ public class login extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -375,7 +371,7 @@ public class login extends javax.swing.JFrame {
         if (validateGmail(email_address)) {
             if (loginn.equals("true")) {
                 home home = new home();
-                home.jLabel1.setText(key);
+                home.jLabel2.setText(key);
                 home.setVisible(true);
                 this.dispose();
             } else if (loginn.equals("notreg")) {
