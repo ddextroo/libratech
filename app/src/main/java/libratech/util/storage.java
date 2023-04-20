@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.concurrent.TimeUnit;
 
 public class storage {
 
@@ -22,7 +23,7 @@ public class storage {
         this.remoteFilePath = remoteFilePath;
     }
 
-    public void upload() throws IOException {
+    public String upload() throws IOException {
         String bucketName = "guestify-985ec.appspot.com";
         FileInputStream serviceAccount = new FileInputStream("credentials2.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
@@ -40,8 +41,16 @@ public class storage {
                 .setContentType(getMimeType(file))
                 .build();
         Blob blob = storage.create(blobInfo, fileContent);
+        blob.createAcl(com.google.cloud.storage.Acl.of(com.google.cloud.storage.Acl.User.ofAllUsers(), com.google.cloud.storage.Acl.Role.READER));
+        blob.updateAcl(com.google.cloud.storage.Acl.of(com.google.cloud.storage.Acl.User.ofAllUsers(), com.google.cloud.storage.Acl.Role.READER));
+
+        String downloadUrl = blob.getMediaLink();
+        String urlWithToken = downloadUrl + "?alt=media&token=" + blob.getGeneratedId();
+        String signedUrl = blob.signUrl(1, TimeUnit.MINUTES).toString();
 
         System.out.println("File uploaded successfully to Firebase Storage");
+        
+        return urlWithToken;
     }
 
     private String getMimeType(File file) throws IOException {

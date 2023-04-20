@@ -19,36 +19,11 @@ import libratech.design.iconColor;
  */
 public class home extends javax.swing.JFrame {
 
-    private File file;
 
     public home() {
-        this.file = new File("uid.txt");
-
-        // Check if the file exists
-        if (file.exists()) {
-            // Read the contents of the file
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String line;
-                StringBuilder sb = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-                reader.close();
-                String fileContent = sb.toString();
-                System.out.println("File content:");
-                System.out.println(fileContent);
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("File does not exist.");
-        }
-
+       
         initComponents();
         ImageScaler scaler = new ImageScaler();
-        //iconColor coloricon = new iconColor();
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel1, "src\\main\\resources\\dashboard-line.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\book-2-line.png");

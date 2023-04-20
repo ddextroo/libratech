@@ -38,6 +38,8 @@ import libratech.design.RoundedPanelBorderless;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import libratech.design.ImageScaler;
 
 /**
  *
@@ -50,6 +52,8 @@ public class signup extends javax.swing.JFrame {
     private DatabaseReference user = _firebase.getReference("user");
     private RoundedPanel cornerRadius;
     int posX = 0, posY = 0;
+    private String localFilePath;
+    private String remoteFilePath;
 
     public signup() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
@@ -65,13 +69,11 @@ public class signup extends javax.swing.JFrame {
             public void mouseDragged(MouseEvent evt) {
                 //sets frame position when mouse dragged			
                 setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
-
             }
         });
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
-        //ScaleImage();
         initFont();
         new firebaseInit().initFirebase();
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
@@ -388,6 +390,7 @@ public class signup extends javax.swing.JFrame {
         signup.setForeground(new java.awt.Color(255, 255, 255));
         signup.setText("Sign up");
         signup.setToolTipText("");
+        signup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signupActionPerformed(evt);
@@ -428,6 +431,7 @@ public class signup extends javax.swing.JFrame {
         logo.setForeground(new java.awt.Color(255, 255, 255));
         logo.setText("Upload logo (.png)");
         logo.setToolTipText("");
+        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoActionPerformed(evt);
@@ -531,25 +535,44 @@ public class signup extends javax.swing.JFrame {
         String file_path = filepath.getText();
         char[] passwordChars = pass.getPassword();
         String password = new String(passwordChars);
+        char[] confirmpasswordChars = confirmpassword.getPassword();
+        String conpassword = new String(confirmpasswordChars);
         boolean authenticated = false;
+        String downloadUrl = "";
+
+        if (file_path.equals("")) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+            try {
+                downloadUrl = uploader.upload();
+                JOptionPane.showMessageDialog(null, "Please wait", "Uploading", INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getText().equals("") || filepath.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (validateGmail(email_address)) {
-                try {
-                    auth auth = new auth(email_address, password);
-                    authenticated = auth.signUp(school_name, school_id, file_path);
+                if (conpassword.equals(password)) {
+                    try {
+                        auth auth = new auth(email_address, password);
+                        authenticated = auth.signUp(school_name, school_id, downloadUrl);
 
-                    if (authenticated) {
-                        login login = new login();
-                        login.setVisible(true);
-                        this.dispose();
+                        if (authenticated) {
+                            login login = new login();
+                            login.setVisible(true);
+                            this.dispose();
+                        }
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (FirebaseAuthException ex) {
+                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (FirebaseAuthException ex) {
-                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
@@ -595,15 +618,9 @@ public class signup extends javax.swing.JFrame {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            String localFilePath = selectedFile.getAbsolutePath();
-            String remoteFilePath = "logo/" + selectedFile.getName();
-            storage uploader = new storage(localFilePath, remoteFilePath);
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "logo/" + selectedFile.getName();
             filepath.setText(selectedFile.getAbsolutePath());
-            try {
-                uploader.upload();
-            } catch (IOException ex) {
-                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
 
@@ -615,6 +632,23 @@ public class signup extends javax.swing.JFrame {
 
     private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
         // TODO add your handling code here:
+        String text = schoolid.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            schoolid.setText(text);
+        }
+
+        if (text.length() > 15) {
+            str = text.substring(0, 24);
+            schoolid.setText("");
+        }
+
+        if (text.length() == 0) {
+            schoolid.setText(str);
+            str = "";
+        }
     }//GEN-LAST:event_schoolidKeyReleased
 
     private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
@@ -636,11 +670,9 @@ public class signup extends javax.swing.JFrame {
         int iconWidth = scaledIcon.getIconWidth();
         int iconHeight = scaledIcon.getIconHeight();
 
-// calculate the x and y position to center the image within the panel
         int x = (jPanel2.getWidth() - iconWidth) / 2;
         int y = (jPanel2.getHeight() - iconHeight) / 2;
 
-// create a new JLabel to hold the icon and set its position within the panel
         JLabel label = new JLabel();
         label.setIcon(scaledIcon);
         label.setHorizontalAlignment(JLabel.CENTER);

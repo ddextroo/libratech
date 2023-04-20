@@ -45,7 +45,7 @@ public class auth {
         this.uid = uid;
     }
 
-    public boolean signUp(String school_name, String school_id, String path) throws FirebaseAuthException {
+    public boolean signUp(String school_name, String school_id, String url) throws FirebaseAuthException {
         try {
             String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -60,7 +60,7 @@ public class auth {
             m.put("pass", password);
             m.put("school_name", school_name);
             m.put("school_id", school_id);
-            m.put("path", path);
+            m.put("url", url);
             m.put("timestamp", getnow);
             m.put("uid", uid);
             v.pushData("users", m);

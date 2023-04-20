@@ -5,12 +5,21 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
+import libratech.auth.login;
+import libratech.dashboard.home;
 import libratech.design.RoundedPanelBorderless;
+import java.net.*;
+import javax.swing.JOptionPane;
+import libratech.models.aes;
 
 public class splash extends javax.swing.JFrame {
 
@@ -18,8 +27,37 @@ public class splash extends javax.swing.JFrame {
     int duration = 5000;
     Color startColor = new java.awt.Color(224, 224, 224);
     long startTime = System.currentTimeMillis();
+    private File file;
+    String fileContent = "";
+    aes aes = new aes();
 
     public splash() {
+        this.file = new File("uid.txt");
+        if (file.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                StringBuilder sb = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                fileContent = sb.toString();
+                System.out.println("File content:");
+                System.out.println(fileContent);
+                try {
+                    fileContent = aes.decryptString(fileContent, aes.getPassword());
+                } catch (Exception ex) {
+                    Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File does not exist.");
+        }
+
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
 
@@ -51,7 +89,6 @@ public class splash extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1500, 450));
-        getContentPane().setLayout(new java.awt.BorderLayout());
         getContentPane().add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.setBackground(new java.awt.Color(41, 182, 246));
@@ -166,6 +203,19 @@ public class splash extends javax.swing.JFrame {
 
     }
 
+    public static boolean isInternetConnected() {
+        try {
+            URL url = new URL("http://www.google.com");
+            HttpURLConnection urlConnect = (HttpURLConnection) url.openConnection();
+            urlConnect.setConnectTimeout(5000);
+            urlConnect.getContent();
+            urlConnect.disconnect();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void timerTonext() {
         jProgressBar1.setValue(0);
         jProgressBar1.setString(" ");
@@ -176,18 +226,32 @@ public class splash extends javax.swing.JFrame {
             int val = jProgressBar1.getValue();
             if (elapsedTime > duration) {
                 t.stop();
-                login login = new login();
-                login.setVisible(true);
-                setVisible(false);
+                if (fileContent.equals("")) {
+                    login login = new login();
+                    login.setVisible(true);
+                    setVisible(false);
+                    this.dispose();
+                } else {
+                    home home = new home();
+                    home.jLabel2.setText(fileContent);
+                    home.setVisible(true);
+                    this.dispose();
+                }
             } else {
-                jProgressBar1.setValue(++val+20);
+                jProgressBar1.setValue(++val + 20);
+                if (val > 50) {
+                    if (!isInternetConnected()) {
+                        JOptionPane.showMessageDialog(null, "No internet connection available.", "Error", JOptionPane.ERROR_MESSAGE);
+                        timerTonext();
+                    }
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
         });
         t.start();
     }
