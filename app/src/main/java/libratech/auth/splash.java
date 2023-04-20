@@ -168,17 +168,19 @@ public class splash extends javax.swing.JFrame {
 
     public void timerTonext() {
         jProgressBar1.setValue(0);
+        jProgressBar1.setString(" ");
         jProgressBar1.setStringPainted(true);
         t = new Timer(50, (ActionEvent e) -> {
             long now = System.currentTimeMillis();
             long elapsedTime = now - startTime;
+            int val = jProgressBar1.getValue();
             if (elapsedTime > duration) {
                 t.stop();
                 login login = new login();
                 login.setVisible(true);
                 setVisible(false);
             } else {
-                jProgressBar1.setValue((int) elapsedTime);
+                jProgressBar1.setValue(++val+20);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
