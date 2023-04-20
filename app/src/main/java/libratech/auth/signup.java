@@ -85,8 +85,6 @@ public class signup extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jScrollBar1 = new javax.swing.JScrollBar();
-        jPanel11 = new RoundedPanel(12, new Color(245,245,245));
-        schoolid = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new RoundedPanel(360, new Color(245,245,245));
@@ -107,7 +105,7 @@ public class signup extends javax.swing.JFrame {
         jPanel13 = new RoundedPanel(12, new Color(245,245,245));
         confirmpassword = new javax.swing.JPasswordField();
         jPanel14 = new RoundedPanel(12, new Color(245,245,245));
-        schoolname1 = new javax.swing.JTextField();
+        schoolid = new javax.swing.JTextField();
         jPanel4 = new RoundedPanelBorderless(12, new Color(41,182,246));
         jLabel5 = new javax.swing.JLabel();
         signup = new javax.swing.JButton();
@@ -117,45 +115,12 @@ public class signup extends javax.swing.JFrame {
         jPanel8 = new RoundedPanelBorderless(12, new Color(41,182,246));
         jLabel6 = new javax.swing.JLabel();
         logo = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
         filepath = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
         jTextField1.setText("jTextField1");
-
-        jPanel11.setBackground(new java.awt.Color(0, 0, 0));
-
-        schoolid.setBackground(new java.awt.Color(245, 245, 245));
-        schoolid.setBorder(null);
-        schoolid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                schoolidActionPerformed(evt);
-            }
-        });
-        schoolid.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                schoolidKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(schoolid, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(156, 156, 156))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(schoolid, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel6.setOpaque(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -282,7 +247,7 @@ public class signup extends javax.swing.JFrame {
         schoolidlabel.setForeground(new java.awt.Color(51, 51, 51));
         schoolidlabel.setText("School ID Number");
         jPanel3.add(schoolidlabel);
-        schoolidlabel.setBounds(10, 10, 130, 16);
+        schoolidlabel.setBounds(10, 0, 130, 16);
 
         schoolnamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         schoolnamelabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -291,9 +256,11 @@ public class signup extends javax.swing.JFrame {
         schoolnamelabel.setBounds(10, 60, 190, 20);
 
         jPanel12.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel12.setOpaque(false);
 
         schoolname.setBackground(new java.awt.Color(245, 245, 245));
         schoolname.setBorder(null);
+        schoolname.setOpaque(true);
         schoolname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 schoolnameActionPerformed(evt);
@@ -322,8 +289,6 @@ public class signup extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.setOpaque(false);
-
         jPanel3.add(jPanel12);
         jPanel12.setBounds(10, 80, 310, 33);
 
@@ -334,6 +299,7 @@ public class signup extends javax.swing.JFrame {
         confirmpasslabel.setBounds(10, 240, 140, 16);
 
         jPanel13.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel13.setOpaque(false);
 
         confirmpassword.setBackground(new java.awt.Color(245, 245, 245));
         confirmpassword.setBorder(null);
@@ -360,23 +326,25 @@ public class signup extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel7.setOpaque(false);
-
         jPanel3.add(jPanel13);
         jPanel13.setBounds(10, 260, 310, 33);
 
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel14.setOpaque(false);
 
-        schoolname1.setBackground(new java.awt.Color(245, 245, 245));
-        schoolname1.setBorder(null);
-        schoolname1.addActionListener(new java.awt.event.ActionListener() {
+        schoolid.setBackground(new java.awt.Color(245, 245, 245));
+        schoolid.setBorder(null);
+        schoolid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                schoolname1ActionPerformed(evt);
+                schoolidActionPerformed(evt);
             }
         });
-        schoolname1.addKeyListener(new java.awt.event.KeyAdapter() {
+        schoolid.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                schoolidKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                schoolname1KeyReleased(evt);
+                schoolidKeyReleased(evt);
             }
         });
 
@@ -386,21 +354,19 @@ public class signup extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(schoolname1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(schoolid, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(schoolname1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addComponent(schoolid, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel6.setOpaque(false);
-
         jPanel3.add(jPanel14);
-        jPanel14.setBounds(10, 30, 310, 33);
+        jPanel14.setBounds(10, 23, 310, 33);
 
         jPanel4.setOpaque(false);
         jPanel4.setBackground(new java.awt.Color(41, 182, 246));
@@ -469,7 +435,7 @@ public class signup extends javax.swing.JFrame {
         });
 
         filepath.setForeground(new java.awt.Color(58, 58, 58));
-        filepath.setText("/file/to/path.png");
+        jScrollPane1.setViewportView(filepath);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -489,15 +455,14 @@ public class signup extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(signup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(filepath)))
-                        .addGap(116, 116, 116))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(signup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -518,10 +483,10 @@ public class signup extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filepath)
-                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addComponent(signup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -568,7 +533,7 @@ public class signup extends javax.swing.JFrame {
         String password = new String(passwordChars);
         boolean authenticated = false;
 
-        if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getText().equals("")) {
+        if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getText().equals("") || filepath.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (validateGmail(email_address)) {
@@ -592,35 +557,9 @@ public class signup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_signupActionPerformed
 
-    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_schoolidActionPerformed
-
     private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_schoolnameActionPerformed
-
-    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
-        // TODO add your handling code here:
-        String text = schoolid.getText();
-        String str = "";
-
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolid.setText(text);
-        }
-
-        if (text.length() > 15) {
-            str = text.substring(0, 24);
-            schoolid.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolid.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolidKeyReleased
 
     private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
         // TODO add your handling code here:
@@ -670,13 +609,26 @@ public class signup extends javax.swing.JFrame {
 
     }//GEN-LAST:event_logoActionPerformed
 
-    private void schoolname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolname1ActionPerformed
+    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_schoolname1ActionPerformed
+    }//GEN-LAST:event_schoolidActionPerformed
 
-    private void schoolname1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolname1KeyReleased
+    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_schoolname1KeyReleased
+    }//GEN-LAST:event_schoolidKeyReleased
+
+    private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
+        // TODO add your handling code here:
+        String value = schoolid.getText();
+        int l = value.length();
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            schoolid.setEditable(true);
+        } else {
+            schoolid.setEditable(false);
+            JOptionPane.showMessageDialog(rootPane, "Enter only numeric digits(0-9)", "Error", ERROR_MESSAGE);
+            schoolid.setEditable(true);
+        }
+    }//GEN-LAST:event_schoolidKeyPressed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -748,7 +700,6 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -761,6 +712,7 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton logo;
     private javax.swing.JPasswordField pass;
@@ -768,7 +720,6 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JTextField schoolid;
     private javax.swing.JLabel schoolidlabel;
     private javax.swing.JTextField schoolname;
-    private javax.swing.JTextField schoolname1;
     private javax.swing.JLabel schoolnamelabel;
     private javax.swing.JButton signup;
     private javax.swing.JLabel title;
@@ -787,6 +738,7 @@ public class signup extends javax.swing.JFrame {
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         logo.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolname.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         filepath.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

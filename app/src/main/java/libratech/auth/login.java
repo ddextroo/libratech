@@ -40,6 +40,7 @@ import javax.swing.JFrame;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
+import java.io.*;
 
 /**
  *
@@ -52,6 +53,8 @@ public class login extends javax.swing.JFrame {
     private DatabaseReference user = _firebase.getReference("user");
     private RoundedPanel cornerRadius;
     int posX = 0, posY = 0;
+    boolean selected;
+    File file = new File("uid.txt");
 
     public login() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
@@ -101,6 +104,7 @@ public class login extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel4 = new RoundedPanelBorderless(12, new Color(41,182,246));
         jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -249,6 +253,15 @@ public class login extends javax.swing.JFrame {
         jPanel3.add(jPanel7);
         jPanel7.setBounds(10, 90, 310, 33);
 
+        jCheckBox1.setText("Remember me");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jCheckBox1);
+        jCheckBox1.setBounds(10, 130, 130, 30);
+
         jPanel4.setOpaque(false);
         jPanel4.setBackground(new java.awt.Color(41, 182, 246));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -297,21 +310,24 @@ public class login extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(320, 320, 320)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
+                                .addGap(60, 60, 60)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(320, 320, 320)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(188, 188, 188)
+                                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,12 +340,12 @@ public class login extends javax.swing.JFrame {
                 .addGap(90, 90, 90)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(48, 48, 48))
         );
 
         getContentPane().add(jPanel1);
@@ -370,6 +386,28 @@ public class login extends javax.swing.JFrame {
         System.out.println("Login: " + loginn);
         if (validateGmail(email_address)) {
             if (loginn.equals("true")) {
+                if (selected) {
+                    try {
+                        FileWriter writer = new FileWriter(file);
+                        writer.write(key);
+                        writer.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    if (file.exists()) {
+                        boolean deleted = file.delete();
+                        if (deleted) {
+                            System.out.println("File deleted successfully.");
+                        } else {
+                            System.out.println("Failed to delete file.");
+                        }
+                    } else {
+                        System.out.println("File does not exist.");
+                    }
+                }
                 home home = new home();
                 home.jLabel2.setText(key);
                 home.setVisible(true);
@@ -403,6 +441,15 @@ public class login extends javax.swing.JFrame {
         // TODO add your handling code here:
         setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jPanel8MouseClicked
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox1.isSelected()) {
+            selected = true;
+        } else {
+            selected = false;
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -467,6 +514,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -496,6 +544,7 @@ public class login extends javax.swing.JFrame {
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        jCheckBox1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
     public static boolean validateGmail(String email) {

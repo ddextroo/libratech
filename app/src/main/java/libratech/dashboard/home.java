@@ -3,6 +3,7 @@ package libratech.dashboard;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.io.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +19,33 @@ import libratech.design.iconColor;
  */
 public class home extends javax.swing.JFrame {
 
+    private File file;
+
     public home() {
+        this.file = new File("uid.txt");
+
+        // Check if the file exists
+        if (file.exists()) {
+            // Read the contents of the file
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                StringBuilder sb = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                String fileContent = sb.toString();
+                System.out.println("File content:");
+                System.out.println(fileContent);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File does not exist.");
+        }
+
         initComponents();
         ImageScaler scaler = new ImageScaler();
         //iconColor coloricon = new iconColor();
