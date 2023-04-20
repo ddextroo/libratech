@@ -6,26 +6,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import libratech.design.RoundedPanelBorderless;
 
 public class splash extends javax.swing.JFrame {
-    
+
     Timer t;
     int duration = 5000;
     Color startColor = new java.awt.Color(224, 224, 224);
-    Color endColor = new java.awt.Color(41,182,246);
     long startTime = System.currentTimeMillis();
-    
+
     public splash() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
-        
+
         initComponents();
         initFont();
         timerTonext();
-        
+
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     }
 
@@ -39,7 +40,7 @@ public class splash extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        loading = new javax.swing.JPanel();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new RoundedPanelBorderless(360, new Color(245,245,245));
         jLabel1 = new javax.swing.JLabel();
@@ -49,22 +50,9 @@ public class splash extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-
-        loading.setBackground(new java.awt.Color(224, 224, 224));
-        loading.setPreferredSize(new java.awt.Dimension(10, 10));
-
-        javax.swing.GroupLayout loadingLayout = new javax.swing.GroupLayout(loading);
-        loading.setLayout(loadingLayout);
-        loadingLayout.setHorizontalGroup(
-            loadingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        loadingLayout.setVerticalGroup(
-            loadingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(loading, java.awt.BorderLayout.PAGE_END);
+        setPreferredSize(new java.awt.Dimension(1500, 450));
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.setBackground(new java.awt.Color(41, 182, 246));
         jPanel1.setForeground(new java.awt.Color(41, 182, 246));
@@ -169,35 +157,35 @@ public class splash extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel loading;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
  public void initFont() {
         title.setFont(new Font("Poppins Regular", Font.BOLD, 64));
         description.setFont(new Font("Poppins Regular", Font.PLAIN, 36));
-        
+
     }
-    
+
     public void timerTonext() {
-        int width = loading.getWidth();
+        jProgressBar1.setValue(0);
+        jProgressBar1.setStringPainted(true);
         t = new Timer(50, (ActionEvent e) -> {
             long now = System.currentTimeMillis();
             long elapsedTime = now - startTime;
             if (elapsedTime > duration) {
                 t.stop();
-                loading.setBackground(endColor);
                 login login = new login();
                 login.setVisible(true);
                 setVisible(false);
             } else {
-                int newWidth = (int) (elapsedTime * width / duration);
-                int red = (int) (startColor.getRed() + (float) elapsedTime / duration * (endColor.getRed() - startColor.getRed()));
-                int green = (int) (startColor.getGreen() + (float) elapsedTime / duration * (endColor.getGreen() - startColor.getGreen()));
-                int blue = (int) (startColor.getBlue() + (float) elapsedTime / duration * (endColor.getBlue() - startColor.getBlue()));
-                Color newColor = new Color(red, green, blue);
-                loading.setBackground(newColor);
-                loading.repaint(0, 0, newWidth, loading.getHeight());
+                jProgressBar1.setValue((int) elapsedTime);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            
         });
         t.start();
     }
