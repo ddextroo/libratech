@@ -6,9 +6,10 @@ LibraTech is a modern library management system designed to streamline library o
   
 For the color scheme of LibraTech, you may want to consider a combination of colors that reflect the qualities of modernity, innovation, and reliability. Here are some suggestions:
 
-* Primary color: Deep blue (#0B4F6C)
-* Secondary color 1: Bright green (#75B08A)
-* Secondary color 2: Light gray (#E8E8E8)
+* Primary color: Deep blue (#041c34)
+* Color accent: Summer sky (#29b6f6)
+* Secondary color 1: White (#FAFAFA)
+* Secondary color 2: Black (#3A3A3A)
 
 This color scheme conveys a sense of professionalism, trustworthiness, and energy, which can help establish LibraTech as a reliable and forward-thinking library management system.
 
