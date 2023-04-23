@@ -41,6 +41,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import java.io.*;
+import libratech.design.ImageScaler;
 import libratech.models.aes;
 
 /**
@@ -61,6 +62,8 @@ public class login extends javax.swing.JFrame {
     public login() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
+        ImageScaler scaler = new ImageScaler();
+        scaler.scaleImage(jLabel2, "src\\main\\resources\\logo.png");
 
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -88,7 +91,6 @@ public class login extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -96,8 +98,10 @@ public class login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel9 = new RoundedPanel(360, new Color(245,245,245));
+        jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         emailaddlabel = new javax.swing.JLabel();
@@ -107,13 +111,13 @@ public class login extends javax.swing.JFrame {
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel5 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel10 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jPanel10 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel7 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
@@ -142,37 +146,52 @@ public class login extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
-        jPanel2.setBackground(new java.awt.Color(41, 182, 246));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel9.setBackground(new java.awt.Color(245, 245, 245));
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setForeground(new java.awt.Color(250, 250, 250));
         jPanel9.setOpaque(false);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(39, 16));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel1.setText("LIBRATECH");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel3.setText("Library System Solution");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel2)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(119, 119, 119)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(120, 50, 139, 74);
-        jPanel2.add(jPanel9, gridBagConstraints);
+        jPanel2.add(jPanel9, java.awt.BorderLayout.CENTER);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setForeground(new java.awt.Color(51, 51, 51));
@@ -268,7 +287,7 @@ public class login extends javax.swing.JFrame {
         jCheckBox1.setBounds(10, 130, 130, 30);
 
         jPanel4.setOpaque(false);
-        jPanel4.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel4.setBackground(new java.awt.Color(4, 28, 52));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -283,7 +302,7 @@ public class login extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
-        jButton3.setBackground(new java.awt.Color(41, 182, 246));
+        jButton3.setBackground(new java.awt.Color(4, 28, 52));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Login");
         jButton3.setToolTipText("");
@@ -298,7 +317,7 @@ public class login extends javax.swing.JFrame {
         jPanel5.add(donthave);
 
         here.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        here.setForeground(new java.awt.Color(41, 182, 246));
+        here.setForeground(new java.awt.Color(4, 28, 52));
         here.setText("here");
         here.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         here.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -309,7 +328,7 @@ public class login extends javax.swing.JFrame {
         jPanel5.add(here);
 
         jPanel10.setOpaque(false);
-        jPanel10.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel10.setBackground(new java.awt.Color(4, 28, 52));
         jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -318,9 +337,9 @@ public class login extends javax.swing.JFrame {
         });
         jPanel10.setLayout(new java.awt.GridBagLayout());
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("_");
+        jLabel7.setText("-");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel10.add(jLabel7, new java.awt.GridBagConstraints());
 
@@ -444,9 +463,9 @@ public class login extends javax.swing.JFrame {
                     home home = new home();
                     if (selected) {
                     String decrypted = aes.decryptString(key, aes.getPassword());
-                    home.jLabel2.setText(decrypted);
+                    home.uidkey.setText(decrypted);
                     } else {
-                        home.jLabel2.setText(key);
+                        home.uidkey.setText(key);
                     }
                     home.setVisible(true);
                     this.dispose();
@@ -561,7 +580,9 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -592,7 +613,9 @@ public class login extends javax.swing.JFrame {
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        jLabel7.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        jLabel7.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
         jCheckBox1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 

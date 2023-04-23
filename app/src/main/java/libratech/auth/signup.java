@@ -58,6 +58,9 @@ public class signup extends javax.swing.JFrame {
     public signup() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
+        
+        ImageScaler scaler = new ImageScaler();
+        scaler.scaleImage(jLabel2, "src\\main\\resources\\logo.png");
 
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -82,15 +85,16 @@ public class signup extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel9 = new RoundedPanel(360, new Color(245,245,245));
+        jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         emailaddlabel = new javax.swing.JLabel();
@@ -108,13 +112,13 @@ public class signup extends javax.swing.JFrame {
         confirmpassword = new javax.swing.JPasswordField();
         jPanel14 = new RoundedPanel(12, new Color(245,245,245));
         schoolid = new javax.swing.JTextField();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel5 = new javax.swing.JLabel();
         signup = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel8 = new RoundedPanelBorderless(12, new Color(41,182,246));
+        jPanel8 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel6 = new javax.swing.JLabel();
         logo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -130,37 +134,49 @@ public class signup extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
-        jPanel2.setBackground(new java.awt.Color(41, 182, 246));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel9.setBackground(new java.awt.Color(245, 245, 245));
         jPanel9.setOpaque(false);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel1.setText("LIBRATECH");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel3.setText("Library System Solution");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel2)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))))
+                .addContainerGap(289, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(148, 148, 148)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(120, 50, 139, 74);
-        jPanel2.add(jPanel9, gridBagConstraints);
+        jPanel2.add(jPanel9, java.awt.BorderLayout.CENTER);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setForeground(new java.awt.Color(51, 51, 51));
@@ -371,7 +387,7 @@ public class signup extends javax.swing.JFrame {
         jPanel14.setBounds(10, 23, 310, 33);
 
         jPanel4.setOpaque(false);
-        jPanel4.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel4.setBackground(new java.awt.Color(4, 28, 52));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -386,7 +402,7 @@ public class signup extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
-        signup.setBackground(new java.awt.Color(41, 182, 246));
+        signup.setBackground(new java.awt.Color(4, 28, 52));
         signup.setForeground(new java.awt.Color(255, 255, 255));
         signup.setText("Sign up");
         signup.setToolTipText("");
@@ -401,7 +417,7 @@ public class signup extends javax.swing.JFrame {
         jPanel5.add(donthave);
 
         here.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        here.setForeground(new java.awt.Color(41, 182, 246));
+        here.setForeground(new java.awt.Color(4, 28, 52));
         here.setText("here");
         here.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         here.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -412,7 +428,7 @@ public class signup extends javax.swing.JFrame {
         jPanel5.add(here);
 
         jPanel8.setOpaque(false);
-        jPanel8.setBackground(new java.awt.Color(41, 182, 246));
+        jPanel8.setBackground(new java.awt.Color(4, 28, 52));
         jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -421,13 +437,13 @@ public class signup extends javax.swing.JFrame {
         });
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("_");
+        jLabel6.setText("-");
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
 
-        logo.setBackground(new java.awt.Color(41, 182, 246));
+        logo.setBackground(new java.awt.Color(4, 28, 52));
         logo.setForeground(new java.awt.Color(255, 255, 255));
         logo.setText("Upload logo (.png)");
         logo.setToolTipText("");
@@ -728,7 +744,9 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel filepath;
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -767,7 +785,9 @@ public class signup extends javax.swing.JFrame {
         signup.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
+        jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         logo.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

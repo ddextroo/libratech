@@ -50,7 +50,7 @@ public class storage {
 
         System.out.println("File uploaded successfully to Firebase Storage");
         
-        return urlWithToken;
+        return downloadUrl;
     }
 
     private String getMimeType(File file) throws IOException {
