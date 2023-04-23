@@ -42,6 +42,9 @@ public class home extends javax.swing.JFrame {
 
     public home() {
         initComponents();
+        ImageIcon icon1 = new ImageIcon("resources1/logo.png");
+        this.setIconImage(icon1.getImage());
+        uidkey.setVisible(false);
         new firebaseInit().initFirebase();
         ImageScaler scaler = new ImageScaler();
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
@@ -51,7 +54,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
-        Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(500, e -> {
             String uid = uidkey.getText();
             listener.addChildListener(uid, (String school_name, String school_id, String url) -> {
                 try {
@@ -59,7 +62,7 @@ public class home extends javax.swing.JFrame {
                     idnum.setText(school_id);
                     URL url1 = new URL(url);
                     BufferedImage image = ImageIO.read(url1);
-                    
+
                     ImageIcon icon = new ImageIcon(image);
                     Image img = icon.getImage().getScaledInstance(imageAvatar1.getWidth(), imageAvatar1.getHeight(), Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(img);
@@ -80,10 +83,8 @@ public class home extends javax.swing.JFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jPanel7 = new RoundedPanelBorderless(12, new Color(0, 4, 36, 0));
-        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -114,9 +115,15 @@ public class home extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         uidkey = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         imageAvatar1 = new libratech.design.ImageAvatar();
+        jPanel4 = new javax.swing.JPanel();
         school_n = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         idnum = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        jPanel9 = new javax.swing.JPanel();
+        myButton1 = new libratech.design.MyButton();
         jPanel3 = new javax.swing.JPanel();
 
         jLabel4.setText("jLabel4");
@@ -126,33 +133,6 @@ public class home extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(4, 28, 52));
 
-        jPanel6.setBackground(new java.awt.Color(4, 28, 52));
-        jPanel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel6MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel6MouseExited(evt);
-            }
-        });
-        jPanel6.setLayout(new java.awt.GridBagLayout());
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("X");
-        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-        jPanel6.add(jLabel5, new java.awt.GridBagConstraints());
-
-        jPanel6.setOpaque(false);
         jPanel7.setBackground(new java.awt.Color(4, 28, 52));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -162,11 +142,16 @@ public class home extends javax.swing.JFrame {
         });
         jPanel7.setLayout(new java.awt.GridBagLayout());
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("-");
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel7.add(jLabel6, new java.awt.GridBagConstraints());
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("X");
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+        jPanel7.add(jLabel5, new java.awt.GridBagConstraints());
 
         jLabel3.setPreferredSize(new java.awt.Dimension(50, 50));
 
@@ -187,26 +172,23 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8))
-                .addGap(782, 782, 782)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 762, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(1, 1, 1)
+                        .addGap(2, 2, 2)
                         .addComponent(jLabel9)))
                 .addContainerGap())
-            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -239,7 +221,7 @@ public class home extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -281,7 +263,7 @@ public class home extends javax.swing.JFrame {
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -318,7 +300,7 @@ public class home extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -355,7 +337,7 @@ public class home extends javax.swing.JFrame {
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
@@ -369,42 +351,42 @@ public class home extends javax.swing.JFrame {
         uidkey.setText("weqwewq");
 
         jPanel5.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
+        jPanel5.add(filler1);
+        jPanel5.add(imageAvatar1);
+
+        jPanel4.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel4.setPreferredSize(new java.awt.Dimension(30, 30));
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
 
         school_n.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         school_n.setForeground(new java.awt.Color(250, 250, 250));
         school_n.setText("School Name");
+        jPanel4.add(school_n);
+
+        jPanel5.add(jPanel4);
+
+        jPanel6.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel6.setPreferredSize(new java.awt.Dimension(10, 10));
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
 
         idnum.setBackground(new java.awt.Color(250, 250, 250));
         idnum.setForeground(new java.awt.Color(250, 250, 250));
         idnum.setText("ID Number");
+        jPanel6.add(idnum);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(school_n)
-                            .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(idnum)
-                        .addGap(61, 61, 61))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(school_n)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(idnum)
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
+        jPanel5.add(jPanel6);
+        jPanel5.add(filler2);
+
+        jPanel9.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+
+        myButton1.setForeground(new java.awt.Color(250, 250, 250));
+        myButton1.setText("Log out");
+        myButton1.setPreferredSize(new java.awt.Dimension(76, 27));
+        jPanel9.add(myButton1);
+
+        jPanel5.add(jPanel9);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -417,7 +399,7 @@ public class home extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(uidkey)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -431,10 +413,10 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 593, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 567, Short.MAX_VALUE)
                 .addComponent(uidkey)
-                .addGap(166, 166, 166)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -447,10 +429,9 @@ public class home extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+    private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
         // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jPanel6MouseClicked
+    }//GEN-LAST:event_jPanel16MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
@@ -461,22 +442,6 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jPanel7MouseClicked
-
-    private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
-        // TODO add your handling code here:
-        //jPanel15 = new RoundedPanelBorderless(12, new java.awt.Color(63, 106, 149, 44));
-        jPanel6.setBackground(Color.RED);
-    }//GEN-LAST:event_jPanel16MouseClicked
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        // TODO add your handling code here:
-        jPanel6.setBackground(Color.RED);
-    }//GEN-LAST:event_jPanel6MouseEntered
-
-    private void jPanel6MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseExited
-        // TODO add your handling code here:
-        jPanel6.setBackground(Color.GREEN);
-    }//GEN-LAST:event_jPanel6MouseExited
 
     /**
      * @param args the command line arguments
@@ -514,8 +479,10 @@ public class home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel idnum;
@@ -535,7 +502,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -549,42 +515,25 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
+    private libratech.design.MyButton myButton1;
     private javax.swing.JLabel school_n;
     public javax.swing.JLabel uidkey;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        //try {
         jLabel14.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
         jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
         jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
         jLabel8.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         jLabel9.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
-        jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-        jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         school_n.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         idnum.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-
-//            String s_id = listener.addChildListener(jLabel2.getText())[1];
-//            
-//            idnum.setText(s_id);
-//            
-//            String url = listener.addChildListener(jLabel2.getText())[2];
-//            URL url1 = new URL(url);
-//            BufferedImage image = ImageIO.read(url1);
-//            
-//            school_name.setText(url);
-//            ImageIcon icon = new ImageIcon(image);
-//            Image img = icon.getImage().getScaledInstance(imageAvatar1.getWidth(), imageAvatar1.getHeight(), Image.SCALE_SMOOTH);
-//            ImageIcon scaledIcon = new ImageIcon(img);
-//            imageAvatar1.setImage(scaledIcon);
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        myButton1.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
     }
 }
