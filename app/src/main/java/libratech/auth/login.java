@@ -60,11 +60,6 @@ public class login extends javax.swing.JFrame {
     aes aes = new aes();
 
     public login() {
-        ImageIcon icon = new ImageIcon("resources1/logo.png");
-        this.setIconImage(icon.getImage());
-        ImageScaler scaler = new ImageScaler();
-        scaler.scaleImage(jLabel2, "src\\main\\resources\\logo.png");
-
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 posX = e.getX();
@@ -81,9 +76,12 @@ public class login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
-        //ScaleImage();
         initFont();
         new firebaseInit().initFirebase();
+        ImageIcon icon1 = new ImageIcon("src\\main\\resources\\logo.png");
+        this.setIconImage(icon1.getImage());
+        ImageScaler scaler = new ImageScaler();
+        scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
 
     }
@@ -99,9 +97,9 @@ public class login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         emailaddlabel = new javax.swing.JLabel();
@@ -113,12 +111,12 @@ public class login extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel4 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
         jPanel10 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel7 = new javax.swing.JLabel();
+        myButtonborderless1 = new libratech.design.MyButtonborderless();
 
         jButton1.setText("jButton1");
 
@@ -153,8 +151,6 @@ public class login extends javax.swing.JFrame {
         jPanel9.setForeground(new java.awt.Color(250, 250, 250));
         jPanel9.setOpaque(false);
 
-        jLabel2.setPreferredSize(new java.awt.Dimension(39, 16));
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(250, 250, 250));
         jLabel1.setText("LIBRATECH");
@@ -163,6 +159,8 @@ public class login extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("Library System Solution");
 
+        jLabel4.setPreferredSize(new java.awt.Dimension(230, 230));
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -170,21 +168,21 @@ public class login extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel1))))
-                .addContainerGap(105, Short.MAX_VALUE))
+                            .addComponent(jLabel1)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addGap(136, 136, 136)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,17 +300,6 @@ public class login extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
-        jButton3.setBackground(new java.awt.Color(4, 28, 52));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Login");
-        jButton3.setToolTipText("");
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         donthave.setText("Don't have an account yet? Click");
         jPanel5.add(donthave);
 
@@ -343,6 +330,16 @@ public class login extends javax.swing.JFrame {
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel10.add(jLabel7, new java.awt.GridBagConstraints());
 
+        myButtonborderless1.setBackground(new java.awt.Color(4, 28, 52));
+        myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
+        myButtonborderless1.setText("Login");
+        myButtonborderless1.setPreferredSize(new java.awt.Dimension(76, 27));
+        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -350,6 +347,12 @@ public class login extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                        .addGap(32, 32, 32))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -364,13 +367,7 @@ public class login extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(188, 188, 188)
                                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,8 +383,8 @@ public class login extends javax.swing.JFrame {
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
@@ -408,7 +405,37 @@ public class login extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jPanel4MouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void hereMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hereMouseClicked
+        // TODO add your handling code here:
+        signup signup = new signup();
+        signup.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_hereMouseClicked
+
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_jPanel8MouseClicked
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox1.isSelected()) {
+            selected = true;
+        } else {
+            selected = false;
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
         // TODO add your handling code here:
         String loginn = null, key = null, passwd;
         String email_address = email.getText();
@@ -462,8 +489,8 @@ public class login extends javax.swing.JFrame {
                 try {
                     home home = new home();
                     if (selected) {
-                    String decrypted = aes.decryptString(key, aes.getPassword());
-                    home.uidkey.setText(decrypted);
+                        String decrypted = aes.decryptString(key, aes.getPassword());
+                        home.uidkey.setText(decrypted);
                     } else {
                         home.uidkey.setText(key);
                     }
@@ -484,58 +511,7 @@ public class login extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailActionPerformed
-
-    private void hereMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hereMouseClicked
-        // TODO add your handling code here:
-        signup signup = new signup();
-        signup.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_hereMouseClicked
-
-    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
-        // TODO add your handling code here:
-        setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_jPanel8MouseClicked
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-        if (jCheckBox1.isSelected()) {
-            selected = true;
-        } else {
-            selected = false;
-        }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
-        // TODO add your handling code here:
-        setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_jPanel10MouseClicked
-    public void ScaleImage() {
-        ImageIcon icon = new ImageIcon("resources1\\logo.png");
-        Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(img);
-        int iconWidth = scaledIcon.getIconWidth();
-        int iconHeight = scaledIcon.getIconHeight();
-
-// calculate the x and y position to center the image within the panel
-        int x = (jPanel2.getWidth() - iconWidth) / 2;
-        int y = (jPanel2.getHeight() - iconHeight) / 2;
-
-// create a new JLabel to hold the icon and set its position within the panel
-        JLabel label = new JLabel();
-        label.setIcon(scaledIcon);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setBounds(x, y, iconWidth, iconHeight);
-
-// add the label to the panel
-        jPanel2.add(label);
-    }
+    }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,11 +554,10 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel emailaddlabel;
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -597,6 +572,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
+    private libratech.design.MyButtonborderless myButtonborderless1;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel pwdlabel;
     private javax.swing.JLabel title;
@@ -609,7 +585,7 @@ public class login extends javax.swing.JFrame {
         pass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emailaddlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         pwdlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        jButton3.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 12));

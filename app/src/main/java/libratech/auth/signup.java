@@ -58,9 +58,8 @@ public class signup extends javax.swing.JFrame {
     public signup() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
-        
+
         ImageScaler scaler = new ImageScaler();
-        scaler.scaleImage(jLabel2, "src\\main\\resources\\logo.png");
 
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -79,6 +78,7 @@ public class signup extends javax.swing.JFrame {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
+        scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
     }
 
@@ -95,6 +95,7 @@ public class signup extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         emailaddlabel = new javax.swing.JLabel();
@@ -114,15 +115,15 @@ public class signup extends javax.swing.JFrame {
         schoolid = new javax.swing.JTextField();
         jPanel4 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel5 = new javax.swing.JLabel();
-        signup = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
         jPanel8 = new RoundedPanelBorderless(12, new Color(4,28,52));
         jLabel6 = new javax.swing.JLabel();
-        logo = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         filepath = new javax.swing.JLabel();
+        myButtonborderless1 = new libratech.design.MyButtonborderless();
+        myButtonborderless2 = new libratech.design.MyButtonborderless();
 
         jButton1.setText("jButton1");
 
@@ -148,6 +149,8 @@ public class signup extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(250, 250, 250));
         jLabel3.setText("Library System Solution");
 
+        jLabel4.setPreferredSize(new java.awt.Dimension(230, 230));
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -156,19 +159,26 @@ public class signup extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(77, 77, 77)
-                        .addComponent(jLabel2))
+                        .addComponent(jLabel2)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel1))))
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(148, 148, 148)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(0, 0, 0)
@@ -212,7 +222,7 @@ public class signup extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -402,17 +412,6 @@ public class signup extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
-        signup.setBackground(new java.awt.Color(4, 28, 52));
-        signup.setForeground(new java.awt.Color(255, 255, 255));
-        signup.setText("Sign up");
-        signup.setToolTipText("");
-        signup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        signup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signupActionPerformed(evt);
-            }
-        });
-
         donthave.setText("Already have an account? Click");
         jPanel5.add(donthave);
 
@@ -443,19 +442,24 @@ public class signup extends javax.swing.JFrame {
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
 
-        logo.setBackground(new java.awt.Color(4, 28, 52));
-        logo.setForeground(new java.awt.Color(255, 255, 255));
-        logo.setText("Upload logo (.png)");
-        logo.setToolTipText("");
-        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        logo.addActionListener(new java.awt.event.ActionListener() {
+        filepath.setForeground(new java.awt.Color(58, 58, 58));
+        jScrollPane1.setViewportView(filepath);
+
+        myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
+        myButtonborderless1.setText("Upload Avatar");
+        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoActionPerformed(evt);
+                myButtonborderless1ActionPerformed(evt);
             }
         });
 
-        filepath.setForeground(new java.awt.Color(58, 58, 58));
-        jScrollPane1.setViewportView(filepath);
+        myButtonborderless2.setForeground(new java.awt.Color(250, 250, 250));
+        myButtonborderless2.setText("Sign up");
+        myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -473,16 +477,16 @@ public class signup extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(signup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -504,10 +508,10 @@ public class signup extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addComponent(signup, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
@@ -515,7 +519,7 @@ public class signup extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1);
 
-        setSize(new java.awt.Dimension(872, 558));
+        setSize(new java.awt.Dimension(874, 558));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -544,7 +548,92 @@ public class signup extends javax.swing.JFrame {
         setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jPanel8MouseClicked
 
-    private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed
+    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schoolnameActionPerformed
+
+    private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
+        // TODO add your handling code here:
+        String text = schoolname.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            schoolname.setText(text);
+        }
+
+        if (text.length() > 24) {
+            str = text.substring(0, 24);
+            schoolname.setText("");
+        }
+
+        if (text.length() == 0) {
+            schoolname.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_schoolnameKeyReleased
+
+    private void confirmpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmpasswordActionPerformed
+
+    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schoolidActionPerformed
+
+    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
+        // TODO add your handling code here:
+        String text = schoolid.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            schoolid.setText(text);
+        }
+
+        if (text.length() > 15) {
+            str = text.substring(0, 24);
+            schoolid.setText("");
+        }
+
+        if (text.length() == 0) {
+            schoolid.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_schoolidKeyReleased
+
+    private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
+        // TODO add your handling code here:
+        String value = schoolid.getText();
+        int l = value.length();
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            schoolid.setEditable(true);
+        } else {
+            schoolid.setEditable(false);
+            JOptionPane.showMessageDialog(rootPane, "Enter only numeric digits(0-9)", "Error", ERROR_MESSAGE);
+            schoolid.setEditable(true);
+        }
+    }//GEN-LAST:event_schoolidKeyPressed
+
+    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "logo/" + selectedFile.getName();
+            filepath.setText(selectedFile.getAbsolutePath());
+        }
+
+
+    }//GEN-LAST:event_myButtonborderless1ActionPerformed
+
+    private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
+        // TODO add your handling code here:
         String email_address = email.getText();
         String school_name = schoolname.getText();
         String school_id = schoolid.getText();
@@ -594,91 +683,7 @@ public class signup extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_signupActionPerformed
-
-    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_schoolnameActionPerformed
-
-    private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
-        // TODO add your handling code here:
-        String text = schoolname.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolname.setText(text);
-        }
-
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
-            schoolname.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolname.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolnameKeyReleased
-
-    private void confirmpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmpasswordActionPerformed
-
-    private void logoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "logo/" + selectedFile.getName();
-            filepath.setText(selectedFile.getAbsolutePath());
-        }
-
-
-    }//GEN-LAST:event_logoActionPerformed
-
-    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_schoolidActionPerformed
-
-    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
-        // TODO add your handling code here:
-        String text = schoolid.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolid.setText(text);
-        }
-
-        if (text.length() > 15) {
-            str = text.substring(0, 24);
-            schoolid.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolid.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolidKeyReleased
-
-    private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
-        // TODO add your handling code here:
-        String value = schoolid.getText();
-        int l = value.length();
-        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
-            schoolid.setEditable(true);
-        } else {
-            schoolid.setEditable(false);
-            JOptionPane.showMessageDialog(rootPane, "Enter only numeric digits(0-9)", "Error", ERROR_MESSAGE);
-            schoolid.setEditable(true);
-        }
-    }//GEN-LAST:event_schoolidKeyPressed
+    }//GEN-LAST:event_myButtonborderless2ActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -747,6 +752,7 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -764,14 +770,14 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton logo;
+    private libratech.design.MyButtonborderless myButtonborderless1;
+    private libratech.design.MyButtonborderless myButtonborderless2;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel pwdlabel;
     private javax.swing.JTextField schoolid;
     private javax.swing.JLabel schoolidlabel;
     private javax.swing.JTextField schoolname;
     private javax.swing.JLabel schoolnamelabel;
-    private javax.swing.JButton signup;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
@@ -782,13 +788,13 @@ public class signup extends javax.swing.JFrame {
         pass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emailaddlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         pwdlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        signup.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         jLabel5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        logo.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));

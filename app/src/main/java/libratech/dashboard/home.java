@@ -1,5 +1,6 @@
 package libratech.dashboard;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -29,6 +30,10 @@ import libratech.design.RoundedPanelBorderless;
 import libratech.design.iconColor;
 import libratech.models.Dashboard.*;
 import libratech.util.firebaseInit;
+import libratech.dashboard.dashboard_menu;
+import libratech.dashboard.books_menu;
+import libratech.dashboard.user_menu;
+import libratech.dashboard.settings_menu;
 
 /**
  *
@@ -39,14 +44,30 @@ public class home extends javax.swing.JFrame {
     private retrieveInfo listener = new retrieveInfo();
     Timer t;
     long startTime = System.currentTimeMillis();
+    ImageScaler scaler = new ImageScaler();
+    dashboard_menu dashboard_menu = new dashboard_menu();
+    books_menu book_menu = new books_menu();
+    user_menu user_menu = new user_menu();
+    settings_menu setting_menu = new settings_menu();
 
     public home() {
         initComponents();
+        this.add(jPanel3);
+        jPanel3.add(dashboard_menu, "dashboard");
+        jPanel3.add(book_menu, "book");
+        jPanel3.add(user_menu, "user");
+        jPanel3.add(setting_menu, "setting");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "dashboard");
+        jPanel10.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
         ImageIcon icon1 = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon1.getImage());
         uidkey.setVisible(false);
         new firebaseInit().initFirebase();
-        ImageScaler scaler = new ImageScaler();
+
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
         scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
@@ -89,7 +110,7 @@ public class home extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel10 = new RoundedPanelBorderless(12, new java.awt.Color(63,106,149,44));
+        jPanel10 = new RoundedPanelBorderless(12, new java.awt.Color(4,28,52,0));
         jPanel14 = new RoundedPanelBorderless(12, new java.awt.Color(41,182,246, 0));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
         jLabel10 = new javax.swing.JLabel();
@@ -133,7 +154,7 @@ public class home extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(4, 28, 52));
 
-        jPanel7.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel7.setBackground(new java.awt.Color(129, 14, 26));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -174,8 +195,8 @@ public class home extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 762, Short.MAX_VALUE)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 750, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,12 +216,22 @@ public class home extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(4, 28, 52));
 
-        jPanel10.setBackground(new java.awt.Color(63,106,149, 44));
-        jPanel10.setOpaque(false);
+        jPanel10.setBackground(new java.awt.Color(4,28,52,0));
+        jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel10.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jPanel14.setBackground(new java.awt.Color(41,182,246, 65));
         jPanel14.setOpaque(false);
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel14MouseClicked(evt);
+            }
+        });
         jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
         jPanel14.add(filler8);
 
@@ -221,7 +252,7 @@ public class home extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -233,10 +264,16 @@ public class home extends javax.swing.JFrame {
         );
 
         jPanel15.setBackground(new java.awt.Color(41,182,246, 0));
-        jPanel15.setOpaque(false);
+        jPanel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel15.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel15MouseClicked(evt);
+            }
+        });
 
         jPanel16.setBackground(new java.awt.Color(41,182,246, 0));
+        jPanel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel16.setOpaque(false);
         jPanel16.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -275,11 +312,22 @@ public class home extends javax.swing.JFrame {
         );
 
         jPanel18.setBackground(new java.awt.Color(41,182,246, 0));
-        jPanel18.setOpaque(false);
+        jPanel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel18.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel18MouseClicked(evt);
+            }
+        });
 
         jPanel19.setBackground(new java.awt.Color(41,182,246, 65));
+        jPanel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel19.setOpaque(false);
+        jPanel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel19MouseClicked(evt);
+            }
+        });
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
         jPanel19.add(filler10);
 
@@ -312,11 +360,22 @@ public class home extends javax.swing.JFrame {
         );
 
         jPanel20.setBackground(new java.awt.Color(41,182,246, 0));
-        jPanel20.setOpaque(false);
+        jPanel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel20.setPreferredSize(new java.awt.Dimension(50, 50));
+        jPanel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel20MouseClicked(evt);
+            }
+        });
 
         jPanel21.setBackground(new java.awt.Color(41,182,246, 65));
+        jPanel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel21.setOpaque(false);
+        jPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel21MouseClicked(evt);
+            }
+        });
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
         jPanel21.add(filler11);
 
@@ -367,7 +426,6 @@ public class home extends javax.swing.JFrame {
         jPanel5.add(jPanel4);
 
         jPanel6.setBackground(new java.awt.Color(4, 28, 52));
-        jPanel6.setPreferredSize(new java.awt.Dimension(10, 10));
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
 
         idnum.setBackground(new java.awt.Color(250, 250, 250));
@@ -383,7 +441,11 @@ public class home extends javax.swing.JFrame {
 
         myButton1.setForeground(new java.awt.Color(250, 250, 250));
         myButton1.setText("Log out");
-        myButton1.setPreferredSize(new java.awt.Dimension(76, 27));
+        myButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton1ActionPerformed(evt);
+            }
+        });
         jPanel9.add(myButton1);
 
         jPanel5.add(jPanel9);
@@ -396,11 +458,11 @@ public class home extends javax.swing.JFrame {
             .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
             .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
             .addComponent(jPanel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(uidkey)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,7 +478,8 @@ public class home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 567, Short.MAX_VALUE)
                 .addComponent(uidkey)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -431,6 +494,20 @@ public class home extends javax.swing.JFrame {
 
     private void jPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel16MouseClicked
         // TODO add your handling code here:
+        jPanel15.setBackground(Color.decode("#0E2C4A"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel17.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "book");
     }//GEN-LAST:event_jPanel16MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -440,8 +517,150 @@ public class home extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        setState(JFrame.ICONIFIED);
+        System.exit(0);
     }//GEN-LAST:event_jPanel7MouseClicked
+
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        // TODO add your handling code here:
+        String filePath = "uid.txt";
+        File file = new File(filePath);
+
+        boolean deleted = file.delete();
+
+        if (deleted) {
+            splash splash = new splash();
+            splash.setVisible(true);
+            setVisible(false);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        jPanel10.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel14.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "dashboard");
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
+        // TODO add your handling code here:
+        jPanel15.setBackground(Color.decode("#0E2C4A"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel17.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "book");
+    }//GEN-LAST:event_jPanel15MouseClicked
+
+    private void jPanel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel18MouseClicked
+        // TODO add your handling code here:
+        jPanel18.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel20.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-fill.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "user");
+    }//GEN-LAST:event_jPanel18MouseClicked
+
+    private void jPanel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel20MouseClicked
+        // TODO add your handling code here:
+        jPanel20.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jLabel23.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-fill.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "setting");
+    }//GEN-LAST:event_jPanel20MouseClicked
+
+    private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
+        // TODO add your handling code here:
+        jPanel10.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel14.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "dashboard");
+    }//GEN-LAST:event_jPanel14MouseClicked
+
+    private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
+        // TODO add your handling code here:
+        jPanel18.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jPanel20.setBackground(Color.decode("#041C34"));
+        jLabel20.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel23.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-fill.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "user");
+    }//GEN-LAST:event_jPanel19MouseClicked
+
+    private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
+        // TODO add your handling code here:
+        jPanel20.setBackground(Color.decode("#0E2C4A"));
+        jPanel15.setBackground(Color.decode("#041C34"));
+        jPanel18.setBackground(Color.decode("#041C34"));
+        jPanel10.setBackground(Color.decode("#041C34"));
+        jLabel23.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        jLabel17.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel20.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        jLabel14.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-fill.png");
+        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+        cardLayout.show(jPanel3, "setting");
+    }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
      * @param args the command line arguments
