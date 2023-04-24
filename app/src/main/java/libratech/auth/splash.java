@@ -44,8 +44,6 @@ public class splash extends javax.swing.JFrame {
                 }
                 reader.close();
                 fileContent = sb.toString();
-                System.out.println("File content:");
-                System.out.println(fileContent);
                 try {
                     fileContent = aes.decryptString(fileContent, aes.getPassword());
                 } catch (Exception ex) {
@@ -56,7 +54,6 @@ public class splash extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("File does not exist.");
         }
 
         ImageIcon icon = new ImageIcon("resources1/logo.png");

@@ -48,7 +48,6 @@ public class storage {
         String urlWithToken = downloadUrl + "?alt=media&token=" + blob.getGeneratedId();
         String signedUrl = blob.signUrl(1, TimeUnit.MINUTES).toString();
 
-        System.out.println("File uploaded successfully to Firebase Storage");
         
         return downloadUrl;
     }
@@ -62,12 +61,3 @@ public class storage {
         }
     }
 }
-//        String localFilePath = "C:\\Users\\HB-user\\Downloads\\logo.png";
-//        String remoteFilePath = "images/logo.png";
-//
-//        storage uploader = new storage(localFilePath, remoteFilePath);
-//        try {
-//            uploader.upload();
-//        } catch (IOException ex) {
-//            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-//        }

@@ -455,7 +455,6 @@ public class login extends javax.swing.JFrame {
                 Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.println("Login: " + loginn);
         if (validateGmail(email_address)) {
             if (loginn.equals("true")) {
                 if (selected) {
@@ -478,12 +477,12 @@ public class login extends javax.swing.JFrame {
                     if (file.exists()) {
                         boolean deleted = file.delete();
                         if (deleted) {
-                            System.out.println("File deleted successfully.");
+                            
                         } else {
-                            System.out.println("Failed to delete file.");
+                            
                         }
                     } else {
-                        System.out.println("File does not exist.");
+                        
                     }
                 }
                 try {
