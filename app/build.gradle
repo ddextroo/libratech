@@ -23,6 +23,7 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.kenai.nbpwr:org-jdesktop-animation-timing:1.0-201002281504'
+    implementation 'com.miglayout:miglayout:3.7.4'
     implementation fileTree(dir: 'libs', include: 'timingframework-1.0.jar')
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.google.firebase:firebase-admin:9.1.1'

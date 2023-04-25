@@ -34,6 +34,7 @@ import libratech.dashboard.dashboard_menu;
 import libratech.dashboard.books_menu;
 import libratech.dashboard.user_menu;
 import libratech.dashboard.settings_menu;
+import libratech.design.GlassPanePopup;
 
 /**
  *
@@ -67,6 +68,7 @@ public class home extends javax.swing.JFrame {
         this.setIconImage(icon1.getImage());
         uidkey.setVisible(false);
         new firebaseInit().initFirebase();
+        GlassPanePopup.install(this);
 
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");

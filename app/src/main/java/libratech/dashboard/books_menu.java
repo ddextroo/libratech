@@ -5,6 +5,7 @@
 package libratech.dashboard;
 
 import java.awt.Font;
+import libratech.design.GlassPanePopup;
 
 /**
  *
@@ -59,6 +60,11 @@ public class books_menu extends javax.swing.JPanel {
 
         myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
         myButtonborderless1.setText("Add book");
+        myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myButtonborderless1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -92,7 +98,7 @@ public class books_menu extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1329, Short.MAX_VALUE)
+            .addGap(0, 1299, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,6 +181,11 @@ public class books_menu extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void myButtonborderless1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButtonborderless1MouseClicked
+        // TODO add your handling code here:
+        GlassPanePopup.showPopup(new add_book());
+    }//GEN-LAST:event_myButtonborderless1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
