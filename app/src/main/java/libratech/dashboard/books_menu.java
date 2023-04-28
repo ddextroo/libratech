@@ -305,7 +305,7 @@ public class books_menu extends javax.swing.JPanel {
     }
 
     private void retrieveBooks() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books/inshelf");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -325,7 +325,6 @@ public class books_menu extends javax.swing.JPanel {
                     String status = (String) bookData.get("status");
                     books.add(new Book(bookCoverUrl, author, title, date, deck, genre, dewey, publisher, quantity, shelf, status));
                 }
-                model.setBooks(books);
             }
 
             @Override
