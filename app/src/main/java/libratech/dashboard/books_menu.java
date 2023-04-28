@@ -34,11 +34,17 @@ import javax.swing.table.TableCellRenderer;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import libratech.models.Book;
 import libratech.util.firebaseInit;
 
 /**
@@ -47,17 +53,17 @@ import libratech.util.firebaseInit;
  */
 public class books_menu extends javax.swing.JPanel {
 
-    private BookTableModel model;
+    private DefaultTableModel model;
+    private List<Book> books;
+    private DatabaseReference dbRef;
 
     public books_menu() {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
-        model = new BookTableModel();
-        table.setModel(model);
-        table.getColumnModel().getColumn(0).setCellRenderer(new BookCoverRenderer());
-
-        extra();
+        initialize();
+        connectToFirebase();
+        retrieveBooks();
 
     }
 
@@ -136,6 +142,9 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -149,16 +158,7 @@ public class books_menu extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(table);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1299, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
-        );
+        jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         materialTabbed1.addTab("In-Shelf", jPanel2);
 
@@ -267,31 +267,63 @@ public class books_menu extends javax.swing.JPanel {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        table.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
-    public void extra() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books/inshelf");
+    private void initialize() {
+        model = new DefaultTableModel(new String[]{"Book Cover", "Book", "Control Number", "Quantity", "Issued", "Status", "Actions"}, 0) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0) {
+                    return ImageIcon.class;
+                } else {
+                    return String.class;
+                }
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        table = new JTable(model);
+        table.setRowHeight(70);
+
+        // Center align the contents of each cell
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.setDefaultRenderer(String.class, centerRenderer);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        jPanel2.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void connectToFirebase() {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        dbRef = db.getReference("books/inshelf");
+    }
+
+    private void retrieveBooks() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 List<Book> books = new ArrayList<>();
                 for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
                     Map<String, Object> bookData = (Map<String, Object>) bookSnapshot.getValue();
-                    String bookCoverUrl = (String) bookData.get("cover");
-                    String bookTitle = (String) bookData.get("booktitle");
+                    String bookCoverUrl = (String) bookData.get("book_cover");
+                    String author = (String) bookData.get("book_title");
+                    String title = (String) bookData.get("publisher");
+                    String date = (String) bookData.get("genre");
+                    String deck = (String) bookData.get("author");
+                    String genre = (String) bookData.get("status");
+                    String dewey = (String) bookData.get("book_title");
                     String publisher = (String) bookData.get("publisher");
-                    String genre = (String) bookData.get("genre");
-                    String author = (String) bookData.get("author");
-                    String date = (String) bookData.get("date");
-                    
-                    String dewey = (String) bookData.get("dewey");
-                    String quantity = (String) bookData.get("quantity");
-                    String shelf = (String) bookData.get("shelf");
-                    String deck = (String) bookData.get("deck");
+                    String quantity = (String) bookData.get("genre");
+                    String shelf = (String) bookData.get("author");
                     String status = (String) bookData.get("status");
-                    System.out.println(bookData.get("dewey"));
-                    System.out.println(dewey);
-                    books.add(new Book(bookCoverUrl, bookTitle, publisher, genre, author, dewey, quantity, status, deck, date, shelf));
+                    books.add(new Book(bookCoverUrl, author, title, date, deck, genre, dewey, publisher, quantity, shelf, status));
                 }
                 model.setBooks(books);
             }
@@ -301,118 +333,5 @@ public class books_menu extends javax.swing.JPanel {
                 System.err.println("Error retrieving data from Firebase: " + error.getMessage());
             }
         });
-    }
-
-    private static class Book {
-
-        public final String bookCoverUrl;
-        public final String bookTitle;
-        public final String publisher;
-        public final String genre;
-        public final String author;
-        public final String dewey;
-        public final String quantity;
-        public final String shelf;
-        public final String status;
-        public final String deck;
-        public final String date;
-
-        public Book(String bookCoverUrl, String bookTitle, String publisher, String genre, String author, String dewey, String quantity, String status, String deck, String date, String shelf) {
-            this.bookCoverUrl = bookCoverUrl;
-            this.bookTitle = bookTitle;
-            this.publisher = publisher;
-            this.genre = genre;
-            this.author = author;
-            this.dewey = dewey;
-            this.quantity = quantity;
-            this.shelf = shelf;
-            this.status = status;
-            this.date = date;
-            this.deck = deck;
-        }
-    }
-
-    private static class BookTableModel extends AbstractTableModel {
-
-        private static final long serialVersionUID = 1L;
-
-        private static final String[] columnNames = {"Book Cover", "Book", "Dewey Number", "Quantity", "Deck", "Status", "Actions"};
-        private List<Book> books;
-
-        public void setBooks(List<Book> books) {
-            this.books = books;
-            fireTableDataChanged();
-        }
-
-        @Override
-        public int getRowCount() {
-            return books == null ? 0 : books.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            if (columnIndex == 0) {
-                return ImageIcon.class;
-            } else {
-                return Object.class;
-            }
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Book book = books.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    return new ImageIcon(getBookCover(book.bookCoverUrl));
-                case 1:
-                    return "<html><center><b>" + book.bookTitle + "</b><br>" + book.publisher + "<br>" + book.genre + "<br>" + book.author + "</center></html>";
-                case 2:
-                    return book.dewey;
-                case 3:
-                    return book.quantity;
-                case 4:
-                    return book.shelf;
-                case 5:
-                    return book.status;
-                case 6:
-                    return new JLabel("edit");
-                default:
-                    return null;
-            }
-        }
-
-        private Image getBookCover(String url) {
-            try {
-                return ImageIO.read(new URL(url)).getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
-    private static class BookCoverRenderer extends JLabel implements TableCellRenderer {
-
-        private static final long serialVersionUID = 1L;
-
-        public BookCoverRenderer() {
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setIcon((ImageIcon) value);
-            return this;
-        }
     }
 }
