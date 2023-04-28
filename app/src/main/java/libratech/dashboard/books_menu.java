@@ -6,6 +6,40 @@ package libratech.dashboard;
 
 import java.awt.Font;
 import libratech.design.GlassPanePopup;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import libratech.util.firebaseInit;
 
 /**
  *
@@ -13,12 +47,18 @@ import libratech.design.GlassPanePopup;
  */
 public class books_menu extends javax.swing.JPanel {
 
-    /**
-     * Creates new form dashboard_menu
-     */
+    private BookTableModel model;
+
     public books_menu() {
         initComponents();
         initFont();
+        new firebaseInit().initFirebase();
+        model = new BookTableModel();
+        table.setModel(model);
+        table.getColumnModel().getColumn(0).setCellRenderer(new BookCoverRenderer());
+
+        extra();
+
     }
 
     /**
@@ -37,6 +77,8 @@ public class books_menu extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -94,15 +136,28 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1299, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1299, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("In-Shelf", jPanel2);
@@ -115,7 +170,7 @@ public class books_menu extends javax.swing.JPanel {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Borrowed", jPanel4);
@@ -128,7 +183,7 @@ public class books_menu extends javax.swing.JPanel {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Overdue", jPanel5);
@@ -141,7 +196,7 @@ public class books_menu extends javax.swing.JPanel {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Lost", jPanel6);
@@ -154,7 +209,7 @@ public class books_menu extends javax.swing.JPanel {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Damaged", jPanel7);
@@ -167,7 +222,7 @@ public class books_menu extends javax.swing.JPanel {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Reserved", jPanel3);
@@ -185,6 +240,7 @@ public class books_menu extends javax.swing.JPanel {
     private void myButtonborderless1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButtonborderless1MouseClicked
         // TODO add your handling code here:
         GlassPanePopup.showPopup(new add_book());
+
     }//GEN-LAST:event_myButtonborderless1MouseClicked
 
 
@@ -202,12 +258,161 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+    }
+
+    public void extra() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books/inshelf");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Book> books = new ArrayList<>();
+                for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
+                    Map<String, Object> bookData = (Map<String, Object>) bookSnapshot.getValue();
+                    String bookCoverUrl = (String) bookData.get("cover");
+                    String bookTitle = (String) bookData.get("booktitle");
+                    String publisher = (String) bookData.get("publisher");
+                    String genre = (String) bookData.get("genre");
+                    String author = (String) bookData.get("author");
+                    String date = (String) bookData.get("date");
+                    
+                    String dewey = (String) bookData.get("dewey");
+                    String quantity = (String) bookData.get("quantity");
+                    String shelf = (String) bookData.get("shelf");
+                    String deck = (String) bookData.get("deck");
+                    String status = (String) bookData.get("status");
+                    System.out.println(bookData.get("dewey"));
+                    System.out.println(dewey);
+                    books.add(new Book(bookCoverUrl, bookTitle, publisher, genre, author, dewey, quantity, status, deck, date, shelf));
+                }
+                model.setBooks(books);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Error retrieving data from Firebase: " + error.getMessage());
+            }
+        });
+    }
+
+    private static class Book {
+
+        public final String bookCoverUrl;
+        public final String bookTitle;
+        public final String publisher;
+        public final String genre;
+        public final String author;
+        public final String dewey;
+        public final String quantity;
+        public final String shelf;
+        public final String status;
+        public final String deck;
+        public final String date;
+
+        public Book(String bookCoverUrl, String bookTitle, String publisher, String genre, String author, String dewey, String quantity, String status, String deck, String date, String shelf) {
+            this.bookCoverUrl = bookCoverUrl;
+            this.bookTitle = bookTitle;
+            this.publisher = publisher;
+            this.genre = genre;
+            this.author = author;
+            this.dewey = dewey;
+            this.quantity = quantity;
+            this.shelf = shelf;
+            this.status = status;
+            this.date = date;
+            this.deck = deck;
+        }
+    }
+
+    private static class BookTableModel extends AbstractTableModel {
+
+        private static final long serialVersionUID = 1L;
+
+        private static final String[] columnNames = {"Book Cover", "Book", "Dewey Number", "Quantity", "Deck", "Status", "Actions"};
+        private List<Book> books;
+
+        public void setBooks(List<Book> books) {
+            this.books = books;
+            fireTableDataChanged();
+        }
+
+        @Override
+        public int getRowCount() {
+            return books == null ? 0 : books.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            if (columnIndex == 0) {
+                return ImageIcon.class;
+            } else {
+                return Object.class;
+            }
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Book book = books.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return new ImageIcon(getBookCover(book.bookCoverUrl));
+                case 1:
+                    return "<html><center><b>" + book.bookTitle + "</b><br>" + book.publisher + "<br>" + book.genre + "<br>" + book.author + "</center></html>";
+                case 2:
+                    return book.dewey;
+                case 3:
+                    return book.quantity;
+                case 4:
+                    return book.shelf;
+                case 5:
+                    return book.status;
+                case 6:
+                    return new JLabel("edit");
+                default:
+                    return null;
+            }
+        }
+
+        private Image getBookCover(String url) {
+            try {
+                return ImageIO.read(new URL(url)).getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    private static class BookCoverRenderer extends JLabel implements TableCellRenderer {
+
+        private static final long serialVersionUID = 1L;
+
+        public BookCoverRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setIcon((ImageIcon) value);
+            return this;
+        }
     }
 }

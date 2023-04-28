@@ -68,8 +68,7 @@ public class signup extends javax.swing.JFrame {
             }
         });
         this.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent evt) {
-                //sets frame position when mouse dragged			
+            public void mouseDragged(MouseEvent evt) {			
                 setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
             }
         });

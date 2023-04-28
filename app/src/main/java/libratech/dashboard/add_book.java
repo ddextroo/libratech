@@ -4,6 +4,9 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,14 +16,32 @@ import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import libratech.auth.login;
+import libratech.auth.signup;
+import static libratech.auth.signup.validateGmail;
+import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
+import libratech.models.auth;
+import libratech.models.pushValue;
+import libratech.models.retrieve;
+import libratech.util.firebaseInit;
+import libratech.util.storage;
 
 /**
  *
@@ -28,20 +49,20 @@ import libratech.design.RoundedPanelBorderless;
  */
 public class add_book extends javax.swing.JPanel {
 
-    /**
-     * Creates new form add_book
-     */
+    private String localFilePath;
+    private String remoteFilePath;
+    ImageScaler scaler = new ImageScaler();
+    private DatabaseReference databaseReference;
+    private HashMap<String, Object> m;
+    private pushValue v;
+    private retrieve r;
+
     public add_book() {
+        this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
-        try {
+        new firebaseInit().initFirebase();
 
-            BufferedImage image = ImageIO.read(new File("src\\main\\resources\\cat.jpg"));
-
-            photoCover1.setImage(image);
-        } catch (IOException ex) {
-            Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -122,6 +143,11 @@ public class add_book extends javax.swing.JPanel {
                 booktitleActionPerformed(evt);
             }
         });
+        booktitle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                booktitleKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -141,6 +167,11 @@ public class add_book extends javax.swing.JPanel {
         );
 
         photoCover1.setBackground(new java.awt.Color(158, 158, 158));
+        photoCover1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                photoCover1MouseClicked(evt);
+            }
+        });
 
         authorlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         authorlabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -279,6 +310,11 @@ public class add_book extends javax.swing.JPanel {
 
         date.setBackground(new java.awt.Color(250, 250, 250));
         date.setBorder(null);
+        date.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dateMouseClicked(evt);
+            }
+        });
         date.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dateActionPerformed(evt);
@@ -291,14 +327,14 @@ public class add_book extends javax.swing.JPanel {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(566, 566, 566))
+                .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(554, 554, 554))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addComponent(date)
                 .addContainerGap())
         );
 
@@ -407,7 +443,7 @@ public class add_book extends javax.swing.JPanel {
         });
 
         myButtonborderless2.setForeground(new java.awt.Color(224, 224, 224));
-        myButtonborderless2.setText("Save Changes");
+        myButtonborderless2.setText("Add book");
         myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButtonborderless2ActionPerformed(evt);
@@ -575,11 +611,105 @@ public class add_book extends javax.swing.JPanel {
 
     private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
         // TODO add your handling code here:
+        GlassPanePopup.closePopupLast();
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
         // TODO add your handling code here:
+        String book_title = booktitle.getText();
+        String book_author = author.getText();
+        String publ = publisher.getText();
+        String genr = genre.getText();
+        String date1 = date.getText();
+        String quan = quantity.getText();
+        String dew = dewey.getText();
+        String shelff = shelf.getText();
+        String deckk = deck.getText();
+        String downloadUrl = "";
+
+        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            if (this.localFilePath.equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
+            } else {
+                storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+                try {
+                    downloadUrl = uploader.upload();
+                    JOptionPane.showMessageDialog(null, "Please wait", "Uploading", INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            String key = databaseReference.push().getKey();
+            v = new pushValue(databaseReference.push().getKey());
+            m = new HashMap<>();
+            m.put("booktitle", book_title);
+            m.put("bookauthor", book_author);
+            m.put("publisher", publ);
+            m.put("dewey", dew);
+            m.put("genre", genr);
+            m.put("date", date1);
+            m.put("quantity", quan);
+            m.put("shelf", shelff);
+            m.put("deck", deckk);
+            m.put("key", key);
+            m.put("status", "Available");
+            m.put("timestamp", getnow);
+            m.put("cover", downloadUrl);
+            v.pushData("books/inshelf", m);
+            JOptionPane.showMessageDialog(null, "Add book", "Book added Successfully", INFORMATION_MESSAGE);
+            GlassPanePopup.closePopupLast();
+        }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
+
+    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
+
+            try {
+                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
+                photoCover1.setImage(image);
+            } catch (IOException ex) {
+                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_photoCover1MouseClicked
+
+    private void dateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_dateMouseClicked
+
+    private void booktitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_booktitleKeyReleased
+        // TODO add your handling code here:
+        String text = booktitle.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            booktitle.setText(text);
+        }
+
+        if (text.length() > 24) {
+            str = text.substring(0, 24);
+            booktitle.setText("");
+        }
+
+        if (text.length() == 0) {
+            booktitle.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_booktitleKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -644,6 +774,6 @@ public class add_book extends javax.swing.JPanel {
         genrelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        
+
     }
 }
