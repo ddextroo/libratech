@@ -109,12 +109,12 @@ public class login extends javax.swing.JFrame {
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(4,28,52));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel10 = new RoundedPanelBorderless(12, new Color(4,28,52));
+        jPanel10 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
         jLabel7 = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
 
@@ -285,7 +285,7 @@ public class login extends javax.swing.JFrame {
         jCheckBox1.setBounds(10, 130, 130, 30);
 
         jPanel4.setOpaque(false);
-        jPanel4.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel4.setBackground(new java.awt.Color(250, 250, 250));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -295,7 +295,7 @@ public class login extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(4, 28, 52));
         jLabel5.setText("X");
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
@@ -315,7 +315,7 @@ public class login extends javax.swing.JFrame {
         jPanel5.add(here);
 
         jPanel10.setOpaque(false);
-        jPanel10.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel10.setBackground(new java.awt.Color(250, 250, 250));
         jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -324,16 +324,15 @@ public class login extends javax.swing.JFrame {
         });
         jPanel10.setLayout(new java.awt.GridBagLayout());
 
+        jLabel7.setBackground(new java.awt.Color(4, 28, 52));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setForeground(new java.awt.Color(4, 28, 52));
         jLabel7.setText("-");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel10.add(jLabel7, new java.awt.GridBagConstraints());
 
-        myButtonborderless1.setBackground(new java.awt.Color(4, 28, 52));
         myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
         myButtonborderless1.setText("Login");
-        myButtonborderless1.setPreferredSize(new java.awt.Dimension(76, 27));
         myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButtonborderless1ActionPerformed(evt);
