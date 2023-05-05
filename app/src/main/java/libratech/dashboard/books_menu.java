@@ -50,6 +50,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import libratech.design.MyButtonborderless;
 import libratech.models.Book;
 import libratech.util.firebaseInit;
 
@@ -98,20 +99,21 @@ public class books_menu extends javax.swing.JPanel {
                     String date = child.child("date").getValue(String.class);
                     String status = child.child("status").getValue(String.class);
                     Book book = new Book(bookCoverUrl, author, bookTitle, date, deck, genre, dewey, publisher, quantity, shelf, status);
-
-                    myButtonborderless1 = new libratech.design.MyButtonborderless();
-                    myButtonborderless1.setForeground(new java.awt.Color(224, 224, 224));
-                    myButtonborderless1.setText("Cancel");
-                    myButtonborderless1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                    myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
-                        public void mouseClicked(java.awt.event.MouseEvent evt) {
-                            myButtonborderless1MouseClicked(evt);
-
-                            JOptionPane.showMessageDialog(null, "test");
+                    MyButtonborderless editButton = new MyButtonborderless();
+                    editButton.setForeground(new java.awt.Color(250, 250, 250));
+                    editButton.setText("Edit");
+                    editButton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+                    // Add action listener to the button
+                    editButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.print("qwewqe");
                         }
                     });
 
-                    model.addRow(new Object[]{book.getTitle(), book.getPublisher(), book.getGenre(), book.getAuthor(), book.getDewey(), book.getQuantity(), deck + "-" + book.getDeck(), book.getStatus(), myButtonborderless1});
+                    // Add the button to the table model
+                    Object[] row = new Object[]{book.getTitle(), book.getPublisher(), book.getGenre(), book.getAuthor(), book.getDewey(), book.getQuantity(), book.getDeck(), book.getStatus(), editButton};
+                    model.addRow(row);
                 }
 
                 table.setModel(model);
@@ -120,6 +122,7 @@ public class books_menu extends javax.swing.JPanel {
                 table.setCellSelectionEnabled(false);
 
                 table.setFocusable(false);
+                table.setFillsViewportHeight(true);
 
             }
 
@@ -128,7 +131,7 @@ public class books_menu extends javax.swing.JPanel {
                 System.out.println("Error: " + databaseError.getMessage());
             }
         });
-        
+
     }
 
     class CustomTableModel extends DefaultTableModel {
@@ -137,7 +140,6 @@ public class books_menu extends javax.swing.JPanel {
         public boolean isCellEditable(int row, int column) {
             return false; // Edit button column
         }
-
 
     }
 
@@ -150,15 +152,18 @@ public class books_menu extends javax.swing.JPanel {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if (column == 8) {
-                myButtonborderless1.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
-                myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
-                    public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        myButtonborderless1MouseClicked(evt);
-                        System.out.print("gwapo");
-                        JOptionPane.showMessageDialog(null, "test");
+                JButton button = (JButton) value;
+                button.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
+                c = button;
+
+                // Add action listener to the button
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Handle button click here
+                        System.out.println("Button clicked!");
                     }
                 });
-                c = myButtonborderless1;
             }
 
             // Center all cells
