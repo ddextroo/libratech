@@ -41,6 +41,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -61,10 +67,110 @@ public class books_menu extends javax.swing.JPanel {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
-        initialize();
-        connectToFirebase();
-        retrieveBooks();
 
+        // Fetch data from Firebase and create table
+        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf");
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                CustomTableModel model = new CustomTableModel();
+                model.addColumn("Book Title");
+                model.addColumn("Book Publisher");
+                model.addColumn("Book Genre");
+                model.addColumn("Book Author");
+                model.addColumn("Book Control Number");
+                model.addColumn("Book Quantity");
+                model.addColumn("Book Issued");
+                model.addColumn("Book Status");
+                model.addColumn("Actions");
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    String bookCoverUrl = child.child("cover").getValue(String.class);
+                    String bookTitle = child.child("booktitle").getValue(String.class);
+                    String publisher = child.child("publisher").getValue(String.class);
+                    String genre = child.child("genre").getValue(String.class);
+                    String author = child.child("bookauthor").getValue(String.class);
+                    String dewey = child.child("dewey").getValue(String.class);
+                    String quantity = child.child("quantity").getValue(String.class);
+                    String deck = child.child("deck").getValue(String.class);
+                    String shelf = child.child("shelf").getValue(String.class);
+                    String date = child.child("date").getValue(String.class);
+                    String status = child.child("status").getValue(String.class);
+                    Book book = new Book(bookCoverUrl, author, bookTitle, date, deck, genre, dewey, publisher, quantity, shelf, status);
+
+                    myButtonborderless1 = new libratech.design.MyButtonborderless();
+                    myButtonborderless1.setForeground(new java.awt.Color(224, 224, 224));
+                    myButtonborderless1.setText("Cancel");
+                    myButtonborderless1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                    myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
+                        public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            myButtonborderless1MouseClicked(evt);
+
+                            JOptionPane.showMessageDialog(null, "test");
+                        }
+                    });
+
+                    model.addRow(new Object[]{book.getTitle(), book.getPublisher(), book.getGenre(), book.getAuthor(), book.getDewey(), book.getQuantity(), deck + "-" + book.getDeck(), book.getStatus(), myButtonborderless1});
+                }
+
+                table.setModel(model);
+                table.setDefaultRenderer(Object.class, new CustomCellRenderer());
+                table.setRowHeight(50);
+                table.setCellSelectionEnabled(false);
+
+                table.setFocusable(false);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+        
+    }
+
+    class CustomTableModel extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Edit button column
+        }
+
+
+    }
+
+    class CustomCellRenderer extends DefaultTableCellRenderer {
+
+        private static final int GAP = 20;
+        private static final int PADDING = 10;
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (column == 8) {
+                myButtonborderless1.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
+                myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        myButtonborderless1MouseClicked(evt);
+                        System.out.print("gwapo");
+                        JOptionPane.showMessageDialog(null, "test");
+                    }
+                });
+                c = myButtonborderless1;
+            }
+
+            // Center all cells
+            if (c instanceof JLabel) {
+                ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+            }
+            if (c instanceof JLabel) {
+                ((JLabel) c).setVerticalAlignment(SwingConstants.CENTER);
+            }
+
+            return c;
+        }
     }
 
     /**
@@ -268,69 +374,6 @@ public class books_menu extends javax.swing.JPanel {
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         table.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-    }
-
-    private void initialize() {
-        model = new DefaultTableModel(new String[]{"Book Cover", "Book", "Control Number", "Quantity", "Issued", "Status", "Actions"}, 0) {
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 0) {
-                    return ImageIcon.class;
-                } else {
-                    return String.class;
-                }
-            }
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        table = new JTable(model);
-        table.setRowHeight(70);
-
-        // Center align the contents of each cell
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        table.setDefaultRenderer(String.class, centerRenderer);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        jPanel2.add(scrollPane, BorderLayout.CENTER);
-    }
-
-    private void connectToFirebase() {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        dbRef = db.getReference("books/inshelf");
-    }
-
-    private void retrieveBooks() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("books/inshelf");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                List<Book> books = new ArrayList<>();
-                for (DataSnapshot bookSnapshot : snapshot.getChildren()) {
-                    Map<String, Object> bookData = (Map<String, Object>) bookSnapshot.getValue();
-                    String bookCoverUrl = (String) bookData.get("book_cover");
-                    String author = (String) bookData.get("book_title");
-                    String title = (String) bookData.get("publisher");
-                    String date = (String) bookData.get("genre");
-                    String deck = (String) bookData.get("author");
-                    String genre = (String) bookData.get("status");
-                    String dewey = (String) bookData.get("book_title");
-                    String publisher = (String) bookData.get("publisher");
-                    String quantity = (String) bookData.get("genre");
-                    String shelf = (String) bookData.get("author");
-                    String status = (String) bookData.get("status");
-                    books.add(new Book(bookCoverUrl, author, title, date, deck, genre, dewey, publisher, quantity, shelf, status));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.err.println("Error retrieving data from Firebase: " + error.getMessage());
-            }
-        });
+        table.getTableHeader().setFont(new Font("Poppins Regular", Font.PLAIN, 16));
     }
 }
