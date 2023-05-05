@@ -42,8 +42,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -103,15 +106,7 @@ public class books_menu extends javax.swing.JPanel {
                     editButton.setForeground(new java.awt.Color(250, 250, 250));
                     editButton.setText("Edit");
                     editButton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-                    // Add action listener to the button
-                    editButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.out.print("qwewqe");
-                        }
-                    });
 
-                    // Add the button to the table model
                     Object[] row = new Object[]{book.getTitle(), book.getPublisher(), book.getGenre(), book.getAuthor(), book.getDewey(), book.getQuantity(), book.getDeck(), book.getStatus(), editButton};
                     model.addRow(row);
                 }
@@ -141,29 +136,37 @@ public class books_menu extends javax.swing.JPanel {
             return false; // Edit button column
         }
 
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            if (columnIndex == 8) {
+                return String.class; // Edit button column
+            }
+            return super.getColumnClass(columnIndex);
+        }
+
     }
 
     class CustomCellRenderer extends DefaultTableCellRenderer {
 
-        private static final int GAP = 20;
-        private static final int PADDING = 10;
+        // Set to store clicked button indices
+        private Set<Integer> clickedButtons = new HashSet<>();
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if (column == 8) {
-                JButton button = (JButton) value;
-                button.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
-                c = button;
-
-                // Add action listener to the button
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Handle button click here
-                        System.out.println("Button clicked!");
+                String currentRow = "Edit row " + row;
+                value = table.getValueAt(row, column);
+                if (value instanceof JButton) {
+                    MyButtonborderless button = (MyButtonborderless) value;
+                    button.setForeground(new java.awt.Color(250, 250, 250));
+                    button.setText(currentRow);
+                    if (currentRow.equals(button.getText())) {
+                        System.out.println("Edit button clicked! " + row);
+                        return button;
                     }
-                });
+                    
+                }
             }
 
             // Center all cells
