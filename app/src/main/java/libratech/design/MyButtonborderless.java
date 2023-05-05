@@ -61,7 +61,7 @@ public class MyButtonborderless extends JButton {
 
     public MyButtonborderless() {
         //  Init Color
-
+        
         setColor(new Color(4, 28, 52));
         colorOver = new Color(4,28,52);
         colorClick = new Color(245,245,245);

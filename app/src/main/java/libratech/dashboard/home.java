@@ -89,7 +89,7 @@ public class home extends javax.swing.JFrame {
                     ImageIcon icon = new ImageIcon(image);
                     Image img = icon.getImage().getScaledInstance(imageAvatar1.getWidth(), imageAvatar1.getHeight(), Image.SCALE_SMOOTH);
                     ImageIcon scaledIcon = new ImageIcon(img);
-                    imageAvatar1.setImage(scaledIcon);
+                    imageAvatar1.setIcon(scaledIcon);
                 } catch (IOException ex) {
                     Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -477,7 +477,7 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 567, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 477, Short.MAX_VALUE)
                 .addComponent(uidkey)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)

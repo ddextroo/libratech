@@ -54,7 +54,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import libratech.design.MyButtonborderless;
-import libratech.models.Book;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.EventAction;
+import libratech.books.inshelf.ModelAction;
 import libratech.util.firebaseInit;
 
 /**
@@ -63,7 +65,6 @@ import libratech.util.firebaseInit;
  */
 public class books_menu extends javax.swing.JPanel {
 
-    private DefaultTableModel model;
     private List<Book> books;
     private DatabaseReference dbRef;
 
@@ -71,23 +72,29 @@ public class books_menu extends javax.swing.JPanel {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
+        inshelfTable1.fixTable(jScrollPane1);
+        retrieveData();
+    }
 
+    private void retrieveData() {
         // Fetch data from Firebase and create table
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void delete(Book student) {
+                System.out.println("User click OK");
+
+            }
+
+            @Override
+            public void update(Book book) {
+                System.out.println("User click OK");
+            }
+        };
         dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf");
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                CustomTableModel model = new CustomTableModel();
-                model.addColumn("Book Title");
-                model.addColumn("Book Publisher");
-                model.addColumn("Book Genre");
-                model.addColumn("Book Author");
-                model.addColumn("Book Control Number");
-                model.addColumn("Book Quantity");
-                model.addColumn("Book Issued");
-                model.addColumn("Book Status");
-                model.addColumn("Actions");
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String bookCoverUrl = child.child("cover").getValue(String.class);
@@ -101,23 +108,9 @@ public class books_menu extends javax.swing.JPanel {
                     String shelf = child.child("shelf").getValue(String.class);
                     String date = child.child("date").getValue(String.class);
                     String status = child.child("status").getValue(String.class);
-                    Book book = new Book(bookCoverUrl, author, bookTitle, date, deck, genre, dewey, publisher, quantity, shelf, status);
-                    MyButtonborderless editButton = new MyButtonborderless();
-                    editButton.setForeground(new java.awt.Color(250, 250, 250));
-                    editButton.setText("Edit");
-                    editButton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-
-                    Object[] row = new Object[]{book.getTitle(), book.getPublisher(), book.getGenre(), book.getAuthor(), book.getDewey(), book.getQuantity(), book.getDeck(), book.getStatus(), editButton};
-                    model.addRow(row);
+                    
+                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity,deck, status).toRowTable(eventAction));
                 }
-
-                table.setModel(model);
-                table.setDefaultRenderer(Object.class, new CustomCellRenderer());
-                table.setRowHeight(50);
-                table.setCellSelectionEnabled(false);
-
-                table.setFocusable(false);
-                table.setFillsViewportHeight(true);
 
             }
 
@@ -127,58 +120,6 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
 
-    }
-
-    class CustomTableModel extends DefaultTableModel {
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // Edit button column
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            if (columnIndex == 8) {
-                return String.class; // Edit button column
-            }
-            return super.getColumnClass(columnIndex);
-        }
-
-    }
-
-    class CustomCellRenderer extends DefaultTableCellRenderer {
-
-        // Set to store clicked button indices
-        private Set<Integer> clickedButtons = new HashSet<>();
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if (column == 8) {
-                String currentRow = "Edit row " + row;
-                value = table.getValueAt(row, column);
-                if (value instanceof JButton) {
-                    MyButtonborderless button = (MyButtonborderless) value;
-                    button.setForeground(new java.awt.Color(250, 250, 250));
-                    button.setText(currentRow);
-                    if (currentRow.equals(button.getText())) {
-                        System.out.println("Edit button clicked! " + row);
-                        return button;
-                    }
-                    
-                }
-            }
-
-            // Center all cells
-            if (c instanceof JLabel) {
-                ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
-            }
-            if (c instanceof JLabel) {
-                ((JLabel) c).setVerticalAlignment(SwingConstants.CENTER);
-            }
-
-            return c;
-        }
     }
 
     /**
@@ -198,7 +139,7 @@ public class books_menu extends javax.swing.JPanel {
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        inshelfTable1 = new libratech.books.inshelf.InshelfTable();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -258,19 +199,23 @@ public class books_menu extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        table.setAutoCreateRowSorter(true);
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        inshelfTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Book Title", "Book Publisher", "Book Genre", "Book Author", "Book Control Number", "Book Quantity", "Book Deck", "Book Status", "Actions"
             }
-        ));
-        jScrollPane1.setViewportView(table);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(inshelfTable1);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -362,6 +307,7 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private libratech.books.inshelf.InshelfTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -375,13 +321,12 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless1;
-    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-        table.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-        table.getTableHeader().setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+
     }
+
 }
