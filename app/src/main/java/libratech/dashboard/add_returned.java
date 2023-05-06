@@ -4,6 +4,10 @@
  */
 package libratech.dashboard;
 
+import java.awt.Color;
+import libratech.design.GlassPanePopup;
+import libratech.design.RoundedPanel;
+
 /**
  *
  * @author jcarocoy
@@ -131,8 +135,8 @@ public class add_returned extends javax.swing.JPanel {
                         .addComponent(genrelabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(authorlabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(booktitle, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                        .addGap(0, 18, Short.MAX_VALUE))
+                    .addComponent(booktitle))
                 .addContainerGap())
         );
 
@@ -482,75 +486,40 @@ public class add_returned extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButtonborderless3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void myButtonborderless3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless3ActionPerformed
         // TODO add your handling code here:
-        String book_title = booktitle.getText();
-        //String book_author = author.getText();
-        String publ = borrowersname.getText();
-        String genr = controlnumber.getText();
-        String date1 = borroweridno.getText();
-        //String quan = quantity.getText();
-        String dew = dateborrowed.getText();
-        String shelff = datedue.getText();
-        String deckk = datereturned.getText();
-        String downloadUrl = "";
+//        String book_title = booktitle.getText();
+//        //String book_author = author.getText();
+//        String publ = borrowersname.getText();
+//        String genr = controlnumber.getText();
+//        String date1 = borroweridno.getText();
+//        //String quan = quantity.getText();
+//        String dew = dateborrowed.getText();
+//        String shelff = datedue.getText();
+//        String deckk = datereturned.getText();
+//        String downloadUrl = "";
 
-        if (booktitle.getText().equals("") || author.getText().equals("") || borrowersname.getText().equals("") || controlnumber.getText().equals("") || borroweridno.getText().equals("") || quantity.getText().equals("") || dateborrowed.getText().equals("") || borroweridno.getText().equals("") || datereturned.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
-        } else {
-            if (this.localFilePath.equals("")) {
-                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
-            } else {
-                storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-                try {
-                    downloadUrl = uploader.upload();
-                    JOptionPane.showMessageDialog(null, "Please wait", "Uploading", INFORMATION_MESSAGE);
-                } catch (IOException ex) {
-                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-            String key = databaseReference.push().getKey();
-            v = new pushValue(databaseReference.push().getKey());
-            m = new HashMap<>();
-            m.put("booktitle", book_title);
-            m.put("bookauthor", book_author);
-            m.put("publisher", publ);
-            m.put("dewey", dew);
-            m.put("genre", genr);
-            m.put("date", date1);
-            m.put("quantity", quan);
-            m.put("shelf", shelff);
-            m.put("deck", deckk);
-            m.put("key", key);
-            m.put("status", "Available");
-            m.put("timestamp", getnow);
-            m.put("cover", downloadUrl);
-            v.pushData("books/inshelf", m);
-            JOptionPane.showMessageDialog(null, "Add book", "Book added Successfully", INFORMATION_MESSAGE);
-            GlassPanePopup.closePopupLast();
-        }
+        
     }//GEN-LAST:event_myButtonborderless3ActionPerformed
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
@@ -560,10 +529,7 @@ public class add_returned extends javax.swing.JPanel {
 
     private void datedueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datedueKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_datedueKeyTyped
 
     private void datedueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datedueActionPerformed
@@ -572,10 +538,7 @@ public class add_returned extends javax.swing.JPanel {
 
     private void datereturnedKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datereturnedKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_datereturnedKeyTyped
 
     private void datereturnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datereturnedActionPerformed
@@ -592,10 +555,10 @@ public class add_returned extends javax.swing.JPanel {
 
     private void dateborrowedKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateborrowedKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
+//        char c = evt.getKeyChar();
+//        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+//            evt.consume();
+//        }
     }//GEN-LAST:event_dateborrowedKeyTyped
 
     private void dateborrowedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateborrowedActionPerformed
@@ -604,10 +567,10 @@ public class add_returned extends javax.swing.JPanel {
 
     private void controlnumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_controlnumberKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
+//        char c = evt.getKeyChar();
+//        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+//            evt.consume();
+//        }
     }//GEN-LAST:event_controlnumberKeyTyped
 
     private void controlnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controlnumberActionPerformed
@@ -620,44 +583,44 @@ public class add_returned extends javax.swing.JPanel {
 
     private void coverphotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coverphotoMouseClicked
         // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + selectedFile.getName();
-
-            try {
-                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
-                coverphoto.setImage(image);
-            } catch (IOException ex) {
-                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        JFileChooser fileChooser = new JFileChooser();
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
+//        fileChooser.setFileFilter(filter);
+//        int result = fileChooser.showOpenDialog(null);
+//
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            File selectedFile = fileChooser.getSelectedFile();
+//            this.localFilePath = selectedFile.getAbsolutePath();
+//            this.remoteFilePath = "cover/" + selectedFile.getName();
+//
+//            try {
+//                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
+//                coverphoto.setImage(image);
+//            } catch (IOException ex) {
+//                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }//GEN-LAST:event_coverphotoMouseClicked
 
     private void booktitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_booktitleKeyReleased
         // TODO add your handling code here:
-        String text = booktitle.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            booktitle.setText(text);
-        }
-
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
-            booktitle.setText("");
-        }
-
-        if (text.length() == 0) {
-            booktitle.setText(str);
-            str = "";
-        }
+//        String text = booktitle.getText();
+//        String str = "";
+//        // Capitalize the first letter of the text
+//        if (text.length() > 0) {
+//            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+//            booktitle.setText(text);
+//        }
+//
+//        if (text.length() > 24) {
+//            str = text.substring(0, 24);
+//            booktitle.setText("");
+//        }
+//
+//        if (text.length() == 0) {
+//            booktitle.setText(str);
+//            str = "";
+//        }
     }//GEN-LAST:event_booktitleKeyReleased
 
     private void booktitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booktitleActionPerformed
