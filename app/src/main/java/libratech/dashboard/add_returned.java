@@ -5,8 +5,10 @@
 package libratech.dashboard;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import java.awt.Font;
 
 /**
  *
@@ -19,6 +21,7 @@ public class add_returned extends javax.swing.JPanel {
      */
     public add_returned() {
         initComponents();
+        initFont();
     }
 
     /**
@@ -32,7 +35,6 @@ public class add_returned extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         returnbooklabel = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         bookinformationlabel = new javax.swing.JLabel();
         allowedtype = new javax.swing.JLabel();
         jPanel6 = new RoundedPanel(12, new Color(250,250,250));
@@ -42,6 +44,7 @@ public class add_returned extends javax.swing.JPanel {
         genrelabel = new javax.swing.JLabel();
         authorlabel = new javax.swing.JLabel();
         coverphoto = new libratech.design.PhotoCover();
+        imageAvatar1 = new libratech.design.ImageAvatar();
         jPanel8 = new RoundedPanel(12, new Color(250,250,250));
         borrowersname = new javax.swing.JTextField();
         borrowersnamelabel = new javax.swing.JLabel();
@@ -68,9 +71,9 @@ public class add_returned extends javax.swing.JPanel {
 
         returnbooklabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         returnbooklabel.setForeground(new java.awt.Color(58, 58, 58));
-        returnbooklabel.setText("Add Returned Books");
+        returnbooklabel.setText("ADD TO RETURNED BOOKS");
 
-        bookinformationlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        bookinformationlabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 12));
         bookinformationlabel.setForeground(new java.awt.Color(51, 51, 51));
         bookinformationlabel.setText("Book Information");
 
@@ -98,13 +101,16 @@ public class add_returned extends javax.swing.JPanel {
         booktitlelabel.setForeground(new java.awt.Color(51, 51, 51));
         booktitlelabel.setText("Book Title");
 
-        publisherlabel.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
+        publisherlabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 9));
+        publisherlabel.setForeground(new java.awt.Color(51, 51, 51));
         publisherlabel.setText("PUBLISHER:");
 
-        genrelabel.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
+        genrelabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 9));
+        genrelabel.setForeground(new java.awt.Color(51, 51, 51));
         genrelabel.setText("GENRE:");
 
-        authorlabel.setFont(new java.awt.Font("Liberation Sans", 0, 10)); // NOI18N
+        authorlabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 9));
+        authorlabel.setForeground(new java.awt.Color(51, 51, 51));
         authorlabel.setText("AUTHOR:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -119,8 +125,8 @@ public class add_returned extends javax.swing.JPanel {
                     .addComponent(genrelabel)
                     .addComponent(authorlabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(booktitle, javax.swing.GroupLayout.PREFERRED_SIZE, 784, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addComponent(booktitle, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(135, 135, 135))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,12 +147,14 @@ public class add_returned extends javax.swing.JPanel {
         );
 
         coverphoto.setBackground(new java.awt.Color(158, 158, 158));
+        coverphoto.setToolTipText("");
         coverphoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 coverphotoMouseClicked(evt);
             }
         });
         coverphoto.setLayout(new java.awt.FlowLayout());
+        coverphoto.add(imageAvatar1);
 
         jPanel8.setBackground(new java.awt.Color(0, 0, 0));
         jPanel8.setOpaque(false);
@@ -156,6 +164,14 @@ public class add_returned extends javax.swing.JPanel {
         borrowersname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrowersnameActionPerformed(evt);
+            }
+        });
+        borrowersname.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                borrowersnameKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                borrowersnameKeyReleased(evt);
             }
         });
 
@@ -198,6 +214,9 @@ public class add_returned extends javax.swing.JPanel {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 controlnumberKeyTyped(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                controlnumberKeyReleased(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -206,7 +225,7 @@ public class add_returned extends javax.swing.JPanel {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(controlnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(controlnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -271,6 +290,14 @@ public class add_returned extends javax.swing.JPanel {
         borroweridno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borroweridnoActionPerformed(evt);
+            }
+        });
+        borroweridno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                borroweridnoKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                borroweridnoKeyReleased(evt);
             }
         });
 
@@ -354,8 +381,8 @@ public class add_returned extends javax.swing.JPanel {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(datedue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(566, 566, 566))
+                .addComponent(datedue, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(578, 578, 578))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,22 +412,17 @@ public class add_returned extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(myButtonborderless3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(returnbooklabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,28 +451,32 @@ public class add_returned extends javax.swing.JPanel {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bookinformationlabel)
                                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(controlnumberlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(285, 285, 285)
-                                        .addComponent(allowedtype))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(335, 335, 335)
-                                        .addComponent(coverphoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(controlnumberlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(44, 44, 44))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(returnbooklabel))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(409, 409, 409)
+                        .addComponent(coverphoto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(372, 372, 372)
+                        .addComponent(allowedtype)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(returnbooklabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(returnbooklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(bookinformationlabel)
                 .addGap(13, 13, 13)
-                .addComponent(coverphoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(coverphoto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(allowedtype)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -519,7 +545,7 @@ public class add_returned extends javax.swing.JPanel {
 //        String deckk = datereturned.getText();
 //        String downloadUrl = "";
 
-        
+
     }//GEN-LAST:event_myButtonborderless3ActionPerformed
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
@@ -529,7 +555,7 @@ public class add_returned extends javax.swing.JPanel {
 
     private void datedueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datedueKeyTyped
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_datedueKeyTyped
 
     private void datedueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datedueActionPerformed
@@ -538,7 +564,7 @@ public class add_returned extends javax.swing.JPanel {
 
     private void datereturnedKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_datereturnedKeyTyped
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_datereturnedKeyTyped
 
     private void datereturnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datereturnedActionPerformed
@@ -567,10 +593,10 @@ public class add_returned extends javax.swing.JPanel {
 
     private void controlnumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_controlnumberKeyTyped
         // TODO add your handling code here:
-//        char c = evt.getKeyChar();
-//        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-//            evt.consume();
-//        }
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
     }//GEN-LAST:event_controlnumberKeyTyped
 
     private void controlnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controlnumberActionPerformed
@@ -627,6 +653,86 @@ public class add_returned extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_booktitleActionPerformed
 
+    private void borrowersnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowersnameKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || c == ' ' || c == '-' || c == '.' || c == ',' || c == '\'' || c == '\"'
+                || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_borrowersnameKeyTyped
+
+    private void borroweridnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borroweridnoKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_borroweridnoKeyTyped
+
+    private void controlnumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_controlnumberKeyReleased
+        // TODO add your handling code here:
+        String text = controlnumber.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            controlnumber.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            controlnumber.setText("");
+        }
+
+        if (text.length() == 0) {
+            controlnumber.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_controlnumberKeyReleased
+
+    private void borroweridnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borroweridnoKeyReleased
+        // TODO add your handling code here:
+        String text = borroweridno.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            borroweridno.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            borroweridno.setText("");
+        }
+
+        if (text.length() == 0) {
+            borroweridno.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_borroweridnoKeyReleased
+
+    private void borrowersnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_borrowersnameKeyReleased
+        // TODO add your handling code here:
+        String text = borrowersname.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            borrowersname.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            borrowersname.setText("");
+        }
+
+        if (text.length() == 0) {
+            borrowersname.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_borrowersnameKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel allowedtype;
@@ -648,6 +754,7 @@ public class add_returned extends javax.swing.JPanel {
     private javax.swing.JTextField datereturned;
     private javax.swing.JLabel datereturnedlabel;
     private javax.swing.JLabel genrelabel;
+    private libratech.design.ImageAvatar imageAvatar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -656,10 +763,32 @@ public class add_returned extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JSeparator jSeparator1;
     private libratech.design.MyButtonborderless myButtonborderless2;
     private libratech.design.MyButtonborderless myButtonborderless3;
     private javax.swing.JLabel publisherlabel;
     private javax.swing.JLabel returnbooklabel;
     // End of variables declaration//GEN-END:variables
+
+    public void initFont() {
+        returnbooklabel.setFont(new Font("Poppins Regular", Font.BOLD, 22));
+        bookinformationlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        booktitlelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        publisherlabel.setFont(new Font("Poppins Regular", Font.PLAIN, 10));
+        genrelabel.setFont(new Font("Poppins Regular", Font.PLAIN, 10));
+        authorlabel.setFont(new Font("Poppins Regular", Font.PLAIN, 10));
+        borrowersnamelabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        borrowersname.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        controlnumberlabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        controlnumber.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        dateborrowedlabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        dateborrowed.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        dateduelabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        datedue.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        borroweridnolabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        borroweridno.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        datereturnedlabel.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        datereturned.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+
+    }
+
 }
