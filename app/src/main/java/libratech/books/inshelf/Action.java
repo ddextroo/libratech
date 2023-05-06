@@ -5,6 +5,7 @@
 package libratech.books.inshelf;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class Action extends javax.swing.JPanel {
                 data.getEvent().update(data.getBook());
             }
         });
+        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 
     @Override
@@ -49,6 +51,7 @@ public class Action extends javax.swing.JPanel {
 
         myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
         myButtonborderless1.setText("Edit");
+        myButtonborderless1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButtonborderless1ActionPerformed(evt);
@@ -59,11 +62,17 @@ public class Action extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

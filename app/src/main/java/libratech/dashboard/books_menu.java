@@ -41,8 +41,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
@@ -57,6 +59,8 @@ import libratech.design.MyButtonborderless;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.ModelAction;
+import libratech.books.inshelf.StatusType;
+import libratech.design.RoundedPanel;
 import libratech.util.firebaseInit;
 
 /**
@@ -87,7 +91,7 @@ public class books_menu extends javax.swing.JPanel {
 
             @Override
             public void update(Book book) {
-                System.out.println("User click OK");
+                System.out.println("User click OK: " + book.getChildKey());
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf");
@@ -97,6 +101,7 @@ public class books_menu extends javax.swing.JPanel {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    String key = child.child("key").getValue(String.class);
                     String bookCoverUrl = child.child("cover").getValue(String.class);
                     String bookTitle = child.child("booktitle").getValue(String.class);
                     String publisher = child.child("publisher").getValue(String.class);
@@ -108,8 +113,12 @@ public class books_menu extends javax.swing.JPanel {
                     String shelf = child.child("shelf").getValue(String.class);
                     String date = child.child("date").getValue(String.class);
                     String status = child.child("status").getValue(String.class);
+
+
+                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, StatusType.Available, key).toRowTable(eventAction));
+                    new Book().setChildKey(key);
                     
-                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity,deck, status).toRowTable(eventAction));
+                    inshelfTable1.repaint();
                 }
 
             }
@@ -137,7 +146,7 @@ public class books_menu extends javax.swing.JPanel {
         myButtonborderless1 = new libratech.design.MyButtonborderless();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         jScrollPane1 = new javax.swing.JScrollPane();
         inshelfTable1 = new libratech.books.inshelf.InshelfTable();
         jPanel4 = new javax.swing.JPanel();
@@ -197,6 +206,7 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         inshelfTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -204,11 +214,11 @@ public class books_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Book Title", "Book Publisher", "Book Genre", "Book Author", "Book Control Number", "Book Quantity", "Book Deck", "Book Status", "Actions"
+                "Book Title", "Book Publisher", "Book Genre", "Book Author", "Book Control Number", "Book Quantity", "Book Deck", "Book Status", "Book Key", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
