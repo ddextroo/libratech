@@ -1,12 +1,12 @@
 
 package libratech.books.inshelf;
 
-import javax.swing.Icon;
+import java.awt.image.BufferedImage;
 
 public class ModelBookCover {
 
-    public Icon getIcon() {
-        return icon;
+    public BufferedImage getIcon() {
+        return image;
     }
 
     public String getKey() {
@@ -17,21 +17,21 @@ public class ModelBookCover {
         this.key = key;
     }
 
-    public void setIcon(Icon icon) {
-        this.icon = icon;
+    public void setIcon(BufferedImage icon) {
+        this.image = icon;
     }
 
-    public ModelBookCover(Icon icon) {
-        this.icon = icon;
+    public ModelBookCover(BufferedImage image) {
+        this.image = image;
     }
-    public ModelBookCover(Icon icon, String key) {
-        this.icon = icon;
+    public ModelBookCover(BufferedImage icon, String key) {
+        this.image = icon;
         this.key = key;
     }
 
     public ModelBookCover() {
     }
 
-    private Icon icon;
+    private BufferedImage image;
     private String key;
 }

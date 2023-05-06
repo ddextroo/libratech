@@ -1,6 +1,6 @@
 package libratech.books.inshelf;
 
-
+import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -52,9 +52,8 @@ public class Book {
     public String getChildKey() {
         return childKey;
     }
-    
 
-   public Icon getIcon() {
+    public Icon getIcon() {
         return icon;
     }
 
@@ -107,8 +106,7 @@ public class Book {
     }
 
     public Object[] toRowTable(EventAction event) {
-        
-        
+
         return new Object[]{title, publisher, genre, author, dewey, quantity, deck, status, childKey, new ModelAction(this, event)};
     }
 
@@ -125,7 +123,8 @@ public class Book {
         this.shelf = shelf;
         this.status = status;
     }
-    public Book(String title, String publisher, String genre, String author,  String dewey, String quantity, String deck, StatusType status, String key) {
+
+    public Book(String title, String publisher, String genre, String author, String dewey, String quantity, String deck, StatusType status, String key) {
         this.author = author;
         this.title = title;
         this.deck = deck;
@@ -135,11 +134,13 @@ public class Book {
         this.quantity = quantity;
         this.status = status;
         this.childKey = key;
-        
+
     }
+
     public Book() {
-        
+
     }
+
     public Book(String childkey) {
         this.childKey = childkey;
     }

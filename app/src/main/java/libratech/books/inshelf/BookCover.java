@@ -17,7 +17,7 @@ public class BookCover extends javax.swing.JPanel {
      */
     public BookCover(ModelBookCover data) {
         initComponents();
-        imageAvatar2.setIcon(data.getIcon());
+        photoCover1.setImage(data.getIcon());
     }
 
     /**
@@ -29,24 +29,30 @@ public class BookCover extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imageAvatar2 = new libratech.design.ImageAvatar();
+        photoCover1 = new libratech.design.PhotoCover();
 
-        imageAvatar2.setPreferredSize(new java.awt.Dimension(20, 20));
+        photoCover1.setPreferredSize(new java.awt.Dimension(50, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imageAvatar2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private libratech.design.ImageAvatar imageAvatar2;
+    private libratech.design.PhotoCover photoCover1;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,7 +37,7 @@ public class InshelfTable extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
 
-                if (o instanceof StatusType type) {
+                  if (o instanceof StatusType type) {
                     CellStatus cell = new CellStatus(type);
                     if (selected) {
                         cell.setBackground(new Color(239, 244, 255));

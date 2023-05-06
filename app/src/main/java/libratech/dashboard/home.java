@@ -35,6 +35,7 @@ import libratech.dashboard.books_menu;
 import libratech.dashboard.user_menu;
 import libratech.dashboard.settings_menu;
 import libratech.design.GlassPanePopup;
+import libratech.design.loading;
 
 /**
  *
@@ -77,19 +78,23 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
+        det();
+
+    }
+
+    public void det() {
         Timer timer = new Timer(500, e -> {
             String uid = uidkey.getText();
             listener.addChildListener(uid, (String school_name, String school_id, String url) -> {
                 try {
+                    GlassPanePopup.showPopup(new loading());
                     school_n.setText(school_name);
                     idnum.setText(school_id);
                     URL url1 = new URL(url);
-                    BufferedImage image = ImageIO.read(url1);
-
-                    ImageIcon icon = new ImageIcon(image);
-                    Image img = icon.getImage().getScaledInstance(imageAvatar1.getWidth(), imageAvatar1.getHeight(), Image.SCALE_SMOOTH);
-                    ImageIcon scaledIcon = new ImageIcon(img);
-                    imageAvatar1.setIcon(scaledIcon);
+                    BufferedImage image1 = ImageIO.read(url1);
+                    ImageIcon icon = new ImageIcon(image1);
+                    imageAvatar1.setIcon(icon);
+                    GlassPanePopup.closePopupLast();
                 } catch (IOException ex) {
                     Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -97,7 +102,6 @@ public class home extends javax.swing.JFrame {
         });
         timer.setRepeats(false);
         timer.start();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -140,6 +144,7 @@ public class home extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         imageAvatar1 = new libratech.design.ImageAvatar();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
         jPanel4 = new javax.swing.JPanel();
         school_n = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -415,6 +420,7 @@ public class home extends javax.swing.JFrame {
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
         jPanel5.add(filler1);
         jPanel5.add(imageAvatar1);
+        jPanel5.add(filler4);
 
         jPanel4.setBackground(new java.awt.Color(4, 28, 52));
         jPanel4.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -704,6 +710,7 @@ public class home extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel idnum;

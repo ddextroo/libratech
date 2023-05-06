@@ -27,6 +27,7 @@ public class TableStatus extends JLabel {
         repaint();
     }
 
+
     @Override
     protected void paintComponent(Graphics grphcs) {
         if (type != null) {
@@ -34,13 +35,19 @@ public class TableStatus extends JLabel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             GradientPaint g;
             if (type == StatusType.Available) {
-                g = new GradientPaint(0, 0, new Color(0,255,0), 0, getHeight(), new Color(0,255,0));
-            } else{
-                g = new GradientPaint(0, 0, new Color(255,0,0), 0, getHeight(), new Color(255,0,0));
+                g = new GradientPaint(0, 0, new Color(0,255,0), 0, getHeight(), new Color(0,128,0));
+            } else if (type == StatusType.Borrowed){
+                g = new GradientPaint(0, 0, new Color(255,165,0), 0, getHeight(), new Color(255,69,0));
+            } else if (type == StatusType.Lost){
+                g = new GradientPaint(0, 0, new Color(255,0,0), 0, getHeight(), new Color(128,0,0));
+            } else if (type == StatusType.Damaged){
+                g = new GradientPaint(0, 0, new Color(255,0,0), 0, getHeight(), new Color(128,0,0));
+            }
+            else {
+                g = new GradientPaint(0, 0, new Color(0,255,0), 0, getHeight(), new Color(0,128,0));
             }
             g2.setPaint(g);
             g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
-           // g2.fillRoundRect(0, 0, getWidth(), getHeight(), 1, 1);
         }
         super.paintComponent(grphcs);
     }

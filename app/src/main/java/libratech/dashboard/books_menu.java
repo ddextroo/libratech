@@ -47,8 +47,11 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -60,6 +63,7 @@ import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.ModelAction;
 import libratech.books.inshelf.StatusType;
+import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
 import libratech.util.firebaseInit;
 
@@ -95,11 +99,11 @@ public class books_menu extends javax.swing.JPanel {
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf");
-
+        DefaultTableModel mod = (DefaultTableModel) inshelfTable1.getModel();
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String key = child.child("key").getValue(String.class);
                     String bookCoverUrl = child.child("cover").getValue(String.class);
@@ -114,11 +118,24 @@ public class books_menu extends javax.swing.JPanel {
                     String date = child.child("date").getValue(String.class);
                     String status = child.child("status").getValue(String.class);
 
+                    TableStatus statust = new TableStatus();
 
-                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, StatusType.Available, key).toRowTable(eventAction));
+                    if (status.equals("Available")) {
+                        statust.setType(StatusType.Available);
+                    } else if (status.equals("Borrowed")) {
+                        statust.setType(StatusType.Borrowed);
+                    } else if (status.equals("Lost")) {
+                        statust.setType(StatusType.Lost);
+                    } else if (status.equals("Damaged")){
+                        statust.setType(StatusType.Damaged);
+                    } else {
+                        statust.setType(StatusType.Returned);
+                    }
+                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, statust.getType(), key).toRowTable(eventAction));
                     new Book().setChildKey(key);
-                    
+                    mod.fireTableDataChanged();
                     inshelfTable1.repaint();
+
                 }
 
             }

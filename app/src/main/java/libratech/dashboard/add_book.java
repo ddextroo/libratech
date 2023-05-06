@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import libratech.auth.login;
 import libratech.auth.signup;
 import static libratech.auth.signup.validateGmail;
@@ -672,7 +673,7 @@ public class add_book extends javax.swing.JPanel {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
             String key = databaseReference.push().getKey();
             v = new pushValue(databaseReference.push().getKey());
             m = new HashMap<>();
