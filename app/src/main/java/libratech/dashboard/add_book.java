@@ -30,6 +30,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import libratech.auth.login;
@@ -58,13 +59,21 @@ public class add_book extends javax.swing.JPanel {
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
+    private String uid;
+
+    public add_book(String uid) {
+        this.databaseReference = FirebaseDatabase.getInstance().getReference();
+        initComponents();
+        initFont();
+        new firebaseInit().initFirebase();
+        System.out.println("uid yawa: " + uid);
+    }
 
     public add_book() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
-
     }
 
     @Override
@@ -113,8 +122,8 @@ public class add_book extends javax.swing.JPanel {
         shelflabel = new javax.swing.JLabel();
         jPanel14 = new RoundedPanel(12, new Color(250,250,250));
         shelf = new javax.swing.JTextField();
-        myButtonborderless1 = new libratech.design.MyButtonborderless();
         myButtonborderless2 = new libratech.design.MyButtonborderless();
+        myButtonborder1 = new libratech.design.MyButtonborder();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -466,19 +475,20 @@ public class add_book extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        myButtonborderless1.setForeground(new java.awt.Color(224, 224, 224));
-        myButtonborderless1.setText("Cancel");
-        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButtonborderless1ActionPerformed(evt);
-            }
-        });
-
         myButtonborderless2.setForeground(new java.awt.Color(224, 224, 224));
         myButtonborderless2.setText("Add book");
         myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButtonborderless2ActionPerformed(evt);
+            }
+        });
+
+        myButtonborder1.setForeground(new java.awt.Color(23, 23, 23));
+        myButtonborder1.setText("Cancel");
+        myButtonborder1.setPreferredSize(new java.awt.Dimension(76, 27));
+        myButtonborder1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborder1ActionPerformed(evt);
             }
         });
 
@@ -488,11 +498,11 @@ public class add_book extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -599,8 +609,8 @@ public class add_book extends javax.swing.JPanel {
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -640,11 +650,6 @@ public class add_book extends javax.swing.JPanel {
     private void shelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shelfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_shelfActionPerformed
-
-    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
-        // TODO add your handling code here:
-        GlassPanePopup.closePopupLast();
-    }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
         // TODO add your handling code here:
@@ -690,7 +695,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
-            v.pushData("books/inshelf", m);
+            v.pushData("books/inshelf/", m);
             JOptionPane.showMessageDialog(null, "Add book", "Book added Successfully", INFORMATION_MESSAGE);
             GlassPanePopup.closePopupLast();
         }
@@ -779,7 +784,7 @@ public class add_book extends javax.swing.JPanel {
         // TODO add your handling code here:
         char c = evt.getKeyChar();
         if (!(Character.isLetter(c) || c == ' ' || c == '-' || c == '.' || c == ',' || c == '\'' || c == '\"'
-           || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+                || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
             evt.consume();
         }
     }//GEN-LAST:event_authorKeyTyped
@@ -791,6 +796,11 @@ public class add_book extends javax.swing.JPanel {
             evt.consume();
         }
     }//GEN-LAST:event_genreKeyTyped
+
+    private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
+        // TODO add your handling code here:
+        GlassPanePopup.closePopupLast();
+    }//GEN-LAST:event_myButtonborder1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -819,7 +829,7 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
-    private libratech.design.MyButtonborderless myButtonborderless1;
+    private libratech.design.MyButtonborder myButtonborder1;
     private libratech.design.MyButtonborderless myButtonborderless2;
     private libratech.design.PhotoCover photoCover1;
     private javax.swing.JTextField publisher;
@@ -853,7 +863,7 @@ public class add_book extends javax.swing.JPanel {
         deweylabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         genre.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         genrelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 
     }

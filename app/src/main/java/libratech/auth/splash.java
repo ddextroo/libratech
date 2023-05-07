@@ -237,7 +237,7 @@ public class splash extends javax.swing.JFrame {
                     this.dispose();
                 } else {
                     home home = new home();
-                    home.uidkey.setText(fileContent);
+                    home.updateLabelText(fileContent);
                     home.setVisible(true);
                     this.dispose();
                 }

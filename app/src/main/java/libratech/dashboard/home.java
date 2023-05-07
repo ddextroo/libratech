@@ -3,10 +3,6 @@ package libratech.dashboard;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import static java.awt.PageAttributes.ColorType.COLOR;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -16,18 +12,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.Timer;
-import libratech.auth.login;
 import libratech.auth.splash;
-import static libratech.auth.splash.isInternetConnected;
 import libratech.design.ImageScaler;
-import libratech.design.ImageAvatar;
-import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
-import libratech.design.iconColor;
 import libratech.models.Dashboard.*;
 import libratech.util.firebaseInit;
 import libratech.dashboard.dashboard_menu;
@@ -44,13 +32,12 @@ import libratech.design.loading;
 public class home extends javax.swing.JFrame {
 
     private retrieveInfo listener = new retrieveInfo();
-    Timer t;
-    long startTime = System.currentTimeMillis();
     ImageScaler scaler = new ImageScaler();
     dashboard_menu dashboard_menu = new dashboard_menu();
     books_menu book_menu = new books_menu();
     user_menu user_menu = new user_menu();
     settings_menu setting_menu = new settings_menu();
+    private String uid;
 
     public home() {
         initComponents();
@@ -67,7 +54,6 @@ public class home extends javax.swing.JFrame {
         jPanel20.setBackground(Color.decode("#041C34"));
         ImageIcon icon1 = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon1.getImage());
-        uidkey.setVisible(false);
         new firebaseInit().initFirebase();
         GlassPanePopup.install(this);
 
@@ -82,9 +68,12 @@ public class home extends javax.swing.JFrame {
 
     }
 
+    public void updateLabelText(String text) {
+        this.uid = text;
+    }
+
     public void det() {
         Timer timer = new Timer(500, e -> {
-            String uid = uidkey.getText();
             listener.addChildListener(uid, (String school_name, String school_id, String url) -> {
                 try {
                     GlassPanePopup.showPopup(new loading());
@@ -94,6 +83,7 @@ public class home extends javax.swing.JFrame {
                     BufferedImage image1 = ImageIO.read(url1);
                     ImageIcon icon = new ImageIcon(image1);
                     imageAvatar1.setIcon(icon);
+                    new add_book(uid);
                     GlassPanePopup.closePopupLast();
                 } catch (IOException ex) {
                     Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +130,6 @@ public class home extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        uidkey = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         imageAvatar1 = new libratech.design.ImageAvatar();
@@ -414,8 +403,6 @@ public class home extends javax.swing.JFrame {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        uidkey.setText("weqwewq");
-
         jPanel5.setBackground(new java.awt.Color(4, 28, 52));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
         jPanel5.add(filler1);
@@ -467,10 +454,6 @@ public class home extends javax.swing.JFrame {
             .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
             .addComponent(jPanel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(uidkey)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,9 +466,7 @@ public class home extends javax.swing.JFrame {
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 477, Short.MAX_VALUE)
-                .addComponent(uidkey)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 499, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -530,13 +511,18 @@ public class home extends javax.swing.JFrame {
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
+        splash splash = new splash();
         String filePath = "uid.txt";
         File file = new File(filePath);
 
-        boolean deleted = file.delete();
-
-        if (deleted) {
-            splash splash = new splash();
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (deleted) {
+                splash.setVisible(true);
+                setVisible(false);
+                this.dispose();
+            }
+        } else {
             splash.setVisible(true);
             setVisible(false);
             this.dispose();
@@ -750,7 +736,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private libratech.design.MyButton myButton1;
     private javax.swing.JLabel school_n;
-    public javax.swing.JLabel uidkey;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         jLabel14.setFont(new Font("Poppins Regular", Font.BOLD, 16));

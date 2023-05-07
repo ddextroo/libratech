@@ -32,7 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static libratech.auth.login.validateGmail;
+//import static libratech.auth.login.validateGmail;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import javax.swing.JFileChooser;
@@ -817,9 +817,9 @@ public class signup extends javax.swing.JFrame {
             return false;
         }
         // Check if the email is from Gmail
-        if (!email.endsWith("@gmail.com")) {
-            return false;
-        }
+//        if (!email.endsWith("@gmail.com")) {
+//            return false;
+//        }
         // Check if the email has a valid format
         String regex = "^[\\w-_.+]*[\\w-_.]@gmail\\.com$";
         Pattern pattern = Pattern.compile(regex);

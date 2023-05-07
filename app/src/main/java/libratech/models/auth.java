@@ -11,6 +11,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -24,6 +27,11 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import javax.swing.table.DefaultTableModel;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.StatusType;
+import libratech.books.inshelf.TableStatus;
+import libratech.util.firebaseInit;
 
 public class auth {
 
@@ -31,7 +39,7 @@ public class auth {
     private String email;
     private String password;
     private String uid;
-    private DatabaseReference databaseReference;
+    private DatabaseReference dbRef;
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
@@ -39,7 +47,8 @@ public class auth {
 
     public auth(String email, String password) throws FileNotFoundException {
         this.firebaseAuth = FirebaseAuth.getInstance();
-        this.databaseReference = FirebaseDatabase.getInstance().getReference();
+        new firebaseInit().initFirebase();
+        this.dbRef = FirebaseDatabase.getInstance().getReference("users");
         this.email = email;
         this.password = password;
         this.uid = uid;
@@ -102,16 +111,22 @@ public class auth {
             System.out.println("User key: " + userKey + " Password: " + password1);
             System.out.println("User key local: " + uid + " Password local: " + password);
             if (userKey.equals(uid)) {
-                System.out.println("UID_DB = " + userKey + ": UID = " + uid);
                 if (password1.equals(password)) {
+                    System.out.println("UID_DB = " + userKey + ": UID = " + uid);
                     System.out.println("PASS_DB = " + password1 + ": PASS = " + password);
-                    authentication = "true";
+                    ret[1] = "true";
+                    return ret;
                 } else {
-                    authentication = "false";
+                    ret[1] = "false";
+                    return ret;
                 }
+            } else {
+                ret[1] = "false";
+                return ret;
             }
         }
-        ret[1] = authentication;
+        ret[1] = "false";
         return ret;
+       
     }
 }

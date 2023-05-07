@@ -169,11 +169,6 @@
               <Component id="jPanel18" alignment="1" pref="185" max="32767" attributes="0"/>
               <Component id="jPanel20" alignment="1" pref="185" max="32767" attributes="0"/>
               <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                  <Component id="uidkey" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -187,9 +182,7 @@
                   <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jPanel20" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="477" max="32767" attributes="0"/>
-                  <Component id="uidkey" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="499" max="32767" attributes="0"/>
                   <Component id="jPanel5" min="-2" pref="357" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
@@ -614,14 +607,6 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="uidkey">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="weqwewq"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
-        </Component>
         <Container class="javax.swing.JPanel" name="jPanel5">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

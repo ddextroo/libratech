@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,16 +51,23 @@ import libratech.models.aes;
  */
 public class login extends javax.swing.JFrame {
 
+    private FirebaseAuth firebaseAuth;
     private FirebaseDatabase _firebase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase;
     private DatabaseReference user = _firebase.getReference("user");
+    private DatabaseReference dbRef;
     private RoundedPanel cornerRadius;
     int posX = 0, posY = 0;
     boolean selected;
     File file = new File("uid.txt");
     aes aes = new aes();
+    boolean authh = false;
 
     public login() {
+
+        this.firebaseAuth = FirebaseAuth.getInstance();
+        new firebaseInit().initFirebase();
+        this.dbRef = FirebaseDatabase.getInstance().getReference("users");
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 posX = e.getX();
@@ -436,79 +444,99 @@ public class login extends javax.swing.JFrame {
 
     private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
         // TODO add your handling code here:
-        String loginn = null, key = null, passwd;
-        String email_address = email.getText();
-        char[] passwordChars = pass.getPassword();
-        String password = new String(passwordChars);
 
         if (email.getText().toString().equals("") || pass.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
-            try {
-                auth auth = new auth(email_address, password);
-                key = auth.login()[0];
-                loginn = auth.login()[1];
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FirebaseAuthException ex) {
-                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (validateGmail(email_address)) {
-            if (loginn.equals("true")) {
-                if (selected) {
+            dbRef = FirebaseDatabase.getInstance().getReference("users");
+            dbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     try {
-                        key = aes.encryptString(key, aes.getPassword());
-                        try {
-                            FileWriter writer = new FileWriter(file);
-                            writer.write(key);
-                            writer.close();
+                        String loginn = "", key = "", passwd;
+                        String email_address = email.getText();
+                        char[] passwordChars = pass.getPassword();
+                        String password = new String(passwordChars);
+                        UserRecord userRecord = firebaseAuth.getUserByEmail(email_address);
+                        String uid1 = userRecord.getUid();
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            String uiddb = child.child("uid").getValue(String.class);
+                            String passdb = child.child("pass").getValue(String.class);
+                            System.out.println("UID_DB = " + uiddb + ": UID = " + uid1);
+                            System.out.println("PASS_DB = " + passdb + ": PASS = " + password);
+                            if (uiddb.equals(uid1) && passdb.equals(password)) {
+                                authh = true;
+                                key = uiddb;
+                                loginn = "true";
+                                System.out.println(key + " " + loginn);
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                                if (validateEmail(email_address)) {
+                                    if (selected) {
+                                        try {
+                                            System.out.println("Key: " + key);
+                                            key = aes.encryptString(key, aes.getPassword());
+                                            try {
+                                                FileWriter writer = new FileWriter(file);
+                                                writer.write(key);
+                                                writer.close();
+
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        } catch (Exception ex) {
+                                            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+
+                                    } else {
+                                        if (file.exists()) {
+                                            boolean deleted = file.delete();
+                                            if (deleted) {
+
+                                            } else {
+
+                                            }
+                                        } else {
+
+                                        }
+                                    }
+                                    try {
+                                        home home = new home();
+                                        if (selected) {
+                                            String decrypted = aes.decryptString(key, aes.getPassword());
+                                            home.updateLabelText(decrypted);
+                                        } else {
+                                            home.updateLabelText(key);
+                                        }
+                                        home.setVisible(true);
+                                        exit();
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
+                                }
+                                break;
+                            }
                         }
-
-                    } catch (Exception ex) {
+                    } catch (FirebaseAuthException ex) {
                         Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    if (!authh) {
+                        JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
+                        email.setText("");
+                        pass.setText("");
+                    }
+                }
 
-                } else {
-                    if (file.exists()) {
-                        boolean deleted = file.delete();
-                        if (deleted) {
-                            
-                        } else {
-                            
-                        }
-                    } else {
-                        
-                    }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("Error: " + databaseError.getMessage());
                 }
-                try {
-                    home home = new home();
-                    if (selected) {
-                        String decrypted = aes.decryptString(key, aes.getPassword());
-                        home.uidkey.setText(decrypted);
-                    } else {
-                        home.uidkey.setText(key);
-                    }
-                    home.setVisible(true);
-                    this.dispose();
-                } catch (Exception ex) {
-                    Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (loginn.equals("notreg")) {
-                email.setText("");
-                pass.setText("");
-                JOptionPane.showMessageDialog(null, "Error: Not registered", "Error", ERROR_MESSAGE);
-            } else {
-                email.setText("");
-                pass.setText("");
-                JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
+            });
         }
+
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
     /**
@@ -544,6 +572,11 @@ public class login extends javax.swing.JFrame {
                 new login().setVisible(true);
             }
         });
+    }
+
+    public void exit() {
+        this.setVisible(false);
+        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -593,14 +626,14 @@ public class login extends javax.swing.JFrame {
         jCheckBox1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
-    public static boolean validateGmail(String email) {
+    public static boolean validateEmail(String email) {
         if (email == null) {
             return false;
         }
-        // Check if the email is from Gmail
-        if (!email.endsWith("@gmail.com")) {
-            return false;
-        }
+//        // Check if the email is from Gmail
+//        if (!email.endsWith("@gmail.com")) {
+//            return false;
+//        }
         // Check if the email has a valid format
         String regex = "^[\\w-_.+]*[\\w-_.]@gmail\\.com$";
         Pattern pattern = Pattern.compile(regex);
