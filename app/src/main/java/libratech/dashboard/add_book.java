@@ -59,14 +59,14 @@ public class add_book extends javax.swing.JPanel {
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
-    private String uid;
+    public String uid;
 
-    public add_book(String uid) {
+    public add_book(String uid1) {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
-        System.out.println("uid yawa: " + uid);
+        jLabel1.setText(uid1);
     }
 
     public add_book() {
@@ -124,6 +124,7 @@ public class add_book extends javax.swing.JPanel {
         shelf = new javax.swing.JTextField();
         myButtonborderless2 = new libratech.design.MyButtonborderless();
         myButtonborder1 = new libratech.design.MyButtonborder();
+        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -485,12 +486,13 @@ public class add_book extends javax.swing.JPanel {
 
         myButtonborder1.setForeground(new java.awt.Color(23, 23, 23));
         myButtonborder1.setText("Cancel");
-        myButtonborder1.setPreferredSize(new java.awt.Dimension(76, 27));
         myButtonborder1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 myButtonborder1ActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -501,6 +503,8 @@ public class add_book extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(72, 72, 72)
                         .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -610,7 +614,8 @@ public class add_book extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -663,6 +668,7 @@ public class add_book extends javax.swing.JPanel {
         String shelff = shelf.getText();
         String deckk = deck.getText();
         String downloadUrl = "";
+        System.out.println("uid yawa: " + uid);
 
         if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
@@ -680,6 +686,7 @@ public class add_book extends javax.swing.JPanel {
             }
             String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
             String key = databaseReference.push().getKey();
+            
             v = new pushValue(databaseReference.push().getKey());
             m = new HashMap<>();
             m.put("booktitle", book_title);
@@ -695,7 +702,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
-            v.pushData("books/inshelf/", m);
+            v.pushData("books/inshelf/" + uid, m);
             JOptionPane.showMessageDialog(null, "Add book", "Book added Successfully", INFORMATION_MESSAGE);
             GlassPanePopup.closePopupLast();
         }
@@ -818,6 +825,7 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JLabel deweylabel;
     private javax.swing.JTextField genre;
     private javax.swing.JLabel genrelabel;
+    public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
