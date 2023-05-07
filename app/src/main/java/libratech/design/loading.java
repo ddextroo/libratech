@@ -20,6 +20,7 @@ public class loading extends javax.swing.JPanel {
     public loading() {
         initComponents();
         setOpaque(false);
+        setBackground(new java.awt.Color(0,0,0,0));
     }
 
     @Override

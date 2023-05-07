@@ -1,24 +1,37 @@
 
 package libratech.books.inshelf;
 
-import javax.swing.Icon;
+import java.awt.image.BufferedImage;
 
 public class ModelBookCover {
 
-    public Icon getIcon() {
-        return icon;
+    public BufferedImage getIcon() {
+        return image;
     }
 
-    public void setIcon(Icon icon) {
-        this.icon = icon;
+    public String getKey() {
+        return key;
     }
 
-    public ModelBookCover(Icon icon) {
-        this.icon = icon;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setIcon(BufferedImage icon) {
+        this.image = icon;
+    }
+
+    public ModelBookCover(BufferedImage image) {
+        this.image = image;
+    }
+    public ModelBookCover(BufferedImage icon, String key) {
+        this.image = icon;
+        this.key = key;
     }
 
     public ModelBookCover() {
     }
 
-    private Icon icon;
+    private BufferedImage image;
+    private String key;
 }

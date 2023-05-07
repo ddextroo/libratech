@@ -1,6 +1,6 @@
 package libratech.books.inshelf;
 
-
+import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,7 +19,7 @@ public class Book {
     private String publisher;
     private String quantity;
     private String shelf;
-    private String status;
+    private StatusType status;
     private Icon icon;
 
 //    private ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius) {
@@ -52,10 +52,13 @@ public class Book {
     public String getChildKey() {
         return childKey;
     }
-    
 
-   public Icon getIcon() {
+    public Icon getIcon() {
         return icon;
+    }
+
+    public void setChildKey(String childKey) {
+        this.childKey = childKey;
     }
 
     public void setIcon(Icon icon) {
@@ -98,16 +101,16 @@ public class Book {
         return shelf;
     }
 
-    public String getStatus() {
+    public StatusType getStatus() {
         return status;
     }
 
     public Object[] toRowTable(EventAction event) {
 
-        return new Object[]{title, publisher, genre, author, dewey, quantity, deck, status, new ModelAction(this, event)};
+        return new Object[]{title, publisher, genre, author, dewey, quantity, deck, status, childKey, new ModelAction(this, event)};
     }
 
-    public Book(String bookCoverUrl, String author, String title, String date, String deck, String genre, String dewey, String publisher, String quantity, String shelf, String status) {
+    public Book(String bookCoverUrl, String author, String title, String date, String deck, String genre, String dewey, String publisher, String quantity, String shelf, StatusType status) {
         this.bookCoverUrl = bookCoverUrl;
         this.author = author;
         this.title = title;
@@ -120,7 +123,8 @@ public class Book {
         this.shelf = shelf;
         this.status = status;
     }
-    public Book(String title, String publisher, String genre, String author,  String dewey, String quantity, String deck, String status) {
+
+    public Book(String title, String publisher, String genre, String author, String dewey, String quantity, String deck, StatusType status, String key) {
         this.author = author;
         this.title = title;
         this.deck = deck;
@@ -129,8 +133,15 @@ public class Book {
         this.publisher = publisher;
         this.quantity = quantity;
         this.status = status;
+        this.childKey = key;
+
     }
+
     public Book() {
-        
+
+    }
+
+    public Book(String childkey) {
+        this.childKey = childkey;
     }
 }

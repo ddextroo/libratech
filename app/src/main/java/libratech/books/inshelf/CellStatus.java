@@ -4,20 +4,21 @@
  */
 package libratech.books.inshelf;
 
-import libratech.books.inshelf.ModelBookCover;
+import java.awt.Font;
 
 /**
  *
  * @author HBUSER
  */
-public class BookCover extends javax.swing.JPanel {
+public class CellStatus extends javax.swing.JPanel {
 
     /**
-     * Creates new form BookCover
+     * Creates new form CellStatus
      */
-    public BookCover(ModelBookCover data) {
+    public CellStatus(StatusType type) {
         initComponents();
-        photoCover1.setImage(data.getIcon());
+        status.setType(type);
+        status.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 
     /**
@@ -29,9 +30,11 @@ public class BookCover extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        photoCover1 = new libratech.design.PhotoCover();
+        status = new libratech.books.inshelf.TableStatus();
 
-        photoCover1.setPreferredSize(new java.awt.Dimension(50, 50));
+        status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        status.setText("tableStatus1");
+        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -39,20 +42,20 @@ public class BookCover extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private libratech.design.PhotoCover photoCover1;
+    private libratech.books.inshelf.TableStatus status;
     // End of variables declaration//GEN-END:variables
 }
