@@ -39,7 +39,9 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
+import libratech.design.loading;
 
 /**
  *
@@ -56,6 +58,7 @@ public class signup extends javax.swing.JFrame {
     private String remoteFilePath;
 
     public signup() {
+
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
 
@@ -68,7 +71,7 @@ public class signup extends javax.swing.JFrame {
             }
         });
         this.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent evt) {			
+            public void mouseDragged(MouseEvent evt) {
                 setLocation(evt.getXOnScreen() - posX, evt.getYOnScreen() - posY);
             }
         });
@@ -76,6 +79,7 @@ public class signup extends javax.swing.JFrame {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
+        GlassPanePopup.install(this);
         new firebaseInit().initFirebase();
         scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
@@ -121,9 +125,8 @@ public class signup extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         filepath = new javax.swing.JLabel();
-        myButtonborderless1 = new libratech.design.MyButtonborderless();
         myButtonborderless2 = new libratech.design.MyButtonborderless();
-        myButtonTransparent1 = new libratech.design.MyButtonTransparent();
+        myButtonborder1 = new libratech.design.MyButtonborder();
 
         jButton1.setText("jButton1");
 
@@ -445,14 +448,6 @@ public class signup extends javax.swing.JFrame {
         filepath.setForeground(new java.awt.Color(58, 58, 58));
         jScrollPane1.setViewportView(filepath);
 
-        myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
-        myButtonborderless1.setText("Upload Avatar");
-        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButtonborderless1ActionPerformed(evt);
-            }
-        });
-
         myButtonborderless2.setForeground(new java.awt.Color(250, 250, 250));
         myButtonborderless2.setText("Sign up");
         myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
@@ -461,7 +456,13 @@ public class signup extends javax.swing.JFrame {
             }
         });
 
-        myButtonTransparent1.setText("myButtonTransparent1");
+        myButtonborder1.setText("Upload");
+        myButtonborder1.setPreferredSize(new java.awt.Dimension(76, 29));
+        myButtonborder1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborder1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -481,16 +482,14 @@ public class signup extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(168, 168, 168)
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(myButtonTransparent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(165, 165, 165)
+                        .addGap(338, 338, 338)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -503,23 +502,22 @@ public class signup extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(myButtonTransparent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                .addGap(36, 36, 36)
-                .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
@@ -621,25 +619,9 @@ public class signup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_schoolidKeyPressed
 
-    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "logo/" + selectedFile.getName();
-            filepath.setText(selectedFile.getAbsolutePath());
-        }
-
-
-    }//GEN-LAST:event_myButtonborderless1ActionPerformed
-
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
         // TODO add your handling code here:
+        GlassPanePopup.showPopup(new loading());
         String email_address = email.getText();
         String school_name = schoolname.getText();
         String school_id = schoolid.getText();
@@ -653,11 +635,12 @@ public class signup extends javax.swing.JFrame {
 
         if (file_path.equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            GlassPanePopup.closePopupLast();
         } else {
             storage uploader = new storage(this.localFilePath, this.remoteFilePath);
             try {
                 downloadUrl = uploader.upload();
-                JOptionPane.showMessageDialog(null, "Please wait", "Uploading", INFORMATION_MESSAGE);
+                GlassPanePopup.showPopup(new loading());
             } catch (IOException ex) {
                 Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -675,6 +658,7 @@ public class signup extends javax.swing.JFrame {
                         if (authenticated) {
                             login login = new login();
                             login.setVisible(true);
+                            GlassPanePopup.closePopupLast();
                             this.dispose();
                         }
                     } catch (FileNotFoundException ex) {
@@ -683,13 +667,30 @@ public class signup extends javax.swing.JFrame {
                         Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
+                    GlassPanePopup.closePopupLast();
                     JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
                 }
             } else {
+                GlassPanePopup.closePopupLast();
                 JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
+
+    private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpeg", "jpg");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "logo/" + selectedFile.getName();
+            filepath.setText(selectedFile.getAbsolutePath());
+        }
+    }//GEN-LAST:event_myButtonborder1ActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -776,8 +777,7 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private libratech.design.MyButtonTransparent myButtonTransparent1;
-    private libratech.design.MyButtonborderless myButtonborderless1;
+    private libratech.design.MyButtonborder myButtonborder1;
     private libratech.design.MyButtonborderless myButtonborderless2;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel pwdlabel;
@@ -801,7 +801,7 @@ public class signup extends javax.swing.JFrame {
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));

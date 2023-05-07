@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import libratech.auth.login;
 import libratech.auth.splash;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanelBorderless;
@@ -83,7 +84,6 @@ public class home extends javax.swing.JFrame {
                     BufferedImage image1 = ImageIO.read(url1);
                     ImageIcon icon = new ImageIcon(image1);
                     imageAvatar1.setIcon(icon);
-                    new add_book(uid);
                     GlassPanePopup.closePopupLast();
                 } catch (IOException ex) {
                     Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
@@ -501,11 +501,29 @@ public class home extends javax.swing.JFrame {
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
+        String filePath1 = "remember.txt";
+        String filePath = "uid.txt";
+        File file1 = new File(filePath1);
+        File file = new File(filePath);
+        if (file1.exists()) {
+
+        } else {
+            file.delete();
+        }
         System.exit(0);
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
+        String filePath1 = "remember.txt";
+        String filePath = "uid.txt";
+        File file1 = new File(filePath1);
+        File file = new File(filePath);
+        if (file1.exists()) {
+
+        } else {
+            file.delete();
+        }
         System.exit(0);
     }//GEN-LAST:event_jPanel7MouseClicked
 
@@ -514,15 +532,28 @@ public class home extends javax.swing.JFrame {
         splash splash = new splash();
         String filePath = "uid.txt";
         File file = new File(filePath);
+        String filePath1 = "remember.txt";
+        File file1 = new File(filePath1);
 
         if (file.exists()) {
             boolean deleted = file.delete();
             if (deleted) {
+                if (file1.exists()) {
+                    file1.delete();
+                }
                 splash.setVisible(true);
                 setVisible(false);
                 this.dispose();
             }
         } else {
+            splash.setVisible(true);
+            setVisible(false);
+            this.dispose();
+        }
+        if (file1.exists()) {
+
+        } else {
+            file.delete();
             splash.setVisible(true);
             setVisible(false);
             this.dispose();

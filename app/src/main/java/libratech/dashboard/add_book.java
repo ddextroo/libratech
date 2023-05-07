@@ -40,7 +40,9 @@ import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
+import libratech.design.loading;
 import libratech.models.auth;
+import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.models.retrieve;
 import libratech.util.firebaseInit;
@@ -54,20 +56,12 @@ public class add_book extends javax.swing.JPanel {
 
     private String localFilePath;
     private String remoteFilePath;
-    ImageScaler scaler = new ImageScaler();
     private DatabaseReference databaseReference;
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
-    public String uid;
+    private String uid;
 
-    public add_book(String uid1) {
-        this.databaseReference = FirebaseDatabase.getInstance().getReference();
-        initComponents();
-        initFont();
-        new firebaseInit().initFirebase();
-        jLabel1.setText(uid1);
-    }
 
     public add_book() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -124,7 +118,6 @@ public class add_book extends javax.swing.JPanel {
         shelf = new javax.swing.JTextField();
         myButtonborderless2 = new libratech.design.MyButtonborderless();
         myButtonborder1 = new libratech.design.MyButtonborder();
-        jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -492,8 +485,6 @@ public class add_book extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -503,8 +494,6 @@ public class add_book extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(72, 72, 72)
                         .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -614,8 +603,7 @@ public class add_book extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -668,7 +656,6 @@ public class add_book extends javax.swing.JPanel {
         String shelff = shelf.getText();
         String deckk = deck.getText();
         String downloadUrl = "";
-        System.out.println("uid yawa: " + uid);
 
         if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
@@ -679,13 +666,14 @@ public class add_book extends javax.swing.JPanel {
                 storage uploader = new storage(this.localFilePath, this.remoteFilePath);
                 try {
                     downloadUrl = uploader.upload();
-                    JOptionPane.showMessageDialog(null, "Please wait", "Uploading", INFORMATION_MESSAGE);
+                    GlassPanePopup.showPopup(new loading());
                 } catch (IOException ex) {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
             String key = databaseReference.push().getKey();
+            String uidpath = new getUID().getUid();
             
             v = new pushValue(databaseReference.push().getKey());
             m = new HashMap<>();
@@ -702,9 +690,8 @@ public class add_book extends javax.swing.JPanel {
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
-            v.pushData("books/inshelf/" + uid, m);
-            JOptionPane.showMessageDialog(null, "Add book", "Book added Successfully", INFORMATION_MESSAGE);
-            GlassPanePopup.closePopupLast();
+            v.pushData("books/inshelf/" + uidpath, m);
+            GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
 
@@ -718,7 +705,7 @@ public class add_book extends javax.swing.JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + selectedFile.getName();
+            this.remoteFilePath = "cover/" + new getUID().getUid() + "/" + selectedFile.getName();
 
             try {
                 BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
@@ -825,7 +812,6 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JLabel deweylabel;
     private javax.swing.JTextField genre;
     private javax.swing.JLabel genrelabel;
-    public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;

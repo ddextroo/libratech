@@ -67,7 +67,7 @@
                                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                       <Component id="myButtonborderless2" min="-2" pref="318" max="-2" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <Component id="myButtonborderless1" min="-2" pref="156" max="-2" attributes="0"/>
+                                          <Component id="myButtonborder1" min="-2" pref="156" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="jScrollPane1" min="-2" pref="144" max="-2" attributes="0"/>
                                       </Group>
@@ -80,9 +80,7 @@
                           <Component id="title" min="-2" pref="105" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="myButtonTransparent1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="338" max="-2" attributes="0"/>
                           <Component id="jPanel8" min="-2" pref="34" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jPanel4" min="-2" pref="34" max="-2" attributes="0"/>
@@ -100,26 +98,25 @@
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jPanel4" min="-2" pref="19" max="-2" attributes="0"/>
-                          <Component id="jPanel8" min="-2" pref="19" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="myButtonTransparent1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jPanel4" min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="jPanel8" min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Component id="title" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel3" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="myButtonborderless1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" pref="30" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jScrollPane1" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                          <Component id="myButtonborderless2" min="-2" pref="37" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jPanel5" min="-2" pref="20" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="myButtonborder1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Component id="myButtonborderless2" min="-2" pref="37" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jPanel5" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -723,17 +720,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="libratech.design.MyButtonborderless" name="myButtonborderless1">
-          <Properties>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="fa" green="fa" red="fa" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Upload Avatar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButtonborderless1ActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="libratech.design.MyButtonborderless" name="myButtonborderless2">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -745,10 +731,16 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButtonborderless2ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="libratech.design.MyButtonTransparent" name="myButtonTransparent1">
+        <Component class="libratech.design.MyButtonborder" name="myButtonborder1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="myButtonTransparent1"/>
+            <Property name="text" type="java.lang.String" value="Upload"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[76, 29]"/>
+            </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButtonborder1ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

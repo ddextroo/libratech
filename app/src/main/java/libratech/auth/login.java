@@ -42,7 +42,9 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import java.io.*;
+import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
+import libratech.design.loading;
 import libratech.models.aes;
 
 /**
@@ -60,6 +62,7 @@ public class login extends javax.swing.JFrame {
     int posX = 0, posY = 0;
     boolean selected;
     File file = new File("uid.txt");
+    File file1 = new File("remember.txt");
     aes aes = new aes();
     boolean authh = false;
 
@@ -84,6 +87,7 @@ public class login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
+        GlassPanePopup.install(this);
         initFont();
         new firebaseInit().initFirebase();
         ImageIcon icon1 = new ImageIcon("src\\main\\resources\\logo.png");
@@ -444,7 +448,7 @@ public class login extends javax.swing.JFrame {
 
     private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
         // TODO add your handling code here:
-
+        GlassPanePopup.showPopup(new loading());
         if (email.getText().toString().equals("") || pass.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
@@ -465,6 +469,7 @@ public class login extends javax.swing.JFrame {
                             System.out.println("UID_DB = " + uiddb + ": UID = " + uid1);
                             System.out.println("PASS_DB = " + passdb + ": PASS = " + password);
                             if (uiddb.equals(uid1) && passdb.equals(password)) {
+                                GlassPanePopup.closePopupAll();
                                 authh = true;
                                 key = uiddb;
                                 loginn = "true";
@@ -477,8 +482,11 @@ public class login extends javax.swing.JFrame {
                                             key = aes.encryptString(key, aes.getPassword());
                                             try {
                                                 FileWriter writer = new FileWriter(file);
+                                                FileWriter writer1 = new FileWriter(file1);
                                                 writer.write(key);
                                                 writer.close();
+                                                writer1.write("true");
+                                                writer1.close();
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();
@@ -489,26 +497,29 @@ public class login extends javax.swing.JFrame {
                                         }
 
                                     } else {
-                                        if (file.exists()) {
-                                            boolean deleted = file.delete();
-                                            if (deleted) {
-
-                                            } else {
-
+                                        try {
+                                            key = aes.encryptString(key, aes.getPassword());
+                                            try {
+                                                FileWriter writer = new FileWriter(file);
+                                                writer.write(key);
+                                                writer.close();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
                                             }
-                                        } else {
 
+                                        } catch (Exception ex) {
+                                            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        if (file1.exists()) {
+                                            file1.delete();
                                         }
                                     }
                                     try {
                                         home home = new home();
-                                        if (selected) {
-                                            String decrypted = aes.decryptString(key, aes.getPassword());
-                                            home.updateLabelText(decrypted);
-                                        } else {
-                                            home.updateLabelText(key);
-                                        }
+                                        String decrypted = aes.decryptString(key, aes.getPassword());
+                                        home.updateLabelText(decrypted);
                                         home.setVisible(true);
+                                        GlassPanePopup.closePopupLast();
                                         exit();
                                     } catch (Exception ex) {
                                         Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
@@ -525,6 +536,7 @@ public class login extends javax.swing.JFrame {
                     }
                     if (!authh) {
                         JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
+                        GlassPanePopup.closePopupAll();
                         email.setText("");
                         pass.setText("");
                     }

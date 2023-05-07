@@ -18,9 +18,11 @@ import java.awt.geom.RoundRectangle2D;
 public class loading extends javax.swing.JPanel {
 
     public loading() {
+        ImageScaler scaler = new ImageScaler();
         initComponents();
         setOpaque(false);
         setBackground(new java.awt.Color(0,0,0,0));
+        scaler.scaleImage(jLabel2, "src\\main\\resources\\logo.png");
     }
 
     @Override
@@ -43,26 +45,20 @@ public class loading extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loading.gif"))); // NOI18N
         jLabel1.setPreferredSize(new java.awt.Dimension(250, 250));
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
-        );
+        jLabel2.setPreferredSize(new java.awt.Dimension(150, 150));
+        add(jLabel2);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

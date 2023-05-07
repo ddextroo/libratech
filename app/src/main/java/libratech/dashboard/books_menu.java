@@ -65,6 +65,7 @@ import libratech.books.inshelf.ModelAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
+import libratech.models.getUID;
 import libratech.util.firebaseInit;
 
 /**
@@ -98,7 +99,7 @@ public class books_menu extends javax.swing.JPanel {
                 System.out.println("User click OK: " + book.getChildKey());
             }
         };
-        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf");
+        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf/" + new getUID().getUid());
         DefaultTableModel mod = (DefaultTableModel) inshelfTable1.getModel();
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override

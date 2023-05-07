@@ -29,11 +29,30 @@ public class splash extends javax.swing.JFrame {
     Color startColor = new java.awt.Color(224, 224, 224);
     long startTime = System.currentTimeMillis();
     private File file;
+    private File file1;
     String fileContent = "";
+    String fileContent1 = "";
     aes aes = new aes();
 
     public splash() {
         this.file = new File("uid.txt");
+        this.file1 = new File("remember.txt");
+        if (file1.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                StringBuilder sb = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                fileContent1 = sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            fileContent1 = "";
+        }
         if (file.exists()) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -53,7 +72,6 @@ public class splash extends javax.swing.JFrame {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
         }
 
         ImageIcon icon = new ImageIcon("resources1/logo.png");
@@ -230,15 +248,30 @@ public class splash extends javax.swing.JFrame {
             int val = jProgressBar1.getValue();
             if (elapsedTime > duration) {
                 t.stop();
-                if (fileContent.equals("")) {
+                if (fileContent1.equals("")) {
                     login login = new login();
                     login.setVisible(true);
                     setVisible(false);
                     this.dispose();
-                } else {
+                } else if (file.exists() && file1.exists()) {
                     home home = new home();
                     home.updateLabelText(fileContent);
                     home.setVisible(true);
+                    this.dispose();
+                } else if (!file.exists() && !file1.exists()) {
+                    login login = new login();
+                    login.setVisible(true);
+                    setVisible(false);
+                    this.dispose();
+                } else if (file1.exists()) {
+                    home home = new home();
+                    home.updateLabelText(fileContent);
+                    home.setVisible(true);
+                    this.dispose();
+                } else {
+                    login login = new login();
+                    login.setVisible(true);
+                    setVisible(false);
                     this.dispose();
                 }
             } else {
