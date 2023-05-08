@@ -97,6 +97,7 @@ public class books_menu extends javax.swing.JPanel {
             @Override
             public void update(Book book) {
                 System.out.println("User click OK: " + book.getChildKey());
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf/" + new getUID().getUid());
@@ -193,6 +194,11 @@ public class books_menu extends javax.swing.JPanel {
         myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 myButtonborderless1MouseClicked(evt);
+            }
+        });
+        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless1ActionPerformed(evt);
             }
         });
 
@@ -329,6 +335,10 @@ public class books_menu extends javax.swing.JPanel {
         GlassPanePopup.showPopup(new add_book());
 
     }//GEN-LAST:event_myButtonborderless1MouseClicked
+
+    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

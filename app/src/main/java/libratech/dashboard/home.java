@@ -529,35 +529,36 @@ public class home extends javax.swing.JFrame {
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
-        splash splash = new splash();
-        String filePath = "uid.txt";
-        File file = new File(filePath);
-        String filePath1 = "remember.txt";
-        File file1 = new File(filePath1);
-
-        if (file.exists()) {
-            boolean deleted = file.delete();
-            if (deleted) {
-                if (file1.exists()) {
-                    file1.delete();
-                }
-                splash.setVisible(true);
-                setVisible(false);
-                this.dispose();
-            }
-        } else {
-            splash.setVisible(true);
-            setVisible(false);
-            this.dispose();
-        }
-        if (file1.exists()) {
-
-        } else {
-            file.delete();
-            splash.setVisible(true);
-            setVisible(false);
-            this.dispose();
-        }
+        GlassPanePopup.showPopup(new logout_dialog());
+//        splash splash = new splash();
+//        String filePath = "uid.txt";
+//        File file = new File(filePath);
+//        String filePath1 = "remember.txt";
+//        File file1 = new File(filePath1);
+//
+//        if (file.exists()) {
+//            boolean deleted = file.delete();
+//            if (deleted) {
+//                if (file1.exists()) {
+//                    file1.delete();
+//                }
+//                splash.setVisible(true);
+//                setVisible(false);
+//                this.dispose();
+//            }
+//        } else {
+//            splash.setVisible(true);
+//            setVisible(false);
+//            this.dispose();
+//        }
+//        if (file1.exists()) {
+//
+//        } else {
+//            file.delete();
+//            splash.setVisible(true);
+//            setVisible(false);
+//            this.dispose();
+//        }
 
     }//GEN-LAST:event_myButton1ActionPerformed
 

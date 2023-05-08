@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import libratech.auth.login;
@@ -41,32 +43,132 @@ import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import libratech.design.loading;
+import libratech.models.Dashboard.retBooks;
 import libratech.models.auth;
 import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.models.retrieve;
 import libratech.util.firebaseInit;
 import libratech.util.storage;
+import com.google.firebase.database.*;
+import com.google.firebase.database.DatabaseReference.CompletionListener;
+import java.net.MalformedURLException;
 
 /**
  *
- * @author HBUSER
+ * @author Carocoy
  */
-public class add_book extends javax.swing.JPanel {
+public class edit_book extends javax.swing.JPanel {
 
     private String localFilePath;
     private String remoteFilePath;
-    private DatabaseReference databaseReference;
+    private String path = "books/inshelf/" + new getUID().getUid() + "/";
+    private DatabaseReference books = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
     private String uid;
+    private String ck;
+    private retBooks listener;
+    private ChildEventListener booksinfo;
+    private CompletionListener completionListener;
+    String downloadUrl = "";
 
-    public add_book() {
-        this.databaseReference = FirebaseDatabase.getInstance().getReference();
+    public edit_book(String key1) {
         initComponents();
-        initFont();
         new firebaseInit().initFirebase();
+        this.listener = new retBooks(key1);
+        this.ck = key1;
+        initFont();
+
+        booksinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (_childKey.equals(ck)) {
+                    try {
+                        booktitle.setText(_childValue.get("booktitle").toString());
+                        author.setText(_childValue.get("bookauthor").toString());
+                        publisher.setText(_childValue.get("publisher").toString());
+                        genre.setText(_childValue.get("genre").toString());
+                        date.setText(_childValue.get("date").toString());
+                        quantity.setText(_childValue.get("quantity").toString());
+                        dewey.setText(_childValue.get("dewey").toString());
+                        shelf.setText(_childValue.get("shelf").toString());
+                        deck.setText(_childValue.get("deck").toString());
+                        URL url = new URL(_childValue.get("cover").toString());
+                        BufferedImage image = ImageIO.read(url);
+                        photoCover1.setImage(image);
+                        downloadUrl = _childValue.get("cover").toString();
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.equals(ck)) {
+                    try {
+                        booktitle.setText(_childValue.get("booktitle").toString());
+                        author.setText(_childValue.get("bookauthor").toString());
+                        publisher.setText(_childValue.get("publisher").toString());
+                        genre.setText(_childValue.get("genre").toString());
+                        date.setText(_childValue.get("date").toString());
+                        quantity.setText(_childValue.get("quantity").toString());
+                        dewey.setText(_childValue.get("dewey").toString());
+                        shelf.setText(_childValue.get("shelf").toString());
+                        deck.setText(_childValue.get("deck").toString());
+                        URL url = new URL(_childValue.get("cover").toString());
+                        BufferedImage image = ImageIO.read(url);
+                        photoCover1.setImage(image);
+                        downloadUrl = _childValue.get("cover").toString();
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        books.addChildEventListener(booksinfo);
+
+        completionListener = new CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error != null) {
+                    System.out.println("Error removing value: " + error.getMessage());
+                } else {
+                    System.out.println("Value removed successfully.");
+                }
+            }
+        };
+        
+
     }
 
     @Override
@@ -79,11 +181,17 @@ public class add_book extends javax.swing.JPanel {
         super.paintComponent(graphics);
     }
 
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        editbooklabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         coverlabel = new javax.swing.JLabel();
         allowedtype = new javax.swing.JLabel();
@@ -115,15 +223,19 @@ public class add_book extends javax.swing.JPanel {
         shelflabel = new javax.swing.JLabel();
         jPanel14 = new RoundedPanel(12, new Color(250,250,250));
         shelf = new javax.swing.JTextField();
-        myButtonborderless2 = new libratech.design.MyButtonborderless();
-        myButtonborder1 = new libratech.design.MyButtonborder();
+        savechanges = new libratech.design.MyButtonborderless();
+        cancel = new libratech.design.MyButtonborder();
+        delete = new libratech.design.MyButtonborder();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(58, 58, 58));
-        jLabel2.setText("Add book");
+        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel1.setOpaque(false);
+
+        editbooklabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        editbooklabel.setForeground(new java.awt.Color(58, 58, 58));
+        editbooklabel.setText("Edit book");
 
         coverlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         coverlabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -468,87 +580,99 @@ public class add_book extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        myButtonborderless2.setForeground(new java.awt.Color(224, 224, 224));
-        myButtonborderless2.setText("Add book");
-        myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
+        savechanges.setForeground(new java.awt.Color(224, 224, 224));
+        savechanges.setText("Save Changes");
+        savechanges.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButtonborderless2ActionPerformed(evt);
+                savechangesActionPerformed(evt);
             }
         });
 
-        myButtonborder1.setForeground(new java.awt.Color(23, 23, 23));
-        myButtonborder1.setText("Cancel");
-        myButtonborder1.addActionListener(new java.awt.event.ActionListener() {
+        cancel.setForeground(new java.awt.Color(23, 23, 23));
+        cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButtonborder1ActionPerformed(evt);
+                cancelActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        delete.setForeground(new java.awt.Color(23, 23, 23));
+        delete.setText("Delete");
+        delete.setPreferredSize(new java.awt.Dimension(102, 23));
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(74, 74, 74)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(allowedtype)
-                                .addComponent(coverlabel)
-                                .addComponent(booktitlelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(authorlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(publisherlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(datelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(genrelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(quantitylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(deweylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(14, 14, 14)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(shelflabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(editbooklabel))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(allowedtype)
+                            .addComponent(coverlabel)
+                            .addComponent(booktitlelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(authorlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(publisherlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(datelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(genrelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(quantitylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(deweylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(14, 14, 14)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(shelflabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(savechanges, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jLabel2)
+                .addComponent(editbooklabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -564,16 +688,16 @@ public class add_book extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(authorlabel)
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(publisherlabel)
                                 .addGap(4, 4, 4)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(datelabel)
                                 .addGap(4, 4, 4)
                                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -581,144 +705,57 @@ public class add_book extends javax.swing.JPanel {
                         .addComponent(genrelabel)
                         .addGap(4, 4, 4)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(quantitylabel)
                         .addGap(4, 4, 4)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(decklabel)
                         .addGap(4, 4, 4)
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(deweylabel)
                         .addGap(4, 4, 4)
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(shelflabel)
                         .addGap(4, 4, 4)
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(savechanges, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 915, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 617, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void booktitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booktitleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_booktitleActionPerformed
-
-    private void authorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_authorActionPerformed
-
-    private void publisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_publisherActionPerformed
-
-    private void genreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genreActionPerformed
-
-    private void deweyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deweyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deweyActionPerformed
-
-    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateActionPerformed
-
-    private void quantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_quantityActionPerformed
-
-    private void deckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deckActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deckActionPerformed
-
-    private void shelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shelfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_shelfActionPerformed
-
-    private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
-        // TODO add your handling code here:
-        String book_title = booktitle.getText();
-        String book_author = author.getText();
-        String publ = publisher.getText();
-        String genr = genre.getText();
-        String date1 = date.getText();
-        String quan = quantity.getText();
-        String dew = dewey.getText();
-        String shelff = shelf.getText();
-        String deckk = deck.getText();
-        String downloadUrl = "";
-
-        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
-        } else {
-            if (this.localFilePath.equals("")) {
-                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
-            } else {
-                storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-                try {
-                    downloadUrl = uploader.upload();
-                    GlassPanePopup.showPopup(new loading());
-                } catch (IOException ex) {
-                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-            String key = databaseReference.push().getKey();
-            String uidpath = new getUID().getUid();
-
-            v = new pushValue(key);
-            m = new HashMap<>();
-            m.put("booktitle", book_title);
-            m.put("bookauthor", book_author);
-            m.put("publisher", publ);
-            m.put("dewey", dew);
-            m.put("genre", genr);
-            m.put("date", date1);
-            m.put("quantity", quan);
-            m.put("shelf", shelff);
-            m.put("deck", deckk);
-            m.put("key", key);
-            m.put("status", "Available");
-            m.put("timestamp", getnow);
-            m.put("cover", downloadUrl);
-            v.pushData("books/inshelf/" + uidpath, m);
-            GlassPanePopup.closePopupAll();
-        }
-    }//GEN-LAST:event_myButtonborderless2ActionPerformed
-
-    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + new getUID().getUid() + "/" + selectedFile.getName();
-
-            try {
-                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
-                photoCover1.setImage(image);
-            } catch (IOException ex) {
-                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_photoCover1MouseClicked
-
-    private void dateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_dateMouseClicked
 
     private void booktitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_booktitleKeyReleased
         // TODO add your handling code here:
@@ -741,37 +778,30 @@ public class add_book extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_booktitleKeyReleased
 
-    private void quantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityKeyTyped
+    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_quantityKeyTyped
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
 
-    private void deweyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deweyKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_deweyKeyTyped
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "cover/" + new getUID().getUid() + "/" + selectedFile.getName();
 
-    private void shelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_shelfKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
+            try {
+                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
+                photoCover1.setImage(image);
+            } catch (IOException ex) {
+                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_shelfKeyTyped
+    }//GEN-LAST:event_photoCover1MouseClicked
 
-    private void deckKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deckKeyTyped
+    private void authorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorActionPerformed
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_deckKeyTyped
+    }//GEN-LAST:event_authorActionPerformed
 
     private void authorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_authorKeyTyped
         // TODO add your handling code here:
@@ -782,6 +812,14 @@ public class add_book extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_authorKeyTyped
 
+    private void publisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_publisherActionPerformed
+
+    private void genreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_genreActionPerformed
+
     private void genreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_genreKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -790,10 +828,121 @@ public class add_book extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_genreKeyTyped
 
-    private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
+    private void deweyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deweyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deweyActionPerformed
+
+    private void deweyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deweyKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_deweyKeyTyped
+
+    private void dateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateMouseClicked
+
+    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateActionPerformed
+
+    private void quantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantityActionPerformed
+
+    private void quantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_quantityKeyTyped
+
+    private void deckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deckActionPerformed
+
+    private void deckKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_deckKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_deckKeyTyped
+
+    private void shelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shelfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_shelfActionPerformed
+
+    private void shelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_shelfKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_shelfKeyTyped
+
+    private void savechangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savechangesActionPerformed
+        // TODO add your handling code here:
+        String book_title = booktitle.getText();
+        String book_author = author.getText();
+        String publ = publisher.getText();
+        String genr = genre.getText();
+        String date1 = date.getText();
+        String quan = quantity.getText();
+        String dew = dewey.getText();
+        String shelff = shelf.getText();
+        String deckk = deck.getText();
+
+        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            if (this.localFilePath.equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
+            } else {
+                storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+                try {
+                    downloadUrl = uploader.upload();
+                    GlassPanePopup.showPopup(new loading());
+                } catch (IOException ex) {
+                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            String key = ck;
+            String uidpath = new getUID().getUid();
+
+            v = new pushValue(key);
+            m = new HashMap<>();
+            m.put("booktitle", book_title);
+            m.put("bookauthor", book_author);
+            m.put("publisher", publ);
+            m.put("dewey", dew);
+            m.put("genre", genr);
+            m.put("date", date1);
+            m.put("quantity", quan);
+            m.put("shelf", shelff);
+            m.put("deck", deckk);
+            m.put("key", key);
+            m.put("status", "Available");
+            m.put("timestamp", getnow);
+            m.put("cover", downloadUrl);
+            v.pushData("books/inshelf/" + uidpath, m);
+            GlassPanePopup.closePopupAll();
+        }
+    }//GEN-LAST:event_savechangesActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.closePopupLast();
-    }//GEN-LAST:event_myButtonborder1ActionPerformed
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        books.child(path + "/" + ck).removeValue(completionListener);
+    }//GEN-LAST:event_deleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -802,16 +951,19 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JLabel authorlabel;
     private javax.swing.JTextField booktitle;
     private javax.swing.JLabel booktitlelabel;
+    private libratech.design.MyButtonborder cancel;
     private javax.swing.JLabel coverlabel;
     private javax.swing.JTextField date;
     private javax.swing.JLabel datelabel;
     private javax.swing.JTextField deck;
     private javax.swing.JLabel decklabel;
+    private libratech.design.MyButtonborder delete;
     private javax.swing.JTextField dewey;
     private javax.swing.JLabel deweylabel;
+    private javax.swing.JLabel editbooklabel;
     private javax.swing.JTextField genre;
     private javax.swing.JLabel genrelabel;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -822,18 +974,17 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
-    private libratech.design.MyButtonborder myButtonborder1;
-    private libratech.design.MyButtonborderless myButtonborderless2;
     private libratech.design.PhotoCover photoCover1;
     private javax.swing.JTextField publisher;
     private javax.swing.JLabel publisherlabel;
     private javax.swing.JTextField quantity;
     private javax.swing.JLabel quantitylabel;
+    private libratech.design.MyButtonborderless savechanges;
     private javax.swing.JTextField shelf;
     private javax.swing.JLabel shelflabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        jLabel2.setFont(new Font("Poppins Regular", Font.BOLD, 24));
+        editbooklabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         coverlabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         allowedtype.setFont(new Font("Poppins Regular", Font.PLAIN, 10));
         booktitle.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
@@ -856,8 +1007,9 @@ public class add_book extends javax.swing.JPanel {
         deweylabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         genre.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         genrelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        savechanges.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        delete.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 
     }
 }
