@@ -53,6 +53,7 @@ import libratech.util.storage;
 import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseReference.CompletionListener;
 import java.net.MalformedURLException;
+import libratech.models.TableUpdateListener;
 
 /**
  *
@@ -60,10 +61,12 @@ import java.net.MalformedURLException;
  */
 public class edit_book extends javax.swing.JPanel {
 
+    private TableUpdateListener tablelistener;
     private String localFilePath;
     private String remoteFilePath;
     private String path = "books/inshelf/" + new getUID().getUid() + "/";
     private DatabaseReference books = FirebaseDatabase.getInstance().getReference(path);
+    private DatabaseReference books2;
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
@@ -79,6 +82,7 @@ public class edit_book extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         this.listener = new retBooks(key1);
         this.ck = key1;
+        this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
         initFont();
 
         booksinfo = new ChildEventListener() {
@@ -167,9 +171,11 @@ public class edit_book extends javax.swing.JPanel {
                 }
             }
         };
-        
-
     }
+    public edit_book(TableUpdateListener listener2) {
+        this.tablelistener = listener2;
+    }
+    
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -941,7 +947,12 @@ public class edit_book extends javax.swing.JPanel {
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
-        books.child(path + "/" + ck).removeValue(completionListener);
+        new books_menu(tablelistener);
+        tablelistener.onTableUpdated();
+        System.out.println(books2.getRef());
+        books2.getRef().removeValue(completionListener);
+        tablelistener.onTableUpdated();
+        GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_deleteActionPerformed
 
 
@@ -983,6 +994,7 @@ public class edit_book extends javax.swing.JPanel {
     private javax.swing.JTextField shelf;
     private javax.swing.JLabel shelflabel;
     // End of variables declaration//GEN-END:variables
+
     public void initFont() {
         editbooklabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         coverlabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
