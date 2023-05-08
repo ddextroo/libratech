@@ -65,7 +65,6 @@ import libratech.books.inshelf.ModelAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
-import libratech.models.TableUpdateListener;
 import libratech.models.getUID;
 import libratech.util.firebaseInit;
 
@@ -73,9 +72,8 @@ import libratech.util.firebaseInit;
  *
  * @author HBUSER
  */
-public class books_menu extends javax.swing.JPanel{
+public class books_menu extends javax.swing.JPanel {
 
-    private TableUpdateListener tablelistener;
     private List<Book> books;
     private DatabaseReference dbRef;
     DefaultTableModel mod;
@@ -89,26 +87,6 @@ public class books_menu extends javax.swing.JPanel{
         retrieveData();
     }
 
-    public books_menu(TableUpdateListener tablelistener) {
-        initComponents();
-        initFont();
-        this.mod = (DefaultTableModel) inshelfTable1.getModel();
-        new firebaseInit().initFirebase();
-        inshelfTable1.fixTable(jScrollPane1);
-        this.tablelistener = tablelistener;
-        retrieveData();
-    }
-
-    TableUpdateListener listener = new TableUpdateListener() {
-        @Override
-        public void onTableUpdated() {
-            // Update the table here
-            retrieveData();
-        mod.fireTableDataChanged();
-        inshelfTable1.repaint();
-        }
-    };
-
     private void retrieveData() {
         // Fetch data from Firebase and create table
         EventAction eventAction = new EventAction() {
@@ -120,8 +98,7 @@ public class books_menu extends javax.swing.JPanel{
 
             @Override
             public void update(Book book) {
-                System.out.println("User click OK: " + book.getChildKey());
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1.getSelectedRow(), (DefaultTableModel) inshelfTable1.getModel(), inshelfTable1));
             }
         };
 
@@ -130,6 +107,7 @@ public class books_menu extends javax.swing.JPanel{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
+
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String key = child.child("key").getValue(String.class);
                     String bookCoverUrl = child.child("cover").getValue(String.class);
@@ -369,7 +347,7 @@ public class books_menu extends javax.swing.JPanel{
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    private libratech.books.inshelf.InshelfTable inshelfTable1;
+    public libratech.books.inshelf.InshelfTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

@@ -53,7 +53,6 @@ import libratech.util.storage;
 import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseReference.CompletionListener;
 import java.net.MalformedURLException;
-import libratech.models.TableUpdateListener;
 
 /**
  *
@@ -61,7 +60,6 @@ import libratech.models.TableUpdateListener;
  */
 public class edit_book extends javax.swing.JPanel {
 
-    private TableUpdateListener tablelistener;
     private String localFilePath;
     private String remoteFilePath;
     private String path = "books/inshelf/" + new getUID().getUid() + "/";
@@ -75,13 +73,23 @@ public class edit_book extends javax.swing.JPanel {
     private retBooks listener;
     private ChildEventListener booksinfo;
     private CompletionListener completionListener;
+    private int pos;
+    private DefaultTableModel model;
+    private libratech.books.inshelf.InshelfTable inshelfTable1;
     String downloadUrl = "";
 
-    public edit_book(String key1) {
+    public edit_book(String key1, int selected, DefaultTableModel model, libratech.books.inshelf.InshelfTable inshelfTable1) {
         initComponents();
         new firebaseInit().initFirebase();
         this.listener = new retBooks(key1);
         this.ck = key1;
+        this.pos = selected;
+        if (pos == -1) {
+            pos++;
+        }
+        System.out.println(pos);
+        this.model = model;
+        this.inshelfTable1 = inshelfTable1;
         this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
         initFont();
 
@@ -172,10 +180,6 @@ public class edit_book extends javax.swing.JPanel {
             }
         };
     }
-    public edit_book(TableUpdateListener listener2) {
-        this.tablelistener = listener2;
-    }
-    
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -575,8 +579,8 @@ public class edit_book extends javax.swing.JPanel {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(shelf, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(566, 566, 566))
+                .addComponent(shelf, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(697, 697, 697))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -947,11 +951,11 @@ public class edit_book extends javax.swing.JPanel {
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
-        new books_menu(tablelistener);
-        tablelistener.onTableUpdated();
         System.out.println(books2.getRef());
         books2.getRef().removeValue(completionListener);
-        tablelistener.onTableUpdated();
+        model.removeRow(pos);
+        model.fireTableDataChanged();
+        inshelfTable1.repaint();
         GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_deleteActionPerformed
 
