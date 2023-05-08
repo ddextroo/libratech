@@ -73,7 +73,7 @@ import libratech.util.firebaseInit;
  *
  * @author HBUSER
  */
-public class books_menu extends javax.swing.JPanel implements TableUpdateListener {
+public class books_menu extends javax.swing.JPanel{
 
     private TableUpdateListener tablelistener;
     private List<Book> books;
