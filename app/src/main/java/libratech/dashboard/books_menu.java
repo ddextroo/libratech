@@ -65,6 +65,7 @@ import libratech.books.inshelf.ModelAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
+import libratech.models.DataUpdateListener;
 import libratech.models.getUID;
 import libratech.util.firebaseInit;
 
@@ -77,6 +78,7 @@ public class books_menu extends javax.swing.JPanel {
     private List<Book> books;
     private DatabaseReference dbRef;
     DefaultTableModel mod;
+    private List<DataUpdateListener> listeners;
 
     public books_menu() {
         initComponents();
@@ -85,6 +87,16 @@ public class books_menu extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
         retrieveData();
+    }
+
+    public void addDataUpdateListener(DataUpdateListener listener) {
+        this.listeners.add(listener);
+    }
+
+    private void notifyDataUpdateListeners(DefaultTableModel model) {
+        for (DataUpdateListener listener : listeners) {
+            listener.onDataUpdated(model);
+        }
     }
 
     private void retrieveData() {
@@ -139,6 +151,7 @@ public class books_menu extends javax.swing.JPanel {
                     new Book().setChildKey(key);
                     mod.fireTableDataChanged();
                     inshelfTable1.repaint();
+                    notifyDataUpdateListeners(mod);
 
                 }
 

@@ -53,12 +53,13 @@ import libratech.util.storage;
 import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseReference.CompletionListener;
 import java.net.MalformedURLException;
+import libratech.models.DataUpdateListener;
 
 /**
  *
  * @author Carocoy
  */
-public class edit_book extends javax.swing.JPanel {
+public class edit_book extends javax.swing.JPanel implements DataUpdateListener {
 
     private String localFilePath;
     private String remoteFilePath;
@@ -179,6 +180,16 @@ public class edit_book extends javax.swing.JPanel {
                 }
             }
         };
+
+    }
+
+    @Override
+    public void onDataUpdated(DefaultTableModel model1) {
+        // add code here to update your UI with the new data in the model
+        model1 = model;
+        inshelfTable1.setModel(model1);
+        model.fireTableDataChanged();
+        inshelfTable1.repaint();
     }
 
     @Override
@@ -953,9 +964,9 @@ public class edit_book extends javax.swing.JPanel {
         // TODO add your handling code here:
         System.out.println(books2.getRef());
         books2.getRef().removeValue(completionListener);
-        model.removeRow(pos);
-        model.fireTableDataChanged();
-        inshelfTable1.repaint();
+//        model.removeRow(pos);
+//        model.fireTableDataChanged();
+//        inshelfTable1.repaint();
         GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_deleteActionPerformed
 
