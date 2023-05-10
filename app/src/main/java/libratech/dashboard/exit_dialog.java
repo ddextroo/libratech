@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 import libratech.design.GlassPanePopup;
 
 /**
@@ -29,6 +30,7 @@ public class exit_dialog extends javax.swing.JPanel {
         txt.setEditable(false);
         initFont();
     }
+
     @Override
     protected void paintComponent(Graphics graphics) {
         Graphics2D g2 = (Graphics2D) graphics.create();
@@ -82,28 +84,25 @@ public class exit_dialog extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(confirmlabel))
-                        .addContainerGap(20, Short.MAX_VALUE))
+                        .addGap(178, 178, 178)
+                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))))
+                        .addComponent(confirmlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(271, 271, 271)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(confirmlabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -119,53 +118,16 @@ public class exit_dialog extends javax.swing.JPanel {
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
         //GlassPanePopup.closePopupLast();
-        //cancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            //public void mouseClicked(java.awt.event.MouseEvent evt) {
-                //cancelMouseClicked(evt);
-                //}
-            /*splash splash = new splash();
-            String filePath = "uid.txt";
-            File file = new File(filePath);
-            String filePath1 = "remember.txt";
-            File file1 = new File(filePath1);
-            home home = (home) SwingUtilities.getWindowAncestor(logout_dialog.this);
+        String filePath1 = "remember.txt";
+        String filePath = "uid.txt";
+        File file1 = new File(filePath1);
+        File file = new File(filePath);
+        if (file1.exists()) {
 
-            if (file.exists()) {
-                boolean deleted = file.delete();
-                if (deleted) {
-                    if (file1.exists()) {
-                        file1.delete();
-                    }
-                    splash.setVisible(true);
-                    home.setVisible(false);
-                    GlassPanePopup.closePopupLast();
-                    home.dispose();
-                }
-            } else {
-                splash.setVisible(true);
-                home.setVisible(false);
-                GlassPanePopup.closePopupLast();
-                home.dispose();
-            }
-            if (file1.exists()) {
-
-            } else {
-                file.delete();
-                splash.setVisible(true);
-                setVisible(false);
-                GlassPanePopup.closePopupLast();
-                home.dispose();
-            }*/
-            /*String filePath1 = "remember.txt";
-            String filePath = "uid.txt";
-            File file1 = new File(filePath1);
-            File file = new File(filePath);
-            if (file1.exists()) {
-
-            } else {
-                file.delete();
-            }*/
-            System.exit(0);
+        } else {
+            file.delete();
+        }
+        System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
 

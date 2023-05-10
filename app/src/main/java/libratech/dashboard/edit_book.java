@@ -53,19 +53,23 @@ import libratech.util.storage;
 import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseReference.CompletionListener;
 import java.net.MalformedURLException;
-import libratech.models.DataUpdateListener;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.EventAction;
+import libratech.books.inshelf.StatusType;
+import libratech.books.inshelf.TableStatus;
 
 /**
  *
  * @author Carocoy
  */
-public class edit_book extends javax.swing.JPanel implements DataUpdateListener {
+public class edit_book extends javax.swing.JPanel {
 
     private String localFilePath;
     private String remoteFilePath;
     private String path = "books/inshelf/" + new getUID().getUid() + "/";
     private DatabaseReference books = FirebaseDatabase.getInstance().getReference(path);
     private DatabaseReference books2;
+    private DatabaseReference dbRef;
     private HashMap<String, Object> m;
     private pushValue v;
     private retrieve r;
@@ -74,25 +78,21 @@ public class edit_book extends javax.swing.JPanel implements DataUpdateListener 
     private retBooks listener;
     private ChildEventListener booksinfo;
     private CompletionListener completionListener;
-    private int pos;
     private DefaultTableModel model;
     private libratech.books.inshelf.InshelfTable inshelfTable1;
     String downloadUrl = "";
 
-    public edit_book(String key1, int selected, DefaultTableModel model, libratech.books.inshelf.InshelfTable inshelfTable1) {
+    public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1) {
         initComponents();
         new firebaseInit().initFirebase();
         this.listener = new retBooks(key1);
         this.ck = key1;
-        this.pos = selected;
-        if (pos == -1) {
-            pos++;
-        }
-        System.out.println(pos);
-        this.model = model;
+        System.out.println(key1);
+        this.model = (DefaultTableModel) inshelfTable1.getModel();
         this.inshelfTable1 = inshelfTable1;
         this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
         initFont();
+        retrieveData();
 
         booksinfo = new ChildEventListener() {
             @Override
@@ -184,15 +184,6 @@ public class edit_book extends javax.swing.JPanel implements DataUpdateListener 
     }
 
     @Override
-    public void onDataUpdated(DefaultTableModel model1) {
-        // add code here to update your UI with the new data in the model
-        model1 = model;
-        inshelfTable1.setModel(model1);
-        model.fireTableDataChanged();
-        inshelfTable1.repaint();
-    }
-
-    @Override
     protected void paintComponent(Graphics graphics) {
         Graphics2D g2 = (Graphics2D) graphics.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -200,6 +191,68 @@ public class edit_book extends javax.swing.JPanel implements DataUpdateListener 
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
         g2.dispose();
         super.paintComponent(graphics);
+    }
+
+    private void retrieveData() {
+        // Fetch data from Firebase and create table
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void delete(Book student) {
+                System.out.println("User click OK");
+
+            }
+
+            @Override
+            public void update(Book book) {
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1.getSelectedRow(), inshelfTable1));
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    String key = child.child("key").getValue(String.class);
+                    String bookTitle = child.child("booktitle").getValue(String.class);
+                    String publisher = child.child("publisher").getValue(String.class);
+                    String genre = child.child("genre").getValue(String.class);
+                    String author = child.child("bookauthor").getValue(String.class);
+                    String dewey = child.child("dewey").getValue(String.class);
+                    String quantity = child.child("quantity").getValue(String.class);
+                    String deck = child.child("deck").getValue(String.class);
+                    String status = child.child("status").getValue(String.class);
+
+                    TableStatus statust = new TableStatus();
+
+                    if (status.equals("Available")) {
+                        statust.setType(StatusType.Available);
+                    } else if (status.equals("Borrowed")) {
+                        statust.setType(StatusType.Borrowed);
+                    } else if (status.equals("Lost")) {
+                        statust.setType(StatusType.Lost);
+                    } else if (status.equals("Damaged")) {
+                        statust.setType(StatusType.Damaged);
+                    } else {
+                        statust.setType(StatusType.Returned);
+                    }
+                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, statust.getType(), key).toRowTable(eventAction));
+                    new Book().setChildKey(key);
+                    model.fireTableDataChanged();
+                    inshelfTable1.repaint();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
     }
 
     /**
@@ -809,7 +862,7 @@ public class edit_book extends javax.swing.JPanel implements DataUpdateListener 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + new getUID().getUid() + "/" + selectedFile.getName();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
 
             try {
                 BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
@@ -964,10 +1017,11 @@ public class edit_book extends javax.swing.JPanel implements DataUpdateListener 
         // TODO add your handling code here:
         System.out.println(books2.getRef());
         books2.getRef().removeValue(completionListener);
-//        model.removeRow(pos);
-//        model.fireTableDataChanged();
-//        inshelfTable1.repaint();
         GlassPanePopup.closePopupAll();
+        retrieveData();
+        removeAll();
+        revalidate();
+        repaint();
     }//GEN-LAST:event_deleteActionPerformed
 
 

@@ -72,6 +72,8 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel32 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         userreferencesstatslabel = new javax.swing.JLabel();
+        coloredRoundedPanel2 = new libratech.design.ColoredRoundedPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         activeuserstatslabel = new javax.swing.JLabel();
@@ -327,6 +329,17 @@ public class dashboard_menu extends javax.swing.JPanel {
 
         jPanel31.add(jPanel32);
 
+        coloredRoundedPanel2.setBackground(new java.awt.Color(51, 51, 255));
+        coloredRoundedPanel2.setOpaque(false);
+        coloredRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 13));
+
+        jLabel1.setBackground(new java.awt.Color(250, 250, 250));
+        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
+        jLabel1.setText("User References Statistics");
+        coloredRoundedPanel2.add(jLabel1);
+
+        jPanel31.add(coloredRoundedPanel2);
+
         jPanel35.setBackground(new java.awt.Color(238, 238, 238));
 
         jPanel26.setBackground(new java.awt.Color(4, 28, 52));
@@ -409,16 +422,14 @@ public class dashboard_menu extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activeuserstatslabel;
     private javax.swing.JLabel borrowedbookslabel;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel2;
     private javax.swing.JLabel damagedbookslabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -432,10 +443,6 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
@@ -471,6 +478,7 @@ public void initFont() {
         userreferencesstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         activeuserstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         userstatisticslabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
 }
 
 
