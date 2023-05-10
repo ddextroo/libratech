@@ -108,8 +108,8 @@ public class logout_dialog extends javax.swing.JPanel {
                 .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -164,7 +164,7 @@ public class logout_dialog extends javax.swing.JPanel {
     private javax.swing.JLabel confirmlabel;
     private javax.swing.JTextPane txt;
     // End of variables declaration//GEN-END:variables
-public void initFont() {
+    public void initFont() {
         confirmlabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
         txt.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
         confirm.setFont(new Font("Poppins Regular", Font.BOLD, 12));
