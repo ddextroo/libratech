@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -171,6 +172,7 @@ public class add_book extends javax.swing.JPanel {
         );
 
         photoCover1.setBackground(new java.awt.Color(158, 158, 158));
+        photoCover1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         photoCover1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 photoCover1MouseClicked(evt);

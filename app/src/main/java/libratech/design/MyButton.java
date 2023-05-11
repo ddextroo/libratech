@@ -1,6 +1,7 @@
 package libratech.design;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -61,9 +62,9 @@ public class MyButton extends JButton {
 
     public MyButton() {
         //  Init Color
-
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setColor(new Color(14, 44, 74));
-        colorOver = new Color(4,28,52);
+        colorOver = new Color(4, 28, 52);
         colorClick = new Color(4, 28, 52);
         borderColor = new Color(255, 248, 248, 40);
         setContentAreaFilled(false);

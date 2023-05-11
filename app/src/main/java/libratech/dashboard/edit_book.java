@@ -52,6 +52,7 @@ import libratech.util.firebaseInit;
 import libratech.util.storage;
 import com.google.firebase.database.*;
 import com.google.firebase.database.DatabaseReference.CompletionListener;
+import java.awt.Cursor;
 import java.net.MalformedURLException;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
@@ -81,6 +82,7 @@ public class edit_book extends javax.swing.JPanel {
     private DefaultTableModel model;
     private libratech.books.inshelf.InshelfTable inshelfTable1;
     String downloadUrl = "";
+    boolean upload = false;
 
     public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1) {
         initComponents();
@@ -204,7 +206,7 @@ public class edit_book extends javax.swing.JPanel {
 
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1.getSelectedRow(), inshelfTable1));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
             }
         };
 
@@ -357,6 +359,7 @@ public class edit_book extends javax.swing.JPanel {
         );
 
         photoCover1.setBackground(new java.awt.Color(158, 158, 158));
+        photoCover1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         photoCover1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 photoCover1MouseClicked(evt);
@@ -827,31 +830,6 @@ public class edit_book extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void booktitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booktitleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_booktitleActionPerformed
-
-    private void booktitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_booktitleKeyReleased
-        // TODO add your handling code here:
-        String text = booktitle.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            booktitle.setText(text);
-        }
-
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
-            booktitle.setText("");
-        }
-
-        if (text.length() == 0) {
-            booktitle.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_booktitleKeyReleased
-
     private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
@@ -867,6 +845,7 @@ public class edit_book extends javax.swing.JPanel {
             try {
                 BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
                 photoCover1.setImage(image);
+                upload = true;
             } catch (IOException ex) {
                 Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -973,16 +952,14 @@ public class edit_book extends javax.swing.JPanel {
         if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
-            if (this.localFilePath.equals("")) {
-                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
-            } else {
+            if (upload) {
                 storage uploader = new storage(this.localFilePath, this.remoteFilePath);
                 try {
                     downloadUrl = uploader.upload();
                     GlassPanePopup.showPopup(new loading());
                 } catch (IOException ex) {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            }
             }
             String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
             String key = ck;
@@ -1018,11 +995,37 @@ public class edit_book extends javax.swing.JPanel {
         System.out.println(books2.getRef());
         books2.getRef().removeValue(completionListener);
         GlassPanePopup.closePopupAll();
-        retrieveData();
         removeAll();
         revalidate();
+        model.setRowCount(0);
+        retrieveData();
         repaint();
     }//GEN-LAST:event_deleteActionPerformed
+
+    private void booktitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_booktitleKeyReleased
+        // TODO add your handling code here:
+        String text = booktitle.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            booktitle.setText(text);
+        }
+
+        if (text.length() > 24) {
+            str = text.substring(0, 24);
+            booktitle.setText("");
+        }
+
+        if (text.length() == 0) {
+            booktitle.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_booktitleKeyReleased
+
+    private void booktitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_booktitleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_booktitleActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

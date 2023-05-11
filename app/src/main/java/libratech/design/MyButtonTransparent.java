@@ -1,6 +1,7 @@
 package libratech.design;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -61,10 +62,10 @@ public class MyButtonTransparent extends JButton {
 
     public MyButtonTransparent() {
         //  Init Color
-
-        setColor(new Color(4, 28, 52,0));
-        colorOver = new Color(4,28,52);
-        colorClick = new Color(4,28,52);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setColor(new Color(4, 28, 52, 0));
+        colorOver = new Color(4, 28, 52);
+        colorClick = new Color(4, 28, 52);
         borderColor = new Color(63, 106, 149, 50);
         setContentAreaFilled(false);
         //  Add event mouse
@@ -85,13 +86,13 @@ public class MyButtonTransparent extends JButton {
             @Override
             public void mousePressed(MouseEvent me) {
                 setBackground(colorClick);
-                setForeground(new Color(58,58,58));
-                
+                setForeground(new Color(58, 58, 58));
+
             }
 
             @Override
             public void mouseReleased(MouseEvent me) {
-                setForeground(new Color(245,245,245));
+                setForeground(new Color(245, 245, 245));
                 if (over) {
                     setBackground(colorOver);
                 } else {
