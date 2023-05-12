@@ -41,11 +41,11 @@ public class dashboard_menu extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new RoundedPanelBorderless(13, new Color(238,238,238));
-        jPanel7 = new RoundedPanelBorderless(13, new Color(4,28,52));
+        coloredRoundedPanel1 = new libratech.design.ColoredRoundedPanel();
+        jPanel22 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
         borrowedbookslabel = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         lostbookslabel = new javax.swing.JLabel();
@@ -72,8 +72,6 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel32 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         userreferencesstatslabel = new javax.swing.JLabel();
-        coloredRoundedPanel2 = new libratech.design.ColoredRoundedPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         activeuserstatslabel = new javax.swing.JLabel();
@@ -116,38 +114,43 @@ public class dashboard_menu extends javax.swing.JPanel {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 16, 0));
 
-        jPanel5.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel5.setPreferredSize(new java.awt.Dimension(130, 130));
+        coloredRoundedPanel1.setBackground(new java.awt.Color(238, 238, 238));
 
-        jPanel7.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel22.setBackground(new java.awt.Color(4, 28, 52, 0));
+        jPanel22.setOpaque(false);
 
         borrowedbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         borrowedbookslabel.setForeground(new java.awt.Color(250, 250, 250));
         borrowedbookslabel.setText("Borrowed Books");
-        jPanel7.add(borrowedbookslabel);
+        jPanel22.add(borrowedbookslabel);
 
-        jPanel14.setBackground(new java.awt.Color(238, 238, 238));
+        jPanel23.setBackground(new java.awt.Color(238, 238, 238));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("#");
-        jPanel14.add(jLabel3);
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel4.setText("#");
+        jPanel23.add(jLabel4);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout coloredRoundedPanel1Layout = new javax.swing.GroupLayout(coloredRoundedPanel1);
+        coloredRoundedPanel1.setLayout(coloredRoundedPanel1Layout);
+        coloredRoundedPanel1Layout.setHorizontalGroup(
+            coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                    .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        coloredRoundedPanel1Layout.setVerticalGroup(
+            coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel5);
+        jPanel4.add(coloredRoundedPanel1);
 
         jPanel8.setBackground(new java.awt.Color(238, 238, 238));
         jPanel8.setPreferredSize(new java.awt.Dimension(130, 130));
@@ -274,7 +277,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 165, Short.MAX_VALUE))
+                .addGap(0, 183, Short.MAX_VALUE))
         );
 
         jPanel28.add(jPanel29);
@@ -298,7 +301,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 165, Short.MAX_VALUE))
+                .addGap(0, 183, Short.MAX_VALUE))
         );
 
         jPanel28.add(jPanel30);
@@ -328,17 +331,6 @@ public class dashboard_menu extends javax.swing.JPanel {
         );
 
         jPanel31.add(jPanel32);
-
-        coloredRoundedPanel2.setBackground(new java.awt.Color(51, 51, 255));
-        coloredRoundedPanel2.setOpaque(false);
-        coloredRoundedPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 13));
-
-        jLabel1.setBackground(new java.awt.Color(250, 250, 250));
-        jLabel1.setForeground(new java.awt.Color(250, 250, 250));
-        jLabel1.setText("User References Statistics");
-        coloredRoundedPanel2.add(jLabel1);
-
-        jPanel31.add(coloredRoundedPanel2);
 
         jPanel35.setBackground(new java.awt.Color(238, 238, 238));
 
@@ -422,20 +414,18 @@ public class dashboard_menu extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activeuserstatslabel;
     private javax.swing.JLabel borrowedbookslabel;
-    private libratech.design.ColoredRoundedPanel coloredRoundedPanel2;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel1;
     private javax.swing.JLabel damagedbookslabel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -443,6 +433,8 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
@@ -455,9 +447,7 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lostbookslabel;
@@ -469,7 +459,8 @@ public class dashboard_menu extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 public void initFont() {
         jLabel2.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        borrowedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        jLabel4.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        borrowedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         lostbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         damagedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         returnedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
@@ -478,7 +469,8 @@ public void initFont() {
         userreferencesstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         activeuserstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         userstatisticslabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        //inshelflabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+       
 }
 
 

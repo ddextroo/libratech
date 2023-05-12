@@ -177,7 +177,6 @@ public class books_menu extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -312,19 +311,6 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("Damaged", jPanel7);
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1299, Short.MAX_VALUE)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
-        );
-
-        materialTabbed1.addTab("Returned", jPanel10);
-
         jPanel9.add(materialTabbed1, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
@@ -353,7 +339,6 @@ public class books_menu extends javax.swing.JPanel {
     public libratech.books.inshelf.InshelfTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
