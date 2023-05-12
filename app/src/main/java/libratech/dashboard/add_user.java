@@ -50,28 +50,28 @@ public class add_user extends javax.swing.JPanel {
         adduserlabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         fullnamelabel = new javax.swing.JLabel();
-        jPanel6 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel6 = new RoundedPanel(12, new Color(250,250,250,0));
         fullname = new javax.swing.JTextField();
         idnolabel = new javax.swing.JLabel();
-        jPanel7 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel7 = new RoundedPanel(12, new Color(250,250,250,0));
         idno = new javax.swing.JTextField();
-        jPanel8 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel8 = new RoundedPanel(12, new Color(250,250,250,0));
         dateofbirth = new javax.swing.JTextField();
         dateofbirthlabel = new javax.swing.JLabel();
         emaillabel = new javax.swing.JLabel();
-        jPanel9 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel9 = new RoundedPanel(12, new Color(250,250,250,0));
         email = new javax.swing.JTextField();
-        jPanel10 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel10 = new RoundedPanel(12, new Color(250,250,250,0));
         sex = new javax.swing.JTextField();
         coursegradelabel = new javax.swing.JLabel();
         contactnumberlabel = new javax.swing.JLabel();
-        jPanel12 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel12 = new RoundedPanel(12, new Color(250,250,250,0));
         coursegrade = new javax.swing.JTextField();
         addresslabel = new javax.swing.JLabel();
-        jPanel13 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel13 = new RoundedPanel(12, new Color(250,250,250,0));
         phone = new javax.swing.JTextField();
         sexlabel = new javax.swing.JLabel();
-        jPanel14 = new RoundedPanel(12, new Color(250,250,250));
+        jPanel14 = new RoundedPanel(12, new Color(250,250,250,0));
         address = new javax.swing.JTextField();
         addbutton = new libratech.design.MyButtonborderless();
         cancelbutton = new libratech.design.MyButtonborder();
@@ -89,7 +89,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
         jPanel6.setOpaque(false);
 
-        fullname.setBackground(new java.awt.Color(250, 250, 250));
+        fullname.setBackground(new java.awt.Color(250, 250, 250,0));
         fullname.setBorder(null);
         fullname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +129,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel7.setBackground(new java.awt.Color(0, 0, 0));
         jPanel7.setOpaque(false);
 
-        idno.setBackground(new java.awt.Color(250, 250, 250));
+        idno.setBackground(new java.awt.Color(250, 250, 250,0));
         idno.setBorder(null);
         idno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +162,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel8.setBackground(new java.awt.Color(0, 0, 0));
         jPanel8.setOpaque(false);
 
-        dateofbirth.setBackground(new java.awt.Color(250, 250, 250));
+        dateofbirth.setBackground(new java.awt.Color(250, 250, 250,0));
         dateofbirth.setBorder(null);
         dateofbirth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,7 +198,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(0, 0, 0));
         jPanel9.setOpaque(false);
 
-        email.setBackground(new java.awt.Color(250, 250, 250));
+        email.setBackground(new java.awt.Color(250, 250, 250,0));
         email.setBorder(null);
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,7 +231,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(0, 0, 0));
         jPanel10.setOpaque(false);
 
-        sex.setBackground(new java.awt.Color(250, 250, 250));
+        sex.setBackground(new java.awt.Color(250, 250, 250,0));
         sex.setBorder(null);
         sex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,7 +272,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel12.setBackground(new java.awt.Color(0, 0, 0));
         jPanel12.setOpaque(false);
 
-        coursegrade.setBackground(new java.awt.Color(250, 250, 250));
+        coursegrade.setBackground(new java.awt.Color(250, 250, 250,0));
         coursegrade.setBorder(null);
         coursegrade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +309,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel13.setBackground(new java.awt.Color(0, 0, 0));
         jPanel13.setOpaque(false);
 
-        phone.setBackground(new java.awt.Color(250, 250, 250));
+        phone.setBackground(new java.awt.Color(250, 250, 250,0));
         phone.setBorder(null);
         phone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,7 +346,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
         jPanel14.setOpaque(false);
 
-        address.setBackground(new java.awt.Color(250, 250, 250));
+        address.setBackground(new java.awt.Color(250, 250, 250,0));
         address.setBorder(null);
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

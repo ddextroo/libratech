@@ -1,5 +1,11 @@
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -7,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -39,6 +46,10 @@ public class home extends javax.swing.JFrame {
     user_menu user_menu = new user_menu();
     settings_menu setting_menu = new settings_menu();
     private String uid;
+    private ChildEventListener accinfo;
+    private final String path = "users/";
+    private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
+    String durl = "";
 
     public home() {
         initComponents();
@@ -65,7 +76,85 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
-        det();
+
+        accinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                System.out.println(_childKey);
+                if (_childKey.equals(uid)) {
+                    school_n.setText(_childValue.get("school_name").toString());
+                    idnum.setText(_childValue.get("school_id").toString());
+                    durl = _childValue.get("url").toString();
+
+                    Timer timer = new Timer(500, e -> {
+                        try {
+                            GlassPanePopup.showPopup(new loading());
+                            URL url1 = new URL(durl);
+                            BufferedImage image1 = ImageIO.read(url1);
+                            ImageIcon icon = new ImageIcon(image1);
+                            imageAvatar1.setIcon(icon);
+                            GlassPanePopup.closePopupLast();
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();  
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.equals(uid)) {
+                    school_n.setText(_childValue.get("school_name").toString());
+                    idnum.setText(_childValue.get("school_id").toString());
+                    durl = _childValue.get("url").toString();
+                    
+                    Timer timer = new Timer(500, e -> {
+                        try {
+                            GlassPanePopup.showPopup(new loading());
+                            URL url1 = new URL(durl);
+                            BufferedImage image1 = ImageIO.read(url1);
+                            ImageIcon icon = new ImageIcon(image1);
+                            imageAvatar1.setIcon(icon);
+                            GlassPanePopup.closePopupLast();
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        acc.addChildEventListener(accinfo);
 
     }
 
@@ -73,26 +162,6 @@ public class home extends javax.swing.JFrame {
         this.uid = text;
     }
 
-    public void det() {
-        Timer timer = new Timer(500, e -> {
-            listener.addChildListener(uid, (String school_name, String school_id, String url) -> {
-                try {
-                    GlassPanePopup.showPopup(new loading());
-                    school_n.setText(school_name);
-                    idnum.setText(school_id);
-                    URL url1 = new URL(url);
-                    BufferedImage image1 = ImageIO.read(url1);
-                    ImageIcon icon = new ImageIcon(image1);
-                    imageAvatar1.setIcon(icon);
-                    GlassPanePopup.closePopupLast();
-                } catch (IOException ex) {
-                    Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-        });
-        timer.setRepeats(false);
-        timer.start();
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
