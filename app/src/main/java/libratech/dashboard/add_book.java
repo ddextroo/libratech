@@ -732,7 +732,7 @@ public class add_book extends javax.swing.JPanel {
             booktitle.setText(text);
         }
 
-        if (text.length() > 24) {
+        if (text.length() > 100) {
             str = text.substring(0, 24);
             booktitle.setText("");
         }
