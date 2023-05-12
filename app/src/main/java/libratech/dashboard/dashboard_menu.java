@@ -21,7 +21,7 @@ public class dashboard_menu extends javax.swing.JPanel {
     public dashboard_menu() {
         initComponents();
         initFont();
-        
+
     }
 
     /**
@@ -42,41 +42,35 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel15 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         coloredRoundedPanel1 = new libratech.design.ColoredRoundedPanel();
-        jPanel22 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
-        borrowedbookslabel = new javax.swing.JLabel();
+        jPanel22 = new RoundedPanelBorderless(13, new Color(4,28,52, 0));
+        inshelflabel = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
+        inshelf = new javax.swing.JLabel();
+        coloredRoundedPanel2 = new libratech.design.ColoredRoundedPanel();
+        jPanel24 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
+        borrowedbookslabel = new javax.swing.JLabel();
+        jPanel33 = new javax.swing.JPanel();
+        borrowedbooks = new javax.swing.JLabel();
+        coloredRoundedPanel3 = new libratech.design.ColoredRoundedPanel();
+        jPanel34 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
+        overduebookslabel = new javax.swing.JLabel();
+        jPanel37 = new javax.swing.JPanel();
+        overduebooks = new javax.swing.JLabel();
+        coloredRoundedPanel4 = new libratech.design.ColoredRoundedPanel();
+        jPanel38 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
         lostbookslabel = new javax.swing.JLabel();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        damagedbookslabel = new javax.swing.JLabel();
-        jPanel17 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        returnedbookslabel = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel28 = new javax.swing.JPanel();
-        jPanel29 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        overdueuserstatslabel = new javax.swing.JLabel();
-        jPanel30 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        userviolationstatslabel = new javax.swing.JLabel();
-        jPanel31 = new javax.swing.JPanel();
-        jPanel32 = new javax.swing.JPanel();
-        jPanel25 = new javax.swing.JPanel();
-        userreferencesstatslabel = new javax.swing.JLabel();
+        jPanel39 = new javax.swing.JPanel();
+        lostbooks = new javax.swing.JLabel();
+        coloredRoundedPanel5 = new libratech.design.ColoredRoundedPanel();
+        jPanel25 = new RoundedPanelBorderless(13, new Color(4,28,52,0));
+        borrowedbookslabel5 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
-        jPanel26 = new javax.swing.JPanel();
-        activeuserstatslabel = new javax.swing.JLabel();
-        jPanel36 = new javax.swing.JPanel();
-        userstatisticslabel = new javax.swing.JLabel();
+        damagedbooks = new javax.swing.JLabel();
+        jPanel31 = new javax.swing.JPanel();
+        coloredRoundedPanel6 = new libratech.design.ColoredRoundedPanel();
+        jPanel29 = new RoundedPanelBorderless(13, new Color(4,28,52));
+        borrowedbookslabel6 = new javax.swing.JLabel();
+        jPanel42 = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -116,19 +110,19 @@ public class dashboard_menu extends javax.swing.JPanel {
 
         coloredRoundedPanel1.setBackground(new java.awt.Color(238, 238, 238));
 
-        jPanel22.setBackground(new java.awt.Color(4, 28, 52, 0));
+        jPanel22.setBackground(new java.awt.Color(4, 28, 52));
         jPanel22.setOpaque(false);
 
-        borrowedbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        borrowedbookslabel.setForeground(new java.awt.Color(250, 250, 250));
-        borrowedbookslabel.setText("Borrowed Books");
-        jPanel22.add(borrowedbookslabel);
+        inshelflabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        inshelflabel.setForeground(new java.awt.Color(250, 250, 250));
+        inshelflabel.setText("In-Shelf");
+        jPanel22.add(inshelflabel);
 
         jPanel23.setBackground(new java.awt.Color(238, 238, 238));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel4.setText("#");
-        jPanel23.add(jLabel4);
+        inshelf.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        inshelf.setText("#");
+        jPanel23.add(inshelf);
 
         javax.swing.GroupLayout coloredRoundedPanel1Layout = new javax.swing.GroupLayout(coloredRoundedPanel1);
         coloredRoundedPanel1.setLayout(coloredRoundedPanel1Layout);
@@ -137,229 +131,216 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                    .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                    .addComponent(jPanel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         coloredRoundedPanel1Layout.setVerticalGroup(
             coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coloredRoundedPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addContainerGap()
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jPanel4.add(coloredRoundedPanel1);
 
-        jPanel8.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel8.setPreferredSize(new java.awt.Dimension(130, 130));
+        coloredRoundedPanel2.setBackground(new java.awt.Color(238, 238, 238));
 
-        jPanel9.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel24.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel24.setOpaque(false);
+
+        borrowedbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        borrowedbookslabel.setForeground(new java.awt.Color(250, 250, 250));
+        borrowedbookslabel.setText("Borrowed Books");
+        jPanel24.add(borrowedbookslabel);
+
+        jPanel33.setBackground(new java.awt.Color(238, 238, 238));
+
+        borrowedbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        borrowedbooks.setText("#");
+        jPanel33.add(borrowedbooks);
+
+        javax.swing.GroupLayout coloredRoundedPanel2Layout = new javax.swing.GroupLayout(coloredRoundedPanel2);
+        coloredRoundedPanel2.setLayout(coloredRoundedPanel2Layout);
+        coloredRoundedPanel2Layout.setHorizontalGroup(
+            coloredRoundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        coloredRoundedPanel2Layout.setVerticalGroup(
+            coloredRoundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        jPanel4.add(coloredRoundedPanel2);
+
+        coloredRoundedPanel3.setBackground(new java.awt.Color(238, 238, 238));
+        coloredRoundedPanel3.setOpaque(false);
+
+        jPanel34.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel34.setOpaque(false);
+
+        overduebookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        overduebookslabel.setForeground(new java.awt.Color(250, 250, 250));
+        overduebookslabel.setText("Overdue Books");
+        jPanel34.add(overduebookslabel);
+
+        jPanel37.setBackground(new java.awt.Color(238, 238, 238));
+
+        overduebooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        overduebooks.setText("#");
+        jPanel37.add(overduebooks);
+
+        javax.swing.GroupLayout coloredRoundedPanel3Layout = new javax.swing.GroupLayout(coloredRoundedPanel3);
+        coloredRoundedPanel3.setLayout(coloredRoundedPanel3Layout);
+        coloredRoundedPanel3Layout.setHorizontalGroup(
+            coloredRoundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        coloredRoundedPanel3Layout.setVerticalGroup(
+            coloredRoundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        jPanel4.add(coloredRoundedPanel3);
+
+        coloredRoundedPanel4.setBackground(new java.awt.Color(238, 238, 238));
+
+        jPanel38.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel38.setOpaque(false);
 
         lostbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lostbookslabel.setForeground(new java.awt.Color(250, 250, 250));
-        lostbookslabel.setText("LOST BOOKS");
-        jPanel9.add(lostbookslabel);
+        lostbookslabel.setText("Lost Books");
+        jPanel38.add(lostbookslabel);
 
-        jPanel16.setBackground(new java.awt.Color(238, 238, 238));
+        jPanel39.setBackground(new java.awt.Color(238, 238, 238));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel10.setText("#");
-        jPanel16.add(jLabel10);
+        lostbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lostbooks.setText("#");
+        jPanel39.add(lostbooks);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout coloredRoundedPanel4Layout = new javax.swing.GroupLayout(coloredRoundedPanel4);
+        coloredRoundedPanel4.setLayout(coloredRoundedPanel4Layout);
+        coloredRoundedPanel4Layout.setHorizontalGroup(
+            coloredRoundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
-
-        jPanel4.add(jPanel8);
-
-        jPanel10.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel10.setPreferredSize(new java.awt.Dimension(130, 130));
-
-        jPanel11.setBackground(new java.awt.Color(4, 28, 52));
-
-        damagedbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        damagedbookslabel.setForeground(new java.awt.Color(250, 250, 250));
-        damagedbookslabel.setText("DAMAGED BOOKS");
-        jPanel11.add(damagedbookslabel);
-
-        jPanel17.setBackground(new java.awt.Color(238, 238, 238));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel11.setText("#");
-        jPanel17.add(jLabel11);
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-            .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+        coloredRoundedPanel4Layout.setVerticalGroup(
+            coloredRoundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel10);
+        jPanel4.add(coloredRoundedPanel4);
 
-        jPanel12.setBackground(new java.awt.Color(238, 238, 238));
-        jPanel12.setPreferredSize(new java.awt.Dimension(130, 130));
-
-        jPanel13.setBackground(new java.awt.Color(4, 28, 52));
-
-        returnedbookslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        returnedbookslabel.setForeground(new java.awt.Color(250, 250, 250));
-        returnedbookslabel.setText("RETURNED BOOKS");
-        jPanel13.add(returnedbookslabel);
-
-        jPanel18.setBackground(new java.awt.Color(238, 238, 238));
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel12.setText("#");
-        jPanel18.add(jLabel12);
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
-        );
-
-        jPanel4.add(jPanel12);
-
-        jPanel15.add(jPanel4);
-
-        jPanel28.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        jPanel29.setBackground(new java.awt.Color(238, 238, 238));
-
-        jPanel19.setBackground(new java.awt.Color(4, 28, 52));
-
-        overdueuserstatslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        overdueuserstatslabel.setForeground(new java.awt.Color(250, 250, 250));
-        overdueuserstatslabel.setText("Overdue User Statistics");
-        jPanel19.add(overdueuserstatslabel);
-
-        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
-        jPanel29.setLayout(jPanel29Layout);
-        jPanel29Layout.setHorizontalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel29Layout.setVerticalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel29Layout.createSequentialGroup()
-                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 183, Short.MAX_VALUE))
-        );
-
-        jPanel28.add(jPanel29);
-
-        jPanel30.setBackground(new java.awt.Color(238, 238, 238));
-
-        jPanel20.setBackground(new java.awt.Color(4, 28, 52));
-
-        userviolationstatslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        userviolationstatslabel.setForeground(new java.awt.Color(250, 250, 250));
-        userviolationstatslabel.setText("User Violation Statistics");
-        jPanel20.add(userviolationstatslabel);
-
-        javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
-        jPanel30.setLayout(jPanel30Layout);
-        jPanel30Layout.setHorizontalGroup(
-            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel30Layout.setVerticalGroup(
-            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel30Layout.createSequentialGroup()
-                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 183, Short.MAX_VALUE))
-        );
-
-        jPanel28.add(jPanel30);
-
-        jPanel31.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        jPanel32.setBackground(new java.awt.Color(238, 238, 238));
+        coloredRoundedPanel5.setBackground(new java.awt.Color(238, 238, 238));
 
         jPanel25.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel25.setOpaque(false);
 
-        userreferencesstatslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        userreferencesstatslabel.setForeground(new java.awt.Color(250, 250, 250));
-        userreferencesstatslabel.setText("User References Statistics");
-        jPanel25.add(userreferencesstatslabel);
-
-        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
-        jPanel32.setLayout(jPanel32Layout);
-        jPanel32Layout.setHorizontalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel32Layout.setVerticalGroup(
-            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel32Layout.createSequentialGroup()
-                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 165, Short.MAX_VALUE))
-        );
-
-        jPanel31.add(jPanel32);
+        borrowedbookslabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        borrowedbookslabel5.setForeground(new java.awt.Color(250, 250, 250));
+        borrowedbookslabel5.setText("Damaged Books");
+        jPanel25.add(borrowedbookslabel5);
 
         jPanel35.setBackground(new java.awt.Color(238, 238, 238));
 
-        jPanel26.setBackground(new java.awt.Color(4, 28, 52));
+        damagedbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        damagedbooks.setText("#");
+        jPanel35.add(damagedbooks);
 
-        activeuserstatslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        activeuserstatslabel.setForeground(new java.awt.Color(250, 250, 250));
-        activeuserstatslabel.setText("Active Users Statistics");
-        jPanel26.add(activeuserstatslabel);
-
-        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
-        jPanel35.setLayout(jPanel35Layout);
-        jPanel35Layout.setHorizontalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout coloredRoundedPanel5Layout = new javax.swing.GroupLayout(coloredRoundedPanel5);
+        coloredRoundedPanel5.setLayout(coloredRoundedPanel5Layout);
+        coloredRoundedPanel5Layout.setHorizontalGroup(
+            coloredRoundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel35Layout.setVerticalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel35Layout.createSequentialGroup()
-                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 165, Short.MAX_VALUE))
+        coloredRoundedPanel5Layout.setVerticalGroup(
+            coloredRoundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        jPanel31.add(jPanel35);
+        jPanel4.add(coloredRoundedPanel5);
 
-        userstatisticslabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        userstatisticslabel.setText("USER STATISTICS");
-        userstatisticslabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel36.add(userstatisticslabel);
+        jPanel15.add(jPanel4);
+
+        jPanel31.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+
+        coloredRoundedPanel6.setBackground(new java.awt.Color(238, 238, 238));
+
+        jPanel29.setBackground(new java.awt.Color(4, 28, 52));
+
+        borrowedbookslabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        borrowedbookslabel6.setForeground(new java.awt.Color(250, 250, 250));
+        borrowedbookslabel6.setText("User Statistics");
+        jPanel29.add(borrowedbookslabel6);
+
+        jPanel42.setBackground(new java.awt.Color(238, 238, 238));
+
+        javax.swing.GroupLayout coloredRoundedPanel6Layout = new javax.swing.GroupLayout(coloredRoundedPanel6);
+        coloredRoundedPanel6.setLayout(coloredRoundedPanel6Layout);
+        coloredRoundedPanel6Layout.setHorizontalGroup(
+            coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel42, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                    .addComponent(jPanel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        coloredRoundedPanel6Layout.setVerticalGroup(
+            coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coloredRoundedPanel6Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(104, 104, 104)
+                .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
+        );
+
+        jPanel31.add(coloredRoundedPanel6);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -369,10 +350,8 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
-                    .addComponent(jPanel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -381,13 +360,9 @@ public class dashboard_menu extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -404,7 +379,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -412,66 +387,58 @@ public class dashboard_menu extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel activeuserstatslabel;
+    private javax.swing.JLabel borrowedbooks;
     private javax.swing.JLabel borrowedbookslabel;
+    private javax.swing.JLabel borrowedbookslabel5;
+    private javax.swing.JLabel borrowedbookslabel6;
     private libratech.design.ColoredRoundedPanel coloredRoundedPanel1;
-    private javax.swing.JLabel damagedbookslabel;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel2;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel3;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel4;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel5;
+    private libratech.design.ColoredRoundedPanel coloredRoundedPanel6;
+    private javax.swing.JLabel damagedbooks;
+    private javax.swing.JLabel inshelf;
+    private javax.swing.JLabel inshelflabel;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
-    private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
-    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
-    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lostbooks;
     private javax.swing.JLabel lostbookslabel;
-    private javax.swing.JLabel overdueuserstatslabel;
-    private javax.swing.JLabel returnedbookslabel;
-    private javax.swing.JLabel userreferencesstatslabel;
-    private javax.swing.JLabel userstatisticslabel;
-    private javax.swing.JLabel userviolationstatslabel;
+    private javax.swing.JLabel overduebooks;
+    private javax.swing.JLabel overduebookslabel;
     // End of variables declaration//GEN-END:variables
 public void initFont() {
         jLabel2.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        jLabel4.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        inshelf.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        inshelflabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        lostbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        borrowedbookslabel5.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        overduebookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        borrowedbookslabel6.setFont(new Font("Poppins Regular", Font.BOLD, 20));
         borrowedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-        lostbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        damagedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        returnedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        overdueuserstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        userviolationstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        userreferencesstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        activeuserstatslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        userstatisticslabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        //inshelflabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-       
-}
-
+        borrowedbooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        overduebooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        lostbooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        damagedbooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+    }
 
 }
