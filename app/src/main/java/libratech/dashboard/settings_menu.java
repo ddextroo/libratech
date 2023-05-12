@@ -4,6 +4,9 @@
  */
 package libratech.dashboard;
 
+import java.awt.Color;
+import libratech.design.RoundedPanel;
+
 /**
  *
  * @author HBUSER
@@ -27,50 +30,163 @@ public class settings_menu extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        myButtonborderless1 = new libratech.design.MyButtonborderless();
+        jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new RoundedPanel(12, new Color(255,255,255));
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
 
         setBackground(new java.awt.Color(250, 250, 250));
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel1.setBackground(new java.awt.Color(224, 224, 224));
+        jPanel1.setLayout(new java.awt.BorderLayout(30, 10));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+        jPanel8.setBackground(new java.awt.Color(224, 224, 224));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(58, 58, 58));
+        jLabel1.setText("Books");
+
+        myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
+        myButtonborderless1.setText("Add book");
+        myButtonborderless1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myButtonborderless1MouseClicked(evt);
+            }
+        });
+        myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 380, Short.MAX_VALUE)
+                .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 251, Short.MAX_VALUE)
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        materialTabbed1.addTab("tab1", jPanel2);
+        jPanel1.add(jPanel8, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(materialTabbed1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addContainerGap())
+        jPanel9.setBackground(new java.awt.Color(224, 224, 224));
+        jPanel9.setLayout(new java.awt.BorderLayout());
+
+        materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        materialTabbed1.addTab("In-Shelf", jPanel2);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(materialTabbed1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                .addContainerGap())
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
+
+        materialTabbed1.addTab("Borrowed", jPanel4);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 621, Short.MAX_VALUE)
+        );
+
+        materialTabbed1.addTab("Overdue", jPanel5);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 621, Short.MAX_VALUE)
+        );
+
+        materialTabbed1.addTab("Lost", jPanel6);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 621, Short.MAX_VALUE)
+        );
+
+        materialTabbed1.addTab("Damaged", jPanel7);
+
+        jPanel9.add(materialTabbed1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
+        jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
+        jPanel1.add(filler2, java.awt.BorderLayout.LINE_END);
+        jPanel1.add(filler3, java.awt.BorderLayout.PAGE_END);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void myButtonborderless1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButtonborderless1MouseClicked
+        // TODO add your handling code here:
+        //GlassPanePopup.showPopup(new add_book());
+    }//GEN-LAST:event_myButtonborderless1MouseClicked
+
+    private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButtonborderless1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private libratech.design.MaterialTabbed materialTabbed1;
+    private libratech.design.MyButtonborderless myButtonborderless1;
     // End of variables declaration//GEN-END:variables
 }
