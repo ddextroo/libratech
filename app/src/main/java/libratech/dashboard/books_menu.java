@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
@@ -20,6 +21,7 @@ import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
+import libratech.models.pushValue;
 import libratech.util.firebaseInit;
 
 /**
@@ -31,6 +33,10 @@ public class books_menu extends javax.swing.JPanel {
     private List<Book> books;
     private DatabaseReference dbRef;
     DefaultTableModel mod;
+    private String path = "analytics/" + new getUID().getUid() + "/";
+    private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
+    private HashMap<String, Object> m;
+    private pushValue v;
 
     public books_menu() {
         initComponents();
@@ -39,8 +45,9 @@ public class books_menu extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
         retrieveData();
-        comboBoxSuggestion2.setEditable(true);
+        comboBoxSuggestion2.setEditable(false);
         comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Male", "Female", "Undecided"}));
+        comboBoxSuggestion2.setFocusable(false);
 
         comboBoxSuggestion1.setEditable(true);
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Canary Islands", "Cape Verde Islands", "Cayman islands", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo (Zaire)", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Federated States of Micronesia", "Fiji", "Finland", "France", "French Guyana", "French Polynesia", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Ivory Coast/C�te d�Ivoire", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (Burma)", "Namibia", "Nauru", "Nepal", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of Ireland", "Republic of San Marino", "Romania", "Russia", "Rwanda", "Samoa", "Sao Tome", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St. Kitts and Nevis", "St. Lucia", "St. Vincent and The Grenadines", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "The Netherlands", "The Vatican", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Wales", "West Bank and Gaza", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"}));
@@ -63,46 +70,51 @@ public class books_menu extends javax.swing.JPanel {
             }
         };
 
-        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf/" + new getUID().getUid());
+        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    String key = child.child("key").getValue(String.class);
-                    String bookCoverUrl = child.child("cover").getValue(String.class);
-                    String bookTitle = child.child("booktitle").getValue(String.class);
-                    String publisher = child.child("publisher").getValue(String.class);
-                    String genre = child.child("genre").getValue(String.class);
-                    String author = child.child("bookauthor").getValue(String.class);
-                    String dewey = child.child("dewey").getValue(String.class);
-                    String quantity = child.child("quantity").getValue(String.class);
-                    String deck = child.child("deck").getValue(String.class);
-                    String shelf = child.child("shelf").getValue(String.class);
-                    String date = child.child("date").getValue(String.class);
-                    String status = child.child("status").getValue(String.class);
+                    if ("Available".equals(child.child("status").getValue(String.class))) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookCoverUrl = child.child("cover").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String genre = child.child("genre").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        String dewey = child.child("dewey").getValue(String.class);
+                        String quantity = child.child("quantity").getValue(String.class);
+                        String deck = child.child("deck").getValue(String.class);
+                        String shelf = child.child("shelf").getValue(String.class);
+                        String date = child.child("date").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
 
-                    TableStatus statust = new TableStatus();
+                        TableStatus statust = new TableStatus();
 
-                    if (status.equals("Available")) {
-                        statust.setType(StatusType.Available);
-                    } else if (status.equals("Borrowed")) {
-                        statust.setType(StatusType.Borrowed);
-                    } else if (status.equals("Lost")) {
-                        statust.setType(StatusType.Lost);
-                    } else if (status.equals("Damaged")) {
-                        statust.setType(StatusType.Damaged);
-                    } else {
-                        statust.setType(StatusType.Returned);
+                        if (status.equals("Available")) {
+                            statust.setType(StatusType.Available);
+                        } else if (status.equals("Borrowed")) {
+                            statust.setType(StatusType.Borrowed);
+                        } else if (status.equals("Lost")) {
+                            statust.setType(StatusType.Lost);
+                        } else if (status.equals("Damaged")) {
+                            statust.setType(StatusType.Damaged);
+                        } else {
+                            statust.setType(StatusType.Returned);
+                        }
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, statust.getType(), key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        mod.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
                     }
-                    inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, statust.getType(), key).toRowTable(eventAction));
-                    new Book().setChildKey(key);
-                    mod.fireTableDataChanged();
-                    inshelfTable1.repaint();
-                    inshelfTable1.revalidate();
-
                 }
+                v = new pushValue("inshelf");
+                m = new HashMap<>();
+                m.put("total", mod.getRowCount());
+                v.pushData(path, m);
 
             }
 

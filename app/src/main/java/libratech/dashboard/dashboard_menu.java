@@ -4,10 +4,25 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
+import libratech.models.getUID;
 
 /**
  *
@@ -15,12 +30,54 @@ import libratech.design.RoundedPanelBorderless;
  */
 public class dashboard_menu extends javax.swing.JPanel {
 
-    /**
-     * Creates new form dashboard_menu
-     */
+    private ChildEventListener inshelf_total;
+
+    private String inshelf_path = "analytics/" + new getUID().getUid() + "/";
+    private DatabaseReference inshelf_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
+
     public dashboard_menu() {
         initComponents();
         initFont();
+
+        inshelf_total = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (_childKey.contains("inshelf")) {
+                    inshelf.setText(_childValue.get("total").toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.contains("inshelf")) {
+                    inshelf.setText(_childValue.get("total").toString());
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        inshelf_db.addChildEventListener(inshelf_total);
 
     }
 

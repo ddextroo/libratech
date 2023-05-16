@@ -33,7 +33,6 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import libratech.auth.login;
 import libratech.auth.signup;
-import static libratech.auth.signup.validateGmail;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
@@ -490,9 +489,9 @@ public class add_user1 extends javax.swing.JPanel {
                 .addGap(105, 105, 105)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fullnamelabel)
-                            .addComponent(coursegradelabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(coursegradelabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(fullnamelabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

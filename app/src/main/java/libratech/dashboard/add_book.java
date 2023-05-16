@@ -36,7 +36,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import libratech.auth.login;
 import libratech.auth.signup;
-import static libratech.auth.signup.validateGmail;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
@@ -672,7 +671,7 @@ public class add_book extends javax.swing.JPanel {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
             String key = databaseReference.push().getKey();
             String uidpath = new getUID().getUid();
 
@@ -691,7 +690,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
-            v.pushData("books/inshelf/" + uidpath, m);
+            v.pushData("books/" + uidpath, m);
             GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed

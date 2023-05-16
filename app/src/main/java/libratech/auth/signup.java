@@ -43,6 +43,8 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
+import libratech.models.EmailValidation;
+import libratech.models.SchoolInfo;
 
 /**
  *
@@ -57,6 +59,8 @@ public class signup extends javax.swing.JFrame {
     int posX = 0, posY = 0;
     private String localFilePath;
     private String remoteFilePath;
+    SchoolInfo info = new SchoolInfo();
+    EmailValidation validate = new EmailValidation();
 
     public signup() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
@@ -80,13 +84,16 @@ public class signup extends javax.swing.JFrame {
         initComponents();
         initFont();
         schoolname.setEditable(true);
-        schoolname.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Canary Islands", "Cape Verde Islands", "Cayman islands", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo (Zaire)", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Federated States of Micronesia", "Fiji", "Finland", "France", "French Guyana", "French Polynesia", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "CTU - Tipolo Campus" ,"Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Ivory Coast/C�te d�Ivoire", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (Burma)", "Namibia", "Nauru", "Nepal", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of Ireland", "Republic of San Marino", "Romania", "Russia", "Rwanda", "Samoa", "Sao Tome", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St. Kitts and Nevis", "St. Lucia", "St. Vincent and The Grenadines", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "The Netherlands", "The Vatican", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Wales", "West Bank and Gaza", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"}));
-        schoolname.getEditor().getEditorComponent().setBackground(new Color(245,245,245));
-        
+        schoolname.setModel(new javax.swing.DefaultComboBoxModel(info.getSchoolName()));
+        schoolname.getEditor().getEditorComponent().setBackground(new Color(245, 245, 245));
+        schoolid.setEditable(false);
+        //schoolname.setFocusable(false);
+
         GlassPanePopup.install(this);
         new firebaseInit().initFirebase();
         scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
+        schoolid.setText(String.format("%d", info.getSchoolID()[schoolname.getSelectedIndex()]));
     }
 
     @SuppressWarnings("unchecked")
@@ -112,14 +119,14 @@ public class signup extends javax.swing.JFrame {
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
         schoolidlabel = new javax.swing.JLabel();
-        schoolnamelabel = new javax.swing.JLabel();
-        jPanel12 = new RoundedPanel(12, new Color(245,245,245));
-        schoolname = new libratech.design.ComboBoxSuggestion();
         confirmpasslabel = new javax.swing.JLabel();
         jPanel13 = new RoundedPanel(12, new Color(245,245,245));
         confirmpassword = new javax.swing.JPasswordField();
         jPanel14 = new RoundedPanel(12, new Color(245,245,245));
         schoolid = new javax.swing.JTextField();
+        schoolnamelabel = new javax.swing.JLabel();
+        jPanel12 = new RoundedPanel(12, new Color(245,245,245));
+        schoolname = new libratech.design.ComboBoxSuggestion();
         jPanel4 = new RoundedPanelBorderless(12, new Color(245, 245, 245));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -282,38 +289,7 @@ public class signup extends javax.swing.JFrame {
         schoolidlabel.setForeground(new java.awt.Color(51, 51, 51));
         schoolidlabel.setText("School ID Number");
         jPanel3.add(schoolidlabel);
-        schoolidlabel.setBounds(10, 0, 130, 16);
-
-        schoolnamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        schoolnamelabel.setForeground(new java.awt.Color(51, 51, 51));
-        schoolnamelabel.setText("School Name");
-        jPanel3.add(schoolnamelabel);
-        schoolnamelabel.setBounds(10, 60, 190, 20);
-
-        jPanel12.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel12.setOpaque(false);
-
-        schoolname.setPreferredSize(new java.awt.Dimension(291, 21));
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel3.add(jPanel12);
-        jPanel12.setBounds(10, 80, 310, 33);
+        schoolidlabel.setBounds(10, 60, 130, 16);
 
         confirmpasslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         confirmpasslabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -392,7 +368,43 @@ public class signup extends javax.swing.JFrame {
         );
 
         jPanel3.add(jPanel14);
-        jPanel14.setBounds(10, 23, 310, 33);
+        jPanel14.setBounds(10, 80, 310, 33);
+
+        schoolnamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        schoolnamelabel.setForeground(new java.awt.Color(51, 51, 51));
+        schoolnamelabel.setText("School Name");
+        jPanel3.add(schoolnamelabel);
+        schoolnamelabel.setBounds(10, 0, 190, 20);
+
+        jPanel12.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel12.setOpaque(false);
+
+        schoolname.setPreferredSize(new java.awt.Dimension(291, 21));
+        schoolname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schoolnameActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(jPanel12);
+        jPanel12.setBounds(10, 20, 310, 33);
 
         jPanel4.setOpaque(false);
         jPanel4.setBackground(new java.awt.Color(250, 250, 250));
@@ -598,44 +610,44 @@ public class signup extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             GlassPanePopup.closePopupLast();
         } else {
-            storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-            try {
-                downloadUrl = uploader.upload();
-                GlassPanePopup.showPopup(new loading());
-            } catch (IOException ex) {
-                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getSelectedItem().toString().equals("") || filepath.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
-        } else {
-            if (validateGmail(email_address)) {
-                if (conpassword.equals(password)) {
-                    try {
-                        auth auth = new auth(email_address, password);
-                        authenticated = auth.signUp(school_name, school_id, downloadUrl);
-
-                        if (authenticated) {
-                            login login = new login();
-                            login.setVisible(true);
-                            GlassPanePopup.closePopupLast();
-                            this.dispose();
+            if (email.getText().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getSelectedItem().toString().equals("") || filepath.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            } else {
+                if (validate.validate(email_address)) {
+                    if (conpassword.equals(password)) {
+                        storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+                        try {
+                            downloadUrl = uploader.upload();
+                            GlassPanePopup.showPopup(new loading());
+                        } catch (IOException ex) {
+                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (FirebaseAuthException ex) {
-                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                        try {
+                            auth auth = new auth(email_address, password);
+                            authenticated = auth.signUp(school_name, school_id, downloadUrl);
+
+                            if (authenticated) {
+                                login login = new login();
+                                login.setVisible(true);
+                                GlassPanePopup.closePopupLast();
+                                this.dispose();
+                            }
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (FirebaseAuthException ex) {
+                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        GlassPanePopup.closePopupLast();
+                        JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
                     }
                 } else {
                     GlassPanePopup.closePopupLast();
-                    JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
                 }
-            } else {
-                GlassPanePopup.closePopupLast();
-                JOptionPane.showMessageDialog(null, "Error: Invalid format", "Error", ERROR_MESSAGE);
             }
         }
+
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
 
     private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
@@ -660,6 +672,11 @@ public class signup extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_schoolidKeyTyped
+
+    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
+        // TODO add your handling code here:
+        schoolid.setText(String.format("%d", info.getSchoolID()[schoolname.getSelectedIndex()]));
+    }//GEN-LAST:event_schoolnameActionPerformed
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -779,20 +796,5 @@ public class signup extends javax.swing.JFrame {
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         confirmpasslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         confirmpassword.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-    }
-
-    public static boolean validateGmail(String email) {
-        if (email == null) {
-            return false;
-        }
-        // Check if the email is from Gmail
-//        if (!email.endsWith("@gmail.com")) {
-//            return false;
-//        }
-        // Check if the email has a valid format
-        String regex = "^[\\w-_.+]*[\\w-_.]@gmail\\.com$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }

@@ -37,7 +37,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import libratech.auth.login;
 import libratech.auth.signup;
-import static libratech.auth.signup.validateGmail;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
@@ -83,6 +82,11 @@ public class edit_book extends javax.swing.JPanel {
     private libratech.books.inshelf.InshelfTable inshelfTable1;
     String downloadUrl = "";
     boolean upload = false;
+
+    private String path1 = "analytics/" + new getUID().getUid() + "/";
+    private DatabaseReference analytics1 = FirebaseDatabase.getInstance().getReference(path);
+    private HashMap<String, Object> m1;
+    private pushValue t;
 
     public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1) {
         initComponents();
@@ -210,13 +214,14 @@ public class edit_book extends javax.swing.JPanel {
             }
         };
 
-        dbRef = FirebaseDatabase.getInstance().getReference("books/inshelf/" + new getUID().getUid());
+        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 model.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if ("Available".equals(child.child("status").getValue(String.class))) {
                     String key = child.child("key").getValue(String.class);
                     String bookTitle = child.child("booktitle").getValue(String.class);
                     String publisher = child.child("publisher").getValue(String.class);
@@ -244,9 +249,14 @@ public class edit_book extends javax.swing.JPanel {
                     new Book().setChildKey(key);
                     model.fireTableDataChanged();
                     inshelfTable1.repaint();
+                    }
 
                 }
-
+                
+                t = new pushValue("inshelf");
+                m1 = new HashMap<>();
+                m1.put("total", model.getRowCount());
+                t.pushData(path1, m1);
             }
 
             @Override
@@ -959,9 +969,9 @@ public class edit_book extends javax.swing.JPanel {
                     GlassPanePopup.showPopup(new loading());
                 } catch (IOException ex) {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            }
-            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
             String key = ck;
             String uidpath = new getUID().getUid();
 
@@ -980,7 +990,7 @@ public class edit_book extends javax.swing.JPanel {
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
-            v.pushData("books/inshelf/" + uidpath, m);
+            v.pushData("books/" + uidpath, m);
             GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_savechangesActionPerformed
