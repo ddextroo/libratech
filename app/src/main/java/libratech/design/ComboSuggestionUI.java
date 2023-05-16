@@ -7,6 +7,7 @@ package libratech.design;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -40,12 +41,12 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
         txt.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent fe) {
-                border.setColor(new Color(128, 189, 255));
+                border.setColor(new Color(128, 189, 255, 0));
             }
 
             @Override
             public void focusLost(FocusEvent fe) {
-                border.setColor(new Color(206, 212, 218));
+                border.setColor(new Color(206, 212, 218, 0));
             }
         });
         comboBox.addPopupMenuListener(new PopupMenuListener() {
@@ -65,9 +66,9 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
             }
         });
         AutoCompleteDecorator.decorate(comboBox);
-        txt.setSelectionColor(new Color(54, 189, 248));
+        txt.setSelectionColor(new Color(4, 28, 52));
         txt.setBorder(new EmptyBorder(0, 4, 0, 4));
-        comboBox.setBackground(Color.WHITE);
+        comboBox.setBackground(new Color(245,245,245));
         comboBox.setBorder(border);
     }
 
@@ -97,8 +98,9 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
                 if (bln) {
                     label.setOpaque(true);
                     label.setBackground(new Color(240, 240, 240));
-                    label.setForeground(new Color(17, 155, 215));
+                    label.setForeground(new Color(23,23,23));
                 }
+
                 return label;
             }
         };
@@ -112,7 +114,7 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
 
         public ComboSuggestionPopup(JComboBox combo) {
             super(combo);
-            setBorder(new Border(1));
+            setBorder(new Border(0));
         }
 
         @Override
@@ -175,15 +177,15 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
             this.color = color;
         }
 
-        private Color focusColor = new Color(128, 189, 255);
-        private Color color = new Color(206, 212, 218);
+        private Color focusColor = new Color(128, 189, 255, 0);
+        private Color color = new Color(206, 212, 218, 0);
 
         public Border(int border) {
             super(border, border, border, border);
         }
 
         public Border() {
-            this(5);
+            this(0);
         }
 
         @Override

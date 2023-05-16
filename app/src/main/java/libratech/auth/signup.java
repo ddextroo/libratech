@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.awt.Container;
 import libratech.dashboard.home;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -58,7 +59,6 @@ public class signup extends javax.swing.JFrame {
     private String remoteFilePath;
 
     public signup() {
-
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
 
@@ -79,6 +79,10 @@ public class signup extends javax.swing.JFrame {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
+        schoolname.setEditable(true);
+        schoolname.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Canary Islands", "Cape Verde Islands", "Cayman islands", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo (Zaire)", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Federated States of Micronesia", "Fiji", "Finland", "France", "French Guyana", "French Polynesia", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Israel", "Italy", "Ivory Coast/C�te d�Ivoire", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (Burma)", "Namibia", "Nauru", "Nepal", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Republic of Ireland", "Republic of San Marino", "Romania", "Russia", "Rwanda", "Samoa", "Sao Tome", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St. Kitts and Nevis", "St. Lucia", "St. Vincent and The Grenadines", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "The Netherlands", "The Vatican", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Wales", "West Bank and Gaza", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"}));
+        schoolname.getEditor().getEditorComponent().setBackground(new Color(245,245,245));
+        
         GlassPanePopup.install(this);
         new firebaseInit().initFirebase();
         scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
@@ -110,18 +114,18 @@ public class signup extends javax.swing.JFrame {
         schoolidlabel = new javax.swing.JLabel();
         schoolnamelabel = new javax.swing.JLabel();
         jPanel12 = new RoundedPanel(12, new Color(245,245,245));
-        schoolname = new javax.swing.JTextField();
+        schoolname = new libratech.design.ComboBoxSuggestion();
         confirmpasslabel = new javax.swing.JLabel();
         jPanel13 = new RoundedPanel(12, new Color(245,245,245));
         confirmpassword = new javax.swing.JPasswordField();
         jPanel14 = new RoundedPanel(12, new Color(245,245,245));
         schoolid = new javax.swing.JTextField();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(245, 245, 245));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel8 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
+        jPanel8 = new RoundedPanelBorderless(12, new Color(245, 245, 245));
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         filepath = new javax.swing.JLabel();
@@ -289,35 +293,23 @@ public class signup extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(0, 0, 0));
         jPanel12.setOpaque(false);
 
-        schoolname.setBackground(new java.awt.Color(245, 245, 245));
-        schoolname.setBorder(null);
-        schoolname.setOpaque(true);
-        schoolname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                schoolnameActionPerformed(evt);
-            }
-        });
-        schoolname.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                schoolnameKeyReleased(evt);
-            }
-        });
+        schoolname.setPreferredSize(new java.awt.Dimension(291, 21));
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+            .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(schoolname, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel12);
@@ -376,6 +368,9 @@ public class signup extends javax.swing.JFrame {
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 schoolidKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                schoolidKeyTyped(evt);
             }
         });
 
@@ -552,31 +547,6 @@ public class signup extends javax.swing.JFrame {
         setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jPanel8MouseClicked
 
-    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_schoolnameActionPerformed
-
-    private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
-        // TODO add your handling code here:
-        String text = schoolname.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolname.setText(text);
-        }
-
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
-            schoolname.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolname.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolnameKeyReleased
-
     private void confirmpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmpasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_confirmpasswordActionPerformed
@@ -608,22 +578,13 @@ public class signup extends javax.swing.JFrame {
 
     private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
         // TODO add your handling code here:
-        String value = schoolid.getText();
-        int l = value.length();
-        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
-            schoolid.setEditable(true);
-        } else {
-            schoolid.setEditable(false);
-            JOptionPane.showMessageDialog(rootPane, "Enter only numeric digits(0-9)", "Error", ERROR_MESSAGE);
-            schoolid.setEditable(true);
-        }
     }//GEN-LAST:event_schoolidKeyPressed
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.showPopup(new loading());
         String email_address = email.getText();
-        String school_name = schoolname.getText();
+        String school_name = schoolname.getSelectedItem().toString();
         String school_id = schoolid.getText();
         String file_path = filepath.getText();
         char[] passwordChars = pass.getPassword();
@@ -646,7 +607,7 @@ public class signup extends javax.swing.JFrame {
             }
         }
 
-        if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getText().equals("") || filepath.getText().equals("")) {
+        if (email.getText().toString().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getSelectedItem().toString().equals("") || filepath.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (validateGmail(email_address)) {
@@ -691,6 +652,14 @@ public class signup extends javax.swing.JFrame {
             filepath.setText(selectedFile.getAbsolutePath());
         }
     }//GEN-LAST:event_myButtonborder1ActionPerformed
+
+    private void schoolidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_schoolidKeyTyped
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -783,7 +752,7 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel pwdlabel;
     private javax.swing.JTextField schoolid;
     private javax.swing.JLabel schoolidlabel;
-    private javax.swing.JTextField schoolname;
+    private libratech.design.ComboBoxSuggestion schoolname;
     private javax.swing.JLabel schoolnamelabel;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
