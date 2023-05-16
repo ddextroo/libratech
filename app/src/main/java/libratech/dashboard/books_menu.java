@@ -85,8 +85,20 @@ public class books_menu extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
         retrieveData();
-    }
 
+        combobox1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{
+            "Item1", 
+            "Item2", 
+            "Item3", 
+            "Item1", 
+            "Item2", 
+            "Item3", 
+            "Item1", 
+            "Item2", 
+            "Item3"}));
+        combobox1.setSelectedIndex(-1);
+        combobox1.setLabeText("Combo Custom");
+    }
 
     private void retrieveData() {
         // Fetch data from Firebase and create table
@@ -178,6 +190,7 @@ public class books_menu extends javax.swing.JPanel {
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        combobox1 = new libratech.design.Combobox();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -312,15 +325,23 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("Damaged", jPanel7);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1299, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(831, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 621, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(combobox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(501, Short.MAX_VALUE))
         );
 
         materialTabbed1.addTab("Test", jPanel3);
@@ -347,6 +368,7 @@ public class books_menu extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private libratech.design.Combobox combobox1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
@@ -369,7 +391,7 @@ public class books_menu extends javax.swing.JPanel {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-
+        combobox1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
 }

@@ -791,7 +791,8 @@ public class settings_menu extends javax.swing.JPanel {
 
     private void myButtonborderless3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless3ActionPerformed
         // TODO add your handling code here:
-
+        
+        
         if (schoolname.getText().equals("") || schoolid.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
@@ -818,8 +819,8 @@ public class settings_menu extends javax.swing.JPanel {
             m.put("email", email.getText());
             m.put("uid", uid);
             v.pushData("users/", m);
-            JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Error", INFORMATION_MESSAGE);
-            GlassPanePopup.closePopupAll();
+            JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
+            
         }
     }//GEN-LAST:event_myButtonborderless3ActionPerformed
 

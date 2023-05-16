@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: 'timingframework-1.0.jar')
     implementation fileTree(dir: 'lib', include: '*.jar')
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'org.swinglabs:swingx:1.6.1'
     implementation 'com.google.firebase:firebase-admin:9.1.1'
     implementation 'com.formdev:flatlaf:3.1'
 
