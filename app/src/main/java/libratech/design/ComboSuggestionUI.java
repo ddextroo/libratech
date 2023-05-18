@@ -126,6 +126,7 @@ public class ComboSuggestionUI extends BasicComboBoxUI {
             scroll.setVerticalScrollBar(sb);
             ScrollBarCustom sbH = new ScrollBarCustom();
             sbH.setOrientation(JScrollBar.HORIZONTAL);
+            sb.setPreferredSize(new Dimension(12, 12));
             scroll.setHorizontalScrollBar(sbH);
             scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             return scroll;

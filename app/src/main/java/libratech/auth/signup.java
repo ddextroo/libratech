@@ -87,7 +87,7 @@ public class signup extends javax.swing.JFrame {
         schoolname.setModel(new javax.swing.DefaultComboBoxModel(info.getSchoolName()));
         schoolname.getEditor().getEditorComponent().setBackground(new Color(245, 245, 245));
         schoolid.setEditable(false);
-        //schoolname.setFocusable(false);
+        schoolname.setFocusable(false);
 
         GlassPanePopup.install(this);
         new firebaseInit().initFirebase();
