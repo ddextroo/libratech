@@ -101,10 +101,11 @@ public class books_menu extends javax.swing.JPanel {
                         String bookCoverUrl = child.child("cover").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
-                        String genre = child.child("genre").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
                         String author = child.child("bookauthor").getValue(String.class);
-                        String dewey = child.child("dewey").getValue(String.class);
-                        String quantity = child.child("quantity").getValue(String.class);
+                        String dewey = child.child("isbn").getValue(String.class);
+                        String call_no = child.child("call_number").getValue(String.class);
+                        String copies = child.child("copies").getValue(String.class);
                         String deck = child.child("deck").getValue(String.class);
                         String shelf = child.child("shelf").getValue(String.class);
                         String date = child.child("date").getValue(String.class);
@@ -123,7 +124,7 @@ public class books_menu extends javax.swing.JPanel {
                         } else {
                             statust.setType(StatusType.Returned);
                         }
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, genre, author, dewey, quantity, deck, statust.getType(), key).toRowTable(eventAction));
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType()).toRowTable(eventAction));
                         new Book().setChildKey(key);
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
@@ -238,7 +239,7 @@ public class books_menu extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

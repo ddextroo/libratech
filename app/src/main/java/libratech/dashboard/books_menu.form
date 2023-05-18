@@ -171,7 +171,7 @@
                                 <Column editable="false" title="Call Number" type="java.lang.Object"/>
                                 <Column editable="false" title="Number of Copies" type="java.lang.Object"/>
                                 <Column editable="false" title="Book Status" type="java.lang.Object"/>
-                                <Column editable="true" title="Actions" type="java.lang.Object"/>
+                                <Column editable="false" title="Actions" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

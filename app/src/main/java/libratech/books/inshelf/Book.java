@@ -14,10 +14,10 @@ public class Book {
     private String title;
     private String date;
     private String deck;
-    private String genre;
-    private String dewey;
+    private String classification;
+    private String controlNumber;
     private String publisher;
-    private String quantity;
+    private String copies;
     private String shelf;
     private StatusType status;
     private Icon icon;
@@ -81,20 +81,20 @@ public class Book {
         return deck;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getClassification() {
+        return classification;
     }
 
-    public String getDewey() {
-        return dewey;
+    public String getControlNumber() {
+        return controlNumber;
     }
 
     public String getPublisher() {
         return publisher;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getCopies() {
+        return copies;
     }
 
     public String getShelf() {
@@ -107,33 +107,31 @@ public class Book {
 
     public Object[] toRowTable(EventAction event) {
 
-        return new Object[]{title, publisher, genre, author, dewey, quantity, deck, status, childKey, new ModelAction(this, event)};
+        return new Object[]{title, publisher, classification, author, controlNumber, copies, status, new ModelAction(this, event)};
     }
 
-    public Book(String bookCoverUrl, String author, String title, String date, String deck, String genre, String dewey, String publisher, String quantity, String shelf, StatusType status) {
+    public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
         this.bookCoverUrl = bookCoverUrl;
         this.author = author;
         this.title = title;
         this.date = date;
         this.deck = deck;
-        this.genre = genre;
-        this.dewey = dewey;
+        this.classification = classification;
+        this.controlNumber = controlNumber;
         this.publisher = publisher;
-        this.quantity = quantity;
+        this.copies = copies;
         this.shelf = shelf;
         this.status = status;
     }
 
-    public Book(String title, String publisher, String genre, String author, String dewey, String quantity, String deck, StatusType status, String key) {
+    public Book(String title, String publisher, String classification, String author, String controlNumber, String copies, StatusType status) {
         this.author = author;
         this.title = title;
-        this.deck = deck;
-        this.genre = genre;
-        this.dewey = dewey;
+        this.classification = classification;
+        this.controlNumber = controlNumber;
         this.publisher = publisher;
-        this.quantity = quantity;
+        this.copies = copies;
         this.status = status;
-        this.childKey = key;
 
     }
 
