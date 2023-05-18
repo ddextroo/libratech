@@ -42,9 +42,6 @@ public class user_menu extends javax.swing.JPanel {
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         jScrollPane1 = new javax.swing.JScrollPane();
         inshelfTable1 = new libratech.books.inshelf.InshelfTable();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        inshelfTable2 = new libratech.books.inshelf.InshelfTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         inshelfTable3 = new libratech.books.inshelf.InshelfTable();
@@ -129,30 +126,6 @@ public class user_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("General", jPanel2);
 
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        inshelfTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Users", "Email", "History", "Penalties", "User ID", "Status", "Actions"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(inshelfTable2);
-
-        jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        materialTabbed1.addTab("Overdue User", jPanel4);
-
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         inshelfTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -175,7 +148,7 @@ public class user_menu extends javax.swing.JPanel {
 
         jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        materialTabbed1.addTab("Banned User", jPanel5);
+        materialTabbed1.addTab("Restricted User", jPanel5);
 
         jPanel9.add(materialTabbed1, java.awt.BorderLayout.PAGE_START);
 
@@ -201,17 +174,14 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    public libratech.books.inshelf.InshelfTable inshelfTable1;
-    public libratech.books.inshelf.InshelfTable inshelfTable2;
-    public libratech.books.inshelf.InshelfTable inshelfTable3;
+    private libratech.books.inshelf.InshelfTable inshelfTable1;
+    private libratech.books.inshelf.InshelfTable inshelfTable3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;

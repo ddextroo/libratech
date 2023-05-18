@@ -323,7 +323,7 @@ public class add_book extends javax.swing.JPanel {
 
         datelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         datelabel.setForeground(new java.awt.Color(51, 51, 51));
-        datelabel.setText("Date Publish");
+        datelabel.setText("Copyright Date");
 
         jPanel11.setBackground(new java.awt.Color(0, 0, 0));
         jPanel11.setOpaque(false);

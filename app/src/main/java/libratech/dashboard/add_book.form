@@ -528,7 +528,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Date Publish"/>
+        <Property name="text" type="java.lang.String" value="Copyright Date"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel11">

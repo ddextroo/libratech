@@ -61,7 +61,7 @@ public class books_menu extends javax.swing.JPanel {
     private void barcode() {
         try {
             File file = new File("src/main/resources/file.png");
-            Barcode barcode = BarcodeFactory.createCode128("CTUDEXTER-1232-213");
+            Barcode barcode = BarcodeFactory.createCode128("CTU-MC 000-04A-001-001");
             barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
             barcode.setBarHeight(60);
             barcode.setBarWidth(2);
@@ -234,11 +234,11 @@ public class books_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Book Title", "Book Publisher", "Book Genre", "Book Author", "Book Control Number", "Book Quantity", "Book Deck", "Book Status", "Book Key", "Actions"
+                "Book Title", "Book Publisher", "Classification", "Book Author", "Call Number", "Number of Copies", "Book Status", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

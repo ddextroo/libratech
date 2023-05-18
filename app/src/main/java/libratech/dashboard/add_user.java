@@ -4,6 +4,7 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.DatabaseReference;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -11,7 +12,17 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import libratech.models.getUID;
+import libratech.models.pushValue;
+import libratech.util.firebaseInit;
+import libratech.util.storage;
 
 /**
  *
@@ -19,15 +30,20 @@ import libratech.design.RoundedPanel;
  */
 public class add_user extends javax.swing.JPanel {
 
-    /**
-     * Creates new form add_user
-     */
+    private HashMap<String, Object> m;
+    private pushValue v;
+    private DatabaseReference databaseReference;
+
     public add_user() {
         initComponents();
         initFont();
-         setOpaque(false);
+        new firebaseInit().initFirebase();
+        setOpaque(false);
+        comboBoxSuggestion1.setEditable(false);
+        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Male", "Female", "I prefer not to say"}));
+        
     }
-    
+
     @Override
     protected void paintComponent(Graphics graphics) {
         Graphics2D g2 = (Graphics2D) graphics.create();
@@ -62,7 +78,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel9 = new RoundedPanel(12, new Color(250,250,250,0));
         email = new javax.swing.JTextField();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250,0));
-        sex = new javax.swing.JTextField();
+        comboBoxSuggestion1 = new libratech.design.ComboBoxSuggestion();
         coursegradelabel = new javax.swing.JLabel();
         contactnumberlabel = new javax.swing.JLabel();
         jPanel12 = new RoundedPanel(12, new Color(250,250,250,0));
@@ -137,6 +153,9 @@ public class add_user extends javax.swing.JPanel {
             }
         });
         idno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                idnoKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 idnoKeyTyped(evt);
             }
@@ -231,16 +250,10 @@ public class add_user extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(0, 0, 0));
         jPanel10.setOpaque(false);
 
-        sex.setBackground(new java.awt.Color(250, 250, 250,0));
-        sex.setBorder(null);
-        sex.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxSuggestion1.setEditable(false);
+        comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sexActionPerformed(evt);
-            }
-        });
-        sex.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                sexKeyTyped(evt);
+                comboBoxSuggestion1ActionPerformed(evt);
             }
         });
 
@@ -250,14 +263,14 @@ public class add_user extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sex, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sex, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -280,6 +293,9 @@ public class add_user extends javax.swing.JPanel {
             }
         });
         coursegrade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                coursegradeKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 coursegradeKeyTyped(evt);
             }
@@ -317,6 +333,9 @@ public class add_user extends javax.swing.JPanel {
             }
         });
         phone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                phoneKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 phoneKeyTyped(evt);
             }
@@ -341,7 +360,7 @@ public class add_user extends javax.swing.JPanel {
 
         sexlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         sexlabel.setForeground(new java.awt.Color(51, 51, 51));
-        sexlabel.setText("Sex: ");
+        sexlabel.setText("Sex: (Male/Female)");
 
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
         jPanel14.setOpaque(false);
@@ -429,22 +448,23 @@ public class add_user extends javax.swing.JPanel {
                                         .addComponent(coursegradelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jPanel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(sexlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
-                                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(15, 15, 15)
+                                        .addComponent(sexlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(147, 147, 147))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(adduserlabel)
-                .addGap(130, 130, 130))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,8 +530,8 @@ public class add_user extends javax.swing.JPanel {
             fullname.setText(text);
         }
 
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
             fullname.setText("");
         }
 
@@ -528,9 +548,8 @@ public class add_user extends javax.swing.JPanel {
     private void idnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idnoKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || c == ' ' || c == '-' || c == '.' || c == ',' || c == '\'' || c == '\"'
-            || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-        evt.consume();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
         }
     }//GEN-LAST:event_idnoKeyTyped
 
@@ -544,23 +563,7 @@ public class add_user extends javax.swing.JPanel {
 
     private void emailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_emailKeyTyped
-
-    private void sexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sexActionPerformed
-
-    private void sexKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sexKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_sexKeyTyped
 
     private void coursegradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coursegradeActionPerformed
         // TODO add your handling code here:
@@ -568,10 +571,6 @@ public class add_user extends javax.swing.JPanel {
 
     private void coursegradeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_coursegradeKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_coursegradeKeyTyped
 
     private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
@@ -592,75 +591,126 @@ public class add_user extends javax.swing.JPanel {
 
     private void addressKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addressKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_addressKeyTyped
 
     private void addbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbuttonActionPerformed
         // TODO add your handling code here:
-//        String book_title = booktitle.getText();
-//        String book_author = author.getText();
-//        String publ = publisher.getText();
-//        String genr = genre.getText();
-//        String date1 = date.getText();
-//        String quan = quantity.getText();
-//        String dew = dewey.getText();
-//        String shelff = shelf.getText();
-//        String deckk = deck.getText();
-//        String downloadUrl = "";
-//
-//        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || genre.getText().equals("") || date.getText().equals("") || quantity.getText().equals("") || dewey.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
-//            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
-//        } else {
-//            if (this.localFilePath.equals("")) {
-//                JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
-//            } else {
-//                storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-//                try {
-//                    downloadUrl = uploader.upload();
-//                    GlassPanePopup.showPopup(new loading());
-//                } catch (IOException ex) {
-//                    Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-//            String key = databaseReference.push().getKey();
-//            String uidpath = new getUID().getUid();
-//
-//            v = new pushValue(key);
-//            m = new HashMap<>();
-//            m.put("booktitle", book_title);
-//            m.put("bookauthor", book_author);
-//            m.put("publisher", publ);
-//            m.put("dewey", dew);
-//            m.put("genre", genr);
-//            m.put("date", date1);
-//            m.put("quantity", quan);
-//            m.put("shelf", shelff);
+        String name = fullname.getText();
+        String idnum = idno.getText();
+        String datebirth = dateofbirth.getText();
+        String emailaddress = email.getText();
+        String course = coursegrade.getText();
+        String number = phone.getText();
+        String user_address = address.getText();
+        String user_sex = comboBoxSuggestion1.getSelectedItem().toString();
+
+        if (fullname.getText().equals("") || idno.getText().equals("") || dateofbirth.getText().equals("") || email.getText().equals("") || coursegrade.getText().equals("") || phone.getText().equals("") || address.getText().equals("") || comboBoxSuggestion1.getSelectedItem().toString().equals("")) {
+            JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+        } else {
+            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            String key = idnum;
+            String uidpath = new getUID().getUid();
+
+            v = new pushValue(key);
+            m = new HashMap<>();
+            m.put("fullname", name);
+            m.put("idno", idnum);
+            m.put("dateofbirth", datebirth);
+            m.put("email", emailaddress);
+            m.put("coursegrade", course);
+            m.put("phone", number);
+            m.put("address", user_address);
+            m.put("sex", user_sex);
 //            m.put("deck", deckk);
-//            m.put("key", key);
-//            m.put("status", "Available");
-//            m.put("timestamp", getnow);
-//            m.put("cover", downloadUrl);
-//            v.pushData("books/inshelf/" + uidpath, m);
-//            GlassPanePopup.closePopupAll();
-//        }
+            m.put("key", idnum);
+            m.put("status", "Active");
+            m.put("timestamp", getnow);
+            v.pushData("students/" + uidpath, m);
+            GlassPanePopup.closePopupAll();
+        }
     }//GEN-LAST:event_addbuttonActionPerformed
 
     private void cancelbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbuttonActionPerformed
         // TODO add your handling code here:
-       // GlassPanePopup.closePopupLast();
+        GlassPanePopup.closePopupLast();
     }//GEN-LAST:event_cancelbuttonActionPerformed
 
     private void fullnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fullnameKeyTyped
         // TODO add your handling code here
         char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE)) {
+        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE)) {
             evt.consume();
         }
+
     }//GEN-LAST:event_fullnameKeyTyped
+
+    private void coursegradeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_coursegradeKeyReleased
+        // TODO add your handling code here:
+        String text = coursegrade.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            coursegrade.setText(text);
+        }
+
+        if (text.length() > 24) {
+            str = text.substring(0, 24);
+            coursegrade.setText("");
+        }
+
+        if (text.length() == 0) {
+            coursegrade.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_coursegradeKeyReleased
+
+    private void phoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyReleased
+        // TODO add your handling code here:
+        String text = phone.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            phone.setText(text);
+        }
+
+        if (text.length() > 11) {
+            str = text.substring(0, 11);
+            phone.setText("");
+        }
+
+        if (text.length() == 0) {
+            phone.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_phoneKeyReleased
+
+    private void idnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idnoKeyReleased
+        // TODO add your handling code here:
+        String text = idno.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            idno.setText(text);
+        }
+
+        if (text.length() > 7) {
+            str = text.substring(0, 7);
+            idno.setText("");
+        }
+
+        if (text.length() == 0) {
+            idno.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_idnoKeyReleased
+
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+        // TODO add your handling code here:
+        //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
+    }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -669,6 +719,7 @@ public class add_user extends javax.swing.JPanel {
     private javax.swing.JLabel addresslabel;
     private javax.swing.JLabel adduserlabel;
     private libratech.design.MyButtonborder cancelbutton;
+    private libratech.design.ComboBoxSuggestion comboBoxSuggestion1;
     private javax.swing.JLabel contactnumberlabel;
     private javax.swing.JTextField coursegrade;
     private javax.swing.JLabel coursegradelabel;
@@ -690,7 +741,6 @@ public class add_user extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField phone;
-    private javax.swing.JTextField sex;
     private javax.swing.JLabel sexlabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
@@ -701,7 +751,7 @@ public class add_user extends javax.swing.JPanel {
         coursegradelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         coursegrade.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         sexlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        sex.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        comboBoxSuggestion1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         dateofbirthlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         dateofbirth.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emaillabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
