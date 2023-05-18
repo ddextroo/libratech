@@ -25,6 +25,7 @@ import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
+import libratech.user.students.Student;
 import libratech.util.firebaseInit;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeException;
@@ -86,6 +87,16 @@ public class books_menu extends javax.swing.JPanel {
             public void update(Book book) {
                 System.out.println("Ck: " + book.getChildKey());
                 GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
+            }
+
+            @Override
+            public void delete(Student student) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void update(Student student) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         };
 

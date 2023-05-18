@@ -57,6 +57,7 @@ import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
+import libratech.user.students.Student;
 
 /**
  *
@@ -203,7 +204,7 @@ public class edit_book extends javax.swing.JPanel {
         // Fetch data from Firebase and create table
         EventAction eventAction = new EventAction() {
             @Override
-            public void delete(Book student) {
+            public void delete(Book book) {
                 System.out.println("User click OK");
 
             }
@@ -211,6 +212,16 @@ public class edit_book extends javax.swing.JPanel {
             @Override
             public void update(Book book) {
                 GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
+            }
+
+            @Override
+            public void delete(Student student) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void update(Student student) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         };
 

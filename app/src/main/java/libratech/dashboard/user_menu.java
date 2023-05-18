@@ -4,10 +4,27 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.EventAction;
+import libratech.books.inshelf.StatusType;
+import libratech.books.inshelf.TableStatus;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import libratech.models.getUID;
+import libratech.models.pushValue;
+import libratech.user.students.EventActionStudent;
+import libratech.user.students.StatusTypeStudent;
+import libratech.user.students.Student;
+import libratech.util.firebaseInit;
 
 /**
  *
@@ -15,14 +32,77 @@ import libratech.design.RoundedPanel;
  */
 public class user_menu extends javax.swing.JPanel {
 
-    /**
-     * Creates new form dashboard_menu
-     */
+    private DatabaseReference dbRef;
+    DefaultTableModel mod;
+    private String path = "analytics/" + new getUID().getUid() + "/";
+    private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
+    private HashMap<String, Object> m;
+    private pushValue v;
+    
     public user_menu() {
         initComponents();
         initFont();
+        this.mod = (DefaultTableModel) inshelfTable1.getModel();
+        new firebaseInit().initFirebase();
+        inshelfTable1.fixTable(jScrollPane1);
+        retrieveData();
     }
+    
+    private void retrieveData() {
+        // Fetch data from Firebase and create table
+        EventActionStudent eventAction = new EventActionStudent() {
+            public void delete(Student student) {
+                System.out.println("User click OK");
 
+            }
+
+            public void update(Student student) {
+                System.out.println("Ck: " + student.getIDnumber());
+                GlassPanePopup.showPopup(new edit_book(student.getIDnumber(), inshelfTable1));
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if ("Active".equals(child.child("status").getValue(String.class))) {
+                        
+                        String email = child.child("email").getValue(String.class);
+                        String IDNumber = child.child("idno").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
+
+                        TableStatus statust = new TableStatus();
+
+                        if (status.equals("Active")) {
+                            statust.setType(StatusTypeStudent.Active);
+                        } else {
+                            statust.setType(StatusTypeStudent.Restricted);
+                        }
+                        inshelfTable1.addRow(new Student(email, IDNumber, status).toRowTable(eventAction));
+                        new Student().setIDnumber(IDNumber);
+                        mod.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
+                    }
+                }
+                v = new pushValue("students/active");
+                m = new HashMap<>();
+                m.put("total", mod.getRowCount());
+                v.pushData(path, m);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,9 +122,6 @@ public class user_menu extends javax.swing.JPanel {
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         jScrollPane1 = new javax.swing.JScrollPane();
         inshelfTable1 = new libratech.books.inshelf.InshelfTable();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        inshelfTable2 = new libratech.books.inshelf.InshelfTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         inshelfTable3 = new libratech.books.inshelf.InshelfTable();
@@ -112,11 +189,11 @@ public class user_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Users", "Email", "History", "Penalties", "User ID", "Status", "Actions"
+                "Email", "ID Number", "Status", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -129,30 +206,6 @@ public class user_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("General", jPanel2);
 
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        inshelfTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Users", "Email", "History", "Penalties", "User ID", "Status", "Actions"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(inshelfTable2);
-
-        jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        materialTabbed1.addTab("Overdue User", jPanel4);
-
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         inshelfTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -160,11 +213,11 @@ public class user_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Users", "Email", "History", "Penalties", "User ID", "Status", "Actions"
+                "Email", "ID Number", "Status", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -175,7 +228,7 @@ public class user_menu extends javax.swing.JPanel {
 
         jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        materialTabbed1.addTab("Banned User", jPanel5);
+        materialTabbed1.addTab("Restricted", jPanel5);
 
         jPanel9.add(materialTabbed1, java.awt.BorderLayout.PAGE_START);
 
@@ -202,16 +255,13 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     public libratech.books.inshelf.InshelfTable inshelfTable1;
-    public libratech.books.inshelf.InshelfTable inshelfTable2;
     public libratech.books.inshelf.InshelfTable inshelfTable3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
