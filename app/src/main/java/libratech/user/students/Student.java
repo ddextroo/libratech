@@ -1,14 +1,10 @@
 package libratech.user.students;
 
-import libratech.books.inshelf.EventAction;
-import libratech.books.inshelf.ModelAction;
-
 public class Student {
 
     private String email;
     private String IDnumber;
-    private String Status;
-
+    private StatusTypeStudent Status;
 
     public String getEmail() {
         return email;
@@ -22,26 +18,30 @@ public class Student {
         return IDnumber;
     }
 
-    public void setIDnumber(String IDnumber) {
-        this.IDnumber = IDnumber;
-    }
-
-    public String getStatus() {
+    public StatusTypeStudent getStatus() {
         return Status;
     }
 
-    public void setStatus(String Status) {
+    public void setStatus(StatusTypeStudent Status) {
         this.Status = Status;
     }
-        public Object[] toRowTable(EventAction event) {
+
+    public Object[] toRowTable(EventActionStudent event) {
 
         return new Object[]{email, IDnumber, Status, new ModelActionStudent(this, event)};
     }
-    
-    public Student(String email, String IDnumber, String Status) {
+
+    public Student(String email, String IDnumber, StatusTypeStudent Status) {
         this.email = email;
         this.IDnumber = IDnumber;
         this.Status = Status;
     }
-    
+    public Student() {
+        
+    }
+
+    public void setIDnumber(String IDnumber) {
+        this.IDnumber = IDnumber;
+    }
+
 }

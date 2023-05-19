@@ -723,10 +723,9 @@ public class add_book extends javax.swing.JPanel {
                 }
             }
             String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
-            String key = book_isbn;
             String uidpath = new getUID().getUid();
-            String call_no = classification + "/" + shelf + deck + "/" + date1;
-
+            String call_no = genr + "-" + shelff + deckk + "-" + date1;
+            String key = call_no;
             v = new pushValue(key);
             m = new HashMap<>();
             m.put("booktitle", book_title);
@@ -736,7 +735,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("classification", genr);
             m.put("date", date1);
             m.put("copies", book_copies);
-            m.put("edition",book_edition);
+            m.put("edition", book_edition);
             m.put("shelf", shelff);
             m.put("deck", deckk);
             m.put("key", key);

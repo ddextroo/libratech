@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import libratech.design.ModelPieChart;
+import libratech.design.PieChart;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import libratech.models.getUID;
@@ -38,6 +40,10 @@ public class dashboard_menu extends javax.swing.JPanel {
     public dashboard_menu() {
         initComponents();
         initFont();
+        
+        pieChart1.setChartType(PieChart.PeiChartType.DONUT_CHART);
+        pieChart1.addData(new ModelPieChart("Active", 12, new Color(0,128,0)));
+        pieChart1.addData(new ModelPieChart("Restricted", 3, new Color(221, 65, 65)));
 
         inshelf_total = new ChildEventListener() {
             @Override
@@ -127,7 +133,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         coloredRoundedPanel6 = new libratech.design.ColoredRoundedPanel();
         jPanel29 = new RoundedPanelBorderless(13, new Color(4,28,52));
         borrowedbookslabel6 = new javax.swing.JLabel();
-        jPanel42 = new javax.swing.JPanel();
+        pieChart1 = new libratech.design.PieChart();
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -151,7 +157,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -178,7 +184,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel23.setBackground(new java.awt.Color(238, 238, 238));
 
         inshelf.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        inshelf.setText("#");
+        inshelf.setText("0");
         jPanel23.add(inshelf);
 
         javax.swing.GroupLayout coloredRoundedPanel1Layout = new javax.swing.GroupLayout(coloredRoundedPanel1);
@@ -188,7 +194,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                     .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -217,7 +223,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel33.setBackground(new java.awt.Color(238, 238, 238));
 
         borrowedbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        borrowedbooks.setText("#");
+        borrowedbooks.setText("0");
         jPanel33.add(borrowedbooks);
 
         javax.swing.GroupLayout coloredRoundedPanel2Layout = new javax.swing.GroupLayout(coloredRoundedPanel2);
@@ -227,7 +233,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                     .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -257,7 +263,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel37.setBackground(new java.awt.Color(238, 238, 238));
 
         overduebooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        overduebooks.setText("#");
+        overduebooks.setText("0");
         jPanel37.add(overduebooks);
 
         javax.swing.GroupLayout coloredRoundedPanel3Layout = new javax.swing.GroupLayout(coloredRoundedPanel3);
@@ -267,7 +273,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel34, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                     .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -296,7 +302,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel39.setBackground(new java.awt.Color(238, 238, 238));
 
         lostbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lostbooks.setText("#");
+        lostbooks.setText("0");
         jPanel39.add(lostbooks);
 
         javax.swing.GroupLayout coloredRoundedPanel4Layout = new javax.swing.GroupLayout(coloredRoundedPanel4);
@@ -306,7 +312,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                     .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -335,7 +341,7 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel35.setBackground(new java.awt.Color(238, 238, 238));
 
         damagedbooks.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        damagedbooks.setText("#");
+        damagedbooks.setText("0");
         jPanel35.add(damagedbooks);
 
         javax.swing.GroupLayout coloredRoundedPanel5Layout = new javax.swing.GroupLayout(coloredRoundedPanel5);
@@ -345,7 +351,7 @@ public class dashboard_menu extends javax.swing.JPanel {
             .addGroup(coloredRoundedPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(coloredRoundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                     .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -366,36 +372,18 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel31.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
         coloredRoundedPanel6.setBackground(new java.awt.Color(238, 238, 238));
+        coloredRoundedPanel6.setLayout(new java.awt.BorderLayout());
 
         jPanel29.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 50));
 
         borrowedbookslabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         borrowedbookslabel6.setForeground(new java.awt.Color(250, 250, 250));
         borrowedbookslabel6.setText("User Statistics");
         jPanel29.add(borrowedbookslabel6);
 
-        jPanel42.setBackground(new java.awt.Color(238, 238, 238));
-
-        javax.swing.GroupLayout coloredRoundedPanel6Layout = new javax.swing.GroupLayout(coloredRoundedPanel6);
-        coloredRoundedPanel6.setLayout(coloredRoundedPanel6Layout);
-        coloredRoundedPanel6Layout.setHorizontalGroup(
-            coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(coloredRoundedPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel42, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
-                    .addComponent(jPanel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        coloredRoundedPanel6Layout.setVerticalGroup(
-            coloredRoundedPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(coloredRoundedPanel6Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
-                .addComponent(jPanel42, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
-        );
+        coloredRoundedPanel6.add(jPanel29, java.awt.BorderLayout.PAGE_START);
+        coloredRoundedPanel6.add(pieChart1, java.awt.BorderLayout.CENTER);
 
         jPanel31.add(coloredRoundedPanel6);
 
@@ -408,7 +396,7 @@ public class dashboard_menu extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -418,8 +406,7 @@ public class dashboard_menu extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -435,11 +422,10 @@ public class dashboard_menu extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -476,12 +462,12 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel42;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lostbooks;
     private javax.swing.JLabel lostbookslabel;
     private javax.swing.JLabel overduebooks;
     private javax.swing.JLabel overduebookslabel;
+    private libratech.design.PieChart pieChart1;
     // End of variables declaration//GEN-END:variables
 public void initFont() {
         jLabel2.setFont(new Font("Poppins Regular", Font.BOLD, 20));
@@ -490,7 +476,7 @@ public void initFont() {
         lostbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         borrowedbookslabel5.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         overduebookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-        borrowedbookslabel6.setFont(new Font("Poppins Regular", Font.BOLD, 20));
+        borrowedbookslabel6.setFont(new Font("Poppins Regular", Font.BOLD, 36));
         borrowedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         borrowedbooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
         overduebooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));

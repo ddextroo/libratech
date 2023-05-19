@@ -25,7 +25,6 @@ import libratech.books.inshelf.TableStatus;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
-import libratech.user.students.Student;
 import libratech.util.firebaseInit;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeException;
@@ -78,25 +77,9 @@ public class books_menu extends javax.swing.JPanel {
         // Fetch data from Firebase and create table
         EventAction eventAction = new EventAction() {
             @Override
-            public void delete(Book student) {
-                System.out.println("User click OK");
-
-            }
-
-            @Override
             public void update(Book book) {
-                System.out.println("Ck: " + book.getChildKey());
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
-            }
-
-            @Override
-            public void delete(Student student) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-
-            @Override
-            public void update(Student student) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.out.println("Ck: " + book.getControlNumber());
+                GlassPanePopup.showPopup(new edit_book(book.getControlNumber(), inshelfTable1));
             }
         };
 
@@ -136,7 +119,7 @@ public class books_menu extends javax.swing.JPanel {
                             statust.setType(StatusType.Returned);
                         }
                         inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType()).toRowTable(eventAction));
-                        new Book().setChildKey(key);
+                        new Book().setControlNumber(key);
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
@@ -234,7 +217,7 @@ public class books_menu extends javax.swing.JPanel {
         jPanel1.add(jPanel8, java.awt.BorderLayout.PAGE_START);
 
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
-        jPanel9.setLayout(new java.awt.BorderLayout());
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
         materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -250,7 +233,7 @@ public class books_menu extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -258,6 +241,9 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(inshelfTable1);
+        if (inshelfTable1.getColumnModel().getColumnCount() > 0) {
+            inshelfTable1.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -336,7 +322,7 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("Test", jPanel3);
 
-        jPanel9.add(materialTabbed1, java.awt.BorderLayout.PAGE_START);
+        jPanel9.add(materialTabbed1);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);

@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package libratech.user.students;
 
-import libratech.books.inshelf.EventAction;
 
 public class ModelActionStudent {
 
@@ -16,15 +12,15 @@ public class ModelActionStudent {
         this.students = student;
     }
 
-    public EventAction getEvent() {
+    public EventActionStudent getEvent() {
         return event;
     }
 
-    public void setEvent(EventAction event) {
+    public void setEvent(EventActionStudent event) {
         this.event = event;
     }
 
-    public ModelActionStudent(Student students, EventAction event) {
+    public ModelActionStudent(Student students, EventActionStudent event) {
         this.students = students;
         this.event = event;
     }
@@ -33,6 +29,5 @@ public class ModelActionStudent {
     }
 
     private Student students;
-    private EventAction event;
+    private EventActionStudent event;
 }
-

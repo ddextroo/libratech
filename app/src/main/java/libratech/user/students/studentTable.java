@@ -8,7 +8,6 @@ import libratech.design.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,11 +15,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
-import libratech.books.inshelf.Action;
-import libratech.books.inshelf.CellStatus;
-import libratech.books.inshelf.ModelAction;
-import libratech.books.inshelf.StatusType;
-import libratech.books.inshelf.TableCellAction;
 import libratech.books.inshelf.TableHeader;
 
 public class studentTable extends JTable {
@@ -43,16 +37,16 @@ public class studentTable extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
 
-                  if (o instanceof StatusType type) {
-                    CellStatus cell = new CellStatus(type);
+                  if (o instanceof StatusTypeStudent type) {
+                    CellStatusStudent cell = new CellStatusStudent(type);
                     if (selected) {
                         cell.setBackground(new Color(239, 244, 255));
                     } else {
                         cell.setBackground(Color.WHITE);
                     }
                     return cell;
-                } else if (o instanceof ModelAction data) {
-                    Action cell = new Action(data);
+                } else if (o instanceof ModelActionStudent data) {
+                    ActionStudent cell = new ActionStudent(data);
                     if (selected) {
                         cell.setBackground(new Color(239, 244, 255));
                     } else {
@@ -77,7 +71,7 @@ public class studentTable extends JTable {
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
         if (col == 3) {
-            return new TableCellAction();
+            return new TableCellActionStudent();
         } else {
             return super.getCellEditor(row, col);
         }

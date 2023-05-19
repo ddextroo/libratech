@@ -2,29 +2,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package libratech.books.inshelf;
+package libratech.user.students;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import libratech.books.inshelf.ModelAction;
 
 /**
  *
  * @author HBUSER
  */
-public class Action extends javax.swing.JPanel {
+public class ActionStudent extends javax.swing.JPanel {
 
     /**
      * Creates new form Action
      * @param data
      */
-    public Action(ModelAction data) {
+    public ActionStudent(ModelActionStudent data) {
         initComponents();
         myButtonborderless1.addActionListener((ActionEvent ae) -> {
-            data.getEvent().update(data.getBook());
+            data.getEvent().update(data.getStudent());
         });
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }

@@ -1,7 +1,6 @@
 
 package libratech.books.inshelf;
 
-import libratech.books.inshelf.Book;
 
 public class ModelAction {
 

@@ -70,7 +70,7 @@ public class InshelfTable extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int col) {
-        if (col == 9) {
+        if (col == 7) {
             return new TableCellAction();
         } else {
             return super.getCellEditor(row, col);

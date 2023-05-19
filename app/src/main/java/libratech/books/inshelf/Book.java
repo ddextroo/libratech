@@ -13,6 +13,7 @@ public class Book {
     private String author;
     private String title;
     private String date;
+
     private String deck;
     private String classification;
     private String controlNumber;
@@ -105,6 +106,10 @@ public class Book {
         return status;
     }
 
+    public void setControlNumber(String controlNumber) {
+        this.controlNumber = controlNumber;
+    }
+
     public Object[] toRowTable(EventAction event) {
 
         return new Object[]{title, publisher, classification, author, controlNumber, copies, status, new ModelAction(this, event)};
@@ -139,7 +144,7 @@ public class Book {
 
     }
 
-    public Book(String childkey) {
-        this.childKey = childkey;
+    public Book(String controlNumber) {
+        this.controlNumber = controlNumber;
     }
 }
