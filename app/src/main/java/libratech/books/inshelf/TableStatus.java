@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JLabel;
+import libratech.user.students.StatusTypeStudent;
 
 public class TableStatus extends JLabel {
 
@@ -20,9 +21,15 @@ public class TableStatus extends JLabel {
     }
 
     private StatusType type;
+    private StatusTypeStudent type1;
 
     public void setType(StatusType type) {
         this.type = type;
+        setText(type.toString());
+        repaint();
+    }
+    public void setType(StatusTypeStudent type) {
+        this.type1 = type;
         setText(type.toString());
         repaint();
     }
