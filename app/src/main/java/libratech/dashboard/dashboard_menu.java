@@ -16,7 +16,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -32,18 +34,19 @@ import libratech.models.getUID;
  */
 public class dashboard_menu extends javax.swing.JPanel {
 
-    private ChildEventListener inshelf_total;
+    private final ChildEventListener inshelf_total;
+    private ChildEventListener student_total;
 
-    private String inshelf_path = "analytics/" + new getUID().getUid() + "/";
-    private DatabaseReference inshelf_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
+    private final String inshelf_path = "analytics/" + new getUID().getUid() + "/";
+    private final DatabaseReference inshelf_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
+
+    private final String student_path = "analytics/" + new getUID().getUid() + "/";
+    private final DatabaseReference student_db = FirebaseDatabase.getInstance().getReference(student_path);
+    private List<ModelPieChart> pieChartDataList = new ArrayList<>();
 
     public dashboard_menu() {
         initComponents();
         initFont();
-        
-        pieChart1.setChartType(PieChart.PeiChartType.DONUT_CHART);
-        pieChart1.addData(new ModelPieChart("Active", 12, new Color(0,128,0)));
-        pieChart1.addData(new ModelPieChart("Restricted", 3, new Color(221, 65, 65)));
 
         inshelf_total = new ChildEventListener() {
             @Override
@@ -84,6 +87,69 @@ public class dashboard_menu extends javax.swing.JPanel {
             }
         };
         inshelf_db.addChildEventListener(inshelf_total);
+
+        user_chart();
+    }
+
+    private void user_chart() {
+        pieChart1.setChartType(PieChart.PeiChartType.DONUT_CHART);
+        student_total = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (_childKey.contains("active")) {
+                    pieChartDataList.add(new ModelPieChart("Active", Integer.parseInt(_childValue.get("total").toString()), new Color(0, 128, 0)));
+                }
+                if (_childKey.contains("restricted")) {
+                    pieChartDataList.add(new ModelPieChart("Restricted", Integer.parseInt(_childValue.get("total").toString()), new Color(221, 65, 65)));
+                }
+                pieChart1.setData(pieChartDataList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.contains("active")) {
+                    for (ModelPieChart data : pieChartDataList) {
+                        if (data.getName().equals("Active")) {
+                            data.setValues(Integer.parseInt(_childValue.get("total").toString()));
+                            break;
+                        }
+                    }
+                }
+                if (_childKey.contains("restricted")) {
+                    // Find the existing "Restricted" data in the list and update it
+                    for (ModelPieChart data : pieChartDataList) {
+                        if (data.getName().equals("Restricted")) {
+                            data.setValues(Integer.parseInt(_childValue.get("total").toString()));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        student_db.addChildEventListener(student_total);
 
     }
 
@@ -132,7 +198,9 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel31 = new javax.swing.JPanel();
         coloredRoundedPanel6 = new libratech.design.ColoredRoundedPanel();
         jPanel29 = new RoundedPanelBorderless(13, new Color(4,28,52));
+        jPanel5 = new javax.swing.JPanel();
         borrowedbookslabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         pieChart1 = new libratech.design.PieChart();
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -377,10 +445,20 @@ public class dashboard_menu extends javax.swing.JPanel {
         jPanel29.setBackground(new java.awt.Color(4, 28, 52));
         jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 50));
 
+        jPanel5.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
         borrowedbookslabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         borrowedbookslabel6.setForeground(new java.awt.Color(250, 250, 250));
-        borrowedbookslabel6.setText("User Statistics");
-        jPanel29.add(borrowedbookslabel6);
+        borrowedbookslabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        borrowedbookslabel6.setText("User Statistics:");
+        jPanel5.add(borrowedbookslabel6, java.awt.BorderLayout.CENTER);
+
+        jLabel1.setForeground(new java.awt.Color(224, 224, 224));
+        jLabel1.setText("Active - Green | Restricted - Red");
+        jPanel5.add(jLabel1, java.awt.BorderLayout.PAGE_END);
+
+        jPanel29.add(jPanel5);
 
         coloredRoundedPanel6.add(jPanel29, java.awt.BorderLayout.PAGE_START);
         coloredRoundedPanel6.add(pieChart1, java.awt.BorderLayout.CENTER);
@@ -443,6 +521,7 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JLabel damagedbooks;
     private javax.swing.JLabel inshelf;
     private javax.swing.JLabel inshelflabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel15;
@@ -462,6 +541,7 @@ public class dashboard_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lostbooks;
     private javax.swing.JLabel lostbookslabel;
@@ -477,6 +557,7 @@ public void initFont() {
         borrowedbookslabel5.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         overduebookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         borrowedbookslabel6.setFont(new Font("Poppins Regular", Font.BOLD, 36));
+        jLabel1.setFont(new Font("Poppins Regular", Font.PLAIN, 20));
         borrowedbookslabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
         borrowedbooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));
         overduebooks.setFont(new Font("Poppins Regular", Font.BOLD, 20));

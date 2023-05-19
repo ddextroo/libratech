@@ -767,11 +767,14 @@ public class edit_book extends javax.swing.JPanel {
                                     .addGap(14, 14, 14)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(shelflabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE))
+                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 272, Short.MAX_VALUE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE))
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(allowedtype)
@@ -1144,7 +1147,7 @@ public class edit_book extends javax.swing.JPanel {
         deck.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         decklabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         editionlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        edition.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        edition.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         isbn.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         isbnlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         classification.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

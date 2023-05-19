@@ -562,11 +562,11 @@ public class add_book extends javax.swing.JPanel {
                                     .addGap(14, 14, 14)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(shelflabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 271, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 272, Short.MAX_VALUE)))
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 276, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(allowedtype)
@@ -922,7 +922,7 @@ public class add_book extends javax.swing.JPanel {
         deck.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         decklabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         editionlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        edition.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        edition.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         isbn.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         isbnlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         classification.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

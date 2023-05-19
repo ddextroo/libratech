@@ -289,6 +289,15 @@ public class PieChart extends JComponent {
 
     public void addData(ModelPieChart data) {
         models.add(data);
+        repaint();
+    }
+
+    public void setData(List<ModelPieChart> data) {
+        models.clear();
+        if (data != null) {
+            models.addAll(data);
+        }
+        repaint();
     }
 
     public static enum PeiChartType {

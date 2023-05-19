@@ -61,13 +61,13 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="shelflabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="jPanel14" alignment="0" pref="271" max="32767" attributes="0"/>
+                                      <Component id="shelflabel" min="-2" pref="90" max="-2" attributes="0"/>
+                                      <Component id="jPanel14" min="-2" pref="267" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="decklabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="jPanel13" alignment="0" pref="272" max="32767" attributes="0"/>
+                                      <Component id="jPanel13" alignment="0" pref="276" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
