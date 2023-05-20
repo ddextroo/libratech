@@ -195,7 +195,7 @@ public class Dates extends javax.swing.JPanel {
         add(buttonsat);
 
         buttonsun.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 5, 1));
-        buttonsun.setForeground(new java.awt.Color(255, 1, 1));
+        buttonsun.setForeground(new java.awt.Color(4, 28, 52));
         buttonsun.setText("Sunday");
         add(buttonsun);
 

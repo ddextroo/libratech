@@ -110,7 +110,7 @@
           </Border>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="1" green="1" red="ff" type="rgb"/>
+          <Color blue="34" green="1c" red="4" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Sunday"/>
       </Properties>

@@ -52,9 +52,11 @@ import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import libratech.design.loading;
+import libratech.models.ClassificationInfo;
 import libratech.models.Dashboard.retBooks;
 import libratech.models.auth;
 import libratech.models.getUID;
+import libratech.models.getUserInfo;
 import libratech.models.pushValue;
 import libratech.models.retrieve;
 import libratech.util.firebaseInit;
@@ -84,12 +86,14 @@ public class edit_book extends javax.swing.JPanel {
     private DefaultTableModel model;
     private libratech.books.inshelf.InshelfTable inshelfTable1;
     String downloadUrl = "";
+    String remaining_copies = "";
     boolean upload = false;
 
     private String path1 = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics1 = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m1;
     private pushValue t;
+    ClassificationInfo info = new ClassificationInfo();
 
     public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1) {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -106,6 +110,10 @@ public class edit_book extends javax.swing.JPanel {
         System.out.println(ck);
         retrieveData();
 
+        classification.setEditable(true);
+        classification.setModel(new javax.swing.DefaultComboBoxModel(info.getClassification()));
+        classification.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250));
+
         booksinfo = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
@@ -118,7 +126,7 @@ public class edit_book extends javax.swing.JPanel {
                         booktitle.setText(_childValue.get("booktitle").toString());
                         author.setText(_childValue.get("bookauthor").toString());
                         publisher.setText(_childValue.get("publisher").toString());
-                        classification.setText(_childValue.get("classification").toString());
+                        classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
                         date.setText(_childValue.get("date").toString());
                         copies.setText(_childValue.get("copies").toString());
                         isbn.setText(_childValue.get("isbn").toString());
@@ -129,6 +137,7 @@ public class edit_book extends javax.swing.JPanel {
                         BufferedImage image = ImageIO.read(url);
                         photoCover1.setImage(image);
                         downloadUrl = _childValue.get("cover").toString();
+                        remaining_copies = _childValue.get("remaining_copies").toString();
                         System.out.println(downloadUrl);
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,7 +163,7 @@ public class edit_book extends javax.swing.JPanel {
                         booktitle.setText(_childValue.get("booktitle").toString());
                         author.setText(_childValue.get("bookauthor").toString());
                         publisher.setText(_childValue.get("publisher").toString());
-                        classification.setText(_childValue.get("classification").toString());
+                        classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
                         date.setText(_childValue.get("date").toString());
                         copies.setText(_childValue.get("copies").toString());
                         isbn.setText(_childValue.get("isbn").toString());
@@ -165,6 +174,7 @@ public class edit_book extends javax.swing.JPanel {
                         BufferedImage image = ImageIO.read(url);
                         photoCover1.setImage(image);
                         downloadUrl = _childValue.get("cover").toString();
+                        remaining_copies = _childValue.get("remaining_copies").toString();
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
@@ -225,6 +235,34 @@ public class edit_book extends javax.swing.JPanel {
                         String shelf = child.child("shelf").getValue(String.class);
                         String date = child.child("date").getValue(String.class);
                         String status = child.child("status").getValue(String.class);
+                        
+//                        if (Integer.parseInt(child.child("remaining_copies").getValue(String.class)) <= 0) {
+//                            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+//                            String uidpath = new getUID().getUid();
+//                            v = new pushValue(key);
+//                            m = new HashMap<>();
+//                            m.put("booktitle", bookTitle);
+//                            m.put("bookauthor", author);
+//                            m.put("publisher", publisher);
+//                            m.put("isbn", child.child("isbn").getValue(String.class));
+//                            m.put("classification_code", child.child("classification_code").getValue(String.class));
+//                            m.put("classification_pos", child.child("classification_pos").getValue(String.class));
+//                            m.put("classification", child.child("classification").getValue(String.class));
+//                            m.put("date", child.child("date").getValue(String.class));
+//                            m.put("copies", child.child("copies").getValue(String.class));
+//                            m.put("edition", child.child("edition").getValue(String.class));
+//                            m.put("shelf", child.child("shelf").getValue(String.class));
+//                            m.put("deck", child.child("deck").getValue(String.class));
+//                            m.put("key", key);
+//                            m.put("call_number", call_no);
+//                            m.put("status", "Borwwwrowed");
+//                            m.put("remaining_copies", child.child("remaining_copies").getValue(String.class));
+//                            m.put("timestamp", getnow);
+//                            m.put("cover", bookCoverUrl);
+//                            v.pushData("books/" + uidpath, m);
+//                            m.clear();
+//                        }
+                        
 
                         TableStatus statust = new TableStatus();
 
@@ -239,7 +277,7 @@ public class edit_book extends javax.swing.JPanel {
                         } else {
                             statust.setType(StatusType.Returned);
                         }
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType()).toRowTable(eventAction));
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType(), key).toRowTable(eventAction));
                         new Book().setControlNumber(key);
                         model.fireTableDataChanged();
                         inshelfTable1.repaint();
@@ -292,7 +330,7 @@ public class edit_book extends javax.swing.JPanel {
         publisherlabel = new javax.swing.JLabel();
         classificationlabel = new javax.swing.JLabel();
         jPanel9 = new RoundedPanel(12, new Color(250,250,250));
-        classification = new javax.swing.JTextField();
+        classification = new libratech.design.ComboBoxSuggestion();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250));
         isbn = new javax.swing.JTextField();
         isbnlabel = new javax.swing.JLabel();
@@ -451,16 +489,11 @@ public class edit_book extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(0, 0, 0));
         jPanel9.setOpaque(false);
 
-        classification.setBackground(new java.awt.Color(250, 250, 250));
-        classification.setBorder(null);
+        classification.setBackground(new java.awt.Color(255, 255, 255));
+        classification.setEditable(false);
         classification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 classificationActionPerformed(evt);
-            }
-        });
-        classification.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                classificationKeyTyped(evt);
             }
         });
 
@@ -468,16 +501,16 @@ public class edit_book extends javax.swing.JPanel {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(classification, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(316, 316, 316))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(classification, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(classification, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -753,7 +786,7 @@ public class edit_book extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(classificationlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 276, Short.MAX_VALUE)
@@ -774,7 +807,7 @@ public class edit_book extends javax.swing.JPanel {
                                             .addGap(0, 0, Short.MAX_VALUE)
                                             .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE))
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 278, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(allowedtype)
@@ -867,7 +900,7 @@ public class edit_book extends javax.swing.JPanel {
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -882,10 +915,6 @@ public class edit_book extends javax.swing.JPanel {
     private void publisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_publisherActionPerformed
-
-    private void classificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classificationActionPerformed
 
     private void isbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbnActionPerformed
         // TODO add your handling code here:
@@ -909,14 +938,14 @@ public class edit_book extends javax.swing.JPanel {
         String book_author = author.getText();
         String publ = publisher.getText();
         String book_isbn = isbn.getText();
-        String genr = classification.getText();
+        String genr = info.getDeweyNo()[classification.getSelectedIndex()];
         String date1 = date.getText();
         String book_copies = copies.getText();
         String book_edition = edition.getText();
         String shelff = shelf.getText();
         String deckk = deck.getText();
 
-        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getText().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
+        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getSelectedItem().toString().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (upload) {
@@ -932,26 +961,29 @@ public class edit_book extends javax.swing.JPanel {
                     }
                 }
             }
-            String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
             String uidpath = new getUID().getUid();
             String call_no = genr + "-" + shelff + deckk + "-" + date1;
-            String key = call_no;
 
-            v = new pushValue(key);
+            v = new pushValue(ck);
             m = new HashMap<>();
             m.put("booktitle", book_title);
             m.put("bookauthor", book_author);
             m.put("publisher", publ);
             m.put("isbn", book_isbn);
             m.put("classification", genr);
+            m.put("classification_code", genr);
+            m.put("classification_pos", classification.getSelectedIndex());
+            m.put("classification", classification.getSelectedItem().toString());
             m.put("date", date1);
             m.put("copies", book_copies);
             m.put("edition", book_edition);
             m.put("shelf", shelff);
             m.put("deck", deckk);
-            m.put("key", key);
+            m.put("key", ck);
             m.put("call_number", call_no);
             m.put("status", "Available");
+            m.put("remaining_copies", remaining_copies);
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
             v.pushData("books/" + uidpath, m);
@@ -1040,14 +1072,6 @@ public class edit_book extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_authorKeyTyped
 
-    private void classificationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classificationKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_classificationKeyTyped
-
     private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.closePopupLast();
@@ -1085,6 +1109,11 @@ public class edit_book extends javax.swing.JPanel {
         repaint();
     }//GEN-LAST:event_deleteActionPerformed
 
+    private void classificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationActionPerformed
+        // TODO add your handling code here:
+        //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
+    }//GEN-LAST:event_classificationActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel allowedtype;
@@ -1092,7 +1121,7 @@ public class edit_book extends javax.swing.JPanel {
     private javax.swing.JLabel authorlabel;
     private javax.swing.JTextField booktitle;
     private javax.swing.JLabel booktitlelabel;
-    private javax.swing.JTextField classification;
+    private libratech.design.ComboBoxSuggestion classification;
     private javax.swing.JLabel classificationlabel;
     private javax.swing.JTextField copies;
     private javax.swing.JLabel copieslabel;

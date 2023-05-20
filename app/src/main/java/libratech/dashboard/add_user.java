@@ -63,6 +63,7 @@ public class add_user extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser1 = new libratech.design.DateChooser();
         adduserlabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         fullnamelabel = new javax.swing.JLabel();
@@ -91,6 +92,8 @@ public class add_user extends javax.swing.JPanel {
         address = new javax.swing.JTextField();
         addbutton = new libratech.design.MyButtonborderless();
         cancelbutton = new libratech.design.MyButtonborder();
+
+        dateChooser1.setTextRefernce(dateofbirth);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -725,6 +728,7 @@ public class add_user extends javax.swing.JPanel {
     private javax.swing.JLabel contactnumberlabel;
     private javax.swing.JTextField coursegrade;
     private javax.swing.JLabel coursegradelabel;
+    private libratech.design.DateChooser dateChooser1;
     private javax.swing.JTextField dateofbirth;
     private javax.swing.JLabel dateofbirthlabel;
     private javax.swing.JTextField email;

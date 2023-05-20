@@ -14,6 +14,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,23 +56,6 @@ public class books_menu extends javax.swing.JPanel {
         inshelfTable1.fixTable(jScrollPane1);
         retrieveData();
 
-        barcode();
-
-    }
-
-    private void barcode() {
-        try {
-            File file = new File("src/main/resources/file.png");
-            Barcode barcode = BarcodeFactory.createCode128("CTU-MC 000-04A-001-001");
-            barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-            barcode.setBarHeight(60);
-            barcode.setBarWidth(2);
-            BarcodeImageHandler.savePNG(barcode, file);
-
-        } catch (BarcodeException | OutputException ex) {
-            Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     private void retrieveData() {
@@ -78,8 +63,8 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                System.out.println("Ck: " + book.getControlNumber());
-                GlassPanePopup.showPopup(new edit_book(book.getControlNumber(), inshelfTable1));
+                System.out.println("Ck: " + book.getChildKey());
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
             }
         };
 
@@ -104,7 +89,7 @@ public class books_menu extends javax.swing.JPanel {
                         String shelf = child.child("shelf").getValue(String.class);
                         String date = child.child("date").getValue(String.class);
                         String status = child.child("status").getValue(String.class);
-
+                        
                         TableStatus statust = new TableStatus();
 
                         if (status.equals("Available")) {
@@ -118,17 +103,45 @@ public class books_menu extends javax.swing.JPanel {
                         } else {
                             statust.setType(StatusType.Returned);
                         }
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType()).toRowTable(eventAction));
-                        new Book().setControlNumber(key);
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType(), key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
+                        
+//                        if (Integer.parseInt(child.child("remaining_copies").getValue(String.class)) <= 0) {
+//                            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+//                            String uidpath = new getUID().getUid();
+//                            v = new pushValue(key);
+//                            m = new HashMap<>();
+//                            m.put("booktitle", bookTitle);
+//                            m.put("bookauthor", author);
+//                            m.put("publisher", publisher);
+//                            m.put("isbn", child.child("isbn").getValue(String.class));
+//                            m.put("classification_code", child.child("classification_code").getValue(String.class));
+//                            m.put("classification_pos", child.child("classification_pos").getValue(String.class));
+//                            m.put("classification", child.child("classification").getValue(String.class));
+//                            m.put("date", child.child("date").getValue(String.class));
+//                            m.put("copies", child.child("copies").getValue(String.class));
+//                            m.put("edition", child.child("edition").getValue(String.class));
+//                            m.put("shelf", child.child("shelf").getValue(String.class));
+//                            m.put("deck", child.child("deck").getValue(String.class));
+//                            m.put("key", key);
+//                            m.put("call_number", call_no);
+//                            m.put("status", "Borwwwrowed");
+//                            m.put("remaining_copies", child.child("remaining_copies").getValue(String.class));
+//                            m.put("timestamp", getnow);
+//                            m.put("cover", bookCoverUrl);
+//                            v.pushData("books/" + uidpath, m);
+//                            m.clear();
+//                        }
                     }
                 }
                 v = new pushValue("inshelf");
                 m = new HashMap<>();
                 m.put("total", mod.getRowCount());
                 v.pushData(path, m);
+                m.clear();
 
             }
 

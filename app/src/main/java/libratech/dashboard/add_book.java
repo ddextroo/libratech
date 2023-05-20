@@ -41,12 +41,19 @@ import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import libratech.design.loading;
+import libratech.models.ClassificationInfo;
 import libratech.models.auth;
 import libratech.models.getUID;
+import libratech.models.getUserInfo;
 import libratech.models.pushValue;
 import libratech.models.retrieve;
 import libratech.util.firebaseInit;
 import libratech.util.storage;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
+import net.sourceforge.barbecue.output.OutputException;
 
 /**
  *
@@ -61,12 +68,17 @@ public class add_book extends javax.swing.JPanel {
     private pushValue v;
     private retrieve r;
     private String uid;
+    ClassificationInfo info = new ClassificationInfo();
 
     public add_book() {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
+
+        classification.setEditable(true);
+        classification.setModel(new javax.swing.DefaultComboBoxModel(info.getClassification()));
+        classification.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250));
     }
 
     @Override
@@ -83,6 +95,7 @@ public class add_book extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateChooser1 = new libratech.design.DateChooser();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         coverlabel = new javax.swing.JLabel();
@@ -99,7 +112,7 @@ public class add_book extends javax.swing.JPanel {
         publisherlabel = new javax.swing.JLabel();
         classificationlabel = new javax.swing.JLabel();
         jPanel9 = new RoundedPanel(12, new Color(250,250,250));
-        classification = new javax.swing.JTextField();
+        classification = new libratech.design.ComboBoxSuggestion();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250));
         isbn = new javax.swing.JTextField();
         isbnlabel = new javax.swing.JLabel();
@@ -120,6 +133,9 @@ public class add_book extends javax.swing.JPanel {
         jPanel15 = new RoundedPanel(12, new Color(250,250,250));
         edition = new javax.swing.JTextField();
         editionlabel = new javax.swing.JLabel();
+
+        dateChooser1.setDateFormat("yyyy");
+        dateChooser1.setTextRefernce(date);
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -257,16 +273,11 @@ public class add_book extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(0, 0, 0));
         jPanel9.setOpaque(false);
 
-        classification.setBackground(new java.awt.Color(250, 250, 250));
-        classification.setBorder(null);
+        classification.setBackground(new java.awt.Color(255, 255, 255));
+        classification.setEditable(false);
         classification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 classificationActionPerformed(evt);
-            }
-        });
-        classification.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                classificationKeyTyped(evt);
             }
         });
 
@@ -274,16 +285,16 @@ public class add_book extends javax.swing.JPanel {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(classification, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(316, 316, 316))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(classification, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(classification, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(classification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -548,7 +559,7 @@ public class add_book extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(classificationlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 276, Short.MAX_VALUE)
@@ -658,7 +669,7 @@ public class add_book extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -673,10 +684,6 @@ public class add_book extends javax.swing.JPanel {
     private void publisherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_publisherActionPerformed
-
-    private void classificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classificationActionPerformed
 
     private void isbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbnActionPerformed
         // TODO add your handling code here:
@@ -693,6 +700,19 @@ public class add_book extends javax.swing.JPanel {
     private void shelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shelfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_shelfActionPerformed
+    private void barcode(String code) {
+        try {
+            File file = new File("src/main/resources/file");
+            Barcode barcode = BarcodeFactory.createCode128(code);
+            barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+            barcode.setBarHeight(60);
+            barcode.setBarWidth(2);
+            BarcodeImageHandler.savePNG(barcode, file);
+
+        } catch (BarcodeException | OutputException ex) {
+            Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void myButtonborderless2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless2ActionPerformed
         // TODO add your handling code here:
@@ -700,7 +720,7 @@ public class add_book extends javax.swing.JPanel {
         String book_author = author.getText();
         String publ = publisher.getText();
         String book_isbn = isbn.getText();
-        String genr = classification.getText();
+        String genr = info.getDeweyNo()[classification.getSelectedIndex()];
         String date1 = date.getText();
         String book_copies = copies.getText();
         String book_edition = edition.getText();
@@ -708,7 +728,7 @@ public class add_book extends javax.swing.JPanel {
         String deckk = deck.getText();
         String downloadUrl = "";
 
-        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getText().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
+        if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getSelectedItem().toString().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (this.localFilePath.equals("")) {
@@ -722,17 +742,22 @@ public class add_book extends javax.swing.JPanel {
                     Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
             String uidpath = new getUID().getUid();
             String call_no = genr + "-" + shelff + deckk + "-" + date1;
-            String key = call_no;
+            String key = databaseReference.push().getKey();
+            String bcode = "LIBRATECH" + genr + shelff + deckk + String.format("%04d", Integer.valueOf(book_copies));
+            System.out.println(bcode);
+
             v = new pushValue(key);
             m = new HashMap<>();
             m.put("booktitle", book_title);
             m.put("bookauthor", book_author);
             m.put("publisher", publ);
             m.put("isbn", book_isbn);
-            m.put("classification", genr);
+            m.put("classification_code", genr);
+            m.put("classification_pos", classification.getSelectedIndex());
+            m.put("classification", classification.getSelectedItem().toString());
             m.put("date", date1);
             m.put("copies", book_copies);
             m.put("edition", book_edition);
@@ -742,8 +767,19 @@ public class add_book extends javax.swing.JPanel {
             m.put("call_number", call_no);
             m.put("status", "Available");
             m.put("timestamp", getnow);
+            m.put("remaining_copies", book_copies);
             m.put("cover", downloadUrl);
             v.pushData("books/" + uidpath, m);
+            m.clear();
+
+            for (int i = 1; i <= Integer.parseInt(book_copies); i++) {
+                v = new pushValue("LIBRATECH" + genr + shelff + deckk + String.format("%04d", i));
+                m = new HashMap<>();
+                m.put("borrowed", "false");
+                v.pushData("book_copies/" + uidpath + "/" + key, m);
+                m.clear();
+            }
+
             GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
@@ -828,14 +864,6 @@ public class add_book extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_authorKeyTyped
 
-    private void classificationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classificationKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_classificationKeyTyped
-
     private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.closePopupLast();
@@ -861,6 +889,11 @@ public class add_book extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_deckActionPerformed
 
+    private void classificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationActionPerformed
+        // TODO add your handling code here:
+        //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
+    }//GEN-LAST:event_classificationActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel allowedtype;
@@ -868,12 +901,13 @@ public class add_book extends javax.swing.JPanel {
     private javax.swing.JLabel authorlabel;
     private javax.swing.JTextField booktitle;
     private javax.swing.JLabel booktitlelabel;
-    private javax.swing.JTextField classification;
+    private libratech.design.ComboBoxSuggestion classification;
     private javax.swing.JLabel classificationlabel;
     private javax.swing.JTextField copies;
     private javax.swing.JLabel copieslabel;
     private javax.swing.JLabel coverlabel;
     private javax.swing.JTextField date;
+    private libratech.design.DateChooser dateChooser1;
     private javax.swing.JLabel datelabel;
     private javax.swing.JTextField deck;
     private javax.swing.JLabel decklabel;

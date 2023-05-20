@@ -129,7 +129,7 @@ public class Book {
         this.status = status;
     }
 
-    public Book(String title, String publisher, String classification, String author, String controlNumber, String copies, StatusType status) {
+    public Book(String title, String publisher, String classification, String author, String controlNumber, String copies, StatusType status, String childKey) {
         this.author = author;
         this.title = title;
         this.classification = classification;
@@ -137,6 +137,7 @@ public class Book {
         this.publisher = publisher;
         this.copies = copies;
         this.status = status;
+        this.childKey = childKey;
 
     }
 
