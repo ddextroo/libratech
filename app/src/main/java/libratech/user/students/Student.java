@@ -4,6 +4,7 @@ public class Student {
 
     private String email;
     private String IDnumber;
+    private String name;
     private StatusTypeStudent Status;
 
     public String getEmail() {
@@ -25,10 +26,16 @@ public class Student {
     public void setStatus(StatusTypeStudent Status) {
         this.Status = Status;
     }
+    
 
     public Object[] toRowTable(EventActionStudent event) {
 
         return new Object[]{email, IDnumber, Status, new ModelActionStudent(this, event)};
+    }
+
+    public Object[] toRowTableSelectUser(EventActionStudent event) {
+
+        return new Object[]{name, IDnumber, new ModelActionStudent(this, event)};
     }
 
     public Student(String email, String IDnumber, StatusTypeStudent Status) {
@@ -36,8 +43,14 @@ public class Student {
         this.IDnumber = IDnumber;
         this.Status = Status;
     }
+
+    public Student(String name, String IDnumber) {
+        this.name = name;
+        this.IDnumber = IDnumber;
+    }
+
     public Student() {
-        
+
     }
 
     public void setIDnumber(String IDnumber) {

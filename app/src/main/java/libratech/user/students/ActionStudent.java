@@ -46,7 +46,7 @@ public class ActionStudent extends javax.swing.JPanel {
         myButtonborderless1 = new libratech.design.MyButtonborderless();
 
         myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
-        myButtonborderless1.setText("Edit");
+        myButtonborderless1.setText("Select");
         myButtonborderless1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

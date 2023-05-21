@@ -23,6 +23,13 @@ public class Book {
     private StatusType status;
     private Icon icon;
 
+    private String barcode;
+    private String status_string;
+
+    public String getStatus_string() {
+        return status_string;
+    }
+
 //    private ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius) {
 //        int width = originalImage.getWidth();
 //        int height = originalImage.getHeight();
@@ -60,6 +67,10 @@ public class Book {
 
     public void setChildKey(String childKey) {
         this.childKey = childKey;
+    }
+
+    public String getBarcode() {
+        return barcode;
     }
 
     public void setIcon(Icon icon) {
@@ -115,6 +126,11 @@ public class Book {
         return new Object[]{title, publisher, classification, author, controlNumber, copies, status, new ModelAction(this, event)};
     }
 
+    public Object[] toRowTableBorrow(EventAction event) {
+
+        return new Object[]{barcode, classification, status, new ModelAction(this, event)};
+    }
+
     public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
         this.bookCoverUrl = bookCoverUrl;
         this.author = author;
@@ -139,6 +155,13 @@ public class Book {
         this.status = status;
         this.childKey = childKey;
 
+    }
+
+    public Book(String barcode, String classification, StatusType status, String status_string) {
+        this.barcode = barcode;
+        this.classification = classification;
+        this.status = status;
+        this.status_string = status_string;
     }
 
     public Book() {

@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -352,6 +353,7 @@ public class edit_book extends javax.swing.JPanel {
         edition = new javax.swing.JTextField();
         editionlabel = new javax.swing.JLabel();
         delete = new libratech.design.MyButtonborder();
+        myButtonborderless3 = new libratech.design.MyButtonborderless();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -761,6 +763,14 @@ public class edit_book extends javax.swing.JPanel {
             }
         });
 
+        myButtonborderless3.setForeground(new java.awt.Color(224, 224, 224));
+        myButtonborderless3.setText("Borrow book");
+        myButtonborderless3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -777,7 +787,9 @@ public class edit_book extends javax.swing.JPanel {
                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel2))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButtonborderless3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(74, 74, 74)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,9 +850,12 @@ public class edit_book extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myButtonborderless3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(coverlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1049,10 +1064,6 @@ public class edit_book extends javax.swing.JPanel {
 
     private void isbnKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_isbnKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_isbnKeyTyped
 
     private void shelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_shelfKeyTyped
@@ -1114,6 +1125,12 @@ public class edit_book extends javax.swing.JPanel {
         //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
     }//GEN-LAST:event_classificationActionPerformed
 
+    private void myButtonborderless3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless3ActionPerformed
+        // TODO add your handling code here:
+        GlassPanePopup.closePopupLast();
+        GlassPanePopup.showPopup(new borrow_book(ck));
+    }//GEN-LAST:event_myButtonborderless3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel allowedtype;
@@ -1149,6 +1166,7 @@ public class edit_book extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private libratech.design.MyButtonborder myButtonborder1;
     private libratech.design.MyButtonborderless myButtonborderless2;
+    private libratech.design.MyButtonborderless myButtonborderless3;
     private libratech.design.PhotoCover photoCover1;
     private javax.swing.JTextField publisher;
     private javax.swing.JLabel publisherlabel;
@@ -1183,6 +1201,7 @@ public class edit_book extends javax.swing.JPanel {
         classificationlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborderless3.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         delete.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 
     }

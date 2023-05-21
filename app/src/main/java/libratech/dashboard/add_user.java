@@ -630,6 +630,7 @@ public class add_user extends javax.swing.JPanel {
             m.put("key", idnum);
             m.put("status", "Active");
             m.put("timestamp", getnow);
+            m.put("fines", 0);
             v.pushData("students/" + uidpath, m);
             GlassPanePopup.closePopupAll();
         }

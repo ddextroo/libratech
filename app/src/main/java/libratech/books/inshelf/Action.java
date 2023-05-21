@@ -48,7 +48,7 @@ public class Action extends javax.swing.JPanel {
         myButtonborderless1 = new libratech.design.MyButtonborderless();
 
         myButtonborderless1.setForeground(new java.awt.Color(250, 250, 250));
-        myButtonborderless1.setText("Edit");
+        myButtonborderless1.setText("Select");
         myButtonborderless1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         myButtonborderless1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,6 +80,6 @@ public class Action extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private libratech.design.MyButtonborderless myButtonborderless1;
+    public libratech.design.MyButtonborderless myButtonborderless1;
     // End of variables declaration//GEN-END:variables
 }

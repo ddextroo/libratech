@@ -775,7 +775,11 @@ public class add_book extends javax.swing.JPanel {
             for (int i = 1; i <= Integer.parseInt(book_copies); i++) {
                 v = new pushValue("LIBRATECH" + genr + shelff + deckk + String.format("%04d", i));
                 m = new HashMap<>();
-                m.put("borrowed", "false");
+                m.put("status", "Available");
+                m.put("barcode", "LIBRATECH" + genr + shelff + deckk + String.format("%04d", i));
+                m.put("classification_code", genr);
+                m.put("classification_pos", classification.getSelectedIndex());
+                m.put("classification", classification.getSelectedItem().toString());
                 v.pushData("book_copies/" + uidpath + "/" + key, m);
                 m.clear();
             }
@@ -841,10 +845,6 @@ public class add_book extends javax.swing.JPanel {
 
     private void isbnKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_isbnKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_isbnKeyTyped
 
     private void shelfKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_shelfKeyTyped
@@ -963,6 +963,5 @@ public class add_book extends javax.swing.JPanel {
         classificationlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-
     }
 }

@@ -36,7 +36,7 @@
   <SubComponents>
     <Component class="libratech.design.MyButtonborderless" name="myButtonborderless1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
+        <Property name="text" type="java.lang.String" value="Select"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
       <Events>
