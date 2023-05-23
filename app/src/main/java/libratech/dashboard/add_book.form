@@ -57,10 +57,10 @@
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jPanel12" pref="276" max="32767" attributes="0"/>
+                                      <Component id="jPanel12" pref="280" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="copieslabel" min="-2" pref="143" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="133" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -74,10 +74,14 @@
                                       <Component id="shelflabel" min="-2" pref="90" max="-2" attributes="0"/>
                                       <Component id="jPanel14" min="-2" pref="267" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="decklabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="jPanel13" alignment="0" pref="276" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="decklabel" min="-2" pref="90" max="-2" attributes="0"/>
+                                          <EmptySpace pref="190" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="jPanel13" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">

@@ -24,6 +24,7 @@ import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
+import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
@@ -47,6 +48,7 @@ public class books_menu extends javax.swing.JPanel {
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
     private pushValue v;
+    ImageScaler scaler = new ImageScaler();
 
     public books_menu() {
         initComponents();
@@ -54,6 +56,7 @@ public class books_menu extends javax.swing.JPanel {
         this.mod = (DefaultTableModel) inshelfTable1.getModel();
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
+        scaler.scaleImage(jLabel3, "src\\main\\resources\\bookmark-line.png");
         retrieveData();
 
     }
@@ -80,6 +83,7 @@ public class books_menu extends javax.swing.JPanel {
                         String bookCoverUrl = child.child("cover").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
                         String classification = child.child("classification").getValue(String.class);
                         String author = child.child("bookauthor").getValue(String.class);
                         String dewey = child.child("isbn").getValue(String.class);
@@ -103,7 +107,7 @@ public class books_menu extends javax.swing.JPanel {
                         } else {
                             statust.setType(StatusType.Returned);
                         }
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, call_no, copies, statust.getType(), key).toRowTable(eventAction));
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, statust.getType(), key).toRowTable(eventAction));
                         new Book().setChildKey(key);
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
@@ -166,6 +170,7 @@ public class books_menu extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
+        jLabel3 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -206,6 +211,14 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.setPreferredSize(new java.awt.Dimension(25, 25));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -213,18 +226,21 @@ public class books_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1023, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1160, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel8, java.awt.BorderLayout.PAGE_START);
@@ -242,7 +258,7 @@ public class books_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Book Title", "Book Publisher", "Classification", "Book Author", "Call Number", "Number of Copies", "Book Status", "Actions"
+                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -266,11 +282,11 @@ public class books_menu extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1329, Short.MAX_VALUE)
+            .addGap(0, 1497, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Borrowed", jPanel4);
@@ -279,11 +295,11 @@ public class books_menu extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1329, Short.MAX_VALUE)
+            .addGap(0, 1497, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Overdue", jPanel5);
@@ -292,11 +308,11 @@ public class books_menu extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1329, Short.MAX_VALUE)
+            .addGap(0, 1497, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Lost", jPanel6);
@@ -305,11 +321,11 @@ public class books_menu extends javax.swing.JPanel {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1329, Short.MAX_VALUE)
+            .addGap(0, 1497, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
 
         materialTabbed1.addTab("Damaged", jPanel7);
@@ -321,16 +337,16 @@ public class books_menu extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(309, 309, 309)
+                .addGap(931, 931, 931)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(900, Short.MAX_VALUE))
+                .addContainerGap(446, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(164, 164, 164)
+                .addGap(216, 216, 216)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(404, Short.MAX_VALUE))
+                .addContainerGap(587, Short.MAX_VALUE))
         );
 
         materialTabbed1.addTab("Test", jPanel3);
@@ -355,6 +371,11 @@ public class books_menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        // TODO add your handling code here:
+        GlassPanePopup.showPopup(new cart());
+    }//GEN-LAST:event_jLabel3MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -363,6 +384,7 @@ public class books_menu extends javax.swing.JPanel {
     public libratech.books.inshelf.InshelfTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

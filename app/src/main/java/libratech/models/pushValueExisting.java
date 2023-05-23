@@ -1,31 +1,31 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package libratech.models;
 
 import com.google.firebase.database.*;
 import java.util.*;
 
-public class pushValue {
+public class pushValueExisting {
 
     private DatabaseReference databaseReference;
     private String path = "user";
     private String pushKey;
 
-    public pushValue(String pushkey) {
-        this.path = path;
+    public pushValueExisting(String pushKey) {
+        this.pushKey = pushKey;
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
-        this.pushKey = pushkey;
     }
 
     public void pushData(String path, HashMap<String, Object> data) {
         DatabaseReference childReference = databaseReference.child(path).child(pushKey);
-        Map<String, Object> updates = new HashMap<>();
-        updates.put(pushKey, data);
-        childReference.getParent().updateChildren(updates, (DatabaseError databaseError, DatabaseReference databaseReference1) -> {
-            if (databaseError != null) {
-                System.err.println("Data could not be saved: " + databaseError.getMessage());
+        childReference.updateChildren(data, (error, ref) -> {
+            if (error != null) {
+                System.err.println("Data could not be saved: " + error.getMessage());
             } else {
                 System.out.println("Data saved successfully.");
             }
         });
     }
-
 }

@@ -76,7 +76,7 @@ public class borrow_book extends javax.swing.JPanel {
         EventAction eventAction = (Book book) -> {
             if (book.getStatus_string().equals("Available")) {
                 System.out.println(book.getStatus_string());
-                GlassPanePopup.showPopup(new select_user(book.getBarcode(), key));
+               // GlassPanePopup.showPopup(new select_user(key));
             } else {
                 System.out.println("Ambot");
             }

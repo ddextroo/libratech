@@ -123,12 +123,17 @@ public class Book {
 
     public Object[] toRowTable(EventAction event) {
 
-        return new Object[]{title, publisher, classification, author, controlNumber, copies, status, new ModelAction(this, event)};
+        return new Object[]{title, publisher, classification, author, barcode, copies, status, new ModelAction(this, event)};
     }
 
     public Object[] toRowTableBorrow(EventAction event) {
 
         return new Object[]{barcode, classification, status, new ModelAction(this, event)};
+    }
+
+    public Object[] toRowTableReceipt(EventAction event) {
+
+        return new Object[]{title, barcode};
     }
 
     public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
@@ -145,11 +150,11 @@ public class Book {
         this.status = status;
     }
 
-    public Book(String title, String publisher, String classification, String author, String controlNumber, String copies, StatusType status, String childKey) {
+    public Book(String title, String publisher, String classification, String author, String barcode, String copies, StatusType status, String childKey) {
         this.author = author;
         this.title = title;
         this.classification = classification;
-        this.controlNumber = controlNumber;
+        this.barcode = barcode;
         this.publisher = publisher;
         this.copies = copies;
         this.status = status;
@@ -162,6 +167,11 @@ public class Book {
         this.classification = classification;
         this.status = status;
         this.status_string = status_string;
+    }
+
+    public Book(String title, String barcode) {
+        this.title = title;
+        this.barcode = barcode;
     }
 
     public Book() {

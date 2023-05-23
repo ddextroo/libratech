@@ -562,10 +562,10 @@ public class add_book extends javax.swing.JPanel {
                                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 276, Short.MAX_VALUE)
+                                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 280, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(copieslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 133, Short.MAX_VALUE))))
+                                            .addGap(0, 137, Short.MAX_VALUE))))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(isbnlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -574,10 +574,13 @@ public class add_book extends javax.swing.JPanel {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(shelflabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 276, Short.MAX_VALUE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            .addComponent(decklabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE))
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(allowedtype)
@@ -700,16 +703,19 @@ public class add_book extends javax.swing.JPanel {
     private void shelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shelfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_shelfActionPerformed
+
     private void barcode(String code) {
         try {
-            File file = new File("src/main/resources/file");
             Barcode barcode = BarcodeFactory.createCode128(code);
             barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
             barcode.setBarHeight(60);
             barcode.setBarWidth(2);
+
+            // Create a temporary file to save the barcode image
+            File file = File.createTempFile("barcode", ".png");
             BarcodeImageHandler.savePNG(barcode, file);
 
-        } catch (BarcodeException | OutputException ex) {
+        } catch (BarcodeException | OutputException | IOException ex) {
             Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -745,9 +751,9 @@ public class add_book extends javax.swing.JPanel {
             String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
             String uidpath = new getUID().getUid();
             String call_no = genr + "-" + shelff + deckk + "-" + date1;
-            String key = databaseReference.push().getKey();
+            //String key = databaseReference.push().getKey();
             String bcode = "LIBRATECH" + genr + shelff + deckk + String.format("%04d", Integer.valueOf(book_copies));
-            System.out.println(bcode);
+            String key = bcode;
 
             v = new pushValue(key);
             m = new HashMap<>();
@@ -756,6 +762,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("publisher", publ);
             m.put("isbn", book_isbn);
             m.put("classification_code", genr);
+            m.put("barcode", bcode);
             m.put("classification_pos", classification.getSelectedIndex());
             m.put("classification", classification.getSelectedItem().toString());
             m.put("date", date1);
@@ -764,26 +771,13 @@ public class add_book extends javax.swing.JPanel {
             m.put("shelf", shelff);
             m.put("deck", deckk);
             m.put("key", key);
-            m.put("call_number", call_no);
+           // m.put("call_number", call_no);
             m.put("status", "Available");
             m.put("timestamp", getnow);
             m.put("remaining_copies", book_copies);
             m.put("cover", downloadUrl);
             v.pushData("books/" + uidpath, m);
             m.clear();
-
-            for (int i = 1; i <= Integer.parseInt(book_copies); i++) {
-                v = new pushValue("LIBRATECH" + genr + shelff + deckk + String.format("%04d", i));
-                m = new HashMap<>();
-                m.put("status", "Available");
-                m.put("barcode", "LIBRATECH" + genr + shelff + deckk + String.format("%04d", i));
-                m.put("classification_code", genr);
-                m.put("classification_pos", classification.getSelectedIndex());
-                m.put("classification", classification.getSelectedItem().toString());
-                v.pushData("book_copies/" + uidpath + "/" + key, m);
-                m.clear();
-            }
-
             GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_myButtonborderless2ActionPerformed

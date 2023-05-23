@@ -33,6 +33,9 @@ dependencies {
     implementation 'org.swinglabs.swingx:swingx-all:1.6.4'
     implementation 'net.sourceforge.barbecue:barbecue:1.5-beta1'
     implementation fileTree(dir: 'lib', include: ['*.jar'])
+    implementation 'com.itextpdf:itextpdf:5.0.6'
+    implementation 'javax.activation:activation:1.1.1'
+    implementation 'javax.mail:mail:1.5.0-b01'
 
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.squareup.okhttp3:okhttp:4.4.0'

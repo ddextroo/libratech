@@ -57,6 +57,16 @@ public class user_menu extends javax.swing.JPanel {
                 System.out.println("Ck: " + student.getIDnumber());
                 // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
         };
 
         dbRef = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
