@@ -77,6 +77,7 @@ public class select_user extends javax.swing.JPanel {
     private EventActionStudent eventAction;
     private HashMap<String, Object> m;
     private pushValueExisting v;
+    private pushValue v2;
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -113,154 +114,9 @@ public class select_user extends javax.swing.JPanel {
         scaler.scaleImage(jLabel2, "src\\main\\resources\\arrow-left-line.png");
         scaler.scaleImage(searchicon, "src\\main\\resources\\search-line.png");
         setOpaque(false);
-//        controlnumber.setText(key);
-//        retrieveBooksInfo();
-        //barcode(key);
+        dateborrowed.setEnabled(false);
 
     }
-
-//    private void barcode(String code) {
-//        try {
-//            Barcode barcode = BarcodeFactory.createCode128(code);
-//            barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-//            barcode.setBarHeight(60);
-//            barcode.setBarWidth(2);
-//
-//            // Create a temporary file to save the barcode image
-//            File file = File.createTempFile("barcode", ".png");
-//            BarcodeImageHandler.savePNG(barcode, file);
-//            scaler.scaleImage(jLabel3, file.getAbsolutePath());
-//
-//        } catch (BarcodeException | OutputException | IOException ex) {
-//            Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    private void retrieveBooksInfo() {
-//
-//        classification.setModel(new javax.swing.DefaultComboBoxModel(info.getClassification()));
-//        classification.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250));
-//        booksinfo = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.equals(parentKey)) {
-//                    try {
-//                        booktitle.setText(_childValue.get("booktitle").toString());
-//                        author.setText(_childValue.get("bookauthor").toString());
-//                        publisher.setText(_childValue.get("publisher").toString());
-//                        classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
-//                        date.setText(_childValue.get("date").toString());
-//                        copies.setText(_childValue.get("copies").toString());
-//                        isbn.setText(_childValue.get("isbn").toString());
-//                        shelf.setText(_childValue.get("shelf").toString());
-//                        deck.setText(_childValue.get("deck").toString());
-//                        edition.setText(_childValue.get("edition").toString());
-//                        URL url = new URL(_childValue.get("cover").toString());
-//                        BufferedImage image = ImageIO.read(url);
-//                        photoCover1.setImage(image);
-//                        remaining_copies = Integer.parseInt(_childValue.get("remaining_copies").toString());
-//                    } catch (MalformedURLException ex) {
-//                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (IOException ex) {
-//                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.equals(parentKey)) {
-//                    try {
-//                        booktitle.setText(_childValue.get("booktitle").toString());
-//                        author.setText(_childValue.get("bookauthor").toString());
-//                        publisher.setText(_childValue.get("publisher").toString());
-//                        classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
-//                        date.setText(_childValue.get("date").toString());
-//                        copies.setText(_childValue.get("copies").toString());
-//                        isbn.setText(_childValue.get("isbn").toString());
-//                        shelf.setText(_childValue.get("shelf").toString());
-//                        deck.setText(_childValue.get("deck").toString());
-//                        edition.setText(_childValue.get("edition").toString());
-//                        URL url = new URL(_childValue.get("cover").toString());
-//                        BufferedImage image = ImageIO.read(url);
-//                        photoCover1.setImage(image);
-//                        remaining_copies = Integer.parseInt(_childValue.get("remaining_copies").toString());
-//                    } catch (MalformedURLException ex) {
-//                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (IOException ex) {
-//                        Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        books.addChildEventListener(booksinfo);
-//    }
-//    private void selectDate(String id) {
-//        accinfo = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                System.out.println(_childKey);
-//                if (_childKey.equals(id)) {
-//                    borrowername.setText(_childValue.get("fullname").toString());
-//                    borrowerid.setText(_childValue.get("idno").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.equals(id)) {
-//                    borrowername.setText(_childValue.get("fullname").toString());
-//                    borrowerid.setText(_childValue.get("idno").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        acc.addChildEventListener(accinfo);
-//    }
     private void retrieveData(String idn) {
         // Fetch data from Firebase and create table
         eventAction = new EventActionStudent() {
@@ -273,15 +129,16 @@ public class select_user extends javax.swing.JPanel {
                 v = new pushValueExisting("borrower");
                 m = new HashMap<>();
                 m.put("idno", student.getIDnumber());
-                v.pushData("cart/" + new getUID().getUid(), m);
+                v.pushData("latest_borrower/" + new getUID().getUid(), m);
                 m.clear();
-                v = new pushValueExisting("borrower/books/" + key);
+                v2 = new pushValue(key);
                 m = new HashMap<>();
                 m.put("idno", student.getIDnumber());
                 m.put("book_title", title);
                 m.put("book_key", key);
-                m.put("due_date", duedate1.getText());
-                v.pushData("cart/" + new getUID().getUid(), m);
+                m.put("due_date", duedate.getText());
+                m.put("borrowed_date", dateborrowed.getText());
+                v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
                 m.clear();
                 GlassPanePopup.closePopupAll();
             }
@@ -336,6 +193,7 @@ public class select_user extends javax.swing.JPanel {
     private void initComponents() {
 
         dateChooser1 = new libratech.design.DateChooser();
+        dateChooser2 = new libratech.design.DateChooser();
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -345,13 +203,20 @@ public class select_user extends javax.swing.JPanel {
         searchicon = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        duedatelabel = new javax.swing.JLabel();
+        dateborrowedlabel = new javax.swing.JLabel();
         jPanel24 = new RoundedPanel(12, new Color(250,250,250));
-        duedate1 = new javax.swing.JTextField();
+        dateborrowed = new javax.swing.JTextField();
+        duedatelabel = new javax.swing.JLabel();
+        jPanel26 = new RoundedPanel(12, new Color(250,250,250));
+        duedate = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable1 = new libratech.user.students.studentTableSelect();
 
-        dateChooser1.setTextRefernce(duedate1);
+        dateChooser1.setDateFormat("MM-dd-yyyy");
+        dateChooser1.setTextRefernce(dateborrowed);
+
+        dateChooser2.setDateFormat("MM-dd-yyyy");
+        dateChooser2.setTextRefernce(duedate);
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -448,23 +313,23 @@ public class select_user extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        duedatelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        duedatelabel.setForeground(new java.awt.Color(51, 51, 51));
-        duedatelabel.setText("Due Date");
+        dateborrowedlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        dateborrowedlabel.setForeground(new java.awt.Color(51, 51, 51));
+        dateborrowedlabel.setText("Date Borrowed");
 
         jPanel24.setBackground(new java.awt.Color(0, 0, 0));
         jPanel24.setOpaque(false);
 
-        duedate1.setBackground(new java.awt.Color(250, 250, 250));
-        duedate1.setBorder(null);
-        duedate1.addMouseListener(new java.awt.event.MouseAdapter() {
+        dateborrowed.setBackground(new java.awt.Color(250, 250, 250));
+        dateborrowed.setBorder(null);
+        dateborrowed.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                duedate1MouseClicked(evt);
+                dateborrowedMouseClicked(evt);
             }
         });
-        duedate1.addActionListener(new java.awt.event.ActionListener() {
+        dateborrowed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                duedate1ActionPerformed(evt);
+                dateborrowedActionPerformed(evt);
             }
         });
 
@@ -474,14 +339,51 @@ public class select_user extends javax.swing.JPanel {
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(duedate1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateborrowed, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(533, 533, 533))
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(duedate1)
+                .addComponent(dateborrowed)
+                .addContainerGap())
+        );
+
+        duedatelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        duedatelabel.setForeground(new java.awt.Color(51, 51, 51));
+        duedatelabel.setText("Due Date");
+
+        jPanel26.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel26.setOpaque(false);
+
+        duedate.setBackground(new java.awt.Color(250, 250, 250));
+        duedate.setBorder(null);
+        duedate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                duedateMouseClicked(evt);
+            }
+        });
+        duedate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                duedateActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(duedate, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(533, 533, 533))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(duedate)
                 .addContainerGap())
         );
 
@@ -493,16 +395,26 @@ public class select_user extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 289, Short.MAX_VALUE)
+                    .addComponent(dateborrowedlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 289, Short.MAX_VALUE)
                     .addComponent(duedatelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1133, 1133, 1133))
+                .addGap(909, 909, 909))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(duedatelabel)
-                .addGap(4, 4, 4)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(duedatelabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(dateborrowedlabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -544,7 +456,7 @@ public class select_user extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -585,26 +497,36 @@ public class select_user extends javax.swing.JPanel {
         //System.out.println(desiredIDNumber + " " + row);
     }//GEN-LAST:event_searchiconMouseClicked
 
-    private void duedate1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_duedate1MouseClicked
+    private void dateborrowedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateborrowedMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_duedate1MouseClicked
+    }//GEN-LAST:event_dateborrowedMouseClicked
 
-    private void duedate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duedate1ActionPerformed
+    private void dateborrowedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateborrowedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_duedate1ActionPerformed
+    }//GEN-LAST:event_dateborrowedActionPerformed
+
+    private void duedateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_duedateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_duedateMouseClicked
+
+    private void duedateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_duedateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_duedateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private libratech.design.DateChooser dateChooser1;
+    private libratech.design.DateChooser dateChooser2;
+    private javax.swing.JTextField dateborrowed;
+    private javax.swing.JLabel dateborrowedlabel;
     private javax.swing.JTextField duedate;
-    private javax.swing.JTextField duedate1;
     private javax.swing.JLabel duedatelabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -616,7 +538,9 @@ public class select_user extends javax.swing.JPanel {
     public void initFont() {
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         studentTable1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-        duedate1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        dateborrowed.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        dateborrowedlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        duedate.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         duedatelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 
 //        coverlabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));

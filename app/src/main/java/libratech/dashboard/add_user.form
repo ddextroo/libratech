@@ -4,6 +4,7 @@
   <NonVisualComponents>
     <Component class="libratech.design.DateChooser" name="dateChooser1">
       <Properties>
+        <Property name="dateFormat" type="java.lang.String" value="MM-dd-yyyy"/>
         <Property name="textRefernce" type="javax.swing.JTextField" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="dateofbirth"/>
         </Property>

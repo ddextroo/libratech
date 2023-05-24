@@ -25,10 +25,12 @@ public class Book {
 
     private String barcode;
     private String status_string;
+    private String due_date;
 
     public String getStatus_string() {
         return status_string;
     }
+    
 
 //    private ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius) {
 //        int width = originalImage.getWidth();
@@ -133,7 +135,7 @@ public class Book {
 
     public Object[] toRowTableReceipt(EventAction event) {
 
-        return new Object[]{title, barcode};
+        return new Object[]{title, barcode, due_date};
     }
 
     public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
@@ -169,9 +171,10 @@ public class Book {
         this.status_string = status_string;
     }
 
-    public Book(String title, String barcode) {
+    public Book(String title, String barcode, String due_date) {
         this.title = title;
         this.barcode = barcode;
+        this.due_date = due_date;
     }
 
     public Book() {

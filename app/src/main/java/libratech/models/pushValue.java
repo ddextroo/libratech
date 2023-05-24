@@ -23,7 +23,7 @@ public class pushValue {
             if (databaseError != null) {
                 System.err.println("Data could not be saved: " + databaseError.getMessage());
             } else {
-                System.out.println("Data saved successfully.");
+
             }
         });
     }

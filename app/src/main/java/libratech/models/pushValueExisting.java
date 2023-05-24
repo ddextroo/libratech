@@ -24,7 +24,7 @@ public class pushValueExisting {
             if (error != null) {
                 System.err.println("Data could not be saved: " + error.getMessage());
             } else {
-                System.out.println("Data saved successfully.");
+
             }
         });
     }

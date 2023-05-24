@@ -93,6 +93,7 @@ public class add_user extends javax.swing.JPanel {
         addbutton = new libratech.design.MyButtonborderless();
         cancelbutton = new libratech.design.MyButtonborder();
 
+        dateChooser1.setDateFormat("MM-dd-yyyy");
         dateChooser1.setTextRefernce(dateofbirth);
 
         setBackground(new java.awt.Color(255, 255, 255));

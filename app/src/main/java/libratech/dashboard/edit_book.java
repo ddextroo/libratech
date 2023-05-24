@@ -4,7 +4,6 @@
  */
 package libratech.dashboard;
 
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,19 +11,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,15 +30,11 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import libratech.auth.login;
 import libratech.auth.signup;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
@@ -51,13 +43,10 @@ import libratech.books.inshelf.TableStatus;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
-import libratech.design.RoundedPanelBorderless;
 import libratech.design.loading;
 import libratech.models.ClassificationInfo;
 import libratech.models.Dashboard.retBooks;
-import libratech.models.auth;
 import libratech.models.getUID;
-import libratech.models.getUserInfo;
 import libratech.models.pushValue;
 import libratech.models.retrieve;
 import libratech.util.firebaseInit;
@@ -148,6 +137,7 @@ public class edit_book extends javax.swing.JPanel {
                         downloadUrl = _childValue.get("cover").toString();
                         remaining_copies = _childValue.get("remaining_copies").toString();
                         title = _childValue.get("booktitle").toString();
+                        jLabel2.setText("Edit book - " + _childValue.get("remaining_copies").toString() + " of " + _childValue.get("copies").toString() + " copies");
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
@@ -872,7 +862,7 @@ public class edit_book extends javax.swing.JPanel {
                 .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(myButtonborderless3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))

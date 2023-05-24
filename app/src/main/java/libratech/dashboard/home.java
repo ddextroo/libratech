@@ -84,7 +84,6 @@ public class home extends javax.swing.JFrame {
                 };
                 final String _childKey = dataSnapshot.getKey();
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-                System.out.println(_childKey);
                 if (_childKey.equals(uid)) {
                     school_n.setText(_childValue.get("school_name").toString());
                     idnum.setText(_childValue.get("school_id").toString());

@@ -8,6 +8,8 @@ import libratech.design.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -37,7 +39,7 @@ public class InshelfTable extends JTable {
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object o, boolean selected, boolean focus, int i, int i1) {
 
-                  if (o instanceof StatusType type) {
+                if (o instanceof StatusType type) {
                     CellStatus cell = new CellStatus(type);
                     if (selected) {
                         cell.setBackground(new Color(239, 244, 255));
@@ -89,5 +91,18 @@ public class InshelfTable extends JTable {
         JPanel p = new JPanel();
         scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         scroll.setBorder(new EmptyBorder(5, 10, 5, 10));
+    }
+
+    public List<Object> getColumnData(int columnIndex) {
+        DefaultTableModel model = (DefaultTableModel) getModel();
+        int rowCount = model.getRowCount();
+        List<Object> columnData = new ArrayList<>();
+
+        for (int row = 0; row < rowCount; row++) {
+            Object value = model.getValueAt(row, columnIndex);
+            columnData.add(value);
+        }
+
+        return columnData;
     }
 }

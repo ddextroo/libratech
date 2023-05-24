@@ -12,13 +12,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.AWTEvent;
 import java.awt.Color;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.awt.Cursor;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
@@ -29,11 +27,6 @@ import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.util.firebaseInit;
-import net.sourceforge.barbecue.Barcode;
-import net.sourceforge.barbecue.BarcodeException;
-import net.sourceforge.barbecue.BarcodeFactory;
-import net.sourceforge.barbecue.BarcodeImageHandler;
-import net.sourceforge.barbecue.output.OutputException;
 
 /**
  *
@@ -43,12 +36,14 @@ public class books_menu extends javax.swing.JPanel {
 
     private List<Book> books;
     private DatabaseReference dbRef;
+    private DatabaseReference dbRef1;
     DefaultTableModel mod;
     private String path = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
     private pushValue v;
     ImageScaler scaler = new ImageScaler();
+    boolean exist;
 
     public books_menu() {
         initComponents();
@@ -56,13 +51,35 @@ public class books_menu extends javax.swing.JPanel {
         this.mod = (DefaultTableModel) inshelfTable1.getModel();
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
-        scaler.scaleImage(jLabel3, "src\\main\\resources\\bookmark-line.png");
+        scaler.scaleImage(notificationLabel1, "src\\main\\resources\\bookmark-line.png");
+        notificationLabel1.setEnabled(false);
+        checkTransaction();
         retrieveData();
 
     }
 
+    private void checkTransaction() {
+        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    exist = true;
+                    notificationLabel1.showBadge();
+                } else {
+                    exist = false;
+                    notificationLabel1.hideBadge();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void retrieveData() {
-        // Fetch data from Firebase and create table
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
@@ -93,7 +110,7 @@ public class books_menu extends javax.swing.JPanel {
                         String shelf = child.child("shelf").getValue(String.class);
                         String date = child.child("date").getValue(String.class);
                         String status = child.child("status").getValue(String.class);
-                        
+
                         TableStatus statust = new TableStatus();
 
                         if (status.equals("Available")) {
@@ -112,7 +129,7 @@ public class books_menu extends javax.swing.JPanel {
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
-                        
+
 //                        if (Integer.parseInt(child.child("remaining_copies").getValue(String.class)) <= 0) {
 //                            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
 //                            String uidpath = new getUID().getUid();
@@ -170,7 +187,7 @@ public class books_menu extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
-        jLabel3 = new javax.swing.JLabel();
+        notificationLabel1 = new libratech.design.NotificationLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -211,11 +228,11 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.setPreferredSize(new java.awt.Dimension(25, 25));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        notificationLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        notificationLabel1.setPreferredSize(new java.awt.Dimension(25, 25));
+        notificationLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                notificationLabel1MouseClicked(evt);
             }
         });
 
@@ -227,7 +244,7 @@ public class books_menu extends javax.swing.JPanel {
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1160, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notificationLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
@@ -239,7 +256,7 @@ public class books_menu extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(notificationLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -337,16 +354,16 @@ public class books_menu extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(931, 931, 931)
+                .addGap(856, 856, 856)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(446, Short.MAX_VALUE))
+                .addContainerGap(521, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(216, 216, 216)
+                .addGap(163, 163, 163)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(587, Short.MAX_VALUE))
+                .addContainerGap(640, Short.MAX_VALUE))
         );
 
         materialTabbed1.addTab("Test", jPanel3);
@@ -371,10 +388,12 @@ public class books_menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void notificationLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notificationLabel1MouseClicked
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new cart());
-    }//GEN-LAST:event_jLabel3MouseClicked
+        if (exist) {
+            GlassPanePopup.showPopup(new cart());
+        }
+    }//GEN-LAST:event_notificationLabel1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -384,7 +403,6 @@ public class books_menu extends javax.swing.JPanel {
     public libratech.books.inshelf.InshelfTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -397,6 +415,7 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless1;
+    private libratech.design.NotificationLabel notificationLabel1;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
