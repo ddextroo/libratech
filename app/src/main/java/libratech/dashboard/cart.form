@@ -24,7 +24,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel12" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -79,7 +79,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel6" alignment="0" pref="569" max="32767" attributes="0"/>
+                      <Component id="jPanel6" alignment="0" pref="617" max="32767" attributes="0"/>
                       <Component id="jPanel7" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
@@ -262,17 +262,13 @@
                                           <Component id="name" max="32767" attributes="0"/>
                                           <Component id="address" alignment="0" max="32767" attributes="0"/>
                                           <Component id="email" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="phone" alignment="0" pref="339" max="32767" attributes="0"/>
+                                          <Component id="phone" alignment="0" pref="564" max="32767" attributes="0"/>
+                                          <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="197" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="jScrollPane3" min="-2" pref="516" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -346,17 +342,23 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="libratech.books.inshelf.InshelfTable" name="inshelfTable1">
+                        <Component class="libratech.books.borrowlist.borrowTable" name="inshelfTable1">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="3" rowCount="5">
+                              <Table columnCount="4" rowCount="5">
                                 <Column editable="false" title="Book Title" type="java.lang.Object"/>
                                 <Column editable="false" title="Book Code" type="java.lang.Object"/>
                                 <Column editable="false" title="Due Date" type="java.lang.Object"/>
+                                <Column editable="true" title="Delete Order" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
@@ -378,9 +380,6 @@
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>
                           </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                          </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -430,7 +429,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="189" max="32767" attributes="0"/>
+                          <EmptySpace pref="237" max="32767" attributes="0"/>
                           <Component id="cancel" min="-2" pref="90" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="borrow1" min="-2" pref="136" max="-2" attributes="0"/>

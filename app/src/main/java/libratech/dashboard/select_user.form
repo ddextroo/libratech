@@ -40,12 +40,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="jPanel8" pref="0" max="32767" attributes="0"/>
+                  <Component id="jPanel9" min="-2" pref="791" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -145,7 +147,7 @@
                       <Component id="search" min="-2" pref="410" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="searchicon" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -230,7 +232,9 @@
                           <Component id="jPanel26" alignment="0" pref="289" max="32767" attributes="0"/>
                           <Component id="duedatelabel" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="909" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="borrow" min="-2" pref="187" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="716" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -249,6 +253,7 @@
                               <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                               <Component id="jPanel24" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="borrow" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -374,6 +379,18 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="libratech.design.MyButtonborderless" name="borrow">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="fa" green="fa" red="fa" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Select latest borrower"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="borrowMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="borrowActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">

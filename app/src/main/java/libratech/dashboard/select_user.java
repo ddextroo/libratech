@@ -78,6 +78,8 @@ public class select_user extends javax.swing.JPanel {
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private pushValue v2;
+    private DatabaseReference dbRef1;
+    String idnum;
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -98,6 +100,7 @@ public class select_user extends javax.swing.JPanel {
         initFont();
         scaler.scaleImage(jLabel2, "src\\main\\resources\\arrow-left-line.png");
         setOpaque(false);
+        borrow.setVisible(false);
     }
 
     public select_user(String key, String title) {
@@ -115,8 +118,11 @@ public class select_user extends javax.swing.JPanel {
         scaler.scaleImage(searchicon, "src\\main\\resources\\search-line.png");
         setOpaque(false);
         dateborrowed.setEnabled(false);
+        borrow.setVisible(false);
+        checkLatestBorrower();
 
     }
+
     private void retrieveData(String idn) {
         // Fetch data from Firebase and create table
         eventAction = new EventActionStudent() {
@@ -126,21 +132,37 @@ public class select_user extends javax.swing.JPanel {
             public void update(Student student) {
                 //selectDate(student.getIDnumber());
                 //System.out.println(student.getIDnumber());
-                v = new pushValueExisting("borrower");
-                m = new HashMap<>();
-                m.put("idno", student.getIDnumber());
-                v.pushData("latest_borrower/" + new getUID().getUid(), m);
-                m.clear();
-                v2 = new pushValue(key);
-                m = new HashMap<>();
-                m.put("idno", student.getIDnumber());
-                m.put("book_title", title);
-                m.put("book_key", key);
-                m.put("due_date", duedate.getText());
-                m.put("borrowed_date", dateborrowed.getText());
-                v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
-                m.clear();
-                GlassPanePopup.closePopupAll();
+                dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+                dbRef1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getChildrenCount() < 5) {
+                            v = new pushValueExisting("borrower");
+                            m = new HashMap<>();
+                            m.put("idno", student.getIDnumber());
+                            v.pushData("latest_borrower/" + new getUID().getUid(), m);
+                            m.clear();
+                            v2 = new pushValue(key);
+                            m = new HashMap<>();
+                            m.put("idno", student.getIDnumber());
+                            m.put("book_title", title);
+                            m.put("book_key", key);
+                            m.put("due_date", duedate.getText());
+                            m.put("borrowed_date", dateborrowed.getText());
+                            v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
+                            m.clear();
+                            GlassPanePopup.closePopupAll();
+                        } else {
+                            GlassPanePopup.closePopupLast();
+                            GlassPanePopup.showPopup(new max_limit());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("Error: " + databaseError.getMessage());
+                    }
+                });
             }
 
             @Override
@@ -183,6 +205,32 @@ public class select_user extends javax.swing.JPanel {
 
     }
 
+    private void checkLatestBorrower() {
+        dbRef1 = FirebaseDatabase.getInstance().getReference("latest_borrower/" + new getUID().getUid());
+        dbRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.hasChild("borrower")) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            System.out.println(true);
+                            idnum = child.child("idno").getValue(String.class);
+                            borrow.setVisible(true);
+                        }
+                    } else {
+                        borrow.setVisible(false);
+                        System.out.println(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,6 +257,7 @@ public class select_user extends javax.swing.JPanel {
         duedatelabel = new javax.swing.JLabel();
         jPanel26 = new RoundedPanel(12, new Color(250,250,250));
         duedate = new javax.swing.JTextField();
+        borrow = new libratech.design.MyButtonborderless();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable1 = new libratech.user.students.studentTableSelect();
 
@@ -269,7 +318,7 @@ public class select_user extends javax.swing.JPanel {
                 .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(searchicon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,6 +436,19 @@ public class select_user extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        borrow.setForeground(new java.awt.Color(250, 250, 250));
+        borrow.setText("Select latest borrower");
+        borrow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                borrowMouseClicked(evt);
+            }
+        });
+        borrow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -400,7 +462,9 @@ public class select_user extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 289, Short.MAX_VALUE)
                     .addComponent(duedatelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(909, 909, 909))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(borrow, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(716, 716, 716))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,7 +478,8 @@ public class select_user extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(dateborrowedlabel)
                         .addGap(4, 4, 4)
-                        .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(borrow, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -457,9 +522,10 @@ public class select_user extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 791, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,8 +579,32 @@ public class select_user extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_duedateActionPerformed
 
+    private void borrowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borrowMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_borrowMouseClicked
+
+    private void borrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowActionPerformed
+        // TODO add your handling code here:
+        v = new pushValueExisting("borrower");
+        m = new HashMap<>();
+        m.put("idno", idnum);
+        v.pushData("latest_borrower/" + new getUID().getUid(), m);
+        m.clear();
+        v2 = new pushValue(key);
+        m = new HashMap<>();
+        m.put("idno", idnum);
+        m.put("book_title", title);
+        m.put("book_key", key);
+        m.put("due_date", duedate.getText());
+        m.put("borrowed_date", dateborrowed.getText());
+        v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
+        m.clear();
+        GlassPanePopup.closePopupAll();
+    }//GEN-LAST:event_borrowActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private libratech.design.MyButtonborderless borrow;
     private libratech.design.DateChooser dateChooser1;
     private libratech.design.DateChooser dateChooser2;
     private javax.swing.JTextField dateborrowed;
@@ -542,6 +632,7 @@ public class select_user extends javax.swing.JPanel {
         dateborrowedlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         duedate.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         duedatelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        borrow.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 
 //        coverlabel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
 //        booktitle.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

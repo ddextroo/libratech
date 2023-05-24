@@ -37,7 +37,9 @@ public class books_menu extends javax.swing.JPanel {
     private List<Book> books;
     private DatabaseReference dbRef;
     private DatabaseReference dbRef1;
+    private DatabaseReference dbRef2;
     DefaultTableModel mod;
+    DefaultTableModel mod1;
     private String path = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
@@ -49,12 +51,15 @@ public class books_menu extends javax.swing.JPanel {
         initComponents();
         initFont();
         this.mod = (DefaultTableModel) inshelfTable1.getModel();
+        this.mod1 = (DefaultTableModel) inshelfTable2.getModel();
         new firebaseInit().initFirebase();
         inshelfTable1.fixTable(jScrollPane1);
+        inshelfTable2.fixTable(jScrollPane2);
         scaler.scaleImage(notificationLabel1, "src\\main\\resources\\bookmark-line.png");
         notificationLabel1.setEnabled(false);
         checkTransaction();
         retrieveData();
+        retrieveDataborrowed();
 
     }
 
@@ -129,38 +134,72 @@ public class books_menu extends javax.swing.JPanel {
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
-
-//                        if (Integer.parseInt(child.child("remaining_copies").getValue(String.class)) <= 0) {
-//                            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
-//                            String uidpath = new getUID().getUid();
-//                            v = new pushValue(key);
-//                            m = new HashMap<>();
-//                            m.put("booktitle", bookTitle);
-//                            m.put("bookauthor", author);
-//                            m.put("publisher", publisher);
-//                            m.put("isbn", child.child("isbn").getValue(String.class));
-//                            m.put("classification_code", child.child("classification_code").getValue(String.class));
-//                            m.put("classification_pos", child.child("classification_pos").getValue(String.class));
-//                            m.put("classification", child.child("classification").getValue(String.class));
-//                            m.put("date", child.child("date").getValue(String.class));
-//                            m.put("copies", child.child("copies").getValue(String.class));
-//                            m.put("edition", child.child("edition").getValue(String.class));
-//                            m.put("shelf", child.child("shelf").getValue(String.class));
-//                            m.put("deck", child.child("deck").getValue(String.class));
-//                            m.put("key", key);
-//                            m.put("call_number", call_no);
-//                            m.put("status", "Borwwwrowed");
-//                            m.put("remaining_copies", child.child("remaining_copies").getValue(String.class));
-//                            m.put("timestamp", getnow);
-//                            m.put("cover", bookCoverUrl);
-//                            v.pushData("books/" + uidpath, m);
-//                            m.clear();
-//                        }
                     }
                 }
                 v = new pushValue("inshelf");
                 m = new HashMap<>();
                 m.put("total", mod.getRowCount());
+                v.pushData(path, m);
+                m.clear();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+    private void retrieveDataborrowed() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                System.out.println("Ck: " + book.getChildKey());
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable2));
+            }
+        };
+
+        dbRef2 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod1.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if ("Borrowed".equals(child.child("status").getValue(String.class))) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        String copies = child.child("copies").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
+
+                        TableStatus statust = new TableStatus();
+
+                        if (status.equals("Available")) {
+                            statust.setType(StatusType.Available);
+                        } else if (status.equals("Borrowed")) {
+                            statust.setType(StatusType.Borrowed);
+                        } else if (status.equals("Lost")) {
+                            statust.setType(StatusType.Lost);
+                        } else if (status.equals("Damaged")) {
+                            statust.setType(StatusType.Damaged);
+                        } else {
+                            statust.setType(StatusType.Returned);
+                        }
+                        inshelfTable2.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, statust.getType(), key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        mod1.fireTableDataChanged();
+                        inshelfTable2.repaint();
+                        inshelfTable2.revalidate();
+                    }
+                }
+                v = new pushValue("borrowed");
+                m = new HashMap<>();
+                m.put("total", mod1.getRowCount());
                 v.pushData(path, m);
                 m.clear();
 
@@ -194,6 +233,8 @@ public class books_menu extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         inshelfTable1 = new libratech.books.inshelf.InshelfTable();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        inshelfTable2 = new libratech.books.inshelf.InshelfTable();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -295,16 +336,31 @@ public class books_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("In-Shelf", jPanel2);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1497, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
-        );
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        inshelfTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status", "Actions"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(inshelfTable2);
+        if (inshelfTable2.getColumnModel().getColumnCount() > 0) {
+            inshelfTable2.getColumnModel().getColumn(7).setResizable(false);
+        }
+
+        jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         materialTabbed1.addTab("Borrowed", jPanel4);
 
@@ -401,6 +457,7 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     public libratech.books.inshelf.InshelfTable inshelfTable1;
+    public libratech.books.inshelf.InshelfTable inshelfTable2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -413,6 +470,7 @@ public class books_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless1;
     private libratech.design.NotificationLabel notificationLabel1;

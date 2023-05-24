@@ -34,11 +34,15 @@ import libratech.models.getUID;
  */
 public class dashboard_menu extends javax.swing.JPanel {
 
-    private final ChildEventListener inshelf_total;
+    private ChildEventListener inshelf_total;
+    private ChildEventListener borrow_total;
     private ChildEventListener student_total;
 
     private final String inshelf_path = "analytics/" + new getUID().getUid() + "/";
     private final DatabaseReference inshelf_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
+    
+    private final String borrow_path = "analytics/" + new getUID().getUid() + "/";
+    private final DatabaseReference borrow_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
 
     private final String student_path = "analytics/" + new getUID().getUid() + "/";
     private final DatabaseReference student_db = FirebaseDatabase.getInstance().getReference(student_path);
@@ -47,7 +51,12 @@ public class dashboard_menu extends javax.swing.JPanel {
     public dashboard_menu() {
         initComponents();
         initFont();
+        totalInshelf();
+        totalBorrow();
+        user_chart();
+    }
 
+    private void totalInshelf() {
         inshelf_total = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
@@ -87,8 +96,47 @@ public class dashboard_menu extends javax.swing.JPanel {
             }
         };
         inshelf_db.addChildEventListener(inshelf_total);
+    }
+    private void totalBorrow() {
+        borrow_total = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (_childKey.contains("borrowed")) {
+                    borrowedbooks.setText(_childValue.get("total").toString());
+                }
+            }
 
-        user_chart();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.contains("borrowed")) {
+                    borrowedbooks.setText(_childValue.get("total").toString());
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        borrow_db.addChildEventListener(borrow_total);
     }
 
     private void user_chart() {

@@ -92,6 +92,8 @@ public class cart extends javax.swing.JPanel {
 
     private DatabaseReference dbRef;
     private DatabaseReference dbRef2;
+    private DatabaseReference dbRef3;
+
     DefaultTableModel mod;
     String key = databaseReference.push().getKey();
     String email_add;
@@ -159,15 +161,16 @@ public class cart extends javax.swing.JPanel {
 
             contentByte.restoreState();
             document.close();
-            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-                    + "We hope this email finds you well. We would like to thank you for utilizing our Library Management System and borrowing the books. As per your request, we have generated a PDF receipt for your borrowing transaction. Please find the attached PDF document, which contains the receipt details."
-                    + "\n\nWe value your continued patronage and encourage you to explore the various resources available in our library. Should you have any questions or concerns, please do not hesitate to reach out to our dedicated support team."
-                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
-                    + "\n\nBest regards,"
-                    + "\n\nLibratech Team", email_add, outputPath);
+//            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+//                    + "We hope this email finds you well. We would like to thank you for utilizing our Library Management System and borrowing the books. As per your request, we have generated a PDF receipt for your borrowing transaction. Please find the attached PDF document, which contains the receipt details."
+//                    + "\n\nWe value your continued patronage and encourage you to explore the various resources available in our library. Should you have any questions or concerns, please do not hesitate to reach out to our dedicated support team."
+//                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
+//                    + "\n\nBest regards,"
+//                    + "\n\nLibratech Team", email_add, outputPath);
             retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();
+            deleteLatestBorrower();
 
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
@@ -246,12 +249,26 @@ public class cart extends javax.swing.JPanel {
 
     }
 
+    private void deleteLatestBorrower() {
+        dbRef3 = FirebaseDatabase.getInstance().getReference("latest_borrower/" + new getUID().getUid() + "/borrower");
+        dbRef3.getRef().removeValue(completionListener);
+    }
+
     private void retrieveDataBooks() {
 
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-
+                for (Object item : columnData) {
+                    String bItem = (String) item;
+                    if (bItem.equals(book.getBarcode())) {
+                        transaction.child(book.getBarcode()).removeValue(completionListener);
+                        GlassPanePopup.closePopupAll();
+                        revalidate();
+                        repaint();
+                        break;
+                    }
+                }
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
@@ -289,14 +306,14 @@ public class cart extends javax.swing.JPanel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    v = new pushValueExisting(idnum + "/books/" + key + "/" + child.child("book_key").getValue(String.class));
+                    v = new pushValueExisting(key + "/" + child.child("book_key").getValue(String.class));
                     m = new HashMap<>();
                     m.put("idno", idnum);
                     m.put("book_title", child.child("book_title").getValue(String.class));
                     m.put("book_key", child.child("book_key").getValue(String.class));
                     m.put("due_date", child.child("due_date").getValue(String.class));
                     m.put("borrowed_date", child.child("borrowed_date").getValue(String.class));
-                    v.pushData("students/" + new getUID().getUid(), m);
+                    v.pushData("borrowerlist/" + new getUID().getUid(), m);
                     m.clear();
                 }
 
@@ -465,7 +482,7 @@ public class cart extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane3 = new javax.swing.JScrollPane();
-        inshelfTable1 = new libratech.books.inshelf.InshelfTable();
+        inshelfTable1 = new libratech.books.borrowlist.borrowTable();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         cancel = new libratech.design.MyButtonborder();
@@ -517,7 +534,7 @@ public class cart extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -561,18 +578,18 @@ public class cart extends javax.swing.JPanel {
 
         inshelfTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Book Title", "Book Code", "Due Date"
+                "Book Title", "Book Code", "Due Date", "Delete Order"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -599,13 +616,10 @@ public class cart extends javax.swing.JPanel {
                             .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
-                        .addGap(0, 197, Short.MAX_VALUE)))
+                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3))
+                        .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -679,7 +693,7 @@ public class cart extends javax.swing.JPanel {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(189, Short.MAX_VALUE)
+                .addContainerGap(237, Short.MAX_VALUE)
                 .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(borrow1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -719,7 +733,7 @@ public class cart extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -766,7 +780,7 @@ public class cart extends javax.swing.JPanel {
     private javax.swing.JLabel email;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    public libratech.books.inshelf.InshelfTable inshelfTable1;
+    private libratech.books.borrowlist.borrowTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

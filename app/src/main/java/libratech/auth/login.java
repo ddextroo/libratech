@@ -45,6 +45,7 @@ import java.io.*;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
+import libratech.models.EmailValidation;
 import libratech.models.aes;
 
 /**
@@ -65,6 +66,7 @@ public class login extends javax.swing.JFrame {
     File file1 = new File("remember.txt");
     aes aes = new aes();
     boolean authh = false;
+    EmailValidation validate = new EmailValidation();
 
     public login() {
 
@@ -475,7 +477,7 @@ public class login extends javax.swing.JFrame {
                                 loginn = "true";
                                 System.out.println(key + " " + loginn);
 
-                                if (validateEmail(email_address)) {
+                                if (validate.validate(email_address)) {
                                     if (selected) {
                                         try {
                                             System.out.println("Key: " + key);

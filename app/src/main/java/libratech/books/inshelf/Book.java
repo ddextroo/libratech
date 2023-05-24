@@ -135,7 +135,7 @@ public class Book {
 
     public Object[] toRowTableReceipt(EventAction event) {
 
-        return new Object[]{title, barcode, due_date};
+        return new Object[]{title, barcode, due_date, new ModelAction(this, event)};
     }
 
     public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
