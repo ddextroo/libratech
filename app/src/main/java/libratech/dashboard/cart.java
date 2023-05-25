@@ -161,12 +161,12 @@ public class cart extends javax.swing.JPanel {
 
             contentByte.restoreState();
             document.close();
-//            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-//                    + "We hope this email finds you well. We would like to thank you for utilizing our Library Management System and borrowing the books. As per your request, we have generated a PDF receipt for your borrowing transaction. Please find the attached PDF document, which contains the receipt details."
-//                    + "\n\nWe value your continued patronage and encourage you to explore the various resources available in our library. Should you have any questions or concerns, please do not hesitate to reach out to our dedicated support team."
-//                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
-//                    + "\n\nBest regards,"
-//                    + "\n\nLibratech Team", email_add, outputPath);
+            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+                    + "We hope this email finds you well. We would like to thank you for utilizing our Library Management System and borrowing the books. As per your request, we have generated a PDF receipt for your borrowing transaction. Please find the attached PDF document, which contains the receipt details."
+                    + "\n\nWe value your continued patronage and encourage you to explore the various resources available in our library. Should you have any questions or concerns, please do not hesitate to reach out to our dedicated support team."
+                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
+                    + "\n\nBest regards,"
+                    + "\n\nLibratech Team", email_add, outputPath);
             retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();

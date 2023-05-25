@@ -6,7 +6,11 @@ package libratech;
 import libratech.auth.login;
 import libratech.models.fontInit;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import libratech.util.firebaseInit;
 import javax.swing.UIManager;
 import libratech.auth.splash;
@@ -32,7 +36,6 @@ public class App {
         }
 
         //ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResources("resources1/logo.png"));
-
 
         new splash().setVisible(true);
 

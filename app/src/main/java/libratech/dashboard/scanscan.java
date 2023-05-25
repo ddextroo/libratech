@@ -7,6 +7,12 @@ package libratech.dashboard;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
+import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -19,24 +25,14 @@ public class scanscan extends javax.swing.JFrame {
      * Creates new form scanscan
      */
     public scanscan() {
+        Webcam webcam = Webcam.getDefault();
+                
+               
+		webcam.setViewSize(WebcamResolution.VGA.getSize());
         initComponents();
         
-        JPanel panel = new JPanel();
-        this.add(panel);
-
-        Webcam webcam = Webcam.getDefault();
-        webcam.open();
-
-        // Close the webcam before changing the resolution
-        webcam.close();
-
-        webcam.setViewSize(WebcamResolution.VGA.getSize());
-        webcam.open();
-
-        WebcamPanel webcamPanel = new WebcamPanel(webcam);
-        panel.add(webcamPanel);
-
-        webcamPanel.start();
+               
+                
     }
 
     /**

@@ -289,7 +289,7 @@ public class user_menu extends javax.swing.JPanel {
 
     private void scannerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseClicked
         // TODO add your handling code here:
-        new scanscan().setVisible(true);
+        GlassPanePopup.showPopup(new scanbarcode());
     }//GEN-LAST:event_scannerMouseClicked
 
     private void scannerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseExited
