@@ -50,6 +50,7 @@ public class borrowTable extends JTable {
                     return cell;
                 } else if (o instanceof ModelAction data) {
                     Action cell = new Action(data);
+                    cell.myButtonborderless1.setText("Remove");
                     if (selected) {
                         cell.setBackground(new Color(239, 244, 255));
                     } else {

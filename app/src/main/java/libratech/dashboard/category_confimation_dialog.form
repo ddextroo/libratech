@@ -52,7 +52,7 @@
                   <Component id="confirmlabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="cancellabel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="75" max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

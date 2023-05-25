@@ -185,8 +185,6 @@ public class cart extends javax.swing.JPanel {
         for (Object item : columnData) {
             transaction.child((String) item).removeValue(completionListener);
             GlassPanePopup.closePopupAll();
-            revalidate();
-            repaint();
         }
     }
 
@@ -262,10 +260,8 @@ public class cart extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String bItem = (String) item;
                     if (bItem.equals(book.getBarcode())) {
-                        transaction.child(book.getBarcode()).removeValue(completionListener);
+                        transaction.child(bItem).removeValue(completionListener);
                         GlassPanePopup.closePopupAll();
-                        revalidate();
-                        repaint();
                         break;
                     }
                 }
@@ -585,7 +581,7 @@ public class cart extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Book Title", "Book Code", "Due Date", "Delete Order"
+                "Book Title", "Book Code", "Due Date", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -768,6 +764,7 @@ public class cart extends javax.swing.JPanel {
     private void borrow1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrow1ActionPerformed
         // TODO add your handling code here:
         deleteTransaction();
+        deleteLatestBorrower();
         GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_borrow1ActionPerformed
 

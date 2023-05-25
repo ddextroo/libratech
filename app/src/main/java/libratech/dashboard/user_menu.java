@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
@@ -37,6 +38,7 @@ public class user_menu extends javax.swing.JPanel {
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
     private pushValue v;
+    ImageScaler scaler = new ImageScaler();
     
     public user_menu() {
         initComponents();
@@ -45,6 +47,7 @@ public class user_menu extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         studentTable1.fixTable(jScrollPane2);
         retrieveData();
+        scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
 
     }
     
@@ -125,6 +128,7 @@ public class user_menu extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         userslabel = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
+        scanner = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -161,6 +165,16 @@ public class user_menu extends javax.swing.JPanel {
             }
         });
 
+        scanner.setPreferredSize(new java.awt.Dimension(25, 25));
+        scanner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scannerMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                scannerMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -168,7 +182,9 @@ public class user_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(userslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1000, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 969, Short.MAX_VALUE)
+                .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -180,6 +196,10 @@ public class user_menu extends javax.swing.JPanel {
                     .addComponent(userslabel)
                     .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel8, java.awt.BorderLayout.PAGE_START);
@@ -267,6 +287,15 @@ public class user_menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
 
+    private void scannerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseClicked
+        // TODO add your handling code here:
+        new scanscan().setVisible(true);
+    }//GEN-LAST:event_scannerMouseClicked
+
+    private void scannerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_scannerMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -283,6 +312,7 @@ public class user_menu extends javax.swing.JPanel {
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
     private libratech.design.MyButtonborderless myButtonborderless1;
+    private javax.swing.JLabel scanner;
     private libratech.user.students.studentTable studentTable1;
     private javax.swing.JLabel userslabel;
     // End of variables declaration//GEN-END:variables
