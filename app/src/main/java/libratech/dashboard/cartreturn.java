@@ -64,6 +64,10 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.util.Date;
+import libratech.design.DefaultOption;
+import libratech.design.Option;
 
 import libratech.models.pushValueExisting;
 import libratech.util.smtp;
@@ -72,11 +76,12 @@ import libratech.util.smtp;
  *
  * @author HBUSER
  */
-public class cart extends javax.swing.JPanel {
+public class cartreturn extends javax.swing.JPanel {
 
     ImageScaler scaler = new ImageScaler();
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference transaction = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower/");
+    private DatabaseReference transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
+
     private ChildEventListener accinfo;
     private final String path_selectuser = "latest_borrower/" + new getUID().getUid() + "/";
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path_selectuser);
@@ -95,7 +100,7 @@ public class cart extends javax.swing.JPanel {
     private DatabaseReference dbRef3;
 
     DefaultTableModel mod;
-    String key = databaseReference.push().getKey();
+    private String key;
     String email_add;
     String fname;
     String idnum;
@@ -104,19 +109,23 @@ public class cart extends javax.swing.JPanel {
     String borrowed_date;
     String barcode;
     String remaining_copies;
+    String idnom;
+    long fine;
+    int fines;
     private List<Object> columnData;
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private pushValue v2;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
-    public cart() {
+    public cartreturn(String barcodeKey) {
+        this.key = barcodeKey;
         initComponents();
         new firebaseInit().initFirebase();
         initFont();
         barcode(key);
         String getnow = new SimpleDateFormat("MMMM d, yyyy").format(Calendar.getInstance().getTime());
         jLabel4.setText(getnow);
-        retrieveData();
 
         this.mod = (DefaultTableModel) inshelfTable1.getModel();
         inshelfTable1.fixTable(jScrollPane3);
@@ -161,30 +170,28 @@ public class cart extends javax.swing.JPanel {
 
             contentByte.restoreState();
             document.close();
-            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-                    + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
-                    + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
-                    + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
-                    + "\n\nBest regards,"
-                    + "\n\nLibratech Team", email_add, outputPath);
+//            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+//                    + "We hope this email finds you well. We would like to thank you for utilizing our Library Management System and borrowing the books. As per your request, we have generated a PDF receipt for your borrowing transaction. Please find the attached PDF document, which contains the receipt details."
+//                    + "\n\nWe value your continued patronage and encourage you to explore the various resources available in our library. Should you have any questions or concerns, please do not hesitate to reach out to our dedicated support team."
+//                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
+//                    + "\n\nBest regards,"
+//                    + "\n\nLibratech Team", email_add, outputPath);
             retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();
-            deleteLatestBorrower();
 
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
 
         } catch (Exception ex) {
-            Logger.getLogger(cart.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cartreturn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void deleteTransaction() {
 
-        for (Object item : columnData) {
-            transaction.child((String) item).removeValue(completionListener);
-        }
+        transaction.child(key).removeValue(completionListener);
+
         GlassPanePopup.closePopupAll();
     }
 
@@ -247,42 +254,75 @@ public class cart extends javax.swing.JPanel {
 
     }
 
-    private void deleteLatestBorrower() {
-        dbRef3 = FirebaseDatabase.getInstance().getReference("latest_borrower/" + new getUID().getUid() + "/borrower");
-        dbRef3.getRef().removeValue(completionListener);
-    }
-
     private void retrieveDataBooks() {
 
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                for (Object item : columnData) {
-                    String bItem = (String) item;
-                    if (bItem.equals(book.getBarcode())) {
-                        transaction.child(bItem).removeValue(completionListener);
-                        GlassPanePopup.closePopupAll();
-                        break;
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
                     }
-                }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return true;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+                };
+                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, barcode), option, "returntype");
             }
         };
-        dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    bookTitle = child.child("book_title").getValue(String.class);
-                    barcode = child.child("book_key").getValue(String.class);
-                    due_date = child.child("due_date").getValue(String.class);
-                    borrowed_date = child.child("borrowed_date").getValue(String.class);
-                    inshelfTable1.addRow(new Book(bookTitle, barcode, due_date).toRowTableReceipt(eventAction));
-                    columnData = inshelfTable1.getColumnData(1);
-                    mod.fireTableDataChanged();
-                    inshelfTable1.repaint();
-                    inshelfTable1.revalidate();
+                    //if (key.equals(child.getKey())) {
+                    try {
+                        bookTitle = child.child("book_title").getValue(String.class);
+                        barcode = child.child("book_key").getValue(String.class);
+                        due_date = child.child("due_date").getValue(String.class);
+                        borrowed_date = child.child("borrowed_date").getValue(String.class);
+                        idnom = child.child("idno").getValue(String.class);
+                        fines = child.child("fines").getValue(Integer.class);
+                        System.out.println(child.getKey());
+
+                        Date currentDate = dateFormat.parse(borrowed_date);
+                        Date dueDate = dateFormat.parse(due_date);
+
+                        long differenceInMilliseconds = currentDate.getTime() - dueDate.getTime();
+                        long differenceInDays = Math.abs(differenceInMilliseconds / (24 * 60 * 60 * 1000));
+                        fine = 0;
+
+                        if (currentDate.after(dueDate)) {
+                            fine = 10 + (differenceInDays - 1) * 2;
+                            v = new pushValueExisting(barcode);
+                            m = new HashMap<>();
+                            m.put("fines", (int) fine);
+                            v.pushData("borrowerlist/" + new getUID().getUid() + "/" + key, m);
+                            m.clear();
+                        }
+                        if (!child.getKey().equals("idno")) {
+                            inshelfTable1.addRow(new Book(bookTitle, barcode, borrowed_date, due_date, (int) fine).toRowTableReturn(eventAction));
+                        }
+                        columnData = inshelfTable1.getColumnData(1);
+                        mod.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
+                        retrieveDataStudentInfo(idnom);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
+                //}
+
             }
 
             @Override
@@ -301,15 +341,9 @@ public class cart extends javax.swing.JPanel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    v2 = new pushValue(key);
-                    m = new HashMap<>();
-                    m.put("idno", idnum);
-                    v2.pushData("borrowerlist/" + new getUID().getUid(), m);
-                    m.clear();
                     v = new pushValueExisting(key + "/" + child.child("book_key").getValue(String.class));
                     m = new HashMap<>();
                     m.put("idno", idnum);
-                    m.put("fines", 0);
                     m.put("book_title", child.child("book_title").getValue(String.class));
                     m.put("book_key", child.child("book_key").getValue(String.class));
                     m.put("due_date", child.child("due_date").getValue(String.class));
@@ -342,48 +376,6 @@ public class cart extends javax.swing.JPanel {
         } catch (BarcodeException | OutputException | IOException ex) {
             Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void retrieveData() {
-        accinfo = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-                };
-                final String _childKey = dataSnapshot.getKey();
-                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-                if (_childKey.equals("borrower")) {
-                    retrieveDataStudentInfo(_childValue.get("idno").toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot ds, String string) {
-                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-                };
-                final String _childKey = ds.getKey();
-                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-                if (_childKey.equals("borrower")) {
-                    retrieveDataStudentInfo(_childValue.get("idno").toString());
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot ds) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot ds, String string) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        };
-        acc.addChildEventListener(accinfo);
     }
 
     private void retrieveDataStudentInfo(String idno) {
@@ -483,12 +475,10 @@ public class cart extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane3 = new javax.swing.JScrollPane();
-        inshelfTable1 = new libratech.books.borrowlist.borrowTable();
+        inshelfTable1 = new libratech.books.borrowlist.returnTable();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         cancel = new libratech.design.MyButtonborder();
-        borrow = new libratech.design.MyButtonborderless();
-        borrow1 = new libratech.design.MyButtonborderless();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -535,7 +525,7 @@ public class cart extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 947, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -579,18 +569,18 @@ public class cart extends javax.swing.JPanel {
 
         inshelfTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Book Title", "Book Code", "Due Date", ""
+                "Book Title", "Book Code", "Borrowed Date", "Due Date", "Fines", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -598,6 +588,13 @@ public class cart extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(inshelfTable1);
+        if (inshelfTable1.getColumnModel().getColumnCount() > 0) {
+            inshelfTable1.getColumnModel().getColumn(0).setResizable(false);
+            inshelfTable1.getColumnModel().getColumn(1).setResizable(false);
+            inshelfTable1.getColumnModel().getColumn(2).setResizable(false);
+            inshelfTable1.getColumnModel().getColumn(3).setResizable(false);
+            inshelfTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -612,15 +609,15 @@ public class cart extends javax.swing.JPanel {
                             .addComponent(jSeparator1)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3)
-                            .addComponent(userinfolabel, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 20, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(userinfolabel)
+                                .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -655,37 +652,11 @@ public class cart extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(250, 250, 250));
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Close");
+        cancel.setText("Done");
         cancel.setPreferredSize(new java.awt.Dimension(102, 23));
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
-            }
-        });
-
-        borrow.setForeground(new java.awt.Color(250, 250, 250));
-        borrow.setText("Borrow");
-        borrow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                borrowMouseClicked(evt);
-            }
-        });
-        borrow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                borrowActionPerformed(evt);
-            }
-        });
-
-        borrow1.setForeground(new java.awt.Color(250, 250, 250));
-        borrow1.setText("Remove all");
-        borrow1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                borrow1MouseClicked(evt);
-            }
-        });
-        borrow1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                borrow1ActionPerformed(evt);
             }
         });
 
@@ -694,21 +665,14 @@ public class cart extends javax.swing.JPanel {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(237, Short.MAX_VALUE)
-                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(borrow1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(borrow, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(792, Short.MAX_VALUE)
+                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(borrow, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(borrow1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -746,43 +710,20 @@ public class cart extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void borrowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borrowMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_borrowMouseClicked
-
-    private void borrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowActionPerformed
-        // TODO add your handling code here:
-        convertToPDF("libratech_receipt.pdf");
-        GlassPanePopup.closePopupAll();
-    }//GEN-LAST:event_borrowActionPerformed
-
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
+        deleteTransaction();
         GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_cancelActionPerformed
-
-    private void borrow1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borrow1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_borrow1MouseClicked
-
-    private void borrow1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrow1ActionPerformed
-        // TODO add your handling code here:
-        deleteTransaction();
-        deleteLatestBorrower();
-        GlassPanePopup.closePopupAll();
-    }//GEN-LAST:event_borrow1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel address;
-    private libratech.design.MyButtonborderless borrow;
-    private libratech.design.MyButtonborderless borrow1;
     private libratech.design.MyButtonborder cancel;
     private javax.swing.JLabel email;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    private libratech.books.borrowlist.borrowTable inshelfTable1;
+    private libratech.books.borrowlist.returnTable inshelfTable1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -818,7 +759,6 @@ public class cart extends javax.swing.JPanel {
         phone.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
 
         cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        borrow.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        borrow1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+//        borrow.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }

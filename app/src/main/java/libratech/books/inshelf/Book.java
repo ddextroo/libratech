@@ -26,9 +26,15 @@ public class Book {
     private String barcode;
     private String status_string;
     private String due_date;
+    private String borrowed_date;
+    private int fines;
 
     public String getStatus_string() {
         return status_string;
+    }
+
+    public int getFines() {
+        return fines;
     }
     
 
@@ -137,6 +143,10 @@ public class Book {
 
         return new Object[]{title, barcode, due_date, new ModelAction(this, event)};
     }
+       public Object[] toRowTableReturn(EventAction event) {
+
+        return new Object[]{title, barcode, borrowed_date, due_date, fines, new ModelAction(this, event)};
+    }
 
     public Book(String bookCoverUrl, String author, String title, String date, String deck, String classification, String controlNumber, String publisher, String copies, String shelf, StatusType status) {
         this.bookCoverUrl = bookCoverUrl;
@@ -175,6 +185,14 @@ public class Book {
         this.title = title;
         this.barcode = barcode;
         this.due_date = due_date;
+    }
+
+    public Book(String title, String barcode, String borrowed_date, String due_date, int fines) {
+        this.title = title;
+        this.barcode = barcode;
+        this.borrowed_date = borrowed_date;
+        this.due_date = due_date;
+        this.fines = fines;
     }
 
     public Book() {

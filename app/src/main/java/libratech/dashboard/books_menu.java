@@ -22,7 +22,9 @@ import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
+import libratech.design.DefaultOption;
 import libratech.design.ImageScaler;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
@@ -89,7 +91,24 @@ public class books_menu extends javax.swing.JPanel {
             @Override
             public void update(Book book) {
                 System.out.println("Ck: " + book.getChildKey());
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1), option, "edit");
             }
         };
 
@@ -102,18 +121,12 @@ public class books_menu extends javax.swing.JPanel {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if ("Available".equals(child.child("status").getValue(String.class))) {
                         String key = child.child("key").getValue(String.class);
-                        String bookCoverUrl = child.child("cover").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
                         String barcode = child.child("barcode").getValue(String.class);
                         String classification = child.child("classification").getValue(String.class);
                         String author = child.child("bookauthor").getValue(String.class);
-                        String dewey = child.child("isbn").getValue(String.class);
-                        String call_no = child.child("call_number").getValue(String.class);
                         String copies = child.child("copies").getValue(String.class);
-                        String deck = child.child("deck").getValue(String.class);
-                        String shelf = child.child("shelf").getValue(String.class);
-                        String date = child.child("date").getValue(String.class);
                         String status = child.child("status").getValue(String.class);
 
                         TableStatus statust = new TableStatus();
@@ -151,6 +164,7 @@ public class books_menu extends javax.swing.JPanel {
         });
 
     }
+
     private void retrieveDataborrowed() {
         EventAction eventAction = new EventAction() {
             @Override
@@ -446,8 +460,25 @@ public class books_menu extends javax.swing.JPanel {
 
     private void notificationLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notificationLabel1MouseClicked
         // TODO add your handling code here:
+        Option option = new DefaultOption() {
+                @Override
+                public float opacity() {
+                    return 0.6f;
+                }
+
+                @Override
+                public boolean closeWhenClickOutside() {
+                    return false;
+                }
+
+                @Override
+                public Color background() {
+                    return new Color(33,33,33);
+                }
+
+            };
         if (exist) {
-            GlassPanePopup.showPopup(new cart());
+            GlassPanePopup.showPopup(new cart(), option, "transaction");
         }
     }//GEN-LAST:event_notificationLabel1MouseClicked
 

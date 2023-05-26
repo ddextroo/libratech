@@ -4,101 +4,107 @@ import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
 import com.google.zxing.BinaryBitmap;
-import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import libratech.design.DefaultOption;
+import libratech.design.GlassPanePopup;
+import libratech.design.Option;
+import libratech.design.RoundedWebcamPanel;
 
-public class scanbarcode extends javax.swing.JPanel implements Runnable, ThreadFactory {
+public class scanbarcode extends javax.swing.JPanel implements Runnable {
 
     /**
      * Creates new form scan barcode
      */
-            private Webcam webcam = null;
-            private Executor executor = Executors.newSingleThreadExecutor(this);
-        
+    private Webcam webcam = null;
+
     public scanbarcode() {
         initComponents();
         setOpaque(false);
         startCameraPreview();
-        
-        
+
     }
 
     private void startCameraPreview() {
 
-        Dimension size = WebcamResolution.QVGA.getSize();
-        
-        webcam = Webcam.getWebcams().get(0);  
+        Dimension size = WebcamResolution.VGA.getSize();
+        webcam = Webcam.getWebcams().get(1);
         webcam.setViewSize(size);
         WebcamPanel panel = new WebcamPanel(webcam);
         panel.setFPSDisplayed(true);
         panel.setDisplayDebugInfo(true);
         panel.setImageSizeDisplayed(true);
         panel.setMirrored(false);
-        
-        jPanel1.add(panel, BorderLayout.CENTER);
-        executor.execute(this);
+
+        jPanel3.add(panel, BorderLayout.CENTER);
+        new Thread(this).start();
     }
-    private void processBarcode(BufferedImage image ) {
+
+    private void processBarcode(BufferedImage image) {
+
         try {
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer( new BufferedImageLuminanceSource(image)));
+//            image = ImageIO.read(new File("src\\main\\resources\\file.png"));
+            //jLabel1.setIcon(new ImageIcon(image));
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
             Result result = new MultiFormatReader().decode(bitmap);
+
             String barcodeText = result.getText();
-            resultLabel.setText("Barcode: " + barcodeText);
-        } catch (ReaderException e) {
-            resultLabel.setText("No barcode found");
+            //resultLabel.setText("Barcode: " + barcodeText);
+            webcam.close();
+            GlassPanePopup.closePopupLast();
+            Option option = new DefaultOption() {
+                @Override
+                public float opacity() {
+                    return 0.6f;
+                }
+
+                @Override
+                public boolean closeWhenClickOutside() {
+                    return false;
+                }
+
+                @Override
+                public Color background() {
+                    return new Color(33,33,33);
+                }
+
+            };
+            GlassPanePopup.showPopup(new cartreturn(barcodeText), option, "return");
+
+        } catch (Exception e) {
+            //resultLabel.setText("No barcode found");
         }
     }
+
     @Override
     public void run() {
         do {
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException ex) {
-                Logger.getLogger(scanbarcode.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
-            
+
             Result result = null;
             BufferedImage image = null;
-            
+
             if (webcam.isOpen()) {
-                if((image = webcam.getImage()) == null) {
-                       continue;
+                if ((image = webcam.getImage()) == null) {
+                    continue;
                 }
-            }
-            LuminanceSource source = new BufferedImageLuminanceSource(image);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-            
-            try {
-                result = new MultiFormatReader().decode(bitmap);
-            } catch (NotFoundException ex) {
-                Logger.getLogger(scanbarcode.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (result != null) {
-                resultLabel.setText(result.getText());
+
+                processBarcode(image);
             }
         } while (true);
+
     }
-        @Override
-    public Thread newThread(Runnable r) {
-        Thread t = new Thread(r, "My Thread");
-        t.setDaemon(true);
-        return t;
-    }
+
     @Override
     protected void paintComponent(Graphics graphics) {
         Graphics2D g2 = (Graphics2D) graphics.create();
@@ -119,61 +125,32 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable, ThreadF
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        resultLabel = new javax.swing.JLabel();
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        setBackground(new java.awt.Color(33, 33, 33));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(600, 50));
-
-        resultLabel.setText("jLabel1");
-        jPanel2.add(resultLabel);
-
-        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel resultLabel;
     // End of variables declaration//GEN-END:variables
-
-
 
 }

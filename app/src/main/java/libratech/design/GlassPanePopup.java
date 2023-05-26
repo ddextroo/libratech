@@ -66,8 +66,8 @@ public class GlassPanePopup {
 
     public static void showPopup(Component component, Option option, String name) {
         if (component.getMouseListeners().length == 0) {
-            component.addMouseListener(new MouseAdapter() {
-            });
+//            component.addMouseListener(new MouseAdapter() {
+//            });
         }
         instance.addAndShowPopup(component, option, name);
     }
