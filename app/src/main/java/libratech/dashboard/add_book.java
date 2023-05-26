@@ -776,6 +776,11 @@ public class add_book extends javax.swing.JPanel {
             m.put("timestamp", getnow);
             m.put("remaining_copies", book_copies);
             m.put("cover", downloadUrl);
+            m.put("inshelf_books", 0);
+            m.put("borrowed_books", 0);
+            m.put("overdue_books", 0);
+            m.put("lost_books", 0);
+            m.put("damaged_books", 0);
             v.pushData("books/" + uidpath, m);
             m.clear();
             GlassPanePopup.closePopupAll();

@@ -14,8 +14,10 @@ import java.awt.Font;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
@@ -33,32 +35,54 @@ public class user_menu extends javax.swing.JPanel {
 
     private List<Student> students;
     private DatabaseReference dbRef;
+    private DatabaseReference dbRef2;
     DefaultTableModel mod;
+    DefaultTableModel mod2;
     private String path = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
     private pushValue v;
     ImageScaler scaler = new ImageScaler();
-    
+
     public user_menu() {
         initComponents();
         initFont();
         this.mod = (DefaultTableModel) studentTable1.getModel();
+        this.mod2 = (DefaultTableModel) studentTable2.getModel();
         new firebaseInit().initFirebase();
         studentTable1.fixTable(jScrollPane2);
-        retrieveData();
+        studentTable2.fixTable(jScrollPane4);
+        retrieveDataGeneral();
+        retrieveDataRestricted();
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
 
     }
-    
-     private void retrieveData() {
+
+    private void retrieveDataGeneral() {
         // Fetch data from Firebase and create table
         EventActionStudent eventAction = new EventActionStudent() {
 
             @Override
             public void update(Student student) {
                 System.out.println("Ck: " + student.getIDnumber());
-                // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_user(student.getIDnumber(), studentTable1), option, "edit");
             }
 
             @Override
@@ -79,20 +103,12 @@ public class user_menu extends javax.swing.JPanel {
                 mod.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if ("Active".equals(child.child("status").getValue(String.class))) {
+                    if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) < 3) {
                         String key = child.child("idno").getValue(String.class);
                         String email = child.child("email").getValue(String.class);
                         String IDnumber = child.child("idno").getValue(String.class);
-                        String status = child.child("status").getValue(String.class);
 
-                        TableStatusStudent statust = new TableStatusStudent();
-
-                        if (status.equals("Active")) {
-                            statust.setType(StatusTypeStudent.Active);
-                        } else {
-                            statust.setType(StatusTypeStudent.Restricted);
-                        }
-                        studentTable1.addRow(new Student(email, IDnumber, statust.getType()).toRowTable(eventAction));
+                        studentTable1.addRow(new Student(email, IDnumber, StatusTypeStudent.Active).toRowTable(eventAction));
                         new Student().setIDnumber(key);
                         mod.fireTableDataChanged();
                         studentTable1.repaint();
@@ -102,6 +118,78 @@ public class user_menu extends javax.swing.JPanel {
                 v = new pushValue("active");
                 m = new HashMap<>();
                 m.put("total", mod.getRowCount());
+                v.pushData(path, m);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void retrieveDataRestricted() {
+        // Fetch data from Firebase and create table
+        EventActionStudent eventAction = new EventActionStudent() {
+
+            @Override
+            public void update(Student student) {
+                System.out.println("Ck: " + student.getIDnumber());
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_user(student.getIDnumber(), studentTable2), option, "edit");
+            }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+
+        dbRef2 = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
+        dbRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod2.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) >= 3) {
+                        String key = child.child("idno").getValue(String.class);
+                        String email = child.child("email").getValue(String.class);
+                        String IDnumber = child.child("idno").getValue(String.class);
+
+                        studentTable2.addRow(new Student(email, IDnumber, StatusTypeStudent.Restricted).toRowTable(eventAction));
+                        new Student().setIDnumber(key);
+                        mod.fireTableDataChanged();
+                        studentTable2.repaint();
+                        studentTable2.revalidate();
+                    }
+                }
+                v = new pushValue("restricted");
+                m = new HashMap<>();
+                m.put("total", mod2.getRowCount());
                 v.pushData(path, m);
 
             }
@@ -135,8 +223,8 @@ public class user_menu extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         studentTable1 = new libratech.user.students.studentTable();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        inshelfTable3 = new libratech.books.inshelf.InshelfTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        studentTable2 = new libratech.user.students.studentTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -244,27 +332,38 @@ public class user_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("General", jPanel2);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        inshelfTable3.setModel(new javax.swing.table.DefaultTableModel(
+        studentTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Users", "Email", "History", "Penalties", "User ID", "Status", "Actions"
+                "Email", "ID Number", "Status", "Actions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(inshelfTable3);
+        jScrollPane4.setViewportView(studentTable2);
 
-        jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
         materialTabbed1.addTab("Restricted User", jPanel5);
 
@@ -289,7 +388,24 @@ public class user_menu extends javax.swing.JPanel {
 
     private void scannerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseClicked
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new scanbarcode());
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new scanbarcode(), option, "scan");
     }//GEN-LAST:event_scannerMouseClicked
 
     private void scannerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseExited
@@ -301,19 +417,19 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    public libratech.books.inshelf.InshelfTable inshelfTable3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
     private libratech.design.MyButtonborderless myButtonborderless1;
     private javax.swing.JLabel scanner;
     private libratech.user.students.studentTable studentTable1;
+    private libratech.user.students.studentTable studentTable2;
     private javax.swing.JLabel userslabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {

@@ -74,13 +74,25 @@ public class edit_book extends javax.swing.JPanel {
     private DatabaseReference books = FirebaseDatabase.getInstance().getReference(path);
     private DatabaseReference books2;
     private DatabaseReference dbRef;
+    private DatabaseReference dbRef2;
+    private DatabaseReference dbRef3;
+    private DatabaseReference dbRef4;
+    private DatabaseReference dbRef5;
     private String ck;
     private String title;
     private retBooks listener;
     private ChildEventListener booksinfo;
     private DatabaseReference.CompletionListener completionListener;
     private DefaultTableModel model;
+    private DefaultTableModel model1;
+    private DefaultTableModel model2;
+    private DefaultTableModel model3;
+    private DefaultTableModel model4;
     private libratech.books.inshelf.InshelfTable inshelfTable1;
+    private libratech.books.inshelf.InshelfTable inshelfTable2;
+    private libratech.books.inshelf.InshelfTable inshelfTable3;
+    private libratech.books.inshelf.InshelfTable inshelfTable4;
+    private libratech.books.inshelf.InshelfTable inshelfTable5;
     String downloadUrl = "";
     String remaining_copies = "";
     boolean upload = false;
@@ -92,7 +104,7 @@ public class edit_book extends javax.swing.JPanel {
     ClassificationInfo info = new ClassificationInfo();
     ImageScaler scaler = new ImageScaler();
 
-    public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1) {
+    public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1, libratech.books.inshelf.InshelfTable inshelfTable2, libratech.books.inshelf.InshelfTable inshelfTable3, libratech.books.inshelf.InshelfTable inshelfTable4, libratech.books.inshelf.InshelfTable inshelfTable5) {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
@@ -101,11 +113,18 @@ public class edit_book extends javax.swing.JPanel {
         this.ck = key1;
         System.out.println(key1);
         this.model = (DefaultTableModel) inshelfTable1.getModel();
+        this.model1 = (DefaultTableModel) inshelfTable2.getModel();
+        this.model2 = (DefaultTableModel) inshelfTable3.getModel();
+        this.model3 = (DefaultTableModel) inshelfTable4.getModel();
+        this.model4 = (DefaultTableModel) inshelfTable5.getModel();
         this.inshelfTable1 = inshelfTable1;
         this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
         initFont();
-        System.out.println(ck);
         retrieveData();
+        retrieveDataborrowed();
+        retrieveDataborrowedOverdue();
+        retrieveDataborrowedLost();
+        retrieveDataborrowedDamaged();
 
         classification.setEditable(true);
         classification.setModel(new javax.swing.DefaultComboBoxModel(info.getClassification()));
@@ -228,7 +247,7 @@ public class edit_book extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
             }
         };
 
@@ -239,74 +258,182 @@ public class edit_book extends javax.swing.JPanel {
                 model.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if ("Available".equals(child.child("status").getValue(String.class))) {
+                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
                         String key = child.child("key").getValue(String.class);
-                        String bookCoverUrl = child.child("cover").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
                         String barcode = child.child("barcode").getValue(String.class);
                         String classification = child.child("classification").getValue(String.class);
                         String author = child.child("bookauthor").getValue(String.class);
-                        String dewey = child.child("isbn").getValue(String.class);
-                        String call_no = child.child("call_number").getValue(String.class);
-                        String copies = child.child("copies").getValue(String.class);
-                        String deck = child.child("deck").getValue(String.class);
-                        String shelf = child.child("shelf").getValue(String.class);
-                        String date = child.child("date").getValue(String.class);
-                        String status = child.child("status").getValue(String.class);
-
-//                        if (Integer.parseInt(child.child("remaining_copies").getValue(String.class)) <= 0) {
-//                            String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
-//                            String uidpath = new getUID().getUid();
-//                            v = new pushValue(key);
-//                            m = new HashMap<>();
-//                            m.put("booktitle", bookTitle);
-//                            m.put("bookauthor", author);
-//                            m.put("publisher", publisher);
-//                            m.put("isbn", child.child("isbn").getValue(String.class));
-//                            m.put("classification_code", child.child("classification_code").getValue(String.class));
-//                            m.put("classification_pos", child.child("classification_pos").getValue(String.class));
-//                            m.put("classification", child.child("classification").getValue(String.class));
-//                            m.put("date", child.child("date").getValue(String.class));
-//                            m.put("copies", child.child("copies").getValue(String.class));
-//                            m.put("edition", child.child("edition").getValue(String.class));
-//                            m.put("shelf", child.child("shelf").getValue(String.class));
-//                            m.put("deck", child.child("deck").getValue(String.class));
-//                            m.put("key", key);
-//                            m.put("call_number", call_no);
-//                            m.put("status", "Borwwwrowed");
-//                            m.put("remaining_copies", child.child("remaining_copies").getValue(String.class));
-//                            m.put("timestamp", getnow);
-//                            m.put("cover", bookCoverUrl);
-//                            v.pushData("books/" + uidpath, m);
-//                            m.clear();
-//                        }
-                        TableStatus statust = new TableStatus();
-
-                        if (status.equals("Available")) {
-                            statust.setType(StatusType.Available);
-                        } else if (status.equals("Borrowed")) {
-                            statust.setType(StatusType.Borrowed);
-                        } else if (status.equals("Lost")) {
-                            statust.setType(StatusType.Lost);
-                        } else if (status.equals("Damaged")) {
-                            statust.setType(StatusType.Damaged);
-                        } else {
-                            statust.setType(StatusType.Returned);
-                        }
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, statust.getType(), key).toRowTable(eventAction));
+                        int copies = child.child("remaining_copies").getValue(Integer.class);
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
                         new Book().setChildKey(key);
                         model.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
                     }
-
                 }
+            }
 
-                t = new pushValue("inshelf");
-                m1 = new HashMap<>();
-                m1.put("total", model.getRowCount());
-                t.pushData(path1, m1);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void retrieveDataborrowed() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                System.out.println("Ck: " + book.getChildKey());
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+            }
+        };
+
+        dbRef2 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model1.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("borrowed_books") && child.child("borrowed_books").getValue(Integer.class) > 0) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("borrowed_books").getValue(Integer.class);
+                        inshelfTable2.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Borrowed, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        model1.fireTableDataChanged();
+                        inshelfTable2.repaint();
+                        inshelfTable2.revalidate();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void retrieveDataborrowedOverdue() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+            }
+        };
+
+        dbRef3 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model2.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("overdue_books") && child.child("overdue_books").getValue(Integer.class) > 0) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("overdue_books").getValue(Integer.class);
+                        inshelfTable3.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Overdue, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        model2.fireTableDataChanged();
+                        inshelfTable3.repaint();
+                        inshelfTable3.revalidate();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void retrieveDataborrowedLost() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+            }
+        };
+
+        dbRef4 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model3.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("lost_books") && child.child("lost_books").getValue(Integer.class) > 0) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("lost_books").getValue(Integer.class);
+                        inshelfTable4.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Lost, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        model3.fireTableDataChanged();
+                        inshelfTable4.repaint();
+                        inshelfTable4.revalidate();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private void retrieveDataborrowedDamaged() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+            }
+        };
+
+        dbRef5 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model4.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("lost_books") && child.child("lost_books").getValue(Integer.class) > 0) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("lost_books").getValue(Integer.class);
+                        inshelfTable5.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Damaged, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        model4.fireTableDataChanged();
+                        inshelfTable5.repaint();
+                        inshelfTable5.revalidate();
+                    }
+                }
             }
 
             @Override

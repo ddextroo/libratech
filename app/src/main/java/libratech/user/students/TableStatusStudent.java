@@ -36,8 +36,10 @@ public class TableStatusStudent extends JLabel {
             GradientPaint g;
             if (type == StatusTypeStudent.Active) {
                 g = new GradientPaint(0, 0, new Color(0,255,0), 0, getHeight(), new Color(0,128,0));
+            } else if (type == StatusTypeStudent.Restricted){
+                g = new GradientPaint(0, 0, new Color(255,165,0), 0, getHeight(), new Color(255,69,0));
             } else {
-                g = new GradientPaint(0, 0, new Color(0,255,0), 0, getHeight(), new Color(0,128,0));
+                g = new GradientPaint(0, 0, new Color(255,165,0), 0, getHeight(), new Color(255,69,0));
             }
             g2.setPaint(g);
             g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));

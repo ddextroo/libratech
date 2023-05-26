@@ -43,11 +43,17 @@ public class returntype extends javax.swing.JPanel {
     private String key;
     private DatabaseReference.CompletionListener completionListener;
     private DatabaseReference transaction;
+    private String idnum;
+    private int penalties;
+    private int user_fines;
 
-    public returntype(Object columnData, int fines, String key, String barcode) {
+    public returntype(Object columnData, int fines, String key, String barcode, String idnum, int penalties, int user_fines) {
         this.fines = fines;
         this.key = key;
         this.barcode = barcode;
+        this.idnum = idnum;
+        this.penalties = penalties;
+        this.user_fines = user_fines;
         transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
         this.columnData = (List<Object>) columnData;
         initComponents();
@@ -94,19 +100,11 @@ public class returntype extends javax.swing.JPanel {
                     if (temp.equals(_childKey)) {
                         String remaining = _childValue.get("remaining_copies").toString();
                         int remain = Integer.parseInt(remaining);
-                        System.out.println(remain);
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remain + 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
-                        if (remain >= 1) {
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("status", "Available");
-                            v.pushData("books/" + new getUID().getUid(), m);
-                            m.clear();
-                        }
                     }
                     break;
                 }
@@ -160,10 +158,14 @@ public class returntype extends javax.swing.JPanel {
                             }
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
-                            m.put("status", "Lost");
-                            m.put("fines", fines + 100);
                             m.put("lost_books", lostbooks + 1);
                             v.pushData("books/" + new getUID().getUid(), m);
+                            m.clear();
+                            v = new pushValueExisting(idnum);
+                            m = new HashMap<>();
+                            m.put("fines", fines + user_fines + 100);
+                            m.put("penalties", penalties + 1);
+                            v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();
                         }
                         if (returntype.equals("damaged")) {
@@ -175,10 +177,15 @@ public class returntype extends javax.swing.JPanel {
                             }
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
-                            m.put("status", "Damaged");
                             m.put("fines", fines + 50);
                             m.put("damaged_books", damagedbooks + 1);
                             v.pushData("books/" + new getUID().getUid(), m);
+                            m.clear();
+                            v = new pushValueExisting(idnum);
+                            m = new HashMap<>();
+                            m.put("fines", fines + user_fines + 50);
+                            m.put("penalties", penalties + 1);
+                            v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();
                         }
                     }

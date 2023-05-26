@@ -81,7 +81,7 @@
                                           <Component id="decklabel" min="-2" pref="90" max="-2" attributes="0"/>
                                           <EmptySpace pref="190" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jPanel13" pref="0" max="32767" attributes="0"/>
+                                      <Component id="jPanel13" pref="280" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">

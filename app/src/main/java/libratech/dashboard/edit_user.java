@@ -4,7 +4,13 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,15 +18,34 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import javax.swing.table.DefaultTableModel;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.EventAction;
+import libratech.books.inshelf.StatusType;
+import libratech.books.inshelf.TableStatus;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
+import libratech.models.pushValueExisting;
+import libratech.user.students.EventActionStudent;
+import libratech.user.students.StatusTypeStudent;
+import libratech.user.students.Student;
+import libratech.user.students.TableStatusStudent;
 import libratech.util.firebaseInit;
 import libratech.util.storage;
 
@@ -28,20 +53,99 @@ import libratech.util.storage;
  *
  * @author Admin
  */
-public class add_user extends javax.swing.JPanel {
+public class edit_user extends javax.swing.JPanel {
 
     private HashMap<String, Object> m;
-    private pushValue v;
+    private pushValueExisting v;
     private DatabaseReference databaseReference;
+    private ChildEventListener studentinfo;
+    private DatabaseReference.CompletionListener completionListener;
+    private String path;
+    private DatabaseReference student;
+    private String idnum;
+    private DefaultTableModel model;
+    private DatabaseReference books2;
+    private DatabaseReference dbRef;
+    private libratech.user.students.studentTable inshelfTable1;
 
-    public add_user() {
+    public edit_user(String idnum, libratech.user.students.studentTable inshelfTable1) {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
         setOpaque(false);
-        comboBoxSuggestion1.setEditable(false);
-        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Male", "Female", "I prefer not to say"}));
-        
+
+        this.idnum = idnum;
+        sex.setEditable(false);
+        sex.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Male", "Female", "I prefer not to say"}));
+
+        path = "students/" + new getUID().getUid();
+        student = FirebaseDatabase.getInstance().getReference(path);
+        this.model = (DefaultTableModel) inshelfTable1.getModel();
+        this.books2 = FirebaseDatabase.getInstance().getReference(path + "/" + idnum);
+        this.inshelfTable1 = inshelfTable1;
+
+        studentinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (_childKey.equals(idnum)) {
+                    fullname.setText(_childValue.get("fullname").toString());
+                    email.setText(_childValue.get("email").toString());
+                    dateofbirth.setText(_childValue.get("dateofbirth").toString());
+                    coursegrade.setText(_childValue.get("coursegrade").toString());
+                    System.out.println(_childValue.get("contact").toString());
+                    idno.setText(_childValue.get("idno").toString());
+                    address.setText(_childValue.get("address").toString());
+                    sex.setSelectedItem(_childValue.get("sex").toString());
+                    phone.setText(_childValue.get("contact").toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.equals(idnum)) {
+                    fullname.setText(_childValue.get("fullname").toString());
+                    email.setText(_childValue.get("email").toString());
+                    dateofbirth.setText(_childValue.get("dateofbirth").toString());
+                    coursegrade.setText(_childValue.get("coursegrade").toString());
+                    idno.setText(_childValue.get("idno").toString());
+                    address.setText(_childValue.get("address").toString());
+                    sex.setSelectedItem(_childValue.get("sex").toString());
+                    phone.setText(_childValue.get("contact").toString());
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        student.addChildEventListener(studentinfo);
+
+        completionListener = (DatabaseError error, DatabaseReference ref) -> {
+            if (error != null) {
+                System.out.println("Error removing value: " + error.getMessage());
+            } else {
+                System.out.println("Value removed successfully.");
+            }
+        };
     }
 
     @Override
@@ -52,6 +156,63 @@ public class add_user extends javax.swing.JPanel {
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
         g2.dispose();
         super.paintComponent(graphics);
+    }
+
+    private void retrieveData() {
+        // Fetch data from Firebase and create table
+        EventActionStudent eventAction = new EventActionStudent() {
+
+            @Override
+            public void update(Student student) {
+                System.out.println(student.getIDnumber());
+            }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                model.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if ("Active".equals(child.child("status").getValue(String.class))) {
+                        String key = child.child("idno").getValue(String.class);
+                        String email = child.child("email").getValue(String.class);
+                        String IDnumber = child.child("idno").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
+
+                        TableStatusStudent statust = new TableStatusStudent();
+
+                        if (status.equals("Active")) {
+                            statust.setType(StatusTypeStudent.Active);
+                        } else {
+                            statust.setType(StatusTypeStudent.Restricted);
+                        }
+                        inshelfTable1.addRow(new Student(email, IDnumber, statust.getType()).toRowTable(eventAction));
+                        new Student().setIDnumber(key);
+                        model.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
     }
 
     /**
@@ -79,7 +240,7 @@ public class add_user extends javax.swing.JPanel {
         jPanel9 = new RoundedPanel(12, new Color(250,250,250,0));
         email = new javax.swing.JTextField();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250,0));
-        comboBoxSuggestion1 = new libratech.design.ComboBoxSuggestion();
+        sex = new libratech.design.ComboBoxSuggestion();
         coursegradelabel = new javax.swing.JLabel();
         contactnumberlabel = new javax.swing.JLabel();
         jPanel12 = new RoundedPanel(12, new Color(250,250,250,0));
@@ -92,6 +253,7 @@ public class add_user extends javax.swing.JPanel {
         address = new javax.swing.JTextField();
         addbutton = new libratech.design.MyButtonborderless();
         cancelbutton = new libratech.design.MyButtonborder();
+        delete = new libratech.design.MyButtonborder();
 
         dateChooser1.setDateFormat("MM-dd-yyyy");
         dateChooser1.setTextRefernce(dateofbirth);
@@ -100,7 +262,7 @@ public class add_user extends javax.swing.JPanel {
 
         adduserlabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         adduserlabel.setForeground(new java.awt.Color(58, 58, 58));
-        adduserlabel.setText("Add user");
+        adduserlabel.setText("Edit user");
 
         fullnamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         fullnamelabel.setForeground(new java.awt.Color(51, 51, 51));
@@ -254,11 +416,11 @@ public class add_user extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(0, 0, 0));
         jPanel10.setOpaque(false);
 
-        comboBoxSuggestion1.setBackground(new java.awt.Color(255, 255, 255));
-        comboBoxSuggestion1.setEditable(false);
-        comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
+        sex.setBackground(new java.awt.Color(255, 255, 255));
+        sex.setEditable(false);
+        sex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSuggestion1ActionPerformed(evt);
+                sexActionPerformed(evt);
             }
         });
 
@@ -268,14 +430,14 @@ public class add_user extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(sex, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -312,8 +474,8 @@ public class add_user extends javax.swing.JPanel {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(coursegrade, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(548, 548, 548))
+                .addComponent(coursegrade, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(535, 535, 535))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,12 +514,12 @@ public class add_user extends javax.swing.JPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(phone)
-                .addContainerGap())
+                .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+            .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(phone, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addContainerGap())
@@ -401,7 +563,7 @@ public class add_user extends javax.swing.JPanel {
         );
 
         addbutton.setForeground(new java.awt.Color(224, 224, 224));
-        addbutton.setText("Add user");
+        addbutton.setText("Save changes");
         addbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addbuttonActionPerformed(evt);
@@ -416,6 +578,14 @@ public class add_user extends javax.swing.JPanel {
             }
         });
 
+        delete.setForeground(new java.awt.Color(23, 23, 23));
+        delete.setText("Delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -425,6 +595,8 @@ public class add_user extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(142, 142, 142))
             .addGroup(layout.createSequentialGroup()
@@ -432,8 +604,6 @@ public class add_user extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(dateofbirthlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(227, 227, 227)
-                        .addComponent(addresslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -446,26 +616,26 @@ public class add_user extends javax.swing.JPanel {
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(contactnumberlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(coursegradelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(143, 143, 143))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(21, 21, 21)
-                                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(15, 15, 15)
-                                        .addComponent(sexlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(sexlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(coursegradelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(contactnumberlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(addresslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(147, 147, 147))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
@@ -478,46 +648,48 @@ public class add_user extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(adduserlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fullnamelabel)
+                    .addComponent(coursegradelabel))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fullnamelabel)
-                            .addComponent(coursegradelabel))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idnolabel)
-                            .addComponent(contactnumberlabel))
+                        .addComponent(idnolabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(dateofbirthlabel)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(dateofbirthlabel)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(emaillabel))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(addresslabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(sexlabel)))
                                 .addGap(4, 4, 4)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(emaillabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(addresslabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(sexlabel)))
-                        .addGap(4, 4, 4)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cancelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(contactnumberlabel))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -579,18 +751,6 @@ public class add_user extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_coursegradeKeyTyped
 
-    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_phoneActionPerformed
-
-    private void phoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_phoneKeyTyped
-
     private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addressActionPerformed
@@ -608,16 +768,15 @@ public class add_user extends javax.swing.JPanel {
         String course = coursegrade.getText();
         String number = phone.getText();
         String user_address = address.getText();
-        String user_sex = comboBoxSuggestion1.getSelectedItem().toString();
+        String user_sex = sex.getSelectedItem().toString();
 
-        if (fullname.getText().equals("") || idno.getText().equals("") || dateofbirth.getText().equals("") || email.getText().equals("") || coursegrade.getText().equals("") || phone.getText().equals("") || address.getText().equals("") || comboBoxSuggestion1.getSelectedItem().toString().equals("")) {
+        if (fullname.getText().equals("") || idno.getText().equals("") || dateofbirth.getText().equals("") || email.getText().equals("") || coursegrade.getText().equals("") || phone.getText().equals("") || address.getText().equals("") || sex.getSelectedItem().toString().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-            String key = idnum;
             String uidpath = new getUID().getUid();
 
-            v = new pushValue(key);
+            v = new pushValueExisting(idnum);
             m = new HashMap<>();
             m.put("fullname", name);
             m.put("idno", idnum);
@@ -627,13 +786,10 @@ public class add_user extends javax.swing.JPanel {
             m.put("phone", number);
             m.put("address", user_address);
             m.put("sex", user_sex);
-//            m.put("deck", deckk);
             m.put("key", idnum);
-            m.put("status", "Active");
             m.put("timestamp", getnow);
-            m.put("fines", 0);
-            m.put("penalties", 0);
             v.pushData("students/" + uidpath, m);
+            m.clear();
             GlassPanePopup.closePopupAll();
         }
     }//GEN-LAST:event_addbuttonActionPerformed
@@ -673,27 +829,6 @@ public class add_user extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_coursegradeKeyReleased
 
-    private void phoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyReleased
-        // TODO add your handling code here:
-        String text = phone.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            phone.setText(text);
-        }
-
-        if (text.length() > 11) {
-            str = text.substring(0, 11);
-            phone.setText("");
-        }
-
-        if (text.length() == 0) {
-            phone.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_phoneKeyReleased
-
     private void idnoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idnoKeyReleased
         // TODO add your handling code here:
         String text = idno.getText();
@@ -715,10 +850,33 @@ public class add_user extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_idnoKeyReleased
 
-    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+    private void sexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexActionPerformed
         // TODO add your handling code here:
         //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
-    }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+    }//GEN-LAST:event_sexActionPerformed
+
+    private void phoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneActionPerformed
+
+    private void phoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneKeyReleased
+
+    private void phoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phoneKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneKeyTyped
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        books2.getRef().removeValue(completionListener);
+        GlassPanePopup.closePopupAll();
+        removeAll();
+        revalidate();
+        model.setRowCount(0);
+        repaint();
+        retrieveData();
+    }//GEN-LAST:event_deleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -727,13 +885,13 @@ public class add_user extends javax.swing.JPanel {
     private javax.swing.JLabel addresslabel;
     private javax.swing.JLabel adduserlabel;
     private libratech.design.MyButtonborder cancelbutton;
-    private libratech.design.ComboBoxSuggestion comboBoxSuggestion1;
     private javax.swing.JLabel contactnumberlabel;
     private javax.swing.JTextField coursegrade;
     private javax.swing.JLabel coursegradelabel;
     private libratech.design.DateChooser dateChooser1;
     private javax.swing.JTextField dateofbirth;
     private javax.swing.JLabel dateofbirthlabel;
+    private libratech.design.MyButtonborder delete;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emaillabel;
     private javax.swing.JTextField fullname;
@@ -750,6 +908,7 @@ public class add_user extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField phone;
+    private libratech.design.ComboBoxSuggestion sex;
     private javax.swing.JLabel sexlabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
@@ -760,7 +919,7 @@ public class add_user extends javax.swing.JPanel {
         coursegradelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         coursegrade.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         sexlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        comboBoxSuggestion1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        sex.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         dateofbirthlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         dateofbirth.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emaillabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
@@ -770,6 +929,7 @@ public class add_user extends javax.swing.JPanel {
         contactnumberlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         phone.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         cancelbutton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        delete.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         addbutton.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         adduserlabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
 

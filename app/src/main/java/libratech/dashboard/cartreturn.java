@@ -112,6 +112,8 @@ public class cartreturn extends javax.swing.JPanel {
     String idnom;
     long fine;
     int fines;
+    int penalties;
+    int user_fines;
     private List<Object> columnData;
     private HashMap<String, Object> m;
     private pushValueExisting v;
@@ -275,7 +277,7 @@ public class cartreturn extends javax.swing.JPanel {
                         return new Color(33, 33, 33);
                     }
                 };
-                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, barcode), option, "returntype");
+                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, barcode, idnom, penalties, user_fines), option, "returntype");
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
@@ -393,6 +395,8 @@ public class cartreturn extends javax.swing.JPanel {
                     email_add = _childValue.get("email").toString();
                     fname = _childValue.get("fullname").toString();
                     idnum = _childValue.get("idno").toString();
+                    penalties = Integer.parseInt(_childValue.get("penalties").toString());
+                    user_fines = Integer.parseInt(_childValue.get("fines").toString());
                     phone.setText("Phone Number: " + _childValue.get("phone").toString());
                 }
             }
@@ -416,6 +420,7 @@ public class cartreturn extends javax.swing.JPanel {
                     email_add = _childValue.get("email").toString();
                     fname = _childValue.get("fullname").toString();
                     idnum = _childValue.get("idno").toString();
+                    penalties = Integer.parseInt(_childValue.get("penalties").toString());
                 }
             }
 
@@ -576,7 +581,7 @@ public class cartreturn extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Book Title", "Book Code", "Borrowed Date", "Due Date", "Fines", "Actions"
+                "Book Title", "Book Code", "Borrowed Date", "Due Date", "Fines", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {

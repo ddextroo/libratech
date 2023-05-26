@@ -27,6 +27,7 @@ public class Book {
     private String status_string;
     private String due_date;
     private String borrowed_date;
+    int status_copies;
     private int fines;
 
     public String getStatus_string() {
@@ -131,7 +132,7 @@ public class Book {
 
     public Object[] toRowTable(EventAction event) {
 
-        return new Object[]{title, publisher, classification, author, barcode, copies, status, new ModelAction(this, event)};
+        return new Object[]{title, publisher, classification, author, barcode, status_copies, status, new ModelAction(this, event)};
     }
 
     public Object[] toRowTableBorrow(EventAction event) {
@@ -162,13 +163,13 @@ public class Book {
         this.status = status;
     }
 
-    public Book(String title, String publisher, String classification, String author, String barcode, String copies, StatusType status, String childKey) {
+    public Book(String title, String publisher, String classification, String author, String barcode, int status_copies, StatusType status, String childKey) {
         this.author = author;
         this.title = title;
         this.classification = classification;
         this.barcode = barcode;
         this.publisher = publisher;
-        this.copies = copies;
+        this.status_copies = status_copies;
         this.status = status;
         this.childKey = childKey;
 
