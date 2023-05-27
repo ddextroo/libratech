@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -28,8 +29,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
@@ -37,6 +40,7 @@ import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
 import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
@@ -63,12 +67,10 @@ public class edit_user extends javax.swing.JPanel {
     private String path;
     private DatabaseReference student;
     private String idnum;
-    private DefaultTableModel model;
     private DatabaseReference books2;
-    private DatabaseReference dbRef;
-    private libratech.user.students.studentTable inshelfTable1;
+    ImageScaler scaler = new ImageScaler();
 
-    public edit_user(String idnum, libratech.user.students.studentTable inshelfTable1) {
+    public edit_user(String idnum) {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
@@ -80,9 +82,7 @@ public class edit_user extends javax.swing.JPanel {
 
         path = "students/" + new getUID().getUid();
         student = FirebaseDatabase.getInstance().getReference(path);
-        this.model = (DefaultTableModel) inshelfTable1.getModel();
         this.books2 = FirebaseDatabase.getInstance().getReference(path + "/" + idnum);
-        this.inshelfTable1 = inshelfTable1;
 
         studentinfo = new ChildEventListener() {
             @Override
@@ -158,62 +158,6 @@ public class edit_user extends javax.swing.JPanel {
         super.paintComponent(graphics);
     }
 
-    private void retrieveData() {
-        // Fetch data from Firebase and create table
-        EventActionStudent eventAction = new EventActionStudent() {
-
-            @Override
-            public void update(Student student) {
-                System.out.println(student.getIDnumber());
-            }
-
-            @Override
-            public void selectIDNumber(String idNumber) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-
-            @Override
-            public String getSelectedIDNumber() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        };
-
-        dbRef = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if ("Active".equals(child.child("status").getValue(String.class))) {
-                        String key = child.child("idno").getValue(String.class);
-                        String email = child.child("email").getValue(String.class);
-                        String IDnumber = child.child("idno").getValue(String.class);
-                        String status = child.child("status").getValue(String.class);
-
-                        TableStatusStudent statust = new TableStatusStudent();
-
-                        if (status.equals("Active")) {
-                            statust.setType(StatusTypeStudent.Active);
-                        } else {
-                            statust.setType(StatusTypeStudent.Restricted);
-                        }
-                        inshelfTable1.addRow(new Student(email, IDnumber, statust.getType()).toRowTable(eventAction));
-                        new Student().setIDnumber(key);
-                        model.fireTableDataChanged();
-                        inshelfTable1.repaint();
-                        inshelfTable1.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -796,7 +740,7 @@ public class edit_user extends javax.swing.JPanel {
 
     private void cancelbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelbuttonActionPerformed
         // TODO add your handling code here:
-        GlassPanePopup.closePopupLast();
+         GlassPanePopup.closePopupLast();
     }//GEN-LAST:event_cancelbuttonActionPerformed
 
     private void fullnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fullnameKeyTyped
@@ -870,12 +814,20 @@ public class edit_user extends javax.swing.JPanel {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         books2.getRef().removeValue(completionListener);
-        GlassPanePopup.closePopupAll();
-        removeAll();
-        revalidate();
-        model.setRowCount(0);
-        repaint();
-        retrieveData();
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#041C34"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-fill.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "user");
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(edit_user.this);
+        frame.dispose();
     }//GEN-LAST:event_deleteActionPerformed
 
 

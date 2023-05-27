@@ -89,6 +89,7 @@ public class cart extends javax.swing.JPanel {
     private ChildEventListener booksinfo;
     private final String path_book = "books/" + new getUID().getUid() + "/";
     private final DatabaseReference book = FirebaseDatabase.getInstance().getReference(path_book);
+    private ValueEventListener data;
 
     private DatabaseReference dbRef;
     private DatabaseReference dbRef2;
@@ -161,12 +162,12 @@ public class cart extends javax.swing.JPanel {
 
             contentByte.restoreState();
             document.close();
-            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-                    + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
-                    + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
-                    + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
-                    + "\n\nBest regards,"
-                    + "\n\nLibratech Team", email_add, outputPath);
+//            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+//                    + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
+//                    + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
+//                    + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
+//                    + "\n\nBest regards,"
+//                    + "\n\nLibratech Team", email_add, outputPath);
             retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();
@@ -185,7 +186,7 @@ public class cart extends javax.swing.JPanel {
         for (Object item : columnData) {
             transaction.child((String) item).removeValue(completionListener);
         }
-        GlassPanePopup.closePopupAll();
+        // TODO add your handling code here:
     }
 
     private void retrieveDataBooksInfo() {
@@ -201,20 +202,19 @@ public class cart extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         String remaining = _childValue.get("remaining_copies").toString();
+                        String borrowing = _childValue.get("borrowed_books").toString();
                         int remain = Integer.parseInt(remaining);
-                        System.out.println(remain);
+                        int borrow = Integer.parseInt(borrowing);
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remain - 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
-                        if (remain <= 1) {
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("status", "Borrowed");
-                            v.pushData("books/" + new getUID().getUid(), m);
-                            m.clear();
-                        }
+                        v = new pushValueExisting(_childKey);
+                        m = new HashMap<>();
+                        m.put("borrowed_books", borrow + 1);
+                        v.pushData("books/" + new getUID().getUid(), m);
+                        m.clear();
                     }
                     break;
                 }
@@ -260,15 +260,13 @@ public class cart extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String bItem = (String) item;
                     if (bItem.equals(book.getBarcode())) {
-                        transaction.child(bItem).removeValue(completionListener);
-                        GlassPanePopup.closePopupAll();
-                        break;
+                        transaction.child(book.getBarcode()).removeValue(completionListener);
                     }
                 }
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.addValueEventListener(data = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);

@@ -752,7 +752,7 @@ public class add_book extends javax.swing.JPanel {
             String uidpath = new getUID().getUid();
             String call_no = genr + "-" + shelff + deckk + "-" + date1;
             //String key = databaseReference.push().getKey();
-            String bcode = "LIBRATECH" + genr + shelff + deckk + String.format("%04d", Integer.valueOf(book_copies));
+            String bcode = "LIBRATECH" + genr + shelff + deckk + String.format("%04d", Integer.valueOf(book_copies)) + book_edition;
             String key = bcode;
 
             v = new pushValue(key);
@@ -771,12 +771,10 @@ public class add_book extends javax.swing.JPanel {
             m.put("shelf", shelff);
             m.put("deck", deckk);
             m.put("key", key);
-           // m.put("call_number", call_no);
             m.put("status", "Available");
             m.put("timestamp", getnow);
-            m.put("remaining_copies", book_copies);
+            m.put("remaining_copies", Integer.valueOf(book_copies));
             m.put("cover", downloadUrl);
-            m.put("inshelf_books", 0);
             m.put("borrowed_books", 0);
             m.put("overdue_books", 0);
             m.put("lost_books", 0);

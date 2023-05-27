@@ -80,6 +80,7 @@ public class select_user extends javax.swing.JPanel {
     private pushValue v2;
     private DatabaseReference dbRef1;
     String idnum;
+    private ValueEventListener data;
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -130,10 +131,8 @@ public class select_user extends javax.swing.JPanel {
 
             @Override
             public void update(Student student) {
-                //selectDate(student.getIDnumber());
-                //System.out.println(student.getIDnumber());
                 dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
-                dbRef1.addValueEventListener(new ValueEventListener() {
+                dbRef1.addValueEventListener(data = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getChildrenCount() < 5) {
@@ -151,8 +150,10 @@ public class select_user extends javax.swing.JPanel {
                             m.put("borrowed_date", dateborrowed.getText());
                             v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
                             m.clear();
+                            dbRef1.removeEventListener(data);
                             GlassPanePopup.closePopupAll();
                         } else {
+                            dbRef1.removeEventListener(data);
                             GlassPanePopup.closePopupLast();
                             GlassPanePopup.showPopup(new max_limit());
                         }

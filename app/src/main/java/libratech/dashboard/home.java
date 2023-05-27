@@ -14,6 +14,9 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -32,6 +35,7 @@ import libratech.dashboard.user_menu;
 import libratech.dashboard.settings_menu;
 import libratech.design.GlassPanePopup;
 import libratech.design.loading;
+import libratech.models.getUID;
 
 /**
  *
@@ -53,6 +57,7 @@ public class home extends javax.swing.JFrame {
 
     public home() {
         initComponents();
+        scheduleDataUpdateTask(1);
         this.add(jPanel3);
         jPanel3.add(dashboard_menu, "dashboard");
         jPanel3.add(book_menu, "book");
@@ -76,7 +81,15 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
+    }
 
+    private void scheduleDataUpdateTask(int intervalSeconds) {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+        executorService.scheduleAtFixedRate(this::updateInfo, 0, intervalSeconds, TimeUnit.HOURS);
+    }
+
+    private void updateInfo() {
         accinfo = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
@@ -84,7 +97,7 @@ public class home extends javax.swing.JFrame {
                 };
                 final String _childKey = dataSnapshot.getKey();
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-                if (_childKey.equals(uid)) {
+                if (_childKey.equals(new getUID().getUid())) {
                     school_n.setText(_childValue.get("school_name").toString());
                     idnum.setText(_childValue.get("school_id").toString());
                     durl = _childValue.get("url").toString();
@@ -104,7 +117,7 @@ public class home extends javax.swing.JFrame {
                         }
                     });
                     timer.setRepeats(false);
-                    timer.start();  
+                    timer.start();
                 }
             }
 
@@ -119,11 +132,11 @@ public class home extends javax.swing.JFrame {
                 };
                 final String _childKey = ds.getKey();
                 final HashMap<String, Object> _childValue = ds.getValue(_ind);
-                if (_childKey.equals(uid)) {
+                if (_childKey.equals(new getUID().getUid())) {
                     school_n.setText(_childValue.get("school_name").toString());
                     idnum.setText(_childValue.get("school_id").toString());
                     durl = _childValue.get("url").toString();
-                    
+
                     Timer timer = new Timer(500, e -> {
                         try {
                             GlassPanePopup.showPopup(new loading());
@@ -154,13 +167,11 @@ public class home extends javax.swing.JFrame {
             }
         };
         acc.addChildEventListener(accinfo);
-
     }
 
     public void updateLabelText(String text) {
         this.uid = text;
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -648,6 +659,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "dashboard");
+        updateInfo();
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
@@ -684,6 +696,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "user");
+        updateInfo();
     }//GEN-LAST:event_jPanel18MouseClicked
 
     private void jPanel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel20MouseClicked
@@ -702,6 +715,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-fill.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "setting");
+        updateInfo();
     }//GEN-LAST:event_jPanel20MouseClicked
 
     private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
@@ -720,6 +734,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "dashboard");
+        updateInfo();
     }//GEN-LAST:event_jPanel14MouseClicked
 
     private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
@@ -738,6 +753,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "user");
+        updateInfo();
     }//GEN-LAST:event_jPanel19MouseClicked
 
     private void jPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel21MouseClicked
@@ -756,6 +772,7 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-fill.png");
         CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
         cardLayout.show(jPanel3, "setting");
+        updateInfo();
     }//GEN-LAST:event_jPanel21MouseClicked
 
     /**
@@ -803,33 +820,33 @@ public class home extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler9;
     private javax.swing.JLabel idnum;
     private libratech.design.ImageAvatar imageAvatar1;
-    private javax.swing.JLabel jLabel10;
+    public javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
+    public javax.swing.JLabel jLabel14;
+    public javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
+    public javax.swing.JLabel jLabel17;
+    public javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
+    public javax.swing.JLabel jLabel20;
+    public javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
+    public javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
+    public javax.swing.JPanel jPanel10;
+    public javax.swing.JPanel jPanel14;
+    public javax.swing.JPanel jPanel15;
+    public javax.swing.JPanel jPanel16;
+    public javax.swing.JPanel jPanel18;
+    public javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
+    public javax.swing.JPanel jPanel20;
+    public javax.swing.JPanel jPanel21;
     public javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

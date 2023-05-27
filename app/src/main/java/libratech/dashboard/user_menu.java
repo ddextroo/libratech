@@ -82,7 +82,7 @@ public class user_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new edit_user(student.getIDnumber(), studentTable1), option, "edit");
+                GlassPanePopup.showPopup(new edit_user(student.getIDnumber()), option, "edit");
             }
 
             @Override
@@ -154,7 +154,7 @@ public class user_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new edit_user(student.getIDnumber(), studentTable2), option, "edit");
+                GlassPanePopup.showPopup(new edit_user(student.getIDnumber()), option, "edit");
             }
 
             @Override
@@ -379,7 +379,24 @@ public class user_menu extends javax.swing.JPanel {
 
     private void myButtonborderless1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButtonborderless1MouseClicked
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new add_user());
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new add_user(), option, "add");
     }//GEN-LAST:event_myButtonborderless1MouseClicked
 
     private void myButtonborderless1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless1ActionPerformed

@@ -70,6 +70,7 @@ public class books_menu extends javax.swing.JPanel {
         inshelfTable4.fixTable(jScrollPane4);
         inshelfTable5.fixTable(jScrollPane5);
         scaler.scaleImage(notificationLabel1, "src\\main\\resources\\bookmark-line.png");
+        scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
         notificationLabel1.setEnabled(false);
         checkTransaction();
         retrieveData();
@@ -123,7 +124,7 @@ public class books_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5), option, "edit");
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()), option, "edit");
             }
         };
 
@@ -132,11 +133,8 @@ public class books_menu extends javax.swing.JPanel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
-
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    // if (child.child("inshelf_books").getValue(Integer.class) > 0) {
                     if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
-                        System.out.println(child.child("inshelf_books").getValue(Integer.class));
                         String key = child.child("key").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
@@ -149,7 +147,6 @@ public class books_menu extends javax.swing.JPanel {
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
-                        // }
                     }
                 }
                 int columnIndex = 5;
@@ -183,7 +180,7 @@ public class books_menu extends javax.swing.JPanel {
             @Override
             public void update(Book book) {
                 System.out.println("Ck: " + book.getChildKey());
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
             }
         };
 
@@ -239,7 +236,7 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
             }
         };
 
@@ -295,7 +292,7 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
             }
         };
 
@@ -351,7 +348,7 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
             }
         };
 
@@ -362,14 +359,14 @@ public class books_menu extends javax.swing.JPanel {
                 mod4.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("lost_books") && child.child("lost_books").getValue(Integer.class) > 0) {
+                    if (child.hasChild("damaged_books") && child.child("damaged_books").getValue(Integer.class) > 0) {
                         String key = child.child("key").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
                         String barcode = child.child("barcode").getValue(String.class);
                         String classification = child.child("classification").getValue(String.class);
                         String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("lost_books").getValue(Integer.class);
+                        int copies = child.child("damaged_books").getValue(Integer.class);
                         inshelfTable5.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Damaged, key).toRowTable(eventAction));
                         new Book().setChildKey(key);
                         mod4.fireTableDataChanged();
@@ -417,6 +414,7 @@ public class books_menu extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
         notificationLabel1 = new libratech.design.NotificationLabel();
+        scanner = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -471,6 +469,16 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
 
+        scanner.setPreferredSize(new java.awt.Dimension(25, 25));
+        scanner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scannerMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                scannerMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -478,7 +486,9 @@ public class books_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1129, Short.MAX_VALUE)
+                .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notificationLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -488,10 +498,12 @@ public class books_menu extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(notificationLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(notificationLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -654,7 +666,24 @@ public class books_menu extends javax.swing.JPanel {
 
     private void myButtonborderless1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButtonborderless1MouseClicked
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new add_book());
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new add_book(), option, "addbook");
 
     }//GEN-LAST:event_myButtonborderless1MouseClicked
 
@@ -686,14 +715,40 @@ public class books_menu extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_notificationLabel1MouseClicked
 
+    private void scannerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseClicked
+        // TODO add your handling code here:
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new scanbook(), option, "scan");
+    }//GEN-LAST:event_scannerMouseClicked
+
+    private void scannerMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scannerMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_scannerMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
-    private libratech.books.inshelf.InshelfTable inshelfTable1;
-    private libratech.books.inshelf.InshelfTable inshelfTable2;
-    private libratech.books.inshelf.InshelfTable inshelfTable3;
+    public libratech.books.inshelf.InshelfTable inshelfTable1;
+    public libratech.books.inshelf.InshelfTable inshelfTable2;
+    public libratech.books.inshelf.InshelfTable inshelfTable3;
     public libratech.books.inshelf.InshelfTable inshelfTable4;
     public libratech.books.inshelf.InshelfTable inshelfTable5;
     private javax.swing.JLabel jLabel1;
@@ -713,6 +768,7 @@ public class books_menu extends javax.swing.JPanel {
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless1;
     private libratech.design.NotificationLabel notificationLabel1;
+    private javax.swing.JLabel scanner;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));

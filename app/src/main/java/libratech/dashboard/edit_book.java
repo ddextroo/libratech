@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -31,8 +32,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import libratech.auth.signup;
@@ -83,16 +86,6 @@ public class edit_book extends javax.swing.JPanel {
     private retBooks listener;
     private ChildEventListener booksinfo;
     private DatabaseReference.CompletionListener completionListener;
-    private DefaultTableModel model;
-    private DefaultTableModel model1;
-    private DefaultTableModel model2;
-    private DefaultTableModel model3;
-    private DefaultTableModel model4;
-    private libratech.books.inshelf.InshelfTable inshelfTable1;
-    private libratech.books.inshelf.InshelfTable inshelfTable2;
-    private libratech.books.inshelf.InshelfTable inshelfTable3;
-    private libratech.books.inshelf.InshelfTable inshelfTable4;
-    private libratech.books.inshelf.InshelfTable inshelfTable5;
     String downloadUrl = "";
     String remaining_copies = "";
     boolean upload = false;
@@ -104,27 +97,15 @@ public class edit_book extends javax.swing.JPanel {
     ClassificationInfo info = new ClassificationInfo();
     ImageScaler scaler = new ImageScaler();
 
-    public edit_book(String key1, libratech.books.inshelf.InshelfTable inshelfTable1, libratech.books.inshelf.InshelfTable inshelfTable2, libratech.books.inshelf.InshelfTable inshelfTable3, libratech.books.inshelf.InshelfTable inshelfTable4, libratech.books.inshelf.InshelfTable inshelfTable5) {
+    public edit_book(String key1) {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
         this.listener = new retBooks(key1);
         this.ck = key1;
-        System.out.println(key1);
-        this.model = (DefaultTableModel) inshelfTable1.getModel();
-        this.model1 = (DefaultTableModel) inshelfTable2.getModel();
-        this.model2 = (DefaultTableModel) inshelfTable3.getModel();
-        this.model3 = (DefaultTableModel) inshelfTable4.getModel();
-        this.model4 = (DefaultTableModel) inshelfTable5.getModel();
-        this.inshelfTable1 = inshelfTable1;
         this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
         initFont();
-        retrieveData();
-        retrieveDataborrowed();
-        retrieveDataborrowedOverdue();
-        retrieveDataborrowedLost();
-        retrieveDataborrowedDamaged();
 
         classification.setEditable(true);
         classification.setModel(new javax.swing.DefaultComboBoxModel(info.getClassification()));
@@ -240,208 +221,6 @@ public class edit_book extends javax.swing.JPanel {
         } catch (BarcodeException | OutputException | IOException ex) {
             Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void retrieveData() {
-        // Fetch data from Firebase and create table
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
-            }
-        };
-
-        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("remaining_copies").getValue(Integer.class);
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        model.fireTableDataChanged();
-                        inshelfTable1.repaint();
-                        inshelfTable1.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void retrieveDataborrowed() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                System.out.println("Ck: " + book.getChildKey());
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
-            }
-        };
-
-        dbRef2 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model1.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("borrowed_books") && child.child("borrowed_books").getValue(Integer.class) > 0) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("borrowed_books").getValue(Integer.class);
-                        inshelfTable2.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Borrowed, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        model1.fireTableDataChanged();
-                        inshelfTable2.repaint();
-                        inshelfTable2.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void retrieveDataborrowedOverdue() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
-            }
-        };
-
-        dbRef3 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model2.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("overdue_books") && child.child("overdue_books").getValue(Integer.class) > 0) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("overdue_books").getValue(Integer.class);
-                        inshelfTable3.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Overdue, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        model2.fireTableDataChanged();
-                        inshelfTable3.repaint();
-                        inshelfTable3.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void retrieveDataborrowedLost() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
-            }
-        };
-
-        dbRef4 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef4.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model3.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("lost_books") && child.child("lost_books").getValue(Integer.class) > 0) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("lost_books").getValue(Integer.class);
-                        inshelfTable4.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Lost, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        model3.fireTableDataChanged();
-                        inshelfTable4.repaint();
-                        inshelfTable4.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void retrieveDataborrowedDamaged() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey(), inshelfTable1, inshelfTable2, inshelfTable3, inshelfTable4, inshelfTable5));
-            }
-        };
-
-        dbRef5 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef5.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                model4.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("lost_books") && child.child("lost_books").getValue(Integer.class) > 0) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("lost_books").getValue(Integer.class);
-                        inshelfTable5.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Damaged, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        model4.fireTableDataChanged();
-                        inshelfTable5.repaint();
-                        inshelfTable5.revalidate();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
     }
 
     @Override
@@ -1147,7 +926,6 @@ public class edit_book extends javax.swing.JPanel {
             m.put("key", ck);
             m.put("call_number", call_no);
             m.put("status", "Available");
-            m.put("remaining_copies", remaining_copies);
             m.put("timestamp", getnow);
             m.put("cover", downloadUrl);
             v.pushData("books/" + uidpath, m);
@@ -1259,14 +1037,21 @@ public class edit_book extends javax.swing.JPanel {
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
-        System.out.println(books2.getRef());
         books2.getRef().removeValue(completionListener);
-        GlassPanePopup.closePopupAll();
-        removeAll();
-        revalidate();
-        model.setRowCount(0);
-        retrieveData();
-        repaint();
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#041C34"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "book");
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(edit_book.this);
+        frame.dispose();
     }//GEN-LAST:event_deleteActionPerformed
 
     private void classificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classificationActionPerformed
