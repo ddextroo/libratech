@@ -11,7 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -29,12 +31,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import libratech.auth.signup;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import libratech.design.ScrollBarCustom;
 import libratech.design.loading;
+import libratech.models.Dashboard.retrieveInfo;
 import libratech.models.getUID;
+import libratech.models.pushValue;
 import libratech.models.pushValueExisting;
 import libratech.util.firebaseInit;
 import libratech.util.storage;
@@ -43,7 +53,7 @@ import libratech.util.storage;
  *
  * @author HBUSER
  */
-public class settings_menu extends javax.swing.JPanel {
+public class settings_menu2 extends javax.swing.JPanel {
 
     private String localFilePath;
     private String remoteFilePath;
@@ -57,7 +67,7 @@ public class settings_menu extends javax.swing.JPanel {
     boolean upload = false;
     private String passwd;
 
-    public settings_menu() {
+    public settings_menu2() {
         initComponents();
         new firebaseInit().initFirebase();
 
@@ -152,6 +162,7 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         jSeparator1 = new javax.swing.JSeparator();
         jPanel13 = new javax.swing.JPanel();
@@ -187,11 +198,10 @@ public class settings_menu extends javax.swing.JPanel {
         passwrodsecuritylabel = new javax.swing.JLabel();
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
         myButtonborderless4 = new libratech.design.MyButtonborderless();
-        jSeparator2 = new javax.swing.JSeparator();
+        jPanel4 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        materialTabbed2 = new libratech.design.MaterialTabbed();
 
         setBackground(new java.awt.Color(250, 250, 250));
 
@@ -225,6 +235,8 @@ public class settings_menu extends javax.swing.JPanel {
 
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+
+        materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
         jPanel2.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -418,6 +430,7 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel15.add(jPanel16);
 
         jPanel23.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel23.setLayout(new javax.swing.BoxLayout(jPanel23, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel22.setBackground(new java.awt.Color(250, 250, 250));
         jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -468,6 +481,8 @@ public class settings_menu extends javax.swing.JPanel {
         );
 
         jPanel22.add(jPanel12);
+
+        jPanel23.add(jPanel22);
 
         jPanel24.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -584,21 +599,7 @@ public class settings_menu extends javax.swing.JPanel {
                 .addGap(18, 18, 18))
         );
 
-        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
-        jPanel23.setLayout(jPanel23Layout);
-        jPanel23Layout.setHorizontalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 1033, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        jPanel23Layout.setVerticalGroup(
-            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel23Layout.createSequentialGroup()
-                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel23.add(jPanel24);
 
         jPanel25.setBackground(new java.awt.Color(250, 250, 250));
         jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -631,6 +632,13 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, 1033, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(190, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -643,30 +651,17 @@ public class settings_menu extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 189, Short.MAX_VALUE)))
-                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -675,13 +670,27 @@ public class settings_menu extends javax.swing.JPanel {
                 .addGap(100, 100, 100))
         );
 
-        jPanel9.add(jPanel2);
+        materialTabbed1.addTab("Profile", jPanel2);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1273, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 796, Short.MAX_VALUE)
+        );
+
+        materialTabbed1.addTab("About", jPanel4);
+
+        jPanel9.add(materialTabbed1);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
         jPanel1.add(filler2, java.awt.BorderLayout.LINE_END);
         jPanel1.add(filler3, java.awt.BorderLayout.PAGE_END);
-        jPanel1.add(materialTabbed2, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -1030,13 +1039,13 @@ public class settings_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private libratech.design.MaterialTabbed materialTabbed2;
+    private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless4;
     private javax.swing.JPasswordField pass;
     private javax.swing.JPasswordField pass1;
@@ -1052,7 +1061,7 @@ public class settings_menu extends javax.swing.JPanel {
     private javax.swing.JLabel schoolnamelabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        materialTabbed2.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         editprofile.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         passwrodsecuritylabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));

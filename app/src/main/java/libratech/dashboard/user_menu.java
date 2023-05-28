@@ -253,6 +253,7 @@ public class user_menu extends javax.swing.JPanel {
             }
         });
 
+        scanner.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         scanner.setPreferredSize(new java.awt.Dimension(25, 25));
         scanner.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

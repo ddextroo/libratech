@@ -32,8 +32,10 @@ import libratech.util.firebaseInit;
 import libratech.dashboard.dashboard_menu;
 import libratech.dashboard.books_menu;
 import libratech.dashboard.user_menu;
-import libratech.dashboard.settings_menu;
+import libratech.dashboard.settings_menu2;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.Option;
 import libratech.design.loading;
 import libratech.models.getUID;
 
@@ -48,7 +50,7 @@ public class home extends javax.swing.JFrame {
     dashboard_menu dashboard_menu = new dashboard_menu();
     books_menu book_menu = new books_menu();
     user_menu user_menu = new user_menu();
-    settings_menu setting_menu = new settings_menu();
+    settingsmenu setting_menu = new settingsmenu();
     private String uid;
     private ChildEventListener accinfo;
     private final String path = "users/";
@@ -57,7 +59,7 @@ public class home extends javax.swing.JFrame {
 
     public home() {
         initComponents();
-        scheduleDataUpdateTask(1);
+        scheduleDataUpdateTask(30);
         this.add(jPanel3);
         jPanel3.add(dashboard_menu, "dashboard");
         jPanel3.add(book_menu, "book");
@@ -83,10 +85,10 @@ public class home extends javax.swing.JFrame {
         initFont();
     }
 
-    private void scheduleDataUpdateTask(int intervalSeconds) {
+    private void scheduleDataUpdateTask(int intervalMinutes) {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-        executorService.scheduleAtFixedRate(this::updateInfo, 0, intervalSeconds, TimeUnit.HOURS);
+        executorService.scheduleAtFixedRate(this::updateInfo, 0, intervalMinutes, TimeUnit.MINUTES);
     }
 
     private void updateInfo() {
@@ -98,6 +100,29 @@ public class home extends javax.swing.JFrame {
                 final String _childKey = dataSnapshot.getKey();
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
                 if (_childKey.equals(new getUID().getUid())) {
+                    if (_childValue.containsKey("status")) {
+                        System.out.println("true");
+                        if (_childValue.get("status").toString().equals("Pending")) {
+                            Option option = new DefaultOption() {
+                                @Override
+                                public float opacity() {
+                                    return 0.6f;
+                                }
+
+                                @Override
+                                public boolean closeWhenClickOutside() {
+                                    return false;
+                                }
+
+                                @Override
+                                public Color background() {
+                                    return new Color(33, 33, 33);
+                                }
+
+                            };
+                            GlassPanePopup.showPopup(new subscription(), option);
+                        }
+                    }
                     school_n.setText(_childValue.get("school_name").toString());
                     idnum.setText(_childValue.get("school_id").toString());
                     durl = _childValue.get("url").toString();

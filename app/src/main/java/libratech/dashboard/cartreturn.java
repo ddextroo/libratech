@@ -94,6 +94,10 @@ public class cartreturn extends javax.swing.JPanel {
     private ChildEventListener booksinfo;
     private final String path_book = "books/" + new getUID().getUid() + "/";
     private final DatabaseReference book = FirebaseDatabase.getInstance().getReference(path_book);
+    
+    private ChildEventListener booksuserinfo;
+    private final String path_bookuserinfo = "users/";
+    private final DatabaseReference bookuser = FirebaseDatabase.getInstance().getReference(path_bookuserinfo);
 
     private DatabaseReference dbRef;
     private DatabaseReference dbRef2;
@@ -114,6 +118,7 @@ public class cartreturn extends javax.swing.JPanel {
     int fines;
     int penalties;
     int user_fines;
+    int overdue_fines;
     private List<Object> columnData;
     private HashMap<String, Object> m;
     private pushValueExisting v;
@@ -141,6 +146,49 @@ public class cartreturn extends javax.swing.JPanel {
         };
 
         retrieveDataBooks();
+        userBookInfo();
+    }
+    
+    private void userBookInfo() {
+        booksuserinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                    if (new getUID().getUid().equals(_childKey)) {
+                        overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
+                    }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (new getUID().getUid().equals(_childKey)) {
+                        overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
+                    }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        bookuser.addChildEventListener(booksuserinfo);
     }
 
     public void convertToPDF(String outputPath) {
@@ -210,20 +258,19 @@ public class cartreturn extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         String remaining = _childValue.get("remaining_copies").toString();
+                        String borrowing = _childValue.get("borrowed_books").toString();
                         int remain = Integer.parseInt(remaining);
-                        System.out.println(remain);
+                        int borrow = Integer.parseInt(borrowing);
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remain - 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
-                        if (remain <= 1) {
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("status", "Borrowed");
-                            v.pushData("books/" + new getUID().getUid(), m);
-                            m.clear();
-                        }
+                        v = new pushValueExisting(_childKey);
+                        m = new HashMap<>();
+                        m.put("borrowed_books", borrow + 1);
+                        v.pushData("books/" + new getUID().getUid(), m);
+                        m.clear();
                     }
                     break;
                 }
@@ -304,7 +351,7 @@ public class cartreturn extends javax.swing.JPanel {
                         fine = 0;
 
                         if (currentDate.after(dueDate)) {
-                            fine = 10 + (differenceInDays - 1) * 2;
+                            fine = 10 + (differenceInDays - 1) * overdue_fines;
                             v = new pushValueExisting(barcode);
                             m = new HashMap<>();
                             m.put("fines", (int) fine);

@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -29,10 +30,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import libratech.auth.signup;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import libratech.design.ScrollBarCustom;
 import libratech.design.loading;
 import libratech.models.getUID;
 import libratech.models.pushValueExisting;
@@ -43,7 +47,7 @@ import libratech.util.storage;
  *
  * @author HBUSER
  */
-public class settings_menu extends javax.swing.JPanel {
+public class settingsmenu extends javax.swing.JPanel {
 
     private String localFilePath;
     private String remoteFilePath;
@@ -57,20 +61,19 @@ public class settings_menu extends javax.swing.JPanel {
     boolean upload = false;
     private String passwd;
 
-    public settings_menu() {
+    public settingsmenu() {
         initComponents();
+        initFont();
         new firebaseInit().initFirebase();
 
-//        ScrollBarCustom sb = new ScrollBarCustom();
-//        sb.setPreferredSize(new Dimension(12, 70));
-//        scroll.setVerticalScrollBar(sb);
-//        ScrollBarCustom sbH = new ScrollBarCustom();
-//        sbH.setOrientation(JScrollBar.HORIZONTAL);
-//        sbH.setPreferredSize(new Dimension(12, 12));
-//        scroll.setHorizontalScrollBar(sbH);
-//        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        initFont();
+        ScrollBarCustom sb = new ScrollBarCustom();
+        sb.setPreferredSize(new Dimension(12, 50));
+        jScrollPane1.setVerticalScrollBar(sb);
+        ScrollBarCustom sbH = new ScrollBarCustom();
+        sbH.setOrientation(JScrollBar.HORIZONTAL);
+        sbH.setPreferredSize(new Dimension(12, 12));
+        jScrollPane1.setHorizontalScrollBar(sbH);
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         accinfo = new ChildEventListener() {
             @Override
@@ -82,6 +85,15 @@ public class settings_menu extends javax.swing.JPanel {
                 System.out.println(_childKey);
                 if (_childKey.equals(uid)) {
                     try {
+                        if (_childValue.containsKey("barcode_name")) {
+                            barcodename.setText(_childValue.get("barcode_name").toString());
+                        }
+                        if (_childValue.containsKey("days_limit")) {
+                            limit.setText(_childValue.get("days_limit").toString());
+                        }
+                        if (_childValue.containsKey("overdue_fines")) {
+                            overduefines.setText(_childValue.get("overdue_fines").toString());
+                        }
                         schoolname.setText(_childValue.get("school_name").toString());
                         passwd = _childValue.get("pass").toString();
                         schoolid.setText(_childValue.get("school_id").toString());
@@ -111,6 +123,15 @@ public class settings_menu extends javax.swing.JPanel {
                 final HashMap<String, Object> _childValue = ds.getValue(_ind);
                 if (_childKey.equals(uid)) {
                     try {
+                        if (_childValue.containsKey("barcode_name")) {
+                            barcodename.setText(_childValue.get("barcode_name").toString());
+                        }
+                        if (_childValue.containsKey("days_limit")) {
+                            limit.setText(_childValue.get("days_limit").toString());
+                        }
+                        if (_childValue.containsKey("overdue_fines")) {
+                            overduefines.setText(_childValue.get("overdue_fines").toString());
+                        }
                         schoolname.setText(_childValue.get("school_name").toString());
                         schoolid.setText(_childValue.get("school_id").toString());
                         email.setText(_childValue.get("email").toString());
@@ -152,7 +173,10 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        materialTabbed1 = new libratech.design.MaterialTabbed();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
+        jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel13 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
@@ -188,12 +212,28 @@ public class settings_menu extends javax.swing.JPanel {
         filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
         myButtonborderless4 = new libratech.design.MyButtonborderless();
         jSeparator2 = new javax.swing.JSeparator();
+        jPanel33 = new javax.swing.JPanel();
+        books = new javax.swing.JLabel();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 0), new java.awt.Dimension(100, 32767));
+        jPanel18 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        barcodenamelabel = new javax.swing.JLabel();
+        jPanel20 = new RoundedPanel(12, new Color(245,245,245, 0));
+        barcodename = new javax.swing.JTextField();
+        limitlabel = new javax.swing.JLabel();
+        jPanel21 = new RoundedPanel(12, new Color(245,245,245, 0));
+        limit = new javax.swing.JTextField();
+        overduefineslabel = new javax.swing.JLabel();
+        jPanel26 = new RoundedPanel(12, new Color(245,245,245, 0));
+        overduefines = new javax.swing.JTextField();
+        jSeparator3 = new javax.swing.JSeparator();
+        jPanel5 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        materialTabbed2 = new libratech.design.MaterialTabbed();
 
-        setBackground(new java.awt.Color(250, 250, 250));
+        setBackground(new java.awt.Color(255, 153, 153));
+        setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(224, 224, 224));
         jPanel1.setLayout(new java.awt.BorderLayout(30, 10));
@@ -211,12 +251,12 @@ public class settings_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1145, Short.MAX_VALUE))
+                .addContainerGap(1369, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -226,7 +266,12 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel2.setBackground(new java.awt.Color(250, 250, 250));
+        materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255,0));
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -275,7 +320,7 @@ public class settings_menu extends javax.swing.JPanel {
 
         jPanel7.setBackground(new java.awt.Color(0, 0, 0));
 
-        pass.setBackground(new java.awt.Color(255, 255, 255));
+        pass.setBackground(new java.awt.Color(250, 250, 250));
         pass.setBorder(null);
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +328,9 @@ public class settings_menu extends javax.swing.JPanel {
             }
         });
         pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 passKeyReleased(evt);
             }
@@ -313,7 +361,7 @@ public class settings_menu extends javax.swing.JPanel {
 
         jPanel10.setBackground(new java.awt.Color(0, 0, 0));
 
-        pass1.setBackground(new java.awt.Color(255, 255, 255));
+        pass1.setBackground(new java.awt.Color(250, 250, 250));
         pass1.setBorder(null);
         pass1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,7 +399,7 @@ public class settings_menu extends javax.swing.JPanel {
 
         jPanel11.setBackground(new java.awt.Color(0, 0, 0));
 
-        pass2.setBackground(new java.awt.Color(255, 255, 255));
+        pass2.setBackground(new java.awt.Color(250, 250, 250));
         pass2.setBorder(null);
         pass2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,17 +468,15 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel23.setBackground(new java.awt.Color(250, 250, 250));
 
         jPanel22.setBackground(new java.awt.Color(250, 250, 250));
-        jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         schoolnamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         schoolnamelabel.setForeground(new java.awt.Color(51, 51, 51));
         schoolnamelabel.setText("School Name");
-        jPanel22.add(schoolnamelabel);
 
         jPanel12.setBackground(new java.awt.Color(0, 0, 0));
         jPanel12.setOpaque(false);
 
-        schoolname.setBackground(new java.awt.Color(255, 255, 255));
+        schoolname.setBackground(new java.awt.Color(250, 250, 250));
         schoolname.setBorder(null);
         schoolname.setOpaque(true);
         schoolname.addActionListener(new java.awt.event.ActionListener() {
@@ -454,10 +500,10 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(schoolname, javax.swing.GroupLayout.PREFERRED_SIZE, 838, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,7 +513,24 @@ public class settings_menu extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jPanel22.add(jPanel12);
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(schoolnamelabel)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(79, 79, 79))
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addComponent(schoolnamelabel)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         jPanel24.setBackground(new java.awt.Color(250, 250, 250));
 
@@ -478,7 +541,7 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
         jPanel14.setOpaque(false);
 
-        schoolid.setBackground(new java.awt.Color(255, 255, 255));
+        schoolid.setBackground(new java.awt.Color(250, 250, 250));
         schoolid.setBorder(null);
         schoolid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -521,7 +584,7 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
 
         email.setEditable(false);
-        email.setBackground(new java.awt.Color(255, 255, 255));
+        email.setBackground(new java.awt.Color(250, 250, 250));
         email.setBorder(null);
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -540,7 +603,7 @@ public class settings_menu extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -566,7 +629,7 @@ public class settings_menu extends javax.swing.JPanel {
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(emailaddlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,7 +651,7 @@ public class settings_menu extends javax.swing.JPanel {
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 1033, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel23Layout.setVerticalGroup(
@@ -626,38 +689,236 @@ public class settings_menu extends javax.swing.JPanel {
         });
         jPanel32.add(myButtonborderless4);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jSeparator1)
-                        .addGap(33, 33, 33))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel33.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel33.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        books.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        books.setText("Books");
+        jPanel33.add(books);
+        jPanel33.add(filler7);
+
+        jPanel18.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel18.setOpaque(false);
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel19.setOpaque(false);
+
+        barcodenamelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        barcodenamelabel.setForeground(new java.awt.Color(51, 51, 51));
+        barcodenamelabel.setText("Barcode Name");
+
+        jPanel20.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel20.setOpaque(false);
+
+        barcodename.setBackground(new java.awt.Color(250, 250, 250));
+        barcodename.setBorder(null);
+        barcodename.setOpaque(true);
+        barcodename.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                barcodenameActionPerformed(evt);
+            }
+        });
+        barcodename.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                barcodenameKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                barcodenameKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                barcodenameKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(barcodename, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(383, 383, 383))
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel20Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(barcodename, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel7.setOpaque(false);
+
+        limitlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        limitlabel.setForeground(new java.awt.Color(51, 51, 51));
+        limitlabel.setText("Days Limit");
+
+        jPanel21.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel21.setOpaque(false);
+
+        limit.setBackground(new java.awt.Color(250, 250, 250));
+        limit.setBorder(null);
+        limit.setOpaque(true);
+        limit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limitActionPerformed(evt);
+            }
+        });
+        limit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                limitKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                limitKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                limitKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(limit, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(383, 383, 383))
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(limit, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel10.setOpaque(false);
+
+        overduefineslabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        overduefineslabel.setForeground(new java.awt.Color(51, 51, 51));
+        overduefineslabel.setText("Overdue Fines");
+
+        jPanel26.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel26.setOpaque(false);
+
+        overduefines.setBackground(new java.awt.Color(250, 250, 250));
+        overduefines.setBorder(null);
+        overduefines.setOpaque(true);
+        overduefines.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                overduefinesActionPerformed(evt);
+            }
+        });
+        overduefines.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                overduefinesKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                overduefinesKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                overduefinesKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(overduefines, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(383, 383, 383))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(overduefines, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel11.setOpaque(false);
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(overduefineslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(limitlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(barcodenamelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(barcodenamelabel)
+                .addGap(4, 4, 4)
+                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(limitlabel)
+                .addGap(4, 4, 4)
+                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(overduefineslabel)
+                .addGap(4, 4, 4)
+                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 39, Short.MAX_VALUE))
+        );
+
+        jPanel18.add(jPanel19);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 189, Short.MAX_VALUE)))
+                        .addGap(0, 408, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jSeparator3)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jSeparator1)
+                        .addGap(33, 33, 33))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -672,32 +933,300 @@ public class settings_menu extends javax.swing.JPanel {
                 .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel9.add(jPanel2);
+        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jScrollPane1.setViewportView(jPanel2);
+
+        materialTabbed1.addTab("Account", jScrollPane1);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+        materialTabbed1.addTab("About", jPanel5);
+
+        jPanel9.add(materialTabbed1);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
         jPanel1.add(filler2, java.awt.BorderLayout.LINE_END);
         jPanel1.add(filler3, java.awt.BorderLayout.PAGE_END);
-        jPanel1.add(materialTabbed2, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
-        );
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
+
+            try {
+                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
+                photoCover1.setImage(image);
+                upload = true;
+                if (upload) {
+                    storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+                    try {
+                        downloadUrl = uploader.upload();
+                        v = new pushValueExisting(uid);
+                        m = new HashMap<>();
+                        m.put("url", downloadUrl);
+                        v.pushData("users/", m);
+                        GlassPanePopup.showPopup(new loading());
+                        JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_photoCover1MouseClicked
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passActionPerformed
+
+    private void passKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyReleased
+        // TODO add your handling code here:
+        char[] opasswordChars = pass.getPassword();
+        String opassword = new String(opasswordChars);
+        String text = opassword;
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            pass.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            pass.setText("");
+        }
+
+        if (text.length() == 0) {
+            pass.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_passKeyReleased
+
+    private void pass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pass1ActionPerformed
+
+    private void pass1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pass1KeyReleased
+        // TODO add your handling code here:
+        char[] opasswordChars = pass1.getPassword();
+        String opassword = new String(opasswordChars);
+        String text = opassword;
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            pass1.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            pass1.setText("");
+        }
+
+        if (text.length() == 0) {
+            pass1.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_pass1KeyReleased
+
+    private void pass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pass2ActionPerformed
+
+    private void pass2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pass2KeyReleased
+        // TODO add your handling code here:
+        char[] opasswordChars = pass2.getPassword();
+        String opassword = new String(opasswordChars);
+        String text = opassword;
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            pass2.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            pass2.setText("");
+        }
+
+        if (text.length() == 0) {
+            pass2.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_pass2KeyReleased
+
+    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schoolnameActionPerformed
+
+    private void schoolnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (schoolname.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            } else {
+                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                String key = uid;
+                String uidpath = new getUID().getUid();
+
+                v = new pushValueExisting(key);
+                m = new HashMap<>();
+                m.put("school_name", schoolname.getText());
+                //                m.put("school_id", schoolid.getText());
+                //                m.put("timestamp", getnow);
+                //                m.put("url", downloadUrl);
+                //                m.put("pass", passwd);
+                //                m.put("email", email.getText());
+                //                m.put("uid", uid);
+                v.pushData("users/", m);
+                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_schoolnameKeyPressed
+
+    private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
+        // TODO add your handling code here:
+        String text = schoolname.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            schoolname.setText(text);
+        }
+
+        if (text.length() > 24) {
+            str = text.substring(0, 24);
+            schoolname.setText("");
+        }
+
+        if (text.length() == 0) {
+            schoolname.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_schoolnameKeyReleased
+
+    private void schoolnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isLetter(c) || c == ' ' || c == '-' || c == '.' || c == ',' || c == '\'' || c == '\"'
+                || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_schoolnameKeyTyped
+
+    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schoolidActionPerformed
+
+    private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (schoolname.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            } else {
+                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                String key = uid;
+                String uidpath = new getUID().getUid();
+
+                v = new pushValueExisting(key);
+                m = new HashMap<>();
+                //                m.put("school_name", schoolname.getText());
+                m.put("school_id", schoolid.getText());
+                //                m.put("timestamp", getnow);
+                //                m.put("url", downloadUrl);
+                //                m.put("pass", passwd);
+                //                m.put("email", email.getText());
+                //                m.put("uid", uid);
+                v.pushData("users/", m);
+                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_schoolidKeyPressed
+
+    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
+        // TODO add your handling code here:
+        String text = schoolid.getText();
+        String str = "";
+        // Capitalize the first letter of the text
+        if (text.length() > 0) {
+            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+            schoolid.setText(text);
+        }
+
+        if (text.length() > 50) {
+            str = text.substring(0, 50);
+            schoolid.setText("");
+        }
+
+        if (text.length() == 0) {
+            schoolid.setText(str);
+            str = "";
+        }
+    }//GEN-LAST:event_schoolidKeyReleased
+
+    private void schoolidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_schoolidKeyTyped
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (schoolname.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            } else {
+                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                String key = uid;
+                String uidpath = new getUID().getUid();
+
+                v = new pushValueExisting(key);
+                m = new HashMap<>();
+                //                m.put("school_name", schoolname.getText());
+                //                m.put("school_id", schoolid.getText());
+                //                m.put("timestamp", getnow);
+                //                m.put("url", downloadUrl);
+                //                m.put("pass", passwd);
+                m.put("email", email.getText());
+                //                m.put("uid", uid);
+                v.pushData("users/", m);
+                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
+
+            }
+        }
+    }//GEN-LAST:event_emailKeyPressed
 
     private void myButtonborderless4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless4ActionPerformed
         // TODO add your handling code here:
@@ -738,274 +1267,100 @@ public class settings_menu extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_myButtonborderless4ActionPerformed
 
-    private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
+    private void barcodenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barcodenameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_barcodenameActionPerformed
+
+    private void barcodenameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_barcodenameKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (schoolname.getText().equals("")) {
+            if (barcodename.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             } else {
-                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                 String key = uid;
-                String uidpath = new getUID().getUid();
-
                 v = new pushValueExisting(key);
                 m = new HashMap<>();
-                //                m.put("school_name", schoolname.getText());
-                //                m.put("school_id", schoolid.getText());
-                //                m.put("timestamp", getnow);
-                //                m.put("url", downloadUrl);
-                //                m.put("pass", passwd);
-                m.put("email", email.getText());
-                //                m.put("uid", uid);
+                m.put("barcode_name", barcodename.getText());
                 v.pushData("users/", m);
-                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Book Settings Sucessfully Changed", "Success", INFORMATION_MESSAGE);
             }
         }
-    }//GEN-LAST:event_emailKeyPressed
+    }//GEN-LAST:event_barcodenameKeyPressed
 
-    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+    private void barcodenameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_barcodenameKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailActionPerformed
+    }//GEN-LAST:event_barcodenameKeyReleased
 
-    private void schoolidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyTyped
+    private void barcodenameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_barcodenameKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_schoolidKeyTyped
+    }//GEN-LAST:event_barcodenameKeyTyped
 
-    private void schoolidKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyReleased
+    private void limitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limitActionPerformed
         // TODO add your handling code here:
-        String text = schoolid.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolid.setText(text);
-        }
+    }//GEN-LAST:event_limitActionPerformed
 
-        if (text.length() > 50) {
-            str = text.substring(0, 50);
-            schoolid.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolid.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolidKeyReleased
-
-    private void schoolidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyPressed
+    private void limitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_limitKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (schoolname.getText().equals("")) {
+            if (limit.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             } else {
-                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                 String key = uid;
-                String uidpath = new getUID().getUid();
-
                 v = new pushValueExisting(key);
                 m = new HashMap<>();
-                //                m.put("school_name", schoolname.getText());
-                m.put("school_id", schoolid.getText());
-                //                m.put("timestamp", getnow);
-                //                m.put("url", downloadUrl);
-                //                m.put("pass", passwd);
-                //                m.put("email", email.getText());
-                //                m.put("uid", uid);
+                m.put("days_limit", Integer.valueOf(limit.getText()));
                 v.pushData("users/", m);
-                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Book Settings Sucessfully Changed", "Success", INFORMATION_MESSAGE);
             }
         }
-    }//GEN-LAST:event_schoolidKeyPressed
+    }//GEN-LAST:event_limitKeyPressed
 
-    private void schoolidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolidActionPerformed
+    private void limitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_limitKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_schoolidActionPerformed
+    }//GEN-LAST:event_limitKeyReleased
 
-    private void schoolnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyTyped
+    private void limitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_limitKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || c == ' ' || c == '-' || c == '.' || c == ',' || c == '\'' || c == '\"'
-            || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-        evt.consume();
-        }
-    }//GEN-LAST:event_schoolnameKeyTyped
+    }//GEN-LAST:event_limitKeyTyped
 
-    private void schoolnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyReleased
+    private void overduefinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overduefinesActionPerformed
         // TODO add your handling code here:
-        String text = schoolname.getText();
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            schoolname.setText(text);
-        }
+    }//GEN-LAST:event_overduefinesActionPerformed
 
-        if (text.length() > 24) {
-            str = text.substring(0, 24);
-            schoolname.setText("");
-        }
-
-        if (text.length() == 0) {
-            schoolname.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_schoolnameKeyReleased
-
-    private void schoolnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolnameKeyPressed
+    private void overduefinesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_overduefinesKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (schoolname.getText().equals("")) {
+                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (overduefines.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             } else {
-                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
                 String key = uid;
-                String uidpath = new getUID().getUid();
-
                 v = new pushValueExisting(key);
                 m = new HashMap<>();
-                m.put("school_name", schoolname.getText());
-                //                m.put("school_id", schoolid.getText());
-                //                m.put("timestamp", getnow);
-                //                m.put("url", downloadUrl);
-                //                m.put("pass", passwd);
-                //                m.put("email", email.getText());
-                //                m.put("uid", uid);
+                m.put("overdue_fines", Integer.valueOf(overduefines.getText()));
                 v.pushData("users/", m);
-                JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Book Settings Sucessfully Changed", "Success", INFORMATION_MESSAGE);
             }
         }
-    }//GEN-LAST:event_schoolnameKeyPressed
+    }//GEN-LAST:event_overduefinesKeyPressed
 
-    private void schoolnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schoolnameActionPerformed
+    private void overduefinesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_overduefinesKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_schoolnameActionPerformed
+    }//GEN-LAST:event_overduefinesKeyReleased
 
-    private void pass2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pass2KeyReleased
+    private void overduefinesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_overduefinesKeyTyped
         // TODO add your handling code here:
-        char[] opasswordChars = pass2.getPassword();
-        String opassword = new String(opasswordChars);
-        String text = opassword;
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            pass2.setText(text);
-        }
+    }//GEN-LAST:event_overduefinesKeyTyped
 
-        if (text.length() > 50) {
-            str = text.substring(0, 50);
-            pass2.setText("");
-        }
-
-        if (text.length() == 0) {
-            pass2.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_pass2KeyReleased
-
-    private void pass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass2ActionPerformed
+    private void passKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pass2ActionPerformed
 
-    private void pass1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pass1KeyReleased
-        // TODO add your handling code here:
-        char[] opasswordChars = pass1.getPassword();
-        String opassword = new String(opasswordChars);
-        String text = opassword;
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            pass1.setText(text);
-        }
-
-        if (text.length() > 50) {
-            str = text.substring(0, 50);
-            pass1.setText("");
-        }
-
-        if (text.length() == 0) {
-            pass1.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_pass1KeyReleased
-
-    private void pass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pass1ActionPerformed
-
-    private void passKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyReleased
-        // TODO add your handling code here:
-        char[] opasswordChars = pass.getPassword();
-        String opassword = new String(opasswordChars);
-        String text = opassword;
-        String str = "";
-        // Capitalize the first letter of the text
-        if (text.length() > 0) {
-            text = Character.toUpperCase(text.charAt(0)) + text.substring(1);
-            pass.setText(text);
-        }
-
-        if (text.length() > 50) {
-            str = text.substring(0, 50);
-            pass.setText("");
-        }
-
-        if (text.length() == 0) {
-            pass.setText(str);
-            str = "";
-        }
-    }//GEN-LAST:event_passKeyReleased
-
-    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passActionPerformed
-
-    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + selectedFile.getName();
-
-            try {
-                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
-                photoCover1.setImage(image);
-                upload = true;
-                if (upload) {
-                    storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-                    try {
-                        downloadUrl = uploader.upload();
-                        v = new pushValueExisting(uid);
-                        m = new HashMap<>();
-                        m.put("url", downloadUrl);
-                        v.pushData("users/", m);
-                        GlassPanePopup.showPopup(new loading());
-                        JOptionPane.showMessageDialog(null, "Profile Information Sucessfully Changed", "Success", INFORMATION_MESSAGE);
-                    } catch (IOException ex) {
-                        Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(add_book.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_photoCover1MouseClicked
+    }//GEN-LAST:event_passKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField barcodename;
+    private javax.swing.JLabel barcodenamelabel;
+    private javax.swing.JLabel books;
     private javax.swing.JLabel editprofile;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emailaddlabel;
@@ -1014,6 +1369,7 @@ public class settings_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1024,20 +1380,34 @@ public class settings_menu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private libratech.design.MaterialTabbed materialTabbed2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTextField limit;
+    private javax.swing.JLabel limitlabel;
+    private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless4;
+    private javax.swing.JTextField overduefines;
+    private javax.swing.JLabel overduefineslabel;
     private javax.swing.JPasswordField pass;
     private javax.swing.JPasswordField pass1;
     private javax.swing.JPasswordField pass2;
@@ -1052,7 +1422,7 @@ public class settings_menu extends javax.swing.JPanel {
     private javax.swing.JLabel schoolnamelabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        materialTabbed2.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         editprofile.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         passwrodsecuritylabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
@@ -1069,7 +1439,13 @@ public class settings_menu extends javax.swing.JPanel {
         pass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         pass1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         pass2.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-
+        books.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        barcodenamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        barcodename.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        overduefineslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        overduefines.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        limitlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        limit.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
 }

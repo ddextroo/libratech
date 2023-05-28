@@ -56,7 +56,7 @@ public class auth {
 
     public boolean signUp(String school_name, String school_id, String url) throws FirebaseAuthException {
         try {
-            String getnow = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
 
             UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                     .setEmail(email)
@@ -71,6 +71,8 @@ public class auth {
             m.put("school_id", school_id);
             m.put("url", url);
             m.put("timestamp", getnow);
+            m.put("barcode_name", "LIBRATECH");
+            m.put("status", "Pending");
             m.put("uid", uid);
             v.pushData("users", m);
             JOptionPane.showMessageDialog(null, "Success: Account Created Successfully", "Welcome to LibraTech", INFORMATION_MESSAGE);
@@ -127,6 +129,6 @@ public class auth {
         }
         ret[1] = "false";
         return ret;
-       
+
     }
 }
