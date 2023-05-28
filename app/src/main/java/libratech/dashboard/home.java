@@ -59,7 +59,7 @@ public class home extends javax.swing.JFrame {
 
     public home() {
         initComponents();
-        scheduleDataUpdateTask(30);
+        scheduleDataUpdateTask(16);
         this.add(jPanel3);
         jPanel3.add(dashboard_menu, "dashboard");
         jPanel3.add(book_menu, "book");
@@ -83,12 +83,17 @@ public class home extends javax.swing.JFrame {
         scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
+        updateInfo();
     }
 
-    private void scheduleDataUpdateTask(int intervalMinutes) {
+    private void scheduleDataUpdateTask(int intervalHours) {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-        executorService.scheduleAtFixedRate(this::updateInfo, 0, intervalMinutes, TimeUnit.MINUTES);
+        executorService.scheduleAtFixedRate(this::updateSubscription, 0, intervalHours, TimeUnit.HOURS);
+    }
+    
+    public void updateSubscription() {
+        
     }
 
     private void updateInfo() {

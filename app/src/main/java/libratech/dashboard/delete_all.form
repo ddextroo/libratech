@@ -19,18 +19,16 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="txt" min="-2" pref="367" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="confirmlabel" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
+                      <Component id="cancel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="exit" min="-2" pref="107" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="exit" min="-2" pref="107" max="-2" attributes="0"/>
-                          <Component id="txt" min="-2" pref="367" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="confirmlabel" alignment="0" min="-2" pref="261" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -40,10 +38,13 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Component id="confirmlabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="txt" min="-2" pref="241" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="exit" min="-2" pref="36" max="-2" attributes="0"/>
+              <Component id="txt" min="-2" pref="120" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cancel" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="exit" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -54,7 +55,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Order Limit Reached"/>
+        <Property name="text" type="java.lang.String" value="Delete All Books"/>
       </Properties>
     </Component>
     <Component class="libratech.design.MyButtonborderless" name="exit">
@@ -62,7 +63,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e0" green="e0" red="e0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Go back"/>
+        <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitActionPerformed"/>
@@ -70,11 +71,22 @@
     </Component>
     <Component class="javax.swing.JTextPane" name="txt">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hello there, avid reader! We wanted to take a moment to appreciate your love for books and your continuous engagement with Libratech. However, we regret to inform you that you have reached the maximum limit of book orders allowed for your account. &#xa;&#xa;You have already ordered a total of 5 books, which is the maximum limit set to ensure fair access for all users. We hope you have thoroughly enjoyed the books you&apos;ve received so far, and we encourage you to fully immerse yourself in those reads."/>
+        <Property name="text" type="java.lang.String" value="Deleting all books will permanently remove them from your library. This action cannot be undone. Are you sure you want to proceed?"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Default Cursor"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="libratech.design.MyButtonborder" name="cancel">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="17" green="17" red="17" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

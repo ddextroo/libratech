@@ -154,7 +154,7 @@ public class user_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new edit_user(student.getIDnumber()), option, "edit");
+                GlassPanePopup.showPopup(new clear_penalties(student.getIDnumber()), option, "clear");
             }
 
             @Override

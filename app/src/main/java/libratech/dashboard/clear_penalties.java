@@ -11,20 +11,25 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.util.HashMap;
 import libratech.design.GlassPanePopup;
+import libratech.models.getUID;
+import libratech.models.pushValueExisting;
 
 /**
  *
  * @author Carocoy
  */
-public class max_limit extends javax.swing.JPanel {
+public class clear_penalties extends javax.swing.JPanel {
 
-    /**
-     * Creates new form exit_dialog
-     */
-    public max_limit() {
+    private pushValueExisting v;
+    private HashMap<String, Object> m;
+    private String idnum;
+
+    public clear_penalties(String idnum) {
         initComponents();
         setOpaque(false);
+        this.idnum = idnum;
         txt.setBackground(new Color(0, 0, 0, 0));
         txt.setOpaque(false);
         txt.setEditable(false);
@@ -53,20 +58,29 @@ public class max_limit extends javax.swing.JPanel {
         confirmlabel = new javax.swing.JLabel();
         exit = new libratech.design.MyButtonborderless();
         txt = new javax.swing.JTextPane();
+        cancel = new libratech.design.MyButtonborder();
 
         confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        confirmlabel.setText("Order Limit Reached");
+        confirmlabel.setText("Clear User Penalties");
 
         exit.setForeground(new java.awt.Color(224, 224, 224));
-        exit.setText("Go back");
+        exit.setText("Delete Penalties");
         exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitActionPerformed(evt);
             }
         });
 
-        txt.setText("Hello there, avid reader! We wanted to take a moment to appreciate your love for books and your continuous engagement with Libratech. However, we regret to inform you that you have reached the maximum limit of book orders allowed for your account. \n\nYou have already ordered a total of 5 books, which is the maximum limit set to ensure fair access for all users. We hope you have thoroughly enjoyed the books you've received so far, and we encourage you to fully immerse yourself in those reads.");
+        txt.setText("By deleting all penalties for this user, you will provide them with a fresh start within our app.");
         txt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        cancel.setForeground(new java.awt.Color(23, 23, 23));
+        cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -75,14 +89,14 @@ public class max_limit extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(confirmlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(291, 291, 291))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))))
+                        .addGap(158, 158, 158)
+                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(confirmlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,20 +104,33 @@ public class max_limit extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(confirmlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.closePopupLast();
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        //GlassPanePopup.closePopupLast();
+        v = new pushValueExisting(idnum);
+        m = new HashMap<>();
+        m.put("penalties", 0);
+        v.pushData("students/" + new getUID().getUid(), m);
+        m.clear();
     }//GEN-LAST:event_exitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private libratech.design.MyButtonborder cancel;
     private javax.swing.JLabel confirmlabel;
     private libratech.design.MyButtonborderless exit;
     private javax.swing.JTextPane txt;
@@ -112,5 +139,6 @@ public class max_limit extends javax.swing.JPanel {
         confirmlabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
         txt.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
         exit.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }

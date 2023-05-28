@@ -58,11 +58,11 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jPanel12" pref="280" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Component id="copieslabel" min="-2" pref="143" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
                                           </Group>
+                                          <Component id="jPanel12" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -75,14 +75,13 @@
                                           <Component id="shelflabel" min="-2" pref="90" max="-2" attributes="0"/>
                                           <Component id="jPanel14" min="-2" pref="267" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               <Component id="decklabel" min="-2" pref="90" max="-2" attributes="0"/>
-                                              <EmptySpace pref="190" max="32767" attributes="0"/>
+                                              <EmptySpace pref="196" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel13" pref="280" max="32767" attributes="0"/>
+                                          <Component id="jPanel13" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -101,11 +100,11 @@
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="datelabel" min="-2" pref="143" max="-2" attributes="0"/>
                                       <Component id="editionlabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="jPanel11" alignment="0" min="-2" pref="284" max="-2" attributes="0"/>
                                       <Component id="jPanel15" min="-2" pref="288" max="-2" attributes="0"/>
+                                      <Component id="jPanel11" alignment="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               </Group>
@@ -286,8 +285,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="booktitle" min="-2" pref="800" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="booktitle" min="-2" pref="504" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="317" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

@@ -212,15 +212,18 @@ public class select_user extends javax.swing.JPanel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    if (dataSnapshot.hasChild("borrower")) {
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            System.out.println(true);
-                            idnum = child.child("idno").getValue(String.class);
-                            borrow.setVisible(true);
+                    if (dataSnapshot.getChildrenCount() < 5) {
+                        if (dataSnapshot.hasChild("borrower")) {
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                System.out.println(true);
+                                idnum = child.child("idno").getValue(String.class);
+                                borrow.setVisible(true);
+                            }
+                        } else {
+                            borrow.setVisible(false);
                         }
                     } else {
                         borrow.setVisible(false);
-                        System.out.println(true);
                     }
                 }
             }

@@ -34,7 +34,9 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import libratech.auth.signup;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.design.ScrollBarCustom;
 import libratech.design.loading;
@@ -226,6 +228,8 @@ public class settingsmenu extends javax.swing.JPanel {
         overduefineslabel = new javax.swing.JLabel();
         jPanel26 = new RoundedPanel(12, new Color(245,245,245, 0));
         overduefines = new javax.swing.JTextField();
+        myButtonborderless5 = new libratech.design.MyButtonborderless();
+        cancel = new libratech.design.MyButtonborder();
         jSeparator3 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -842,11 +846,28 @@ public class settingsmenu extends javax.swing.JPanel {
 
         jPanel11.setOpaque(false);
 
+        myButtonborderless5.setForeground(new java.awt.Color(224, 224, 224));
+        myButtonborderless5.setText("Import books");
+        myButtonborderless5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborderless5ActionPerformed(evt);
+            }
+        });
+
+        cancel.setForeground(new java.awt.Color(255, 51, 51));
+        cancel.setText("DELETE ALL BOOKS");
+        cancel.setPreferredSize(new java.awt.Dimension(102, 23));
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -856,6 +877,12 @@ public class settingsmenu extends javax.swing.JPanel {
                     .addComponent(limitlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(barcodenamelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(myButtonborderless5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -871,7 +898,10 @@ public class settingsmenu extends javax.swing.JPanel {
                 .addComponent(overduefineslabel)
                 .addGap(4, 4, 4)
                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(myButtonborderless5, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel18.add(jPanel19);
@@ -1329,7 +1359,7 @@ public class settingsmenu extends javax.swing.JPanel {
 
     private void overduefinesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_overduefinesKeyPressed
         // TODO add your handling code here:
-                if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (overduefines.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             } else {
@@ -1356,11 +1386,38 @@ public class settingsmenu extends javax.swing.JPanel {
 
     }//GEN-LAST:event_passKeyPressed
 
+    private void myButtonborderless5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButtonborderless5ActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        // TODO add your handling code here:
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new delete_all(), option, "delete");
+    }//GEN-LAST:event_cancelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField barcodename;
     private javax.swing.JLabel barcodenamelabel;
     private javax.swing.JLabel books;
+    private libratech.design.MyButtonborder cancel;
     private javax.swing.JLabel editprofile;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emailaddlabel;
@@ -1406,6 +1463,7 @@ public class settingsmenu extends javax.swing.JPanel {
     private javax.swing.JLabel limitlabel;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MyButtonborderless myButtonborderless4;
+    private libratech.design.MyButtonborderless myButtonborderless5;
     private javax.swing.JTextField overduefines;
     private javax.swing.JLabel overduefineslabel;
     private javax.swing.JPasswordField pass;
@@ -1427,6 +1485,8 @@ public class settingsmenu extends javax.swing.JPanel {
         editprofile.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         passwrodsecuritylabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         myButtonborderless4.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborderless5.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolname.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

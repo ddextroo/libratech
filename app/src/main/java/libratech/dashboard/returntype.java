@@ -151,10 +151,14 @@ public class returntype extends javax.swing.JPanel {
                     if (temp.equals(_childKey)) {
                         if (returntype.equals("lost")) {
                             int lostbooks;
+                            int price = 0;
                             if (_childValue.containsKey("lost_books")) {
                                 lostbooks = (int) _childValue.get("lost_books");
                             } else {
                                 lostbooks = 0;
+                            }
+                            if (_childValue.containsKey("price")) {
+                                price = (int) _childValue.get("price");
                             }
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
@@ -163,27 +167,30 @@ public class returntype extends javax.swing.JPanel {
                             m.clear();
                             v = new pushValueExisting(idnum);
                             m = new HashMap<>();
-                            m.put("fines", fines + user_fines + 100);
+                            m.put("fines", fines + user_fines + price);
                             m.put("penalties", penalties + 1);
                             v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();
                         }
                         if (returntype.equals("damaged")) {
                             int damagedbooks;
+                            int price = 0;
                             if (_childValue.containsKey("damaged_books")) {
                                 damagedbooks = (int) _childValue.get("damaged_books");
                             } else {
                                 damagedbooks = 0;
                             }
+                            if (_childValue.containsKey("price")) {
+                                price = (int) _childValue.get("price");
+                            }
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
-                            m.put("fines", fines + 50);
                             m.put("damaged_books", damagedbooks + 1);
                             v.pushData("books/" + new getUID().getUid(), m);
                             m.clear();
                             v = new pushValueExisting(idnum);
                             m = new HashMap<>();
-                            m.put("fines", fines + user_fines + 50);
+                            m.put("fines", fines + user_fines + price);
                             m.put("penalties", penalties + 1);
                             v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();

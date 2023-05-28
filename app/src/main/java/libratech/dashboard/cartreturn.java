@@ -226,7 +226,7 @@ public class cartreturn extends javax.swing.JPanel {
 //                    + "\n\nThank you once again for choosing our Library Management System. We hope you enjoy your reading experience and look forward to serving you in the future."
 //                    + "\n\nBest regards,"
 //                    + "\n\nLibratech Team", email_add, outputPath);
-            retrieveDataBooksInfo();
+//            retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();
 
@@ -241,7 +241,6 @@ public class cartreturn extends javax.swing.JPanel {
     private void deleteTransaction() {
 
         transaction.child(key).removeValue(completionListener);
-
         GlassPanePopup.closePopupAll();
     }
 
