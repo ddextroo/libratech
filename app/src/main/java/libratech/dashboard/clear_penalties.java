@@ -126,6 +126,7 @@ public class clear_penalties extends javax.swing.JPanel {
         m.put("penalties", 0);
         v.pushData("students/" + new getUID().getUid(), m);
         m.clear();
+        GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_exitActionPerformed
 
 

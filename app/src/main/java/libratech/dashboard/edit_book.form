@@ -71,6 +71,8 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
+                                  <Component id="myButtonborder2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="myButtonborder1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="delete" min="-2" max="-2" attributes="0"/>
@@ -220,6 +222,7 @@
                   <Component id="myButtonborderless2" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="myButtonborder1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="delete" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="myButtonborder2" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
@@ -978,5 +981,16 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="libratech.design.MyButtonborder" name="myButtonborder2">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="17" green="17" red="17" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Save barcode"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButtonborder2ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

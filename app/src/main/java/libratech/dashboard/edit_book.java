@@ -43,8 +43,10 @@ import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.StatusType;
 import libratech.books.inshelf.TableStatus;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.design.loading;
 import libratech.models.ClassificationInfo;
@@ -90,6 +92,7 @@ public class edit_book extends javax.swing.JPanel {
     String downloadUrl = "";
     String remaining_copies = "";
     boolean upload = false;
+    String bcodeh;
 
     private String path1 = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics1 = FirebaseDatabase.getInstance().getReference(path);
@@ -127,7 +130,8 @@ public class edit_book extends javax.swing.JPanel {
                         classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
                         date.setText(_childValue.get("date").toString());
                         copies.setText(_childValue.get("copies").toString());
-                        barcode(_childValue.get("barcode").toString());
+                        barcode(_childValue.get("barcode").toString(), false, "not");
+                        bcodeh = _childValue.get("barcode").toString();
                         isbn.setText(_childValue.get("isbn").toString());
                         shelf.setText(_childValue.get("shelf").toString());
                         deck.setText(_childValue.get("deck").toString());
@@ -166,7 +170,8 @@ public class edit_book extends javax.swing.JPanel {
                         classification.setSelectedIndex(Integer.parseInt(_childValue.get("classification_pos").toString()));
                         date.setText(_childValue.get("date").toString());
                         copies.setText(_childValue.get("copies").toString());
-                        barcode(_childValue.get("barcode").toString());
+                        barcode(_childValue.get("barcode").toString(), false, "not");
+                        bcodeh = _childValue.get("barcode").toString();
                         isbn.setText(_childValue.get("isbn").toString());
                         shelf.setText(_childValue.get("shelf").toString());
                         deck.setText(_childValue.get("deck").toString());
@@ -207,7 +212,7 @@ public class edit_book extends javax.swing.JPanel {
 
     }
 
-    private void barcode(String code) {
+    private void barcode(String code, boolean save, String name) {
         try {
             Barcode barcode = BarcodeFactory.createCode128(code);
             barcode.setFont(new Font("Poppins Regular", Font.BOLD, 12));
@@ -215,10 +220,15 @@ public class edit_book extends javax.swing.JPanel {
             barcode.setBarWidth(2);
 
             // Create a temporary file to save the barcode image
-            File file = File.createTempFile("barcode", ".png");
-            BarcodeImageHandler.savePNG(barcode, file);
-            scaler.scaleImage(jLabel3, file.getAbsolutePath());
-
+            if (save) {
+                String downloadsFolder = System.getProperty("user.home") + "/Downloads/";
+                File file = new File(downloadsFolder + name + ".png");
+                BarcodeImageHandler.savePNG(barcode, file);
+            } else {
+                File file = File.createTempFile("barcode", ".png");
+                BarcodeImageHandler.savePNG(barcode, file);
+                scaler.scaleImage(jLabel3, file.getAbsolutePath());
+            }
         } catch (BarcodeException | OutputException | IOException ex) {
             Logger.getLogger(books_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -281,6 +291,7 @@ public class edit_book extends javax.swing.JPanel {
         pricelabel = new javax.swing.JLabel();
         jPanel16 = new RoundedPanel(12, new Color(250,250,250));
         price = new javax.swing.JTextField();
+        myButtonborder2 = new libratech.design.MyButtonborder();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -737,6 +748,14 @@ public class edit_book extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        myButtonborder2.setForeground(new java.awt.Color(23, 23, 23));
+        myButtonborder2.setText("Save barcode");
+        myButtonborder2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButtonborder2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -780,6 +799,8 @@ public class edit_book extends javax.swing.JPanel {
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE))
                                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 278, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(myButtonborder2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -893,7 +914,8 @@ public class edit_book extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myButtonborder2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1113,7 +1135,24 @@ public class edit_book extends javax.swing.JPanel {
     private void myButtonborderless3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless3ActionPerformed
         // TODO add your handling code here:
         GlassPanePopup.closePopupAll();
-        GlassPanePopup.showPopup(new select_user(ck, title));
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new select_user(ck, title), option);
     }//GEN-LAST:event_myButtonborderless3ActionPerformed
 
     private void priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceActionPerformed
@@ -1123,6 +1162,11 @@ public class edit_book extends javax.swing.JPanel {
     private void priceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_priceKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_priceKeyTyped
+
+    private void myButtonborder2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder2ActionPerformed
+        // TODO add your handling code here:
+        barcode(bcodeh, true, "barcode-" + bcodeh);
+    }//GEN-LAST:event_myButtonborder2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1160,6 +1204,7 @@ public class edit_book extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private libratech.design.MyButtonborder myButtonborder1;
+    private libratech.design.MyButtonborder myButtonborder2;
     private libratech.design.MyButtonborderless myButtonborderless2;
     private libratech.design.MyButtonborderless myButtonborderless3;
     private libratech.design.PhotoCover photoCover1;
@@ -1199,6 +1244,7 @@ public class edit_book extends javax.swing.JPanel {
         price.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         pricelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        myButtonborder2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless3.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         delete.setFont(new Font("Poppins Regular", Font.BOLD, 12));

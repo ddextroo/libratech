@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +14,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,9 +27,12 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import libratech.auth.login;
 import libratech.auth.splash;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.StatusType;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanelBorderless;
 import libratech.models.Dashboard.*;
@@ -38,6 +46,10 @@ import libratech.design.GlassPanePopup;
 import libratech.design.Option;
 import libratech.design.loading;
 import libratech.models.getUID;
+import libratech.models.pushValue;
+import libratech.models.pushValueExisting;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
@@ -55,11 +67,15 @@ public class home extends javax.swing.JFrame {
     private ChildEventListener accinfo;
     private final String path = "users/";
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
+    private DatabaseReference dbRef;
+    private DatabaseReference dbRef1;
     String durl = "";
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    private HashMap<String, Object> m;
+    private pushValueExisting v;
 
     public home() {
         initComponents();
-        scheduleDataUpdateTask(16);
         this.add(jPanel3);
         jPanel3.add(dashboard_menu, "dashboard");
         jPanel3.add(book_menu, "book");
@@ -84,16 +100,41 @@ public class home extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
         updateInfo();
+        updateBooks();
     }
 
-    private void scheduleDataUpdateTask(int intervalHours) {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private void updateBooks() {
+        dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    dbRef1 = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + child.getKey());
+                    dbRef1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                //to be continued
+                                //loop the books if it is overdue
+                            }
 
-        executorService.scheduleAtFixedRate(this::updateSubscription, 0, intervalHours, TimeUnit.HOURS);
-    }
-    
-    public void updateSubscription() {
-        
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("Error: " + databaseError.getMessage());
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
     }
 
     private void updateInfo() {
@@ -106,26 +147,52 @@ public class home extends javax.swing.JFrame {
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
                 if (_childKey.equals(new getUID().getUid())) {
                     if (_childValue.containsKey("status")) {
-                        System.out.println("true");
+                        Option option = new DefaultOption() {
+                            @Override
+                            public float opacity() {
+                                return 0.6f;
+                            }
+
+                            @Override
+                            public boolean closeWhenClickOutside() {
+                                return false;
+                            }
+
+                            @Override
+                            public Color background() {
+                                return new Color(33, 33, 33);
+                            }
+
+                        };
+                        String subscriptionDateString = _childValue.get("subscription_date").toString();
+                        String limitDateString = _childValue.get("limit").toString();
+
+                        LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString);
+                        LocalDate limitDate = LocalDate.parse(limitDateString);
+
+                        LocalDate currentDate = LocalDate.now();
+
                         if (_childValue.get("status").toString().equals("Pending")) {
-                            Option option = new DefaultOption() {
-                                @Override
-                                public float opacity() {
-                                    return 0.6f;
-                                }
+                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
+                        }
 
-                                @Override
-                                public boolean closeWhenClickOutside() {
-                                    return false;
-                                }
-
-                                @Override
-                                public Color background() {
-                                    return new Color(33, 33, 33);
-                                }
-
-                            };
-                            GlassPanePopup.showPopup(new subscription(), option);
+                        if (currentDate.isAfter(limitDate)) {
+                            v = new pushValueExisting(_childKey);
+                            m = new HashMap<>();
+                            m.put("status", "Pending");
+                            v.pushData("users/" + new getUID().getUid(), m);
+                            m.clear();
+                            if (_childValue.get("status").toString().equals("Pending")) {
+                                GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
+                            } else {
+                                LocalDate newDate = subscriptionDate.plusMonths(1);
+                                v = new pushValueExisting(_childKey);
+                                m = new HashMap<>();
+                                m.put("limit", newDate.toString());
+                                m.put("subscription_date", currentDate);
+                                v.pushData("users/" + new getUID().getUid(), m);
+                                m.clear();
+                            }
                         }
                     }
                     school_n.setText(_childValue.get("school_name").toString());

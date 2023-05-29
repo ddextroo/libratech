@@ -45,6 +45,20 @@ import libratech.models.pushValueExisting;
 import libratech.util.firebaseInit;
 import libratech.util.storage;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import libratech.models.pushValue;
+
 /**
  *
  * @author HBUSER
@@ -58,6 +72,7 @@ public class settingsmenu extends javax.swing.JPanel {
     private final String path = "users/";
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
+    private Map<String, Object> mtest;
     private pushValueExisting v;
     String downloadUrl = "";
     boolean upload = false;
@@ -231,6 +246,7 @@ public class settingsmenu extends javax.swing.JPanel {
         myButtonborderless5 = new libratech.design.MyButtonborderless();
         cancel = new libratech.design.MyButtonborder();
         jSeparator3 = new javax.swing.JSeparator();
+        schoolnamelabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -906,21 +922,14 @@ public class settingsmenu extends javax.swing.JPanel {
 
         jPanel18.add(jPanel19);
 
+        schoolnamelabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        schoolnamelabel1.setForeground(new java.awt.Color(51, 51, 51));
+        schoolnamelabel1.setText("School Avatar");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 408, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -945,6 +954,18 @@ public class settingsmenu extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(schoolnamelabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 408, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -953,7 +974,9 @@ public class settingsmenu extends javax.swing.JPanel {
                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(18, 18, 18)
+                .addComponent(schoolnamelabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1386,8 +1409,92 @@ public class settingsmenu extends javax.swing.JPanel {
 
     }//GEN-LAST:event_passKeyPressed
 
+
     private void myButtonborderless5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborderless5ActionPerformed
         // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files", "json");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            Option option = new DefaultOption() {
+                @Override
+                public float opacity() {
+                    return 0.6f;
+                }
+
+                @Override
+                public boolean closeWhenClickOutside() {
+                    return false;
+                }
+
+                @Override
+                public Color background() {
+                    return new Color(33, 33, 33);
+                }
+
+            };
+            GlassPanePopup.showPopup(new loading(), option);
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
+            StringBuilder jsonContent = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonContent.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Map<String, Object>>>() {
+            }.getType();
+            List<Map<String, Object>> data = gson.fromJson(jsonContent.toString(), listType);
+
+            System.out.println(new Gson().toJson(data));
+
+            for (int count = 0; count < data.size(); count++) {
+                mtest = data.get(count);
+                String bcode = (String) mtest.get("barcode");
+                v = new pushValueExisting(bcode);
+                m = new HashMap<>();
+                m.put("booktitle", mtest.get("booktitle"));
+                m.put("bookauthor", mtest.get("bookauthor"));
+                m.put("publisher", mtest.get("publisher"));
+                m.put("isbn", mtest.get("isbn"));
+                m.put("classification_code", mtest.get("classification_code"));
+                m.put("barcode", mtest.get("barcode"));
+                m.put("classification_pos", (int) mtest.get("classification_pos"));
+                m.put("classification", mtest.get("classification"));
+                m.put("date", mtest.get("date"));
+                m.put("copies", (int) mtest.get("copies"));
+                m.put("edition", mtest.get("edition"));
+                m.put("shelf", mtest.get("shelf"));
+                m.put("deck", mtest.get("deck"));
+                m.put("key", mtest.get("key"));
+                m.put("status", mtest.get("status"));
+                m.put("timestamp", mtest.get("timestamp"));
+                m.put("remaining_copies", (int) mtest.get("remaining_copies"));
+                m.put("cover", mtest.get("cover"));
+                m.put("borrowed_books", (int) mtest.get("borrowed_books"));
+                m.put("price", (int) mtest.get("price"));
+                m.put("overdue_books", (int) mtest.get("overdue_books"));
+                m.put("lost_books", (int) mtest.get("lost_books"));
+                m.put("damaged_books", (int) mtest.get("damaged_books"));
+                v.pushData("books/" + new getUID().getUid(), m);
+                m.clear();
+
+                try {
+                    TimeUnit.SECONDS.sleep(1); // Delay for 1 second
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            GlassPanePopup.closePopupLast();
+            GlassPanePopup.showPopup(new done_import());
+        }
     }//GEN-LAST:event_myButtonborderless5ActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
@@ -1478,6 +1585,7 @@ public class settingsmenu extends javax.swing.JPanel {
     private javax.swing.JLabel schoolidlabel;
     private javax.swing.JTextField schoolname;
     private javax.swing.JLabel schoolnamelabel;
+    private javax.swing.JLabel schoolnamelabel1;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
@@ -1489,6 +1597,7 @@ public class settingsmenu extends javax.swing.JPanel {
         cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        schoolnamelabel1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolname.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         pwdlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));

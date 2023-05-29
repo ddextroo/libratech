@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0'
     implementation 'com.github.sarxos:webcam-capture:0.3.12'
     implementation 'com.google.zxing:javase:1.7'
+    implementation 'org.quartz-scheduler:quartz:2.5.0-rc1'
 
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.squareup.okhttp3:okhttp:4.4.0'
