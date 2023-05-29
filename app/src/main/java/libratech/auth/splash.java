@@ -19,6 +19,7 @@ import libratech.dashboard.home;
 import libratech.design.RoundedPanelBorderless;
 import java.net.*;
 import javax.swing.JOptionPane;
+import libratech.admin.home_admin;
 import libratech.design.ImageScaler;
 import libratech.models.aes;
 
@@ -250,10 +251,18 @@ public class splash extends javax.swing.JFrame {
                     setVisible(false);
                     this.dispose();
                 } else if (file.exists() && file1.exists()) {
-                    home home = new home();
-                    home.updateLabelText(fileContent);
-                    home.setVisible(true);
-                    this.dispose();
+                    if (fileContent.equals("sy01q5KeBdMnX1vpS2Lk86NcCdp1")) {
+                        home_admin home = new home_admin();
+                        home.updateLabelText(fileContent);
+                        home.setVisible(true);
+                        this.dispose();
+                    } else {
+                        home home = new home();
+                        home.updateLabelText(fileContent);
+                        home.setVisible(true);
+                        this.dispose();
+                    }
+
                 } else if (!file.exists() && !file1.exists()) {
                     login login = new login();
                     login.setVisible(true);

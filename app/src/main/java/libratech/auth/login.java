@@ -42,6 +42,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import java.io.*;
+import libratech.admin.home_admin;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
@@ -471,6 +472,7 @@ public class login extends javax.swing.JFrame {
                             System.out.println("UID_DB = " + uiddb + ": UID = " + uid1);
                             System.out.println("PASS_DB = " + passdb + ": PASS = " + password);
                             if (uiddb.equals(uid1) && passdb.equals(password)) {
+
                                 GlassPanePopup.closePopupAll();
                                 authh = true;
                                 key = uiddb;
@@ -517,12 +519,22 @@ public class login extends javax.swing.JFrame {
                                         }
                                     }
                                     try {
-                                        home home = new home();
-                                        String decrypted = aes.decryptString(key, aes.getPassword());
-                                        home.updateLabelText(decrypted);
-                                        home.setVisible(true);
-                                        GlassPanePopup.closePopupLast();
-                                        exit();
+                                        if (uid1.equals("sy01q5KeBdMnX1vpS2Lk86NcCdp1")) {
+                                            home_admin home = new home_admin();
+                                            String decrypted = aes.decryptString(key, aes.getPassword());
+                                            home.updateLabelText(decrypted);
+                                            home.setVisible(true);
+                                            GlassPanePopup.closePopupLast();
+                                            exit();
+                                        } else {
+                                            home home = new home();
+                                            String decrypted = aes.decryptString(key, aes.getPassword());
+                                            home.updateLabelText(decrypted);
+                                            home.setVisible(true);
+                                            GlassPanePopup.closePopupLast();
+                                            exit();
+                                        }
+
                                     } catch (Exception ex) {
                                         Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
                                     }
