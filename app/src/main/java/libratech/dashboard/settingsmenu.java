@@ -80,17 +80,24 @@ public class settingsmenu extends javax.swing.JPanel {
 
     public settingsmenu() {
         initComponents();
+        setOpaque(false);
+        libratech.setBackground(new Color(0, 0, 0, 0));
+        libratech.setOpaque(false);
+        libratech.setEditable(false);
         initFont();
         new firebaseInit().initFirebase();
 
         ScrollBarCustom sb = new ScrollBarCustom();
         sb.setPreferredSize(new Dimension(12, 50));
         jScrollPane1.setVerticalScrollBar(sb);
+        jScrollPane6.setVerticalScrollBar(sb);
         ScrollBarCustom sbH = new ScrollBarCustom();
         sbH.setOrientation(JScrollBar.HORIZONTAL);
         sbH.setPreferredSize(new Dimension(12, 12));
         jScrollPane1.setHorizontalScrollBar(sbH);
         jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane6.setHorizontalScrollBar(sbH);
+        jScrollPane6.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         accinfo = new ChildEventListener() {
             @Override
@@ -247,7 +254,16 @@ public class settingsmenu extends javax.swing.JPanel {
         cancel = new libratech.design.MyButtonborder();
         jSeparator3 = new javax.swing.JSeparator();
         schoolnamelabel1 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        libratechlabel = new javax.swing.JLabel();
+        libratech = new javax.swing.JTextPane();
+        visionlabel = new javax.swing.JLabel();
+        vision = new javax.swing.JTextPane();
+        goalslabel = new javax.swing.JLabel();
+        goals = new javax.swing.JTextPane();
+        missionlabel = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -271,7 +287,7 @@ public class settingsmenu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1369, Short.MAX_VALUE))
+                .addContainerGap(1373, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -964,7 +980,7 @@ public class settingsmenu extends javax.swing.JPanel {
                             .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(schoolnamelabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 408, Short.MAX_VALUE)))
+                        .addGap(0, 410, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -1003,7 +1019,75 @@ public class settingsmenu extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new java.awt.BorderLayout());
-        materialTabbed1.addTab("About", jPanel5);
+
+        libratechlabel.setText("Libratech");
+
+        libratech.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        libratech.setText("LibraTech, a modern solution for efficient library management that is an ultimate destination for a vast collection of knowledge and information. As a cutting-edge e-library, we are dedicated to providing convenient access to an extensive range of digital resources, making learning and exploration accessible to all.\n\nAt LibraTech, we understand the importance of embracing the digital age and harnessing technology to revolutionize the way we engage with literature and research. Our platform brings together a diverse selection of e-books, academic journals, magazines, research papers, and multimedia content, all at your fingertips.\n\nOur user-friendly interface and intuitive search capabilities can easily navigate through our extensive catalog and discover a wealth of knowledge across various subjects and disciplines. Our e-library provides an immense set of knowledge that is designed to your interest and academic goals for students, teachers, researchers or even just simply for an avid reader. With the collaboration with renowned publishers, institutions, and authors worldwide to build a comprehensive collection that spans both classic and contemporary works. From literary masterpieces to scientific breakthroughs, our very own e-library houses a treasure trove of resources that cater to the needs of learners and enthusiasts from all walks of life.\n\nIn addition to our wide collection, we are committed to providing a seamless and personalized user experience. Our platform allows you to create your own virtual bookshelves, bookmark favorite titles, and highlight important passages. You can also customize your reading preferences, such as font size and background color, for enhanced comfort and accessibility.\n\nAt LibraTech, we believe in fostering a vibrant and inclusive community of learners. Through our interactive forums and discussion boards, you can connect with fellow enthusiasts, exchange ideas, and engage in intellectual discourse. Our commitment to collaboration extends to partnerships with educational institutions, enabling seamless integration with academic curricula and research initiatives.\n\nWe are constantly evolving and expanding our collection to ensure that our e-library remains a dynamic and enriching resource for our users. Our dedicated team of librarians and technology experts work tirelessly to enhance the user experience and incorporate the latest advancements in digital library services.");
+
+        visionlabel.setText("Vision");
+
+        vision.setText("Empower individuals with convenient and comprehensive access to knowledge, strengthening a lifelong love for learning and intellectual growth. We strive to revolutionize the way people engage with literature and research by providing a digital platform that transcends physical limitations and expands the horizons of knowledge.");
+        vision.setOpaque(false);
+
+        goalslabel.setText("Goals");
+
+        goals.setText("1. Curate a Vast and Diverse Collection: Continuously expand and curate our collection to offer a comprehensive range of e-books, academic journals, research papers, and multimedia content across various subjects and disciplines. Strive to include both classic and contemporary works that cater to the evolving needs and interests of our users.\n\n2. Enhance User Experience: Continually improve our platform's user interface, search capabilities, and personalization features to ensure a seamless and engaging experience for our users. Enable easy navigation, customizable reading preferences, virtual bookshelves, and interactive features that promote collaboration and knowledge sharing.\n\n3. Foster a Learning Community: Facilitate intellectual discourse and foster a vibrant community of learners through interactive forums, discussion boards, and virtual events. Encourage users to connect, exchange ideas, and engage in meaningful conversations that enrich their learning journey.\n\n4. Promote Accessibility and Inclusivity: Prioritize accessibility and inclusivity by implementing features such as adjustable font sizes, screen reader compatibility, and translations to cater to individuals with diverse needs and language preferences. Strive to break down barriers and ensure that knowledge is accessible to everyone.\n\n5. Collaborate with Publishers and Institutions: Forge partnerships with renowned publishers, educational institutions, and authors to expand our collection, enhance content quality, and enable seamless integration with academic curricula and research initiatives. Collaborate to bring exclusive resources and facilitate scholarly engagement.\n\n6. Embrace Technological Advancements: Embrace emerging technologies and trends in digital library services to stay at the forefront of innovation. Leverage artificial intelligence, machine learning, and data analytics to enhance search algorithms, recommend personalized content, and provide valuable insights for users and institutions.\n\n7. Measure and Improve Impact: Continuously evaluate and measure our impact on users' learning outcomes, satisfaction levels, and engagement. Utilize user feedback, data analytics, and performance indicators to identify areas for improvement and enhance the effectiveness of our services.\n");
+
+        missionlabel.setText("Mission");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, 1099, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(goalslabel)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(missionlabel)
+                            .addComponent(libratechlabel)
+                            .addComponent(visionlabel))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(libratech, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(429, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(vision, javax.swing.GroupLayout.PREFERRED_SIZE, 1099, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(libratechlabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(libratech, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(missionlabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(vision, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(visionlabel)
+                .addGap(84, 84, 84)
+                .addComponent(goalslabel)
+                .addGap(18, 18, 18)
+                .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(140, Short.MAX_VALUE))
+        );
+
+        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jScrollPane6.setViewportView(jPanel5);
+
+        materialTabbed1.addTab("About", jScrollPane6);
 
         jPanel9.add(materialTabbed1);
 
@@ -1466,23 +1550,23 @@ public class settingsmenu extends javax.swing.JPanel {
                 m.put("isbn", mtest.get("isbn"));
                 m.put("classification_code", mtest.get("classification_code"));
                 m.put("barcode", mtest.get("barcode"));
-                m.put("classification_pos", (int) mtest.get("classification_pos"));
+                m.put("classification_pos", Integer.valueOf((String) mtest.get("classification_pos")));
                 m.put("classification", mtest.get("classification"));
                 m.put("date", mtest.get("date"));
-                m.put("copies", (int) mtest.get("copies"));
+                m.put("copies", Integer.valueOf((String) mtest.get("copies")));
                 m.put("edition", mtest.get("edition"));
                 m.put("shelf", mtest.get("shelf"));
                 m.put("deck", mtest.get("deck"));
                 m.put("key", mtest.get("key"));
                 m.put("status", mtest.get("status"));
                 m.put("timestamp", mtest.get("timestamp"));
-                m.put("remaining_copies", (int) mtest.get("remaining_copies"));
+                m.put("remaining_copies", Integer.valueOf((String) mtest.get("remaining_copies")));
+                m.put("price", Integer.valueOf((String) mtest.get("price")));
                 m.put("cover", mtest.get("cover"));
-                m.put("borrowed_books", (int) mtest.get("borrowed_books"));
-                m.put("price", (int) mtest.get("price"));
-                m.put("overdue_books", (int) mtest.get("overdue_books"));
-                m.put("lost_books", (int) mtest.get("lost_books"));
-                m.put("damaged_books", (int) mtest.get("damaged_books"));
+                m.put("borrowed_books", Integer.valueOf((String) mtest.get("borrowed_books")));
+                m.put("overdue_books", Integer.valueOf((String) mtest.get("overdue_books")));
+                m.put("lost_books", Integer.valueOf((String) mtest.get("lost_books")));
+                m.put("damaged_books", Integer.valueOf((String) mtest.get("damaged_books")));
                 v.pushData("books/" + new getUID().getUid(), m);
                 m.clear();
 
@@ -1534,6 +1618,8 @@ public class settingsmenu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.JTextPane goals;
+    private javax.swing.JLabel goalslabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1557,18 +1643,23 @@ public class settingsmenu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTextPane libratech;
+    private javax.swing.JLabel libratechlabel;
     private javax.swing.JTextField limit;
     private javax.swing.JLabel limitlabel;
     private libratech.design.MaterialTabbed materialTabbed1;
+    private javax.swing.JLabel missionlabel;
     private libratech.design.MyButtonborderless myButtonborderless4;
     private libratech.design.MyButtonborderless myButtonborderless5;
     private javax.swing.JTextField overduefines;
@@ -1586,6 +1677,8 @@ public class settingsmenu extends javax.swing.JPanel {
     private javax.swing.JTextField schoolname;
     private javax.swing.JLabel schoolnamelabel;
     private javax.swing.JLabel schoolnamelabel1;
+    private javax.swing.JTextPane vision;
+    private javax.swing.JLabel visionlabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
@@ -1615,6 +1708,17 @@ public class settingsmenu extends javax.swing.JPanel {
         overduefines.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         limitlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         limit.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+
+        libratechlabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        //libratechlabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        visionlabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        goalslabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        libratech.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        //libratech1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        vision.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        vision1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        goals.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        missionlabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
     }
 
 }
