@@ -589,7 +589,6 @@ public class edit_user extends javax.swing.JPanel {
 
         fines.setBackground(new java.awt.Color(250, 250, 250,0));
         fines.setBorder(null);
-        fines.setEnabled(false);
         fines.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 finesActionPerformed(evt);
@@ -815,6 +814,7 @@ public class edit_user extends javax.swing.JPanel {
         String course = coursegrade.getText();
         String number = phone.getText();
         String user_address = address.getText();
+        String fine = fines.getText();
         String user_sex = sex.getSelectedItem().toString();
 
         if (fullname.getText().equals("") || idno.getText().equals("") || dateofbirth.getText().equals("") || email.getText().equals("") || coursegrade.getText().equals("") || phone.getText().equals("") || address.getText().equals("") || sex.getSelectedItem().toString().equals("")) {
@@ -833,6 +833,7 @@ public class edit_user extends javax.swing.JPanel {
             m.put("phone", number);
             m.put("address", user_address);
             m.put("sex", user_sex);
+            m.put("fines", Integer.valueOf(fine));
             m.put("key", idnum);
             m.put("timestamp", getnow);
             v.pushData("students/" + uidpath, m);

@@ -73,6 +73,7 @@ public class home extends javax.swing.JFrame {
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     private HashMap<String, Object> m;
     private pushValueExisting v;
+    private ValueEventListener data;
 
     public home() {
         initComponents();
@@ -110,14 +111,26 @@ public class home extends javax.swing.JFrame {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     dbRef1 = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + child.getKey());
-                    dbRef1.addValueEventListener(new ValueEventListener() {
+                    dbRef1.addValueEventListener(data = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                //to be continued
-                                //loop the books if it is overdue
-                            }
+                                if (child.hasChild("borrowed_date") && child.hasChild("due_date")) {
+                                    String borrowed_date = child.child("borrowed_date").getValue(String.class);
+                                    String due_date = child.child("due_date").getValue(String.class);
 
+                                    LocalDate borrowed = LocalDate.parse(borrowed_date);
+                                    LocalDate due = LocalDate.parse(due_date);
+
+                                    if (borrowed.isAfter(due)) {
+                                        v = new pushValueExisting(child.getKey());
+                                        m = new HashMap<>();
+                                        m.put("overdue_books", child.child("overdue_books").getValue(Integer.class) + 1);
+                                        v.pushData("books/" + new getUID().getUid(), m);
+                                        m.clear();
+                                    }
+                                }
+                            }
                         }
 
                         @Override
@@ -126,6 +139,7 @@ public class home extends javax.swing.JFrame {
                         }
                     });
                 }
+                dbRef.removeEventListener(data);
 
             }
 
@@ -147,6 +161,26 @@ public class home extends javax.swing.JFrame {
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
                 if (_childKey.equals(new getUID().getUid())) {
                     if (_childValue.containsKey("status")) {
+                        school_n.setText(_childValue.get("school_name").toString());
+                        idnum.setText(_childValue.get("school_id").toString());
+                        durl = _childValue.get("url").toString();
+
+                        Timer timer = new Timer(500, e -> {
+                            try {
+                                GlassPanePopup.showPopup(new loading());
+                                URL url1 = new URL(durl);
+                                BufferedImage image1 = ImageIO.read(url1);
+                                ImageIcon icon = new ImageIcon(image1);
+                                imageAvatar1.setIcon(icon);
+                                GlassPanePopup.closePopupLast();
+                            } catch (MalformedURLException ex) {
+                                Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
                         Option option = new DefaultOption() {
                             @Override
                             public float opacity() {
@@ -195,26 +229,6 @@ public class home extends javax.swing.JFrame {
                             }
                         }
                     }
-                    school_n.setText(_childValue.get("school_name").toString());
-                    idnum.setText(_childValue.get("school_id").toString());
-                    durl = _childValue.get("url").toString();
-
-                    Timer timer = new Timer(500, e -> {
-                        try {
-                            GlassPanePopup.showPopup(new loading());
-                            URL url1 = new URL(durl);
-                            BufferedImage image1 = ImageIO.read(url1);
-                            ImageIcon icon = new ImageIcon(image1);
-                            imageAvatar1.setIcon(icon);
-                            GlassPanePopup.closePopupLast();
-                        } catch (MalformedURLException ex) {
-                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
                 }
             }
 
