@@ -16,7 +16,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,4,-97,0,0,6,30"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,5,62,0,0,6,125"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -56,7 +56,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="160" max="-2" attributes="0"/>
-                      <EmptySpace pref="1373" max="32767" attributes="0"/>
+                      <EmptySpace pref="1468" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -192,7 +192,7 @@
                                                   <Component id="jPanel13" alignment="0" min="-2" pref="715" max="-2" attributes="0"/>
                                                   <Component id="schoolnamelabel1" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="0" pref="410" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -220,7 +220,7 @@
                                       <Component id="jPanel15" min="-2" pref="257" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jSeparator3" min="-2" pref="3" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                       <Component id="jPanel33" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jPanel18" min="-2" pref="257" max="-2" attributes="0"/>
@@ -256,7 +256,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="photoCover1" pref="88" max="32767" attributes="0"/>
+                                              <Component id="photoCover1" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -265,7 +265,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="photoCover1" pref="88" max="32767" attributes="0"/>
+                                              <Component id="photoCover1" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -347,7 +347,7 @@
                                               <Component id="pwdlabel2" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                                               <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -379,7 +379,7 @@
                                         <DimensionLayout dim="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="pass" min="-2" pref="528" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
@@ -389,7 +389,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="pass" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="pass" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -442,7 +442,7 @@
                                         <DimensionLayout dim="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="pass1" min="-2" pref="528" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
@@ -452,7 +452,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="pass1" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="pass1" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -504,7 +504,7 @@
                                         <DimensionLayout dim="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="pass2" min="-2" pref="528" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
@@ -514,7 +514,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="pass2" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="pass2" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -584,7 +584,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="schoolnamelabel" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jPanel12" min="-2" pref="860" max="-2" attributes="0"/>
+                                                  <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                                           </Group>
@@ -637,7 +637,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="schoolname" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="schoolname" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -686,7 +686,7 @@
                                                   <Component id="emailaddlabel" min="-2" pref="90" max="-2" attributes="0"/>
                                                   <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace pref="164" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                     </DimensionLayout>
@@ -739,7 +739,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="schoolid" pref="352" max="32767" attributes="0"/>
+                                                  <Component id="schoolid" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -800,7 +800,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="email" pref="481" max="32767" attributes="0"/>
+                                                  <Component id="email" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -809,7 +809,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="email" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="email" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -990,10 +990,10 @@
                                           <Group type="102" alignment="1" attributes="0">
                                               <EmptySpace max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jPanel26" alignment="0" min="-2" pref="548" max="-2" attributes="0"/>
+                                                  <Component id="jPanel26" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="overduefineslabel" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
-                                                  <Component id="jPanel21" alignment="0" min="-2" pref="548" max="-2" attributes="0"/>
-                                                  <Component id="jPanel20" alignment="0" min="-2" pref="548" max="-2" attributes="0"/>
+                                                  <Component id="jPanel21" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jPanel20" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="limitlabel" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
                                                   <Component id="barcodenamelabel" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
                                               </Group>
@@ -1024,7 +1024,7 @@
                                               <Component id="jPanel26" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="myButtonborderless5" pref="33" max="32767" attributes="0"/>
+                                                  <Component id="myButtonborderless5" max="32767" attributes="0"/>
                                                   <Component id="cancel" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1069,7 +1069,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="barcodename" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="barcodename" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1132,7 +1132,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="limit" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="limit" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1195,7 +1195,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="overduefines" pref="21" max="32767" attributes="0"/>
+                                                  <Component id="overduefines" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -1300,32 +1300,31 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                              <Component id="goals" min="-2" pref="1099" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="goalslabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="missionlabel" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="libratechlabel" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="libratechlabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="missionlabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                                   <Component id="visionlabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="goalslabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                                                  <Component id="libratech" min="-2" pref="1010" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="mission" alignment="1" min="-2" pref="1010" max="-2" attributes="0"/>
+                                                      <Component id="vision" alignment="1" min="-2" pref="1010" max="-2" attributes="0"/>
+                                                      <Component id="goals" alignment="1" min="-2" pref="1010" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                       </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace pref="50" max="32767" attributes="0"/>
-                                      <Component id="libratech" min="-2" pref="1020" max="-2" attributes="0"/>
-                                      <EmptySpace pref="429" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                                      <Component id="vision" min="-2" pref="1099" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1337,17 +1336,19 @@
                                       <Component id="libratechlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="libratech" min="-2" pref="324" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="missionlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="vision" min="-2" pref="46" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="visionlabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                      <Component id="goalslabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="mission" min="-2" pref="52" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="goals" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="140" max="32767" attributes="0"/>
+                                      <Component id="visionlabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="vision" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                      <Component id="goalslabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="goals" min="-2" pref="399" max="-2" attributes="0"/>
+                                      <EmptySpace pref="1166" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1366,6 +1367,7 @@
                                   </Border>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="LibraTech, a modern solution for efficient library management that is an ultimate destination for a vast collection of knowledge and information. As a cutting-edge e-library, we are dedicated to providing convenient access to an extensive range of digital resources, making learning and exploration accessible to all.&#xa;&#xa;At LibraTech, we understand the importance of embracing the digital age and harnessing technology to revolutionize the way we engage with literature and research. Our platform brings together a diverse selection of e-books, academic journals, magazines, research papers, and multimedia content, all at your fingertips.&#xa;&#xa;Our user-friendly interface and intuitive search capabilities can easily navigate through our extensive catalog and discover a wealth of knowledge across various subjects and disciplines. Our e-library provides an immense set of knowledge that is designed to your interest and academic goals for students, teachers, researchers or even just simply for an avid reader. With the collaboration with renowned publishers, institutions, and authors worldwide to build a comprehensive collection that spans both classic and contemporary works. From literary masterpieces to scientific breakthroughs, our very own e-library houses a treasure trove of resources that cater to the needs of learners and enthusiasts from all walks of life.&#xa;&#xa;In addition to our wide collection, we are committed to providing a seamless and personalized user experience. Our platform allows you to create your own virtual bookshelves, bookmark favorite titles, and highlight important passages. You can also customize your reading preferences, such as font size and background color, for enhanced comfort and accessibility.&#xa;&#xa;At LibraTech, we believe in fostering a vibrant and inclusive community of learners. Through our interactive forums and discussion boards, you can connect with fellow enthusiasts, exchange ideas, and engage in intellectual discourse. Our commitment to collaboration extends to partnerships with educational institutions, enabling seamless integration with academic curricula and research initiatives.&#xa;&#xa;We are constantly evolving and expanding our collection to ensure that our e-library remains a dynamic and enriching resource for our users. Our dedicated team of librarians and technology experts work tirelessly to enhance the user experience and incorporate the latest advancements in digital library services."/>
+                                <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="visionlabel">
@@ -1373,7 +1375,7 @@
                                 <Property name="text" type="java.lang.String" value="Vision"/>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JTextPane" name="vision">
+                            <Component class="javax.swing.JTextPane" name="mission">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Empower individuals with convenient and comprehensive access to knowledge, strengthening a lifelong love for learning and intellectual growth. We strive to revolutionize the way people engage with literature and research by providing a digital platform that transcends physical limitations and expands the horizons of knowledge."/>
                                 <Property name="opaque" type="boolean" value="false"/>
@@ -1386,12 +1388,19 @@
                             </Component>
                             <Component class="javax.swing.JTextPane" name="goals">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="1. Curate a Vast and Diverse Collection: Continuously expand and curate our collection to offer a comprehensive range of e-books, academic journals, research papers, and multimedia content across various subjects and disciplines. Strive to include both classic and contemporary works that cater to the evolving needs and interests of our users.&#xa;&#xa;2. Enhance User Experience: Continually improve our platform&apos;s user interface, search capabilities, and personalization features to ensure a seamless and engaging experience for our users. Enable easy navigation, customizable reading preferences, virtual bookshelves, and interactive features that promote collaboration and knowledge sharing.&#xa;&#xa;3. Foster a Learning Community: Facilitate intellectual discourse and foster a vibrant community of learners through interactive forums, discussion boards, and virtual events. Encourage users to connect, exchange ideas, and engage in meaningful conversations that enrich their learning journey.&#xa;&#xa;4. Promote Accessibility and Inclusivity: Prioritize accessibility and inclusivity by implementing features such as adjustable font sizes, screen reader compatibility, and translations to cater to individuals with diverse needs and language preferences. Strive to break down barriers and ensure that knowledge is accessible to everyone.&#xa;&#xa;5. Collaborate with Publishers and Institutions: Forge partnerships with renowned publishers, educational institutions, and authors to expand our collection, enhance content quality, and enable seamless integration with academic curricula and research initiatives. Collaborate to bring exclusive resources and facilitate scholarly engagement.&#xa;&#xa;6. Embrace Technological Advancements: Embrace emerging technologies and trends in digital library services to stay at the forefront of innovation. Leverage artificial intelligence, machine learning, and data analytics to enhance search algorithms, recommend personalized content, and provide valuable insights for users and institutions.&#xa;&#xa;7. Measure and Improve Impact: Continuously evaluate and measure our impact on users&apos; learning outcomes, satisfaction levels, and engagement. Utilize user feedback, data analytics, and performance indicators to identify areas for improvement and enhance the effectiveness of our services.&#xa;"/>
+                                <Property name="text" type="java.lang.String" value="1. Curate a Vast and Diverse Collection: Continuously expand and curate our collection to offer a comprehensive range of e-books, academic journals, research papers, and multimedia content across various subjects and disciplines. Strive to include both classic and contemporary works that cater to the evolving needs and interests of our users.&#xa;&#xa;2. Enhance User Experience: Continually improve our platform&apos;s user interface, search capabilities, and personalization features to ensure a seamless and engaging experience for our users. Enable easy navigation, customizable reading preferences, virtual bookshelves, and interactive features that promote collaboration and knowledge sharing.&#xa;&#xa;3. Foster a Learning Community: Facilitate intellectual discourse and foster a vibrant community of learners through interactive forums, discussion boards, and virtual events. Encourage users to connect, exchange ideas, and engage in meaningful conversations that enrich their learning journey.&#xa;&#xa;4. Promote Accessibility and Inclusivity: Prioritize accessibility and inclusivity by implementing features such as adjustable font sizes, screen reader compatibility, and translations to cater to individuals with diverse needs and language preferences. Strive to break down barriers and ensure that knowledge is accessible to everyone.&#xa;&#xa;5. Collaborate with Publishers and Institutions: Forge partnerships with renowned publishers, educational institutions, and authors to expand our collection, enhance content quality, and enable seamless integration with academic curricula and research initiatives. Collaborate to bring exclusive resources and facilitate scholarly engagement.&#xa;&#xa;6. Embrace Technological Advancements: Embrace emerging technologies and trends in digital library services to stay at the forefront of innovation. Leverage artificial intelligence, machine learning, and data analytics to enhance search algorithms, recommend personalized content, and provide valuable insights for users and institutions.&#xa;&#xa;7. Measure and Improve Impact: Continuously evaluate and measure our impact on users&apos; learning outcomes, satisfaction levels, and engagement. Utilize user feedback, data analytics, and performance indicators to identify areas for improvement and enhance the effectiveness of our services.&#xa;&#xa;By alienating our mission, vision, and goals, we aim to create a transformative and inclusive digital library experience that empowers individuals, expands knowledge horizons, and fosters a lifelong passion for learning."/>
+                                <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="missionlabel">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Mission"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JTextPane" name="vision">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="To be the premier online digital library, steering to be recognized globally for its exceptional collection, user-friendly interface, and commitment to innovation. We aim to inspire and educate millions of users or readers, regardless of their geographical location or socioeconomic status, by delivering a thorough and diverse collection of digital resources and fostering a thriving community of learners."/>
+                                <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
                             </Component>
                           </SubComponents>
