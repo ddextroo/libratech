@@ -28,15 +28,21 @@ public class Book {
     private String due_date;
     private String borrowed_date;
     int status_copies;
-    private int fines;
+    private double fines;
+    private String idnum;
 
     public String getStatus_string() {
         return status_string;
     }
 
-    public int getFines() {
+    public double getFines() {
         return fines;
     }
+
+    public String getIdnum() {
+        return idnum;
+    }
+    
     
 
 //    private ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius) {
@@ -188,12 +194,13 @@ public class Book {
         this.due_date = due_date;
     }
 
-    public Book(String title, String barcode, String borrowed_date, String due_date, int fines) {
+    public Book(String title, String barcode, String borrowed_date, String due_date, double fines, String idnum) {
         this.title = title;
         this.barcode = barcode;
         this.borrowed_date = borrowed_date;
         this.due_date = due_date;
         this.fines = fines;
+        this.idnum = idnum;
     }
 
     public Book() {

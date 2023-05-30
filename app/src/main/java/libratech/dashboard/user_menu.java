@@ -36,8 +36,10 @@ public class user_menu extends javax.swing.JPanel {
     private List<Student> students;
     private DatabaseReference dbRef;
     private DatabaseReference dbRef2;
+    private DatabaseReference dbRef3;
     DefaultTableModel mod;
     DefaultTableModel mod2;
+    DefaultTableModel mod3;
     private String path = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
@@ -49,11 +51,14 @@ public class user_menu extends javax.swing.JPanel {
         initFont();
         this.mod = (DefaultTableModel) studentTable1.getModel();
         this.mod2 = (DefaultTableModel) studentTable2.getModel();
+        this.mod3 = (DefaultTableModel) transactionTable1.getModel();
         new firebaseInit().initFirebase();
         studentTable1.fixTable(jScrollPane2);
         studentTable2.fixTable(jScrollPane4);
+        transactionTable1.fixTable(jScrollPane1);
         retrieveDataGeneral();
         retrieveDataRestricted();
+        retrieveDataTransactions();
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
 
     }
@@ -202,6 +207,71 @@ public class user_menu extends javax.swing.JPanel {
 
     }
 
+    private void retrieveDataTransactions() {
+        // Fetch data from Firebase and create table
+        EventActionStudent eventAction = new EventActionStudent() {
+
+            @Override
+            public void update(Student student) {
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new cartreturn(student.getTransactionKey()), option, "transaction");
+            }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+
+        dbRef3 = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
+        dbRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod3.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        
+                        int booksBorrowed = (int) child.getChildrenCount() - 1;
+                        String key = child.getKey();
+                        String IDnumber = child.child("idno").getValue(String.class);
+
+                        transactionTable1.addRow(new Student(key, IDnumber, booksBorrowed, StatusTypeStudent.Pending).toRowTableSelectTransaction(eventAction));
+                        new Student().setIDnumber(key);
+                        mod3.fireTableDataChanged();
+                        transactionTable1.repaint();
+                        transactionTable1.revalidate();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -225,6 +295,9 @@ public class user_menu extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         studentTable2 = new libratech.user.students.studentTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        transactionTable1 = new libratech.user.students.transactionTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -368,6 +441,47 @@ public class user_menu extends javax.swing.JPanel {
 
         materialTabbed1.addTab("Restricted User", jPanel5);
 
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        transactionTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Transaction Key", "ID Number", "Books Borrowed", "Status", "Actions"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(transactionTable1);
+        if (transactionTable1.getColumnModel().getColumnCount() > 0) {
+            transactionTable1.getColumnModel().getColumn(0).setResizable(false);
+            transactionTable1.getColumnModel().getColumn(1).setResizable(false);
+            transactionTable1.getColumnModel().getColumn(2).setResizable(false);
+            transactionTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        materialTabbed1.addTab("Transaction", jPanel3);
+
         jPanel9.add(materialTabbed1);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
@@ -437,9 +551,11 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private libratech.design.MaterialTabbed materialTabbed1;
@@ -448,6 +564,7 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.JLabel scanner;
     private libratech.user.students.studentTable studentTable1;
     private libratech.user.students.studentTable studentTable2;
+    private libratech.user.students.transactionTable transactionTable1;
     private javax.swing.JLabel userslabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {

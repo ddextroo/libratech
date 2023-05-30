@@ -44,7 +44,7 @@ public class returntype extends javax.swing.JPanel {
     private pushValueExisting v;
     private pushValue v2;
     private ChildEventListener booksinfo;
-    private int fines;
+    private double fines;
     private String barcode;
     private final String path_book = "books/" + new getUID().getUid() + "/";
     private final DatabaseReference book = FirebaseDatabase.getInstance().getReference(path_book);
@@ -56,18 +56,22 @@ public class returntype extends javax.swing.JPanel {
     private ValueEventListener data;
     private String idnum;
     private int penalties;
-    private int user_fines;
+    private double user_fines;
     private String added_overdue;
 
-    public returntype(Object columnData, int fines, String key, String barcode, String idnum, int penalties, int user_fines) {
+    private ChildEventListener borrow_added;
+    private DatabaseReference borrow;
+
+    public returntype(Object columnData, double fines, String key, String barcode, String idnum, int penalties, double user_fines) {
         this.fines = fines;
         this.key = key;
         this.barcode = barcode;
         this.idnum = idnum;
         this.penalties = penalties;
         this.user_fines = user_fines;
+
         this.transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
-        System.out.println(barcode);
+        this.borrow = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key + "/");
         this.columnData = (List<Object>) columnData;
         initComponents();
         new firebaseInit().initFirebase();
@@ -109,7 +113,7 @@ public class returntype extends javax.swing.JPanel {
         scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
         scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
-        cardLayout.show(home.jPanel3, "book");
+        cardLayout.show(home.jPanel3, "user");
         Option option = new DefaultOption() {
             @Override
             public float opacity() {
@@ -127,32 +131,54 @@ public class returntype extends javax.swing.JPanel {
             }
 
         };
-        GlassPanePopup.showPopup(new cartreturn(barcode), option);
+        GlassPanePopup.showPopup(new cartreturn(key), option);
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(returntype.this);
         frame.dispose();
 
     }
 
     private void checkBorrowerList() {
-        dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
-        dbRef.addValueEventListener(new ValueEventListener() {
+        borrow_added = new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.getKey().equals(barcode)) {
-                        added_overdue = child.child("added_overdue").getValue(String.class);
-                        break;
-                    }
-                    dbRef.removeEventListener(data);
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
 
+                if (_childKey.contains(barcode)) {
+                    if (_childValue.containsKey("added_overdue")) {
+                        added_overdue = _childValue.get("added_overdue").toString();
+                    } else {
+                        added_overdue = "false";
+                    }
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
+                System.out.println("The read failed: " + databaseError.getCode());
             }
-        });
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        borrow.addChildEventListener(borrow_added);
     }
 
     private void retrieveDataBooksInfoInshelf() {
@@ -167,14 +193,11 @@ public class returntype extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
-                        
-                        String remaining = _childValue.get("remaining_copies").toString();
-                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
-                        int remain = Integer.parseInt(remaining);
-                        System.out.println(remaining);
+                        int remaining = Integer.parseInt(_childValue.get("remaining_copies").toString());
+                        int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
-                        m.put("remaining_copies", remain + 1);
+                        m.put("remaining_copies", remaining + 1);
                         if (added_overdue.equals("true")) {
                             m.put("overdue_books", overdue_books - 1);
                         }
@@ -182,6 +205,11 @@ public class returntype extends javax.swing.JPanel {
                             m.put("status", "Available");
                         }
                         v.pushData("books/" + new getUID().getUid(), m);
+                        m.clear();
+                        v = new pushValueExisting(idnum);
+                        m = new HashMap<>();
+                        m.put("fines", fines + user_fines);
+                        v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
                     }
                     break;
@@ -227,35 +255,36 @@ public class returntype extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
-                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
-                            int lostbooks;
-                            int price = 0;
-                            if (_childValue.containsKey("lost_books")) {
-                                lostbooks = (int) _childValue.get("lost_books");
-                            } else {
-                                lostbooks = 0;
-                            }
-                            if (_childValue.containsKey("price")) {
-                                price = (int) _childValue.get("price");
-                            }
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("lost_books", lostbooks + 1);
-                            if (added_overdue.equals("true")) {
-                                m.put("overdue_books", overdue_books - 1);
-                            }
-                            if (overdue_books <= 0) {
-                                m.put("status", "Available");
-                            }
-                            v.pushData("books/" + new getUID().getUid(), m);
-                            m.clear();
-                            v = new pushValueExisting(idnum);
-                            m = new HashMap<>();
-                            m.put("fines", fines + user_fines + price);
-                            m.put("penalties", penalties + 1);
-                            v.pushData("students/" + new getUID().getUid(), m);
-                            m.clear();
-                        
+                        int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        int lostbooks;
+                        double price = 0f;
+                        if (_childValue.containsKey("lost_books")) {
+                            lostbooks = Integer.parseInt(_childValue.get("lost_books").toString());
+                        } else {
+                            lostbooks = 0;
+                        }
+                        if (_childValue.containsKey("price")) {
+                            price = Double.parseDouble(_childValue.get("price").toString());
+                        }
+                        v = new pushValueExisting(_childKey);
+                        m = new HashMap<>();
+                        m.put("lost_books", lostbooks + 1);
+                        if (added_overdue.equals("true")) {
+                            m.put("overdue_books", overdue_books - 1);
+                        }
+                        overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        if (overdue_books <= 0) {
+                            m.put("status", "Available");
+                        }
+                        v.pushData("books/" + new getUID().getUid(), m);
+                        m.clear();
+                        v = new pushValueExisting(idnum);
+                        m = new HashMap<>();
+                        m.put("fines", fines + user_fines + price);
+                        m.put("penalties", penalties + 1);
+                        v.pushData("students/" + new getUID().getUid(), m);
+                        m.clear();
+
                     }
                     break;
                 }
@@ -287,6 +316,7 @@ public class returntype extends javax.swing.JPanel {
         book.addChildEventListener(booksinfo);
 
     }
+
     private void retrieveDataBooksInfoDamaged() {
 
         booksinfo = new ChildEventListener() {
@@ -299,34 +329,34 @@ public class returntype extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
-                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
-                            int damagedbooks;
-                            int price = 0;
-                            if (_childValue.containsKey("damaged_books")) {
-                                damagedbooks = (int) _childValue.get("damaged_books");
-                            } else {
-                                damagedbooks = 0;
-                            }
-                            if (_childValue.containsKey("price")) {
-                                price = (int) _childValue.get("price");
-                            }
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("damaged_books", damagedbooks + 1);
-                            if (added_overdue.equals("true")) {
-                                m.put("overdue_books", overdue_books - 1);
-                            }
-                            if (overdue_books <= 0) {
-                                m.put("status", "Available");
-                            }
-                            v.pushData("books/" + new getUID().getUid(), m);
-                            m.clear();
-                            v = new pushValueExisting(idnum);
-                            m = new HashMap<>();
-                            m.put("fines", fines + user_fines + price);
-                            m.put("penalties", penalties + 1);
-                            v.pushData("students/" + new getUID().getUid(), m);
-                            m.clear();
+                        int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        int damagedbooks;
+                        double price = 0f;
+                        if (_childValue.containsKey("damaged_books")) {
+                            damagedbooks = Integer.parseInt(_childValue.get("damaged_books").toString());
+                        } else {
+                            damagedbooks = 0;
+                        }
+                        if (_childValue.containsKey("price")) {
+                            price = Double.parseDouble(_childValue.get("price").toString());
+                        }
+                        v = new pushValueExisting(_childKey);
+                        m = new HashMap<>();
+                        m.put("damaged_books", damagedbooks + 1);
+                        if (added_overdue.equals("true")) {
+                            m.put("overdue_books", overdue_books - 1);
+                        }
+                        if (overdue_books <= 0) {
+                            m.put("status", "Available");
+                        }
+                        v.pushData("books/" + new getUID().getUid(), m);
+                        m.clear();
+                        v = new pushValueExisting(idnum);
+                        m = new HashMap<>();
+                        m.put("fines", fines + user_fines + price);
+                        m.put("penalties", penalties + 1);
+                        v.pushData("students/" + new getUID().getUid(), m);
+                        m.clear();
                     }
                     break;
                 }
@@ -470,8 +500,8 @@ public class returntype extends javax.swing.JPanel {
         } else {
             retrieveDataBooksInfoDamaged();
         }
-        
-        //deleteTransaction();
+
+        deleteTransaction();
     }//GEN-LAST:event_returnnActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed

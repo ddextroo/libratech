@@ -62,10 +62,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.CardLayout;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import libratech.design.DefaultOption;
 import libratech.design.Option;
 
@@ -94,7 +97,7 @@ public class cartreturn extends javax.swing.JPanel {
     private ChildEventListener booksinfo;
     private final String path_book = "books/" + new getUID().getUid() + "/";
     private final DatabaseReference book = FirebaseDatabase.getInstance().getReference(path_book);
-    
+
     private ChildEventListener booksuserinfo;
     private final String path_bookuserinfo = "users/";
     private final DatabaseReference bookuser = FirebaseDatabase.getInstance().getReference(path_bookuserinfo);
@@ -115,9 +118,9 @@ public class cartreturn extends javax.swing.JPanel {
     String remaining_copies;
     String idnom;
     long fine;
-    int fines;
+    double fines;
     int penalties;
-    int user_fines;
+    double user_fines;
     int overdue_fines;
     private List<Object> columnData;
     private HashMap<String, Object> m;
@@ -148,7 +151,7 @@ public class cartreturn extends javax.swing.JPanel {
         retrieveDataBooks();
         userBookInfo();
     }
-    
+
     private void userBookInfo() {
         booksuserinfo = new ChildEventListener() {
             @Override
@@ -157,9 +160,9 @@ public class cartreturn extends javax.swing.JPanel {
                 };
                 final String _childKey = dataSnapshot.getKey();
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-                    if (new getUID().getUid().equals(_childKey)) {
-                        overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
-                    }
+                if (new getUID().getUid().equals(_childKey)) {
+                    overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
+                }
             }
 
             @Override
@@ -174,8 +177,8 @@ public class cartreturn extends javax.swing.JPanel {
                 final String _childKey = ds.getKey();
                 final HashMap<String, Object> _childValue = ds.getValue(_ind);
                 if (new getUID().getUid().equals(_childKey)) {
-                        overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
-                    }
+                    overdue_fines = Integer.parseInt(_childValue.get("overdue_fines").toString());
+                }
             }
 
             @Override
@@ -239,7 +242,38 @@ public class cartreturn extends javax.swing.JPanel {
     }
 
     private void deleteTransaction() {
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#041C34"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "book");
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
 
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        //tabs.setSelectedIndex(nextIndex);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(cartreturn.this);
+        frame.dispose();
         transaction.child(key).removeValue(completionListener);
         GlassPanePopup.closePopupAll();
     }
@@ -323,7 +357,7 @@ public class cartreturn extends javax.swing.JPanel {
                         return new Color(33, 33, 33);
                     }
                 };
-                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, book.getBarcode(), idnom, penalties, user_fines), option, "returntype");
+                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, book.getBarcode(), book.getIdnum(), penalties, user_fines), option, "returntype");
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
@@ -339,8 +373,8 @@ public class cartreturn extends javax.swing.JPanel {
                         due_date = child.child("due_date").getValue(String.class);
                         borrowed_date = child.child("borrowed_date").getValue(String.class);
                         idnom = child.child("idno").getValue(String.class);
-                        fines = child.child("fines").getValue(Integer.class);
-                        System.out.println(child.getKey());
+
+                        fines = child.child("fines").getValue(Double.class);
 
                         Date currentDate = dateFormat.parse(borrowed_date);
                         Date dueDate = dateFormat.parse(due_date);
@@ -358,7 +392,7 @@ public class cartreturn extends javax.swing.JPanel {
                             m.clear();
                         }
                         if (!child.getKey().equals("idno")) {
-                            inshelfTable1.addRow(new Book(bookTitle, barcode, borrowed_date, due_date, (int) fine).toRowTableReturn(eventAction));
+                            inshelfTable1.addRow(new Book(bookTitle, barcode, borrowed_date, due_date, (double) fine, idnom).toRowTableReturn(eventAction));
                         }
                         columnData = inshelfTable1.getColumnData(1);
                         mod.fireTableDataChanged();
@@ -442,7 +476,7 @@ public class cartreturn extends javax.swing.JPanel {
                     fname = _childValue.get("fullname").toString();
                     idnum = _childValue.get("idno").toString();
                     penalties = Integer.parseInt(_childValue.get("penalties").toString());
-                    user_fines = Integer.parseInt(_childValue.get("fines").toString());
+                    user_fines = Double.parseDouble(_childValue.get("fines").toString());
                     phone.setText("Phone Number: " + _childValue.get("phone").toString());
                 }
             }
@@ -462,11 +496,12 @@ public class cartreturn extends javax.swing.JPanel {
                     name.setText("Name: " + _childValue.get("fullname").toString());
                     address.setText("Address: " + _childValue.get("address").toString());
                     email.setText("Email Address: " + _childValue.get("email").toString());
-                    phone.setText("Phone Number: " + _childValue.get("phone").toString());
                     email_add = _childValue.get("email").toString();
                     fname = _childValue.get("fullname").toString();
                     idnum = _childValue.get("idno").toString();
                     penalties = Integer.parseInt(_childValue.get("penalties").toString());
+                    user_fines = Double.parseDouble(_childValue.get("fines").toString());
+                    phone.setText("Phone Number: " + _childValue.get("phone").toString());
                 }
             }
 
@@ -781,7 +816,7 @@ public class cartreturn extends javax.swing.JPanel {
 
     private void returnnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnnActionPerformed
         // TODO add your handling code here:
-       GlassPanePopup.closePopupAll();
+        GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_returnnActionPerformed
 
 

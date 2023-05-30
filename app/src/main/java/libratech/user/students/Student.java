@@ -6,6 +6,16 @@ public class Student {
     private String IDnumber;
     private String name;
     private StatusTypeStudent Status;
+    private String transactionKey;
+    private int booksBorrowed;
+
+    public void setTransactionKey(String transactionKey) {
+        this.transactionKey = transactionKey;
+    }
+
+    public String getTransactionKey() {
+        return transactionKey;
+    }
 
     public String getEmail() {
         return email;
@@ -26,7 +36,6 @@ public class Student {
     public void setStatus(StatusTypeStudent Status) {
         this.Status = Status;
     }
-    
 
     public Object[] toRowTable(EventActionStudent event) {
 
@@ -38,6 +47,11 @@ public class Student {
         return new Object[]{name, IDnumber, new ModelActionStudent(this, event)};
     }
 
+    public Object[] toRowTableSelectTransaction(EventActionStudent event) {
+
+        return new Object[]{transactionKey, IDnumber, booksBorrowed, Status, new ModelActionStudent(this, event)};
+    }
+
     public Student(String email, String IDnumber, StatusTypeStudent Status) {
         this.email = email;
         this.IDnumber = IDnumber;
@@ -47,6 +61,13 @@ public class Student {
     public Student(String name, String IDnumber) {
         this.name = name;
         this.IDnumber = IDnumber;
+    }
+
+    public Student(String transactionKey, String IDnumber, int booksBorrowed, StatusTypeStudent Status) {
+        this.transactionKey = transactionKey;
+        this.IDnumber = IDnumber;
+        this.booksBorrowed = booksBorrowed;
+        this.Status = Status;
     }
 
     public Student() {

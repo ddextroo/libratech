@@ -832,7 +832,7 @@ public class edit_user extends javax.swing.JPanel {
             m.put("phone", number);
             m.put("address", user_address);
             m.put("sex", user_sex);
-            m.put("fines", Integer.valueOf(fine));
+            m.put("fines", Double.valueOf(fine));
             m.put("key", idnum);
             m.put("timestamp", getnow);
             v.pushData("students/" + uidpath, m);
