@@ -627,7 +627,6 @@ public class add_user extends javax.swing.JPanel {
             m.put("phone", number);
             m.put("address", user_address);
             m.put("sex", user_sex);
-//            m.put("deck", deckk);
             m.put("key", idnum);
             m.put("status", "Active");
             m.put("timestamp", getnow);

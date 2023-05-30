@@ -247,7 +247,7 @@ public class books_menu extends javax.swing.JPanel {
                 mod2.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("overdue_books") && child.child("overdue_books").getValue(Integer.class) > 0) {
+                    if (child.child("status").getValue(String.class).equals("Overdue") && child.hasChild("overdue_books") && child.child("overdue_books").getValue(Integer.class) > 0) {
                         String key = child.child("key").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);
@@ -292,7 +292,24 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new returnlost_dialog(book.getBarcode(), "lost"), option);
             }
         };
 
@@ -348,7 +365,24 @@ public class books_menu extends javax.swing.JPanel {
         EventAction eventAction = new EventAction() {
             @Override
             public void update(Book book) {
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey()));
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new returnlost_dialog(book.getBarcode(), "damaged"), option);
             }
         };
 
@@ -578,11 +612,11 @@ public class books_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status", "Actions"
+                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -590,9 +624,6 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(inshelfTable3);
-        if (inshelfTable3.getColumnModel().getColumnCount() > 0) {
-            inshelfTable3.getColumnModel().getColumn(7).setResizable(false);
-        }
 
         jPanel5.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 

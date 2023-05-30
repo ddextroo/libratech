@@ -901,7 +901,7 @@ public class add_book extends javax.swing.JPanel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + new getUID().getUid() + "/" + selectedFile.getName();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
 
             try {
                 BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));

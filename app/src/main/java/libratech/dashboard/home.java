@@ -19,28 +19,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import libratech.auth.login;
-import libratech.auth.splash;
-import libratech.books.inshelf.Book;
-import libratech.books.inshelf.StatusType;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanelBorderless;
 import libratech.models.Dashboard.*;
 import libratech.util.firebaseInit;
-import libratech.dashboard.dashboard_menu;
-import libratech.dashboard.books_menu;
-import libratech.dashboard.user_menu;
-import libratech.dashboard.settings_menu2;
+import java.util.Calendar;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.StatusType;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
 import libratech.design.Option;
@@ -49,7 +40,6 @@ import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.models.pushValueExisting;
 import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
@@ -69,11 +59,19 @@ public class home extends javax.swing.JFrame {
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
     private DatabaseReference dbRef;
     private DatabaseReference dbRef1;
+    private DatabaseReference dbRef2;
     String durl = "";
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private ValueEventListener data;
+    private ValueEventListener data2;
+    private ValueEventListener data3;
+    private int days_limit;
+    private int overdue_books;
+    private int penalties;
+    private String childtemp;
+    private String childtemp2;
 
     public home() {
         initComponents();
@@ -105,29 +103,78 @@ public class home extends javax.swing.JFrame {
     }
 
     private void updateBooks() {
+
         dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef.addValueEventListener(data3 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    childtemp2 = child.getKey();
                     dbRef1 = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + child.getKey());
                     dbRef1.addValueEventListener(data = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                childtemp = child.getKey();
+                                dbRef2 = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+                                dbRef2.addValueEventListener(data2 = new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                            if (child.getKey().equals(childtemp)) {
+                                                overdue_books = child.child("overdue_books").getValue(Integer.class);
+                                                break;
+                                            }
+                                            dbRef2.removeEventListener(data2);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        System.out.println("Error: " + databaseError.getMessage());
+                                    }
+                                });
+
                                 if (child.hasChild("borrowed_date") && child.hasChild("due_date")) {
-                                    String borrowed_date = child.child("borrowed_date").getValue(String.class);
-                                    String due_date = child.child("due_date").getValue(String.class);
+                                    try {
+                                        String borrowed_date = child.child("borrowed_date").getValue(String.class);
+                                        String due_date = child.child("due_date").getValue(String.class);
 
-                                    LocalDate borrowed = LocalDate.parse(borrowed_date);
-                                    LocalDate due = LocalDate.parse(due_date);
+                                        Date borrowed = dateFormat.parse(borrowed_date);
+                                        Date due = dateFormat.parse(due_date);
 
-                                    if (borrowed.isAfter(due)) {
-                                        v = new pushValueExisting(child.getKey());
-                                        m = new HashMap<>();
-                                        m.put("overdue_books", child.child("overdue_books").getValue(Integer.class) + 1);
-                                        v.pushData("books/" + new getUID().getUid(), m);
-                                        m.clear();
+                                        if (borrowed.after(due)) {
+                                            if (child.hasChild("added_overdue")) {
+
+                                            } else {
+                                                v = new pushValueExisting(child.getKey());
+                                                m = new HashMap<>();
+                                                m.put("overdue_books", overdue_books + 1);
+                                                m.put("status", "Overdue");
+                                                v.pushData("books/" + new getUID().getUid(), m);
+                                                m.clear();
+                                                v = new pushValueExisting(child.getKey());
+                                                m = new HashMap<>();
+                                                m.put("added_overdue", "true");
+                                                v.pushData("borrowerlist/" + new getUID().getUid() + "/" + childtemp2, m);
+                                                m.clear();
+                                                Calendar calendar = Calendar.getInstance();
+                                                calendar.setTime(due);
+                                                calendar.add(Calendar.DAY_OF_YEAR, days_limit);
+                                                Date DaysLater = calendar.getTime();
+
+                                                if (borrowed.after(DaysLater)) {
+                                                    v = new pushValueExisting(child.child("idno").getValue(String.class));
+                                                    m = new HashMap<>();
+                                                    m.put("penalties", penalties + 1);
+                                                    v.pushData("students/" + new getUID().getUid(), m);
+                                                    m.clear();
+                                                }
+                                            }
+
+                                        }
+                                    } catch (ParseException ex) {
+                                        Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
                             }
@@ -148,7 +195,6 @@ public class home extends javax.swing.JFrame {
                 System.out.println("Error: " + databaseError.getMessage());
             }
         });
-
     }
 
     private void updateInfo() {
@@ -164,6 +210,10 @@ public class home extends javax.swing.JFrame {
                         school_n.setText(_childValue.get("school_name").toString());
                         idnum.setText(_childValue.get("school_id").toString());
                         durl = _childValue.get("url").toString();
+                        days_limit = Integer.parseInt(_childValue.get("days_limit").toString());
+                        if (_childValue.containsKey("penalties")) {
+                            penalties = Integer.parseInt(_childValue.get("penalties").toString());
+                        }
 
                         Timer timer = new Timer(500, e -> {
                             try {

@@ -124,12 +124,12 @@ public class login extends javax.swing.JFrame {
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250,0));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel10 = new RoundedPanelBorderless(12, new Color(250, 250, 250));
+        jPanel10 = new RoundedPanelBorderless(12, new Color(250, 250, 250,0));
         jLabel7 = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
 

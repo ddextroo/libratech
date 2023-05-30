@@ -62,8 +62,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.CardLayout;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import libratech.design.DefaultOption;
+import libratech.design.Option;
 
 import libratech.models.pushValueExisting;
 import libratech.util.smtp;
@@ -105,6 +110,8 @@ public class cart extends javax.swing.JPanel {
     String borrowed_date;
     String barcode;
     String remaining_copies;
+    boolean exist;
+    private DatabaseReference dbRef1;
     private List<Object> columnData;
     private HashMap<String, Object> m;
     private pushValueExisting v;
@@ -131,6 +138,7 @@ public class cart extends javax.swing.JPanel {
         };
 
         retrieveDataBooks();
+        checkTransaction();
     }
 
     public void convertToPDF(String outputPath) {
@@ -162,12 +170,12 @@ public class cart extends javax.swing.JPanel {
 
             contentByte.restoreState();
             document.close();
-            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-                    + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
-                    + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
-                    + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
-                    + "\n\nBest regards,"
-                    + "\n\nLibratech Team", email_add, outputPath);
+//            new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+//                    + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
+//                    + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
+//                    + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
+//                    + "\n\nBest regards,"
+//                    + "\n\nLibratech Team", email_add, outputPath);
             retrieveDataBooksInfo();
             storeTransaction();
             deleteTransaction();
@@ -252,6 +260,25 @@ public class cart extends javax.swing.JPanel {
         dbRef3.getRef().removeValue(completionListener);
     }
 
+    private void checkTransaction() {
+        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    exist = true;
+                } else {
+                    exist = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void retrieveDataBooks() {
 
         EventAction eventAction = new EventAction() {
@@ -263,6 +290,42 @@ public class cart extends javax.swing.JPanel {
                         transaction.child(book.getBarcode()).removeValue(completionListener);
                     }
                 }
+                home home = new home();
+                home.setVisible(true);
+                home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+                home.jPanel10.setBackground(Color.decode("#041C34"));
+                home.jPanel18.setBackground(Color.decode("#041C34"));
+                home.jPanel20.setBackground(Color.decode("#041C34"));
+                scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+                scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
+                scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+                scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+                CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+                cardLayout.show(home.jPanel3, "book");
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                if (exist) {
+                    GlassPanePopup.showPopup(new cart(), option, "transaction");
+                } else {
+                    deleteLatestBorrower();
+                }
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(cart.this);
+                frame.dispose();
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");

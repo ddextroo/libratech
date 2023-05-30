@@ -530,6 +530,7 @@ public class cartreturn extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         cancel = new libratech.design.MyButtonborder();
+        returnn = new libratech.design.MyButtonborderless();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setOpaque(false);
@@ -711,20 +712,32 @@ public class cartreturn extends javax.swing.JPanel {
             }
         });
 
+        returnn.setForeground(new java.awt.Color(224, 224, 224));
+        returnn.setText("Close");
+        returnn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                .addContainerGap(792, Short.MAX_VALUE)
+                .addContainerGap(664, Short.MAX_VALUE)
                 .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(returnn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(returnn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -764,8 +777,12 @@ public class cartreturn extends javax.swing.JPanel {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         deleteTransaction();
-        GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_cancelActionPerformed
+
+    private void returnnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnnActionPerformed
+        // TODO add your handling code here:
+       GlassPanePopup.closePopupAll();
+    }//GEN-LAST:event_returnnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -796,6 +813,7 @@ public class cartreturn extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel name;
     private javax.swing.JLabel phone;
+    private libratech.design.MyButtonborderless returnn;
     private javax.swing.JLabel userinfolabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
@@ -810,6 +828,7 @@ public class cartreturn extends javax.swing.JPanel {
         phone.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
 
         cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        returnn.setFont(new Font("Poppins Regular", Font.BOLD, 12));
 //        borrow.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }

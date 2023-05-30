@@ -62,7 +62,7 @@
                                               <Component id="copieslabel" min="-2" pref="143" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="137" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel12" pref="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel12" pref="280" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -81,7 +81,7 @@
                                               <Component id="decklabel" min="-2" pref="90" max="-2" attributes="0"/>
                                               <EmptySpace pref="196" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel13" pref="0" max="32767" attributes="0"/>
+                                          <Component id="jPanel13" pref="286" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>

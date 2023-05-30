@@ -18,12 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.awt.Container;
+import java.awt.Cursor;
 import libratech.dashboard.home;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import libratech.models.auth;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,12 +41,14 @@ import libratech.design.RoundedPanelBorderless;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import javax.imageio.ImageIO;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
 import libratech.models.EmailValidation;
 import libratech.models.SchoolInfo;
+import libratech.models.getUID;
 
 /**
  *
@@ -127,17 +131,17 @@ public class signup extends javax.swing.JFrame {
         schoolnamelabel = new javax.swing.JLabel();
         jPanel12 = new RoundedPanel(12, new Color(245,245,245));
         schoolname = new libratech.design.ComboBoxSuggestion();
-        jPanel4 = new RoundedPanelBorderless(12, new Color(245, 245, 245));
+        jPanel4 = new RoundedPanelBorderless(12, new Color(245, 245, 245,0));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         donthave = new javax.swing.JLabel();
         here = new javax.swing.JLabel();
-        jPanel8 = new RoundedPanelBorderless(12, new Color(245, 245, 245));
+        jPanel8 = new RoundedPanelBorderless(12, new Color(245, 245, 245,0));
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        filepath = new javax.swing.JLabel();
         myButtonborderless2 = new libratech.design.MyButtonborderless();
-        myButtonborder1 = new libratech.design.MyButtonborder();
+        photoCover1 = new libratech.design.PhotoCover();
+        coverlabel = new javax.swing.JLabel();
+        allowedtype = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -193,7 +197,7 @@ public class signup extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(135, 135, 135)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -452,9 +456,6 @@ public class signup extends javax.swing.JFrame {
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel8.add(jLabel6, new java.awt.GridBagConstraints());
 
-        filepath.setForeground(new java.awt.Color(58, 58, 58));
-        jScrollPane1.setViewportView(filepath);
-
         myButtonborderless2.setForeground(new java.awt.Color(250, 250, 250));
         myButtonborderless2.setText("Sign up");
         myButtonborderless2.addActionListener(new java.awt.event.ActionListener() {
@@ -463,13 +464,21 @@ public class signup extends javax.swing.JFrame {
             }
         });
 
-        myButtonborder1.setText("Upload");
-        myButtonborder1.setPreferredSize(new java.awt.Dimension(76, 29));
-        myButtonborder1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                myButtonborder1ActionPerformed(evt);
+        photoCover1.setBackground(new java.awt.Color(158, 158, 158));
+        photoCover1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        photoCover1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                photoCover1MouseClicked(evt);
             }
         });
+
+        coverlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        coverlabel.setForeground(new java.awt.Color(51, 51, 51));
+        coverlabel.setText("Avatar");
+
+        allowedtype.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        allowedtype.setForeground(new java.awt.Color(158, 158, 158));
+        allowedtype.setText("Allowed file types: png, jpeg, or jpg");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -479,34 +488,37 @@ public class signup extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(12, 12, 12)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(168, 168, 168)
+                                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(71, 71, 71)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 66, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(338, 338, 338)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(coverlabel)
+                            .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(allowedtype))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -515,22 +527,24 @@ public class signup extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(coverlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(myButtonborder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
+                .addComponent(photoCover1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(allowedtype)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1);
 
-        setSize(new java.awt.Dimension(874, 558));
+        setSize(new java.awt.Dimension(927, 651));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -598,7 +612,6 @@ public class signup extends javax.swing.JFrame {
         String email_address = email.getText();
         String school_name = schoolname.getSelectedItem().toString();
         String school_id = schoolid.getText();
-        String file_path = filepath.getText();
         char[] passwordChars = pass.getPassword();
         String password = new String(passwordChars);
         char[] confirmpasswordChars = confirmpassword.getPassword();
@@ -606,11 +619,11 @@ public class signup extends javax.swing.JFrame {
         boolean authenticated = false;
         String downloadUrl = "";
 
-        if (file_path.equals("")) {
+        if (localFilePath.equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             GlassPanePopup.closePopupLast();
         } else {
-            if (email.getText().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getSelectedItem().toString().equals("") || filepath.getText().equals("")) {
+            if (email.getText().equals("") || pass.getPassword().length == 0 || schoolid.getText().equals("") || schoolname.getSelectedItem().toString().equals("") || localFilePath.equals("")) {
                 JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             } else {
                 if (validate.validate(email_address)) {
@@ -650,21 +663,19 @@ public class signup extends javax.swing.JFrame {
 
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
 
-    private void myButtonborder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButtonborder1ActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpeg", "jpg");
-        fileChooser.setFileFilter(filter);
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "logo/" + selectedFile.getName();
-            filepath.setText(selectedFile.getAbsolutePath());
-        }
-    }//GEN-LAST:event_myButtonborder1ActionPerformed
-
+//     JFileChooser fileChooser = new JFileChooser();
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpeg", "jpg");
+//        fileChooser.setFileFilter(filter);
+//        int result = fileChooser.showOpenDialog(null);
+//
+//        if (result == JFileChooser.APPROVE_OPTION) {
+//            File selectedFile = fileChooser.getSelectedFile();
+//            this.localFilePath = selectedFile.getAbsolutePath();
+//            this.remoteFilePath = "logo/" + selectedFile.getName();
+//            filepath.setText(selectedFile.getAbsolutePath());
+//        }
+    
+    
     private void schoolidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();
@@ -677,6 +688,27 @@ public class signup extends javax.swing.JFrame {
         // TODO add your handling code here:
         schoolid.setText(String.format("%d", info.getSchoolID()[schoolname.getSelectedIndex()]));
     }//GEN-LAST:event_schoolnameActionPerformed
+
+    private void photoCover1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoCover1MouseClicked
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg", "jpeg");
+        fileChooser.setFileFilter(filter);
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "logo/" + selectedFile.getName();
+
+            try {
+                BufferedImage image = ImageIO.read(new File(selectedFile.getAbsolutePath()));
+                photoCover1.setImage(image);
+            } catch (IOException ex) {
+                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_photoCover1MouseClicked
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -734,12 +766,13 @@ public class signup extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel allowedtype;
     private javax.swing.JLabel confirmpasslabel;
     private javax.swing.JPasswordField confirmpassword;
+    private javax.swing.JLabel coverlabel;
     private javax.swing.JLabel donthave;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emailaddlabel;
-    private javax.swing.JLabel filepath;
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -761,11 +794,10 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private libratech.design.MyButtonborder myButtonborder1;
     private libratech.design.MyButtonborderless myButtonborderless2;
     private javax.swing.JPasswordField pass;
+    private libratech.design.PhotoCover photoCover1;
     private javax.swing.JLabel pwdlabel;
     private javax.swing.JTextField schoolid;
     private javax.swing.JLabel schoolidlabel;
@@ -780,6 +812,8 @@ public class signup extends javax.swing.JFrame {
         email.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         pass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         emailaddlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        coverlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        allowedtype.setFont(new Font("Poppins Regular", Font.PLAIN, 10));
         pwdlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButtonborderless2.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         title.setFont(new Font("Poppins Regular", Font.BOLD, 24));
@@ -787,12 +821,12 @@ public class signup extends javax.swing.JFrame {
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
         jLabel6.setFont(new Font("Poppins Regular", Font.BOLD, 18));
-        myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+//        myButtonborder1.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolidlabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolnamelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         schoolname.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
-        filepath.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+//        filepath.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         schoolid.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         confirmpasslabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         confirmpassword.setFont(new Font("Poppins Regular", Font.PLAIN, 12));

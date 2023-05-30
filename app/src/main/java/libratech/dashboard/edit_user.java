@@ -96,7 +96,6 @@ public class edit_user extends javax.swing.JPanel {
                     email.setText(_childValue.get("email").toString());
                     dateofbirth.setText(_childValue.get("dateofbirth").toString());
                     coursegrade.setText(_childValue.get("coursegrade").toString());
-                    System.out.println(_childValue.get("contact").toString());
                     idno.setText(_childValue.get("idno").toString());
                     address.setText(_childValue.get("address").toString());
                     sex.setSelectedItem(_childValue.get("sex").toString());
@@ -808,7 +807,7 @@ public class edit_user extends javax.swing.JPanel {
     private void addbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbuttonActionPerformed
         // TODO add your handling code here:
         String name = fullname.getText();
-        String idnum = idno.getText();
+        String idnumss = idno.getText();
         String datebirth = dateofbirth.getText();
         String emailaddress = email.getText();
         String course = coursegrade.getText();

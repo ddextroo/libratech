@@ -439,7 +439,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel4MouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanelBorderless(12, new Color(250, 250, 250))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanelBorderless(12, new Color(250, 250, 250,0))"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jPanel4.setOpaque(false);"/>
           </AuxValues>
 
@@ -505,7 +505,7 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel10MouseClicked"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanelBorderless(12, new Color(250, 250, 250))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanelBorderless(12, new Color(250, 250, 250,0))"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jPanel10.setOpaque(false);"/>
           </AuxValues>
 

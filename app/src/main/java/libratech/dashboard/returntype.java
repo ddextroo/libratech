@@ -10,6 +10,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -19,7 +21,10 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
+import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
@@ -31,6 +36,7 @@ import libratech.models.pushValueExisting;
  */
 public class returntype extends javax.swing.JPanel {
 
+    ImageScaler scaler = new ImageScaler();
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private pushValue v2;
@@ -43,9 +49,12 @@ public class returntype extends javax.swing.JPanel {
     private String key;
     private DatabaseReference.CompletionListener completionListener;
     private DatabaseReference transaction;
+    private DatabaseReference dbRef;
+    private ValueEventListener data;
     private String idnum;
     private int penalties;
     private int user_fines;
+    private String added_overdue;
 
     public returntype(Object columnData, int fines, String key, String barcode, String idnum, int penalties, int user_fines) {
         this.fines = fines;
@@ -61,6 +70,7 @@ public class returntype extends javax.swing.JPanel {
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Inshelf", "Lost", "Damaged"}));
         comboBoxSuggestion1.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250));
         initFont();
+        checkBorrowerList();
 
         completionListener = (DatabaseError error, DatabaseReference ref) -> {
             if (error != null) {
@@ -83,7 +93,59 @@ public class returntype extends javax.swing.JPanel {
     private void deleteTransaction() {
 
         transaction.child(barcode).removeValue(completionListener);
-        GlassPanePopup.closePopupAll();
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#041C34"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "book");
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new cartreturn(barcode), option);
+
+    }
+
+    private void checkBorrowerList() {
+        dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.getKey().equals(barcode)) {
+                        added_overdue = child.child("added_overdue").getValue(String.class);
+                        break;
+                    }
+                    dbRef.removeEventListener(data);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
     }
 
     private void retrieveDataBooksInfoInshelf() {
@@ -99,10 +161,17 @@ public class returntype extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         String remaining = _childValue.get("remaining_copies").toString();
+                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
                         int remain = Integer.parseInt(remaining);
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remain + 1);
+                        if (added_overdue.equals("true")) {
+                            m.put("overdue_books", overdue_books - 1);
+                        }
+                        if (overdue_books <= 0) {
+                            m.put("status", "Available");
+                        }
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
                     }
@@ -149,6 +218,7 @@ public class returntype extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
+                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
                         if (returntype.equals("lost")) {
                             int lostbooks;
                             int price = 0;
@@ -163,6 +233,12 @@ public class returntype extends javax.swing.JPanel {
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("lost_books", lostbooks + 1);
+                            if (added_overdue.equals("true")) {
+                                m.put("overdue_books", overdue_books - 1);
+                            }
+                            if (overdue_books <= 0) {
+                                m.put("status", "Available");
+                            }
                             v.pushData("books/" + new getUID().getUid(), m);
                             m.clear();
                             v = new pushValueExisting(idnum);
@@ -186,6 +262,12 @@ public class returntype extends javax.swing.JPanel {
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("damaged_books", damagedbooks + 1);
+                            if (added_overdue.equals("true")) {
+                                m.put("overdue_books", overdue_books - 1);
+                            }
+                            if (overdue_books <= 0) {
+                                m.put("status", "Available");
+                            }
                             v.pushData("books/" + new getUID().getUid(), m);
                             m.clear();
                             v = new pushValueExisting(idnum);
@@ -339,7 +421,6 @@ public class returntype extends javax.swing.JPanel {
             retrieveDataBooksInfoLostDamaged("damaged");
         }
         deleteTransaction();
-        GlassPanePopup.closePopupLast();
     }//GEN-LAST:event_returnnActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed

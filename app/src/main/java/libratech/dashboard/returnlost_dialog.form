@@ -65,7 +65,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Edit "/>
+        <Property name="text" type="java.lang.String" value="Number of books"/>
       </Properties>
     </Component>
     <Component class="libratech.design.MyButtonborder" name="cancel">

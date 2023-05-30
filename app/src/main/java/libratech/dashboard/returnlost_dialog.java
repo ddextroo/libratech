@@ -5,24 +5,48 @@
 package libratech.dashboard;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.util.HashMap;
 import javax.swing.SwingUtilities;
 import libratech.auth.splash;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
+import libratech.models.getUID;
+import libratech.models.pushValueExisting;
 
 /**
  *
  * @author Admin
  */
-public class editname_dialog extends javax.swing.JPanel {
+public class returnlost_dialog extends javax.swing.JPanel {
 
-    /**
-     * Creates new form editname_dialog
-     */
-    public editname_dialog() {
+    private HashMap<String, Object> m;
+    private pushValueExisting v;
+    private String barcode;
+    private String type;
+
+    public returnlost_dialog(String barcode, String type) {
         initComponents();
+        initFont();
+        this.barcode = barcode;
+        this.type = type;
+        setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        Graphics2D g2 = (Graphics2D) graphics.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getBackground());
+        g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
+        g2.dispose();
+        super.paintComponent(graphics);
     }
 
     /**
@@ -41,7 +65,7 @@ public class editname_dialog extends javax.swing.JPanel {
         quantity = new javax.swing.JTextField();
 
         confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        confirmlabel.setText("Edit ");
+        confirmlabel.setText("Number of books");
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
         cancel.setText("Cancel");
@@ -138,39 +162,20 @@ public class editname_dialog extends javax.swing.JPanel {
 
     private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
         // TODO add your handling code here:
-        splash splash = new splash();
-        String filePath = "uid.txt";
-        File file = new File(filePath);
-        String filePath1 = "remember.txt";
-        File file1 = new File(filePath1);
-        home home = (home) SwingUtilities.getWindowAncestor(editname_dialog.this);
-
-        if (file.exists()) {
-            boolean deleted = file.delete();
-            if (deleted) {
-                if (file1.exists()) {
-                    file1.delete();
-                }
-                splash.setVisible(true);
-                home.setVisible(false);
-                GlassPanePopup.closePopupLast();
-                home.dispose();
-            }
+        if (type.equals("lost")) {
+            v = new pushValueExisting(barcode);
+            m = new HashMap<>();
+            m.put("lost_books", Integer.valueOf(quantity.getText()));
+            v.pushData("books/" + new getUID().getUid(), m);
+            m.clear();
         } else {
-            splash.setVisible(true);
-            home.setVisible(false);
-            GlassPanePopup.closePopupLast();
-            home.dispose();
+            v = new pushValueExisting(barcode);
+            m = new HashMap<>();
+            m.put("damaged_books", Integer.valueOf(quantity.getText()));
+            v.pushData("books/" + new getUID().getUid(), m);
+            m.clear();
         }
-        if (file1.exists()) {
-
-        } else {
-            file.delete();
-            splash.setVisible(true);
-            setVisible(false);
-            GlassPanePopup.closePopupLast();
-            home.dispose();
-        }
+        GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_confirmActionPerformed
 
     private void quantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityActionPerformed
@@ -193,4 +198,10 @@ public class editname_dialog extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JTextField quantity;
     // End of variables declaration//GEN-END:variables
+    public void initFont() {
+        confirmlabel.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        quantity.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
+        confirm.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        cancel.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+    }
 }
