@@ -323,7 +323,7 @@ public class cartreturn extends javax.swing.JPanel {
                         return new Color(33, 33, 33);
                     }
                 };
-                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, barcode, idnom, penalties, user_fines), option, "returntype");
+                GlassPanePopup.showPopup(new returntype(columnData, book.getFines(), key, book.getBarcode(), idnom, penalties, user_fines), option, "returntype");
             }
         };
         dbRef = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);

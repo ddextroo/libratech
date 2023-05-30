@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -135,6 +136,7 @@ public class edit_book extends javax.swing.JPanel {
                         isbn.setText(_childValue.get("isbn").toString());
                         shelf.setText(_childValue.get("shelf").toString());
                         deck.setText(_childValue.get("deck").toString());
+                        price.setText(_childValue.get("price").toString());
                         edition.setText(_childValue.get("edition").toString());
                         URL url = new URL(_childValue.get("cover").toString());
                         BufferedImage image = ImageIO.read(url);
@@ -172,6 +174,7 @@ public class edit_book extends javax.swing.JPanel {
                         copies.setText(_childValue.get("copies").toString());
                         barcode(_childValue.get("barcode").toString(), false, "not");
                         bcodeh = _childValue.get("barcode").toString();
+                        price.setText(_childValue.get("price").toString());
                         isbn.setText(_childValue.get("isbn").toString());
                         shelf.setText(_childValue.get("shelf").toString());
                         deck.setText(_childValue.get("deck").toString());
@@ -960,6 +963,7 @@ public class edit_book extends javax.swing.JPanel {
         String book_edition = edition.getText();
         String shelff = shelf.getText();
         String deckk = deck.getText();
+        double prices = Double.parseDouble(price.getText());
 
         if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getSelectedItem().toString().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
@@ -996,6 +1000,7 @@ public class edit_book extends javax.swing.JPanel {
             m.put("edition", book_edition);
             m.put("shelf", shelff);
             m.put("deck", deckk);
+            m.put("price", prices);
             m.put("key", ck);
             m.put("call_number", call_no);
             m.put("status", "Available");

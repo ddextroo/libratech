@@ -41,7 +41,9 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
         }
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(webcams));
         comboBoxSuggestion1.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250,0));
-        webcam = Webcam.getWebcams().get(comboBoxSuggestion1.getSelectedIndex());
+        //webcam = Webcam.getWebcams().get(comboBoxSuggestion1.getSelectedIndex());
+                webcam = Webcam.getWebcams().get(1);
+
 
         Dimension size = WebcamResolution.VGA.getSize();
         webcam.setViewSize(size);

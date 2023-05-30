@@ -21,6 +21,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
@@ -29,6 +31,7 @@ import libratech.design.RoundedPanel;
 import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.models.pushValueExisting;
+import libratech.util.firebaseInit;
 
 /**
  *
@@ -63,9 +66,11 @@ public class returntype extends javax.swing.JPanel {
         this.idnum = idnum;
         this.penalties = penalties;
         this.user_fines = user_fines;
-        transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
+        this.transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
+        System.out.println(barcode);
         this.columnData = (List<Object>) columnData;
         initComponents();
+        new firebaseInit().initFirebase();
         setOpaque(false);
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Inshelf", "Lost", "Damaged"}));
         comboBoxSuggestion1.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250));
@@ -123,6 +128,8 @@ public class returntype extends javax.swing.JPanel {
 
         };
         GlassPanePopup.showPopup(new cartreturn(barcode), option);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(returntype.this);
+        frame.dispose();
 
     }
 
@@ -160,9 +167,11 @@ public class returntype extends javax.swing.JPanel {
                 for (Object item : columnData) {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
+                        
                         String remaining = _childValue.get("remaining_copies").toString();
                         int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
                         int remain = Integer.parseInt(remaining);
+                        System.out.println(remaining);
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remain + 1);
@@ -206,7 +215,7 @@ public class returntype extends javax.swing.JPanel {
 
     }
 
-    private void retrieveDataBooksInfoLostDamaged(String returntype) {
+    private void retrieveDataBooksInfoLost() {
 
         booksinfo = new ChildEventListener() {
             @Override
@@ -219,7 +228,6 @@ public class returntype extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
-                        if (returntype.equals("lost")) {
                             int lostbooks;
                             int price = 0;
                             if (_childValue.containsKey("lost_books")) {
@@ -247,8 +255,51 @@ public class returntype extends javax.swing.JPanel {
                             m.put("penalties", penalties + 1);
                             v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();
-                        }
-                        if (returntype.equals("damaged")) {
+                        
+                    }
+                    break;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        book.addChildEventListener(booksinfo);
+
+    }
+    private void retrieveDataBooksInfoDamaged() {
+
+        booksinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                for (Object item : columnData) {
+                    String temp = (String) item;
+                    if (temp.equals(_childKey)) {
+                        int overdue_books = Integer.parseInt((String) _childValue.get("overdue_books"));
                             int damagedbooks;
                             int price = 0;
                             if (_childValue.containsKey("damaged_books")) {
@@ -276,7 +327,6 @@ public class returntype extends javax.swing.JPanel {
                             m.put("penalties", penalties + 1);
                             v.pushData("students/" + new getUID().getUid(), m);
                             m.clear();
-                        }
                     }
                     break;
                 }
@@ -416,11 +466,12 @@ public class returntype extends javax.swing.JPanel {
         if (comboBoxSuggestion1.getSelectedItem().toString().equals("Inshelf")) {
             retrieveDataBooksInfoInshelf();
         } else if (comboBoxSuggestion1.getSelectedItem().toString().equals("Lost")) {
-            retrieveDataBooksInfoLostDamaged("lost");
+            retrieveDataBooksInfoLost();
         } else {
-            retrieveDataBooksInfoLostDamaged("damaged");
+            retrieveDataBooksInfoDamaged();
         }
-        deleteTransaction();
+        
+        //deleteTransaction();
     }//GEN-LAST:event_returnnActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed

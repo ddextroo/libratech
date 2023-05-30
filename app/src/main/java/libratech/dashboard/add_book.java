@@ -836,7 +836,7 @@ public class add_book extends javax.swing.JPanel {
         String book_edition = edition.getText();
         String shelff = shelf.getText();
         String deckk = deck.getText();
-        int prices = Integer.parseInt(price.getText());
+        double prices = Double.parseDouble(price.getText());
         String downloadUrl = "";
 
         if (booktitle.getText().equals("") || author.getText().equals("") || publisher.getText().equals("") || classification.getSelectedItem().toString().equals("") || date.getText().equals("") || copies.getText().equals("") || isbn.getText().equals("") || date.getText().equals("") || deck.getText().equals("")) {
