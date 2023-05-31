@@ -253,29 +253,11 @@ public class cartreturn extends javax.swing.JPanel {
         scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
         scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
-        cardLayout.show(home.jPanel3, "book");
-        Option option = new DefaultOption() {
-            @Override
-            public float opacity() {
-                return 0.6f;
-            }
-
-            @Override
-            public boolean closeWhenClickOutside() {
-                return false;
-            }
-
-            @Override
-            public Color background() {
-                return new Color(33, 33, 33);
-            }
-
-        };
-        //tabs.setSelectedIndex(nextIndex);
+        cardLayout.show(home.jPanel3, "user");
+        new user_menu().materialTabbed1.setSelectedIndex(2);
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(cartreturn.this);
         frame.dispose();
         transaction.child(key).removeValue(completionListener);
-        GlassPanePopup.closePopupAll();
     }
 
     private void retrieveDataBooksInfo() {
@@ -392,7 +374,10 @@ public class cartreturn extends javax.swing.JPanel {
                             m.clear();
                         }
                         if (!child.getKey().equals("idno")) {
+                            System.out.println(child.getKey());23
                             inshelfTable1.addRow(new Book(bookTitle, barcode, borrowed_date, due_date, (double) fine, idnom).toRowTableReturn(eventAction));
+                        } else {
+                            System.out.println(child.getKey());
                         }
                         columnData = inshelfTable1.getColumnData(1);
                         mod.fireTableDataChanged();
@@ -402,6 +387,9 @@ public class cartreturn extends javax.swing.JPanel {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                }
+                if (mod.getRowCount() <= 0) {
+                    deleteTransaction();
                 }
                 //}
 

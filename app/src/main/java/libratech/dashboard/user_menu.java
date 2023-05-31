@@ -558,7 +558,7 @@ public class user_menu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
-    private libratech.design.MaterialTabbed materialTabbed1;
+    public libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
     private libratech.design.MyButtonborderless myButtonborderless1;
     private javax.swing.JLabel scanner;

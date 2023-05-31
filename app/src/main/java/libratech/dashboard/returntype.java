@@ -69,6 +69,7 @@ public class returntype extends javax.swing.JPanel {
         this.idnum = idnum;
         this.penalties = penalties;
         this.user_fines = user_fines;
+        System.out.println(key);
 
         this.transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
         this.borrow = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key + "/");
