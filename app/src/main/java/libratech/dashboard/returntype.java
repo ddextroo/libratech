@@ -69,7 +69,8 @@ public class returntype extends javax.swing.JPanel {
         this.idnum = idnum;
         this.penalties = penalties;
         this.user_fines = user_fines;
-        System.out.println(key);
+        System.out.println(fines);
+        System.out.println(user_fines);
 
         this.transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
         this.borrow = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key + "/");
@@ -196,6 +197,7 @@ public class returntype extends javax.swing.JPanel {
                     if (temp.equals(_childKey)) {
                         int remaining = Integer.parseInt(_childValue.get("remaining_copies").toString());
                         int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        int borrowed_books = Integer.parseInt(_childValue.get("borrowed_books").toString());
                         v = new pushValueExisting(_childKey);
                         m = new HashMap<>();
                         m.put("remaining_copies", remaining + 1);
@@ -205,11 +207,12 @@ public class returntype extends javax.swing.JPanel {
                         if (overdue_books <= 0) {
                             m.put("status", "Available");
                         }
+                        m.put("borrowed_books", borrowed_books - 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
                         v = new pushValueExisting(idnum);
                         m = new HashMap<>();
-                        m.put("fines", fines + user_fines);
+                        m.put("fines", (double) fines + user_fines);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
                     }
@@ -257,6 +260,7 @@ public class returntype extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        int borrowed_books = Integer.parseInt(_childValue.get("borrowed_books").toString());
                         int lostbooks;
                         double price = 0f;
                         if (_childValue.containsKey("lost_books")) {
@@ -277,11 +281,12 @@ public class returntype extends javax.swing.JPanel {
                         if (overdue_books <= 0) {
                             m.put("status", "Available");
                         }
+                        m.put("borrowed_books", borrowed_books - 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
                         v = new pushValueExisting(idnum);
                         m = new HashMap<>();
-                        m.put("fines", fines + user_fines + price);
+                        m.put("fines", (double) fines + user_fines + price);
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
@@ -331,6 +336,7 @@ public class returntype extends javax.swing.JPanel {
                     String temp = (String) item;
                     if (temp.equals(_childKey)) {
                         int overdue_books = Integer.parseInt(_childValue.get("overdue_books").toString());
+                        int borrowed_books = Integer.parseInt(_childValue.get("borrowed_books").toString());
                         int damagedbooks;
                         double price = 0f;
                         if (_childValue.containsKey("damaged_books")) {
@@ -350,11 +356,12 @@ public class returntype extends javax.swing.JPanel {
                         if (overdue_books <= 0) {
                             m.put("status", "Available");
                         }
+                        m.put("borrowed_books", borrowed_books - 1);
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
                         v = new pushValueExisting(idnum);
                         m = new HashMap<>();
-                        m.put("fines", fines + user_fines + price);
+                        m.put("fines", (double) fines + user_fines + price);
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();

@@ -1,36 +1,24 @@
 package libratech.models;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.ErrorCode;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthErrorCode;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import javax.swing.table.DefaultTableModel;
-import libratech.books.inshelf.Book;
-import libratech.books.inshelf.StatusType;
-import libratech.books.inshelf.TableStatus;
 import libratech.util.firebaseInit;
 
 public class auth {
@@ -44,6 +32,7 @@ public class auth {
     private pushValue v;
     private retrieve r;
     private Calendar cal = Calendar.getInstance();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
     public auth(String email, String password) throws FileNotFoundException {
         this.firebaseAuth = FirebaseAuth.getInstance();
@@ -56,6 +45,10 @@ public class auth {
 
     public boolean signUp(String school_name, String school_id, String url) throws FirebaseAuthException {
         try {
+            LocalDate currentDate = LocalDate.now();
+//            LocalDate newDate = currentDate.plusMonths(1);
+//            String n = newDate.format(formatter);
+            String currentDateString = currentDate.format(formatter);
             String getnow = new SimpleDateFormat("MM-dd-yyyy").format(Calendar.getInstance().getTime());
 
             UserRecord.CreateRequest request = new UserRecord.CreateRequest()
@@ -73,6 +66,8 @@ public class auth {
             m.put("timestamp", getnow);
             m.put("barcode_name", "LIBRATECH");
             m.put("days_limit", 6);
+            m.put("subscription_date", currentDateString);
+            m.put("limit_date", currentDateString);
             m.put("overdue_fines", 2);
             m.put("status", "Pending");
             m.put("uid", uid);

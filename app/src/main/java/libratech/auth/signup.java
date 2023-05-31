@@ -47,6 +47,7 @@ import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
 import libratech.models.EmailValidation;
+import libratech.models.PasswordValidation;
 import libratech.models.SchoolInfo;
 import libratech.models.getUID;
 
@@ -628,27 +629,32 @@ public class signup extends javax.swing.JFrame {
             } else {
                 if (validate.validate(email_address)) {
                     if (conpassword.equals(password)) {
-                        storage uploader = new storage(this.localFilePath, this.remoteFilePath);
-                        try {
-                            downloadUrl = uploader.upload();
-                            GlassPanePopup.showPopup(new loading());
-                        } catch (IOException ex) {
-                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        try {
-                            auth auth = new auth(email_address, password);
-                            authenticated = auth.signUp(school_name, school_id, downloadUrl);
-
-                            if (authenticated) {
-                                login login = new login();
-                                login.setVisible(true);
-                                GlassPanePopup.closePopupLast();
-                                this.dispose();
+                        if (new PasswordValidation().isValidPassword(password)) {
+                            storage uploader = new storage(this.localFilePath, this.remoteFilePath);
+                            try {
+                                downloadUrl = uploader.upload();
+                                GlassPanePopup.showPopup(new loading());
+                            } catch (IOException ex) {
+                                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (FirebaseAuthException ex) {
-                            Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                            try {
+                                auth auth = new auth(email_address, password);
+                                authenticated = auth.signUp(school_name, school_id, downloadUrl);
+
+                                if (authenticated) {
+                                    login login = new login();
+                                    login.setVisible(true);
+                                    GlassPanePopup.closePopupLast();
+                                    this.dispose();
+                                }
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (FirebaseAuthException ex) {
+                                Logger.getLogger(signup.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            GlassPanePopup.closePopupLast();
+                            JOptionPane.showMessageDialog(null, "Password must be less than 20 and more than 8 characters in length.\nPassword must have atleast one uppercase character\nPassword must have atleast one lowercase character\nPassword must have atleast one number\nPassword must have atleast one special character among @#$%", "Error", ERROR_MESSAGE);
                         }
                     } else {
                         GlassPanePopup.closePopupLast();
@@ -664,18 +670,17 @@ public class signup extends javax.swing.JFrame {
     }//GEN-LAST:event_myButtonborderless2ActionPerformed
 
 //     JFileChooser fileChooser = new JFileChooser();
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpeg", "jpg");
-//        fileChooser.setFileFilter(filter);
-//        int result = fileChooser.showOpenDialog(null);
-//
-//        if (result == JFileChooser.APPROVE_OPTION) {
-//            File selectedFile = fileChooser.getSelectedFile();
-//            this.localFilePath = selectedFile.getAbsolutePath();
-//            this.remoteFilePath = "logo/" + selectedFile.getName();
-//            filepath.setText(selectedFile.getAbsolutePath());
-//        }
-    
-    
+    //        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpeg", "jpg");
+    //        fileChooser.setFileFilter(filter);
+    //        int result = fileChooser.showOpenDialog(null);
+    //
+    //        if (result == JFileChooser.APPROVE_OPTION) {
+    //            File selectedFile = fileChooser.getSelectedFile();
+    //            this.localFilePath = selectedFile.getAbsolutePath();
+    //            this.remoteFilePath = "logo/" + selectedFile.getName();
+    //            filepath.setText(selectedFile.getAbsolutePath());
+    //        }
+
     private void schoolidKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_schoolidKeyTyped
         // TODO add your handling code here:
         char c = evt.getKeyChar();

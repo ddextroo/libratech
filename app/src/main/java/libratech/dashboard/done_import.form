@@ -40,7 +40,7 @@
               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Component id="confirmlabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="txt" min="-2" pref="95" max="-2" attributes="0"/>
+              <Component id="txt" min="-2" pref="137" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="exit" min="-2" pref="36" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>

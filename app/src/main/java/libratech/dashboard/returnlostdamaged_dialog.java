@@ -4,6 +4,13 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -15,28 +22,37 @@ import java.io.File;
 import java.util.HashMap;
 import javax.swing.SwingUtilities;
 import libratech.auth.splash;
+import libratech.books.inshelf.Book;
+import libratech.books.inshelf.StatusType;
 import libratech.design.GlassPanePopup;
 import libratech.design.RoundedPanel;
 import libratech.models.getUID;
+import libratech.models.pushValue;
 import libratech.models.pushValueExisting;
 
 /**
  *
  * @author Admin
  */
-public class returnlost_dialog extends javax.swing.JPanel {
+public class returnlostdamaged_dialog extends javax.swing.JPanel {
 
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private String barcode;
     private String type;
+    private ChildEventListener booksinfo;
+    private DatabaseReference book;
+    private int remaining_books;
+    private int lost_books;
+    private int damaged_books;
 
-    public returnlost_dialog(String barcode, String type) {
+    public returnlostdamaged_dialog(String barcode, String type) {
         initComponents();
         initFont();
         this.barcode = barcode;
         this.type = type;
         setOpaque(false);
+        userBookInfo();
     }
 
     @Override
@@ -47,6 +63,29 @@ public class returnlost_dialog extends javax.swing.JPanel {
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
         g2.dispose();
         super.paintComponent(graphics);
+    }
+
+    private void userBookInfo() {
+
+        book = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        book.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.getKey().equals(barcode)) {
+                        remaining_books = child.child("remaining_copies").getValue(Integer.class);
+                        lost_books = child.child("lost_books").getValue(Integer.class);
+                        damaged_books = child.child("damaged_books").getValue(Integer.class);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
     }
 
     /**
@@ -77,7 +116,7 @@ public class returnlost_dialog extends javax.swing.JPanel {
         });
 
         confirm.setForeground(new java.awt.Color(224, 224, 224));
-        confirm.setText("Confirm");
+        confirm.setText("Return");
         confirm.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         confirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,13 +204,15 @@ public class returnlost_dialog extends javax.swing.JPanel {
         if (type.equals("lost")) {
             v = new pushValueExisting(barcode);
             m = new HashMap<>();
-            m.put("lost_books", Integer.valueOf(quantity.getText()));
+            m.put("lost_books", lost_books + Integer.parseInt(quantity.getText()));
+            m.put("remaining_copies", remaining_books - Integer.parseInt(quantity.getText()));
             v.pushData("books/" + new getUID().getUid(), m);
             m.clear();
         } else {
             v = new pushValueExisting(barcode);
             m = new HashMap<>();
-            m.put("damaged_books", Integer.valueOf(quantity.getText()));
+            m.put("damaged_books", damaged_books + Integer.parseInt(quantity.getText()));
+            m.put("remaining_copies", remaining_books - Integer.parseInt(quantity.getText()));
             v.pushData("books/" + new getUID().getUid(), m);
             m.clear();
         }
@@ -184,10 +225,6 @@ public class returnlost_dialog extends javax.swing.JPanel {
 
     private void quantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
-            evt.consume();
-        }
     }//GEN-LAST:event_quantityKeyTyped
 
 

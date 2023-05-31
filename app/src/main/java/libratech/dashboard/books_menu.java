@@ -309,7 +309,7 @@ public class books_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new returnlost_dialog(book.getBarcode(), "lost"), option);
+                GlassPanePopup.showPopup(new returnlostdamaged_dialog(book.getBarcode(), "lost"), option);
             }
         };
 
@@ -382,7 +382,7 @@ public class books_menu extends javax.swing.JPanel {
                     }
 
                 };
-                GlassPanePopup.showPopup(new returnlost_dialog(book.getBarcode(), "damaged"), option);
+                GlassPanePopup.showPopup(new returnlostdamaged_dialog(book.getBarcode(), "damaged"), option);
             }
         };
 

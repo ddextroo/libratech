@@ -127,6 +127,7 @@ public class cartreturn extends javax.swing.JPanel {
     private pushValueExisting v;
     private pushValue v2;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    int rowc = 0;
 
     public cartreturn(String barcodeKey) {
         this.key = barcodeKey;
@@ -242,22 +243,21 @@ public class cartreturn extends javax.swing.JPanel {
     }
 
     private void deleteTransaction() {
+        transaction.child(key).removeValue(completionListener);
         home home = new home();
         home.setVisible(true);
-        home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel15.setBackground(Color.decode("#041C34"));
         home.jPanel10.setBackground(Color.decode("#041C34"));
-        home.jPanel18.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#0E2C4A"));
         home.jPanel20.setBackground(Color.decode("#041C34"));
         scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
-        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
-        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-fill.png");
         scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
         CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
         cardLayout.show(home.jPanel3, "user");
-        new user_menu().materialTabbed1.setSelectedIndex(2);
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(cartreturn.this);
         frame.dispose();
-        transaction.child(key).removeValue(completionListener);
     }
 
     private void retrieveDataBooksInfo() {
@@ -347,6 +347,10 @@ public class cartreturn extends javax.swing.JPanel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
+                System.out.println(dataSnapshot.getChildrenCount());
+                if (dataSnapshot.getChildrenCount() < 2) {
+                    deleteTransaction();
+                }
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     //if (key.equals(child.getKey())) {
                     try {
@@ -355,6 +359,10 @@ public class cartreturn extends javax.swing.JPanel {
                         due_date = child.child("due_date").getValue(String.class);
                         borrowed_date = child.child("borrowed_date").getValue(String.class);
                         idnom = child.child("idno").getValue(String.class);
+
+                        if (child.getKey().equals("idno")) {
+                            retrieveDataStudentInfo(child.getValue().toString());
+                        }
 
                         fines = child.child("fines").getValue(Double.class);
 
@@ -374,25 +382,17 @@ public class cartreturn extends javax.swing.JPanel {
                             m.clear();
                         }
                         if (!child.getKey().equals("idno")) {
-                            System.out.println(child.getKey());23
                             inshelfTable1.addRow(new Book(bookTitle, barcode, borrowed_date, due_date, (double) fine, idnom).toRowTableReturn(eventAction));
-                        } else {
-                            System.out.println(child.getKey());
                         }
                         columnData = inshelfTable1.getColumnData(1);
                         mod.fireTableDataChanged();
                         inshelfTable1.repaint();
                         inshelfTable1.revalidate();
-                        retrieveDataStudentInfo(idnom);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                if (mod.getRowCount() <= 0) {
-                    deleteTransaction();
-                }
                 //}
-
             }
 
             @Override
@@ -727,7 +727,7 @@ public class cartreturn extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(250, 250, 250));
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Done");
+        cancel.setText("Delete");
         cancel.setPreferredSize(new java.awt.Dimension(102, 23));
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

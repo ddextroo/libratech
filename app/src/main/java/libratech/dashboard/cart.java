@@ -367,7 +367,7 @@ public class cart extends javax.swing.JPanel {
                     m.put("idno", idnum);
                     v2.pushData("borrowerlist/" + new getUID().getUid(), m);
                     m.clear();
-                    v = new pushValueExisting(key + "/" + child.child("book_key").getValue(String.class));
+                    v = new pushValueExisting(child.child("book_key").getValue(String.class));
                     m = new HashMap<>();
                     m.put("idno", idnum);
                     m.put("fines", 0);
@@ -375,7 +375,7 @@ public class cart extends javax.swing.JPanel {
                     m.put("book_key", child.child("book_key").getValue(String.class));
                     m.put("due_date", child.child("due_date").getValue(String.class));
                     m.put("borrowed_date", child.child("borrowed_date").getValue(String.class));
-                    v.pushData("borrowerlist/" + new getUID().getUid(), m);
+                    v.pushData("borrowerlist/" + new getUID().getUid() + "/" + key, m);
                     m.clear();
                 }
 

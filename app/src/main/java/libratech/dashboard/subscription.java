@@ -14,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import libratech.design.GlassPanePopup;
 
 /**
  *
@@ -75,7 +76,7 @@ public class subscription extends javax.swing.JPanel {
         txt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Close");
+        cancel.setText("Exit");
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
@@ -115,7 +116,7 @@ public class subscription extends javax.swing.JPanel {
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        GlassPanePopup.showPopup(new logout_dialog());
     }//GEN-LAST:event_cancelActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed

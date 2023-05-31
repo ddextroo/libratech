@@ -93,7 +93,7 @@ public class done_import extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(confirmlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
@@ -126,7 +126,7 @@ public class done_import extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         confirmlabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        txt.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        txt.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         exit.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -60,18 +61,22 @@ public class home extends javax.swing.JFrame {
     private DatabaseReference dbRef;
     private DatabaseReference dbRef1;
     private DatabaseReference dbRef2;
+    private DatabaseReference dbRef3;
     String durl = "";
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private HashMap<String, Object> m;
     private pushValueExisting v;
     private ValueEventListener data;
     private ValueEventListener data2;
     private ValueEventListener data3;
+    private ValueEventListener data4;
     private int days_limit;
     private int overdue_books;
     private int penalties;
     private String childtemp;
     private String childtemp2;
+    String tempID;
 
     public home() {
         initComponents();
@@ -90,6 +95,15 @@ public class home extends javax.swing.JFrame {
         this.setIconImage(icon1.getImage());
         new firebaseInit().initFirebase();
         GlassPanePopup.install(this);
+
+        LocalDate currentDate = LocalDate.now();
+        String currentDateString = currentDate.format(formatter);
+
+        v = new pushValueExisting(new getUID().getUid());
+        m = new HashMap<>();
+        m.put("subscription_date", currentDateString);
+        v.pushData("users", m);
+        m.clear();
 
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
@@ -163,6 +177,30 @@ public class home extends javax.swing.JFrame {
                                                 calendar.add(Calendar.DAY_OF_YEAR, days_limit);
                                                 Date DaysLater = calendar.getTime();
 
+                                                tempID = child.child("idno").getValue(String.class);
+
+                                                dbRef3 = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
+                                                dbRef3.addValueEventListener(data4 = new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                                            System.out.println(tempID);
+                                                            System.out.println(child.getKey());
+                                                            if (child.getKey().equals(tempID)) {
+                                                                System.out.println(child.child("penalties").getValue(Integer.class));
+                                                                penalties = child.child("penalties").getValue(Integer.class);
+                                                                break;
+                                                            }
+                                                        }
+                                                        dbRef3.removeEventListener(data4);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+                                                        System.out.println("Error: " + databaseError.getMessage());
+                                                    }
+                                                });
+
                                                 if (borrowed.after(DaysLater)) {
                                                     v = new pushValueExisting(child.child("idno").getValue(String.class));
                                                     m = new HashMap<>();
@@ -211,9 +249,6 @@ public class home extends javax.swing.JFrame {
                         idnum.setText(_childValue.get("school_id").toString());
                         durl = _childValue.get("url").toString();
                         days_limit = Integer.parseInt(_childValue.get("days_limit").toString());
-                        if (_childValue.containsKey("penalties")) {
-                            penalties = Integer.parseInt(_childValue.get("penalties").toString());
-                        }
 
                         Timer timer = new Timer(500, e -> {
                             try {
@@ -246,21 +281,26 @@ public class home extends javax.swing.JFrame {
                             public Color background() {
                                 return new Color(33, 33, 33);
                             }
-
                         };
-                        String subscriptionDateString = _childValue.get("subscription_date").toString();
-                        String limitDateString = _childValue.get("limit").toString();
-
-                        LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString);
-                        LocalDate limitDate = LocalDate.parse(limitDateString);
-
-                        LocalDate currentDate = LocalDate.now();
-
                         if (_childValue.get("status").toString().equals("Pending")) {
                             GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
                         }
 
-                        if (currentDate.isAfter(limitDate)) {
+                        System.out.println(_childValue.get("subscription_date").toString());
+                        System.out.println(_childValue.get("limit_date").toString());
+
+                        String subscriptionDateString = _childValue.get("subscription_date").toString();
+                        String limitDateString = _childValue.get("limit_date").toString();
+
+                        //LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString);
+                        LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString, formatter);
+
+                        //LocalDate limitDate = LocalDate.parse(limitDateString);
+                        LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
+
+                        LocalDate currentDate = LocalDate.now();
+
+                        if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("status", "Pending");
@@ -270,11 +310,13 @@ public class home extends javax.swing.JFrame {
                                 GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
                             } else {
                                 LocalDate newDate = subscriptionDate.plusMonths(1);
+                                String newDateString = newDate.format(formatter);
+                                String currentDateString = currentDate.format(formatter);
                                 v = new pushValueExisting(_childKey);
                                 m = new HashMap<>();
-                                m.put("limit", newDate.toString());
-                                m.put("subscription_date", currentDate);
-                                v.pushData("users/" + new getUID().getUid(), m);
+                                m.put("limit_date", newDateString);
+                                m.put("subscription_date", currentDateString);
+                                v.pushData("users", m);
                                 m.clear();
                             }
                         }
@@ -297,6 +339,7 @@ public class home extends javax.swing.JFrame {
                     school_n.setText(_childValue.get("school_name").toString());
                     idnum.setText(_childValue.get("school_id").toString());
                     durl = _childValue.get("url").toString();
+                    days_limit = Integer.parseInt(_childValue.get("days_limit").toString());
 
                     Timer timer = new Timer(500, e -> {
                         try {
@@ -314,6 +357,28 @@ public class home extends javax.swing.JFrame {
                     });
                     timer.setRepeats(false);
                     timer.start();
+
+                    Option option = new DefaultOption() {
+                        @Override
+                        public float opacity() {
+                            return 0.6f;
+                        }
+
+                        @Override
+                        public boolean closeWhenClickOutside() {
+                            return false;
+                        }
+
+                        @Override
+                        public Color background() {
+                            return new Color(33, 33, 33);
+                        }
+
+                    };
+
+                    if (_childValue.get("status").toString().equals("Pending")) {
+                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
+                    }
                 }
             }
 

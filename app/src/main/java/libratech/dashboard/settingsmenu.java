@@ -57,6 +57,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -100,46 +102,46 @@ public class settingsmenu extends javax.swing.JPanel {
         SimpleAttributeSet paragraphAttributes = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributes, StyleConstants.ALIGN_JUSTIFIED);
         doc.setParagraphAttributes(0, doc.getLength(), paragraphAttributes, false);
-        
+
         try {
             doc.insertString(0, libratech.getText(), null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-        
+
         StyledDocument docmission = mission.getStyledDocument();
         mission.setStyledDocument(docmission);
 
         SimpleAttributeSet paragraphAttributesmission = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesmission, StyleConstants.ALIGN_JUSTIFIED);
         docmission.setParagraphAttributes(0, docmission.getLength(), paragraphAttributesmission, false);
-        
+
         try {
             docmission.insertString(0, mission.getText(), null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-        
+
         StyledDocument docvision = vision.getStyledDocument();
         vision.setStyledDocument(docvision);
 
         SimpleAttributeSet paragraphAttributesvision = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesvision, StyleConstants.ALIGN_JUSTIFIED);
         docvision.setParagraphAttributes(0, docvision.getLength(), paragraphAttributesvision, false);
-        
+
         try {
             docmission.insertString(0, vision.getText(), null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-        
+
         StyledDocument docgoals = goals.getStyledDocument();
         goals.setStyledDocument(docgoals);
 
         SimpleAttributeSet paragraphAttributesgoals = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesgoals, StyleConstants.ALIGN_JUSTIFIED);
         docgoals.setParagraphAttributes(0, docgoals.getLength(), paragraphAttributesgoals, false);
-        
+
         try {
             docmission.insertString(0, goals.getText(), null);
         } catch (BadLocationException e) {
@@ -1585,64 +1587,69 @@ public class settingsmenu extends javax.swing.JPanel {
 
             };
             GlassPanePopup.showPopup(new loading(), option);
-            File selectedFile = fileChooser.getSelectedFile();
-            this.localFilePath = selectedFile.getAbsolutePath();
-            this.remoteFilePath = "cover/" + selectedFile.getName();
-            StringBuilder jsonContent = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    jsonContent.append(line);
+
+            Timer timer = new Timer(1000, e -> {
+                File selectedFile = fileChooser.getSelectedFile();
+                this.localFilePath = selectedFile.getAbsolutePath();
+                this.remoteFilePath = "cover/" + selectedFile.getName();
+                StringBuilder jsonContent = new StringBuilder();
+                try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        jsonContent.append(line);
+                    }
+                } catch (IOException ee) {
+                    ee.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Map<String, Object>>>() {
-            }.getType();
-            List<Map<String, Object>> data = gson.fromJson(jsonContent.toString(), listType);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Map<String, Object>>>() {
+                }.getType();
+                List<Map<String, Object>> data = gson.fromJson(jsonContent.toString(), listType);
 
-            System.out.println(new Gson().toJson(data));
+                System.out.println(new Gson().toJson(data));
 
-            for (int count = 0; count < data.size(); count++) {
-                mtest = data.get(count);
-                String bcode = (String) mtest.get("barcode");
-                v = new pushValueExisting(bcode);
-                m = new HashMap<>();
-                m.put("booktitle", mtest.get("booktitle"));
-                m.put("bookauthor", mtest.get("bookauthor"));
-                m.put("publisher", mtest.get("publisher"));
-                m.put("isbn", mtest.get("isbn"));
-                m.put("classification_code", mtest.get("classification_code"));
-                m.put("barcode", mtest.get("barcode"));
-                m.put("classification_pos", Integer.valueOf((String) mtest.get("classification_pos")));
-                m.put("classification", mtest.get("classification"));
-                m.put("date", mtest.get("date"));
-                m.put("copies", Integer.valueOf((String) mtest.get("copies")));
-                m.put("edition", mtest.get("edition"));
-                m.put("shelf", mtest.get("shelf"));
-                m.put("deck", mtest.get("deck"));
-                m.put("key", mtest.get("key"));
-                m.put("status", mtest.get("status"));
-                m.put("timestamp", mtest.get("timestamp"));
-                m.put("remaining_copies", Integer.valueOf((String) mtest.get("remaining_copies")));
-                m.put("price", Integer.valueOf((String) mtest.get("price")));
-                m.put("cover", mtest.get("cover"));
-                m.put("borrowed_books", Integer.valueOf((String) mtest.get("borrowed_books")));
-                m.put("overdue_books", Integer.valueOf((String) mtest.get("overdue_books")));
-                m.put("lost_books", Integer.valueOf((String) mtest.get("lost_books")));
-                m.put("damaged_books", Integer.valueOf((String) mtest.get("damaged_books")));
-                v.pushData("books/" + new getUID().getUid(), m);
-                m.clear();
+                for (int count = 0; count < data.size(); count++) {
+                    mtest = data.get(count);
+                    String bcode = (String) mtest.get("barcode");
+                    v = new pushValueExisting(bcode);
+                    m = new HashMap<>();
+                    m.put("booktitle", mtest.get("booktitle"));
+                    m.put("bookauthor", mtest.get("bookauthor"));
+                    m.put("publisher", mtest.get("publisher"));
+                    m.put("isbn", mtest.get("isbn"));
+                    m.put("classification_code", mtest.get("classification_code"));
+                    m.put("barcode", mtest.get("barcode"));
+                    m.put("classification_pos", Integer.valueOf((String) mtest.get("classification_pos")));
+                    m.put("classification", mtest.get("classification"));
+                    m.put("date", mtest.get("date"));
+                    m.put("copies", Integer.valueOf((String) mtest.get("copies")));
+                    m.put("edition", mtest.get("edition"));
+                    m.put("shelf", mtest.get("shelf"));
+                    m.put("deck", mtest.get("deck"));
+                    m.put("key", mtest.get("key"));
+                    m.put("status", mtest.get("status"));
+                    m.put("timestamp", mtest.get("timestamp"));
+                    m.put("remaining_copies", Integer.valueOf((String) mtest.get("remaining_copies")));
+                    m.put("price", Double.valueOf((String) mtest.get("price")));
+                    m.put("cover", mtest.get("cover"));
+                    m.put("borrowed_books", Integer.valueOf((String) mtest.get("borrowed_books")));
+                    m.put("overdue_books", Integer.valueOf((String) mtest.get("overdue_books")));
+                    m.put("lost_books", Integer.valueOf((String) mtest.get("lost_books")));
+                    m.put("damaged_books", Integer.valueOf((String) mtest.get("damaged_books")));
+                    v.pushData("books/" + new getUID().getUid(), m);
+                    m.clear();
 
-                try {
-                    TimeUnit.SECONDS.sleep(1); // Delay for 1 second
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        TimeUnit.SECONDS.sleep(1); // Delay for 1 second
+                    } catch (InterruptedException ee) {
+                        ee.printStackTrace();
+                    }
                 }
-            }
-            GlassPanePopup.closePopupLast();
-            GlassPanePopup.showPopup(new done_import());
+                GlassPanePopup.closePopupLast();
+                GlassPanePopup.showPopup(new done_import());
+            });
+            timer.setRepeats(false);
+            timer.start();
         }
     }//GEN-LAST:event_myButtonborderless5ActionPerformed
 
