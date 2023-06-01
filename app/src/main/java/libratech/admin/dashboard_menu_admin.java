@@ -41,21 +41,10 @@ import libratech.util.firebaseInit;
  */
 public class dashboard_menu_admin extends javax.swing.JPanel {
 
-//    private ChildEventListener inshelf_total;
-//    private ChildEventListener borrow_total;
-//    private ChildEventListener overdue_total;
-//    private ChildEventListener lost_total;
-//    private ChildEventListener damaged_total;
     private ChildEventListener student_total;
 
-//    private final String inshelf_path = "analytics/" + new getUID().getUid() + "/";
-//    private final DatabaseReference inshelf_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
-//    private final DatabaseReference borrow_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
-//    private final DatabaseReference overdue_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
-//    private final DatabaseReference lost_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
-//    private final DatabaseReference damaged_db = FirebaseDatabase.getInstance().getReference(inshelf_path);
     private DatabaseReference dbRef;
-    private final String student_path = "users/";
+    private final String student_path = "analytics/" + new getUID().getUid() + "/";
     private final DatabaseReference student_db = FirebaseDatabase.getInstance().getReference(student_path);
     private List<ModelPieChart> pieChartDataList = new ArrayList<>();
     private HashMap<String, Object> m;
@@ -65,250 +54,10 @@ public class dashboard_menu_admin extends javax.swing.JPanel {
         initComponents();
         initFont();
         new firebaseInit().initFirebase();
-//        totalInshelf();
-//        totalBorrow();
-//        totalOverdue();
-//        totalLost();
-//        totalDamaged();
         user_chart();
-        totalUsers();
     }
 
-//    private void totalInshelf() {
-//        inshelf_total = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.contains("inshelf")) {
-////                    inshelf.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.contains("inshelf")) {
-//                    inshelf.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        inshelf_db.addChildEventListener(inshelf_total);
-//    }
-//
-//    private void totalBorrow() {
-//        borrow_total = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.contains("borrowed")) {
-//                    borrowedbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.contains("borrowed")) {
-//                    borrowedbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        borrow_db.addChildEventListener(borrow_total);
-//    }
-//
-//    private void totalOverdue() {
-//        overdue_total = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.contains("overdue")) {
-//                    overduebooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.contains("overdue")) {
-//                    overduebooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        overdue_db.addChildEventListener(overdue_total);
-//    }
-//
-//    private void totalLost() {
-//        lost_total = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.contains("lost")) {
-//                    lostbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.contains("lost")) {
-//                    lostbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        lost_db.addChildEventListener(lost_total);
-//    }
-//
-//    private void totalDamaged() {
-//        damaged_total = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = dataSnapshot.getKey();
-//                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-//                if (_childKey.contains("damaged")) {
-//                    damagedbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot ds, String string) {
-//                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
-//                };
-//                final String _childKey = ds.getKey();
-//                final HashMap<String, Object> _childValue = ds.getValue(_ind);
-//                if (_childKey.contains("damaged")) {
-//                    damagedbooks.setText(_childValue.get("total").toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot ds) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot ds, String string) {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        };
-//        damaged_db.addChildEventListener(damaged_total);
-//    }
-    private void totalUsers() {
-        dbRef = FirebaseDatabase.getInstance().getReference("users/");
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    v = new pushValueExisting("approved");
-                    m = new HashMap<>();
-                    m.put("total", dataSnapshot.getChildren());
-                    v.pushData("analytics/" + new getUID().getUid() + "/", m);
-                    m.clear();
-                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void user_chart() {
+     private void user_chart() {
         pieChart1.setChartType(PieChart.PeiChartType.DEFAULT);
         student_total = new ChildEventListener() {
             @Override
@@ -317,11 +66,12 @@ public class dashboard_menu_admin extends javax.swing.JPanel {
                 };
                 final String _childKey = dataSnapshot.getKey();
                 final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
-                int count = 0;
-                System.out.println(count);
-                count++;
-                pieChartDataList.add(new ModelPieChart("Approved", Integer.parseInt(_childValue.get("total").toString()), new Color(0, 128, 0)));
-                pieChartDataList.add(new ModelPieChart("Pending", Integer.parseInt(_childValue.get("total").toString()), new Color(221, 65, 65)));
+                if (_childKey.contains("approved")) {
+                    pieChartDataList.add(new ModelPieChart("Approved", Integer.parseInt(_childValue.get("total").toString()), new Color(0, 128, 0)));
+                }
+                if (_childKey.contains("pending")) {
+                    pieChartDataList.add(new ModelPieChart("Pending", Integer.parseInt(_childValue.get("total").toString()), new Color(255, 255, 0)));
+                }
                 pieChart1.setData(pieChartDataList);
             }
 
@@ -336,7 +86,7 @@ public class dashboard_menu_admin extends javax.swing.JPanel {
                 };
                 final String _childKey = ds.getKey();
                 final HashMap<String, Object> _childValue = ds.getValue(_ind);
-                if (_childKey.contains("Approved")) {
+                if (_childKey.contains("approved")) {
                     for (ModelPieChart data : pieChartDataList) {
                         if (data.getName().equals("Approved")) {
                             data.setValues(Integer.parseInt(_childValue.get("total").toString()));
@@ -344,7 +94,7 @@ public class dashboard_menu_admin extends javax.swing.JPanel {
                         }
                     }
                 }
-                if (_childKey.contains("Pending")) {
+                if (_childKey.contains("pending")) {
                     // Find the existing "Restricted" data in the list and update it
                     for (ModelPieChart data : pieChartDataList) {
                         if (data.getName().equals("Pending")) {

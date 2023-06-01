@@ -31,6 +31,7 @@ import libratech.design.RoundedPanelBorderless;
 import libratech.models.Dashboard.*;
 import libratech.util.firebaseInit;
 import java.util.Calendar;
+import javax.swing.SwingUtilities;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.StatusType;
 import libratech.design.DefaultOption;
@@ -95,15 +96,6 @@ public class home extends javax.swing.JFrame {
         this.setIconImage(icon1.getImage());
         new firebaseInit().initFirebase();
         GlassPanePopup.install(this);
-
-        LocalDate currentDate = LocalDate.now();
-        String currentDateString = currentDate.format(formatter);
-
-        v = new pushValueExisting(new getUID().getUid());
-        m = new HashMap<>();
-        m.put("subscription_date", currentDateString);
-        v.pushData("users", m);
-        m.clear();
 
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
@@ -286,14 +278,7 @@ public class home extends javax.swing.JFrame {
                             GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
                         }
 
-                        System.out.println(_childValue.get("subscription_date").toString());
-                        System.out.println(_childValue.get("limit_date").toString());
-
-                        String subscriptionDateString = _childValue.get("subscription_date").toString();
                         String limitDateString = _childValue.get("limit_date").toString();
-
-                        //LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString);
-                        LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString, formatter);
 
                         //LocalDate limitDate = LocalDate.parse(limitDateString);
                         LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
@@ -301,23 +286,35 @@ public class home extends javax.swing.JFrame {
                         LocalDate currentDate = LocalDate.now();
 
                         if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
-                            v = new pushValueExisting(_childKey);
+                            v = new pushValueExisting(new getUID().getUid());
                             m = new HashMap<>();
                             m.put("status", "Pending");
-                            v.pushData("users/" + new getUID().getUid(), m);
+                            v.pushData("users", m);
                             m.clear();
                             if (_childValue.get("status").toString().equals("Pending")) {
                                 GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                            } else {
-                                LocalDate newDate = subscriptionDate.plusMonths(1);
+                            } else if (_childValue.get("status").toString().equals("Approved")) {
+                                LocalDate newDate = currentDate.plusMonths(1);
                                 String newDateString = newDate.format(formatter);
-                                String currentDateString = currentDate.format(formatter);
                                 v = new pushValueExisting(_childKey);
                                 m = new HashMap<>();
                                 m.put("limit_date", newDateString);
-                                m.put("subscription_date", currentDateString);
                                 v.pushData("users", m);
                                 m.clear();
+                                home home = new home();
+                                home.setVisible(true);
+                                home.jPanel15.setBackground(Color.decode("#041C34"));
+                                home.jPanel10.setBackground(Color.decode("#0E2C4A"));
+                                home.jPanel18.setBackground(Color.decode("#041C34"));
+                                home.jPanel20.setBackground(Color.decode("#041C34"));
+                                scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-fill.png");
+                                scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-line.png");
+                                scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+                                scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+                                CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+                                cardLayout.show(home.jPanel3, "dashboard");
+                                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(home.this);
+                                frame.dispose();
                             }
                         }
                     }
@@ -379,6 +376,7 @@ public class home extends javax.swing.JFrame {
                     if (_childValue.get("status").toString().equals("Pending")) {
                         GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
                     }
+
                 }
             }
 

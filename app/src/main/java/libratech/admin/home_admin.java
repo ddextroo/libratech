@@ -18,6 +18,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
@@ -61,19 +62,19 @@ public class home_admin extends javax.swing.JFrame {
     private retrieveInfo listener = new retrieveInfo();
     ImageScaler scaler = new ImageScaler();
     dashboard_menu_admin dashboard_menu = new dashboard_menu_admin();
-//    books_menu book_menu = new books_menu();
     user_menu_admin user_menu = new user_menu_admin();
-//    settingsmenu setting_menu = new settingsmenu();
     private String uid;
     private ChildEventListener accinfo;
     private final String path = "users/";
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private DatabaseReference dbRef;
     private DatabaseReference dbRef1;
     String durl = "";
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
     private HashMap<String, Object> m;
     private pushValueExisting v;
+    private int days_limit;
 
     public home_admin() {
         initComponents();
@@ -95,13 +96,10 @@ public class home_admin extends javax.swing.JFrame {
 
         scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
         scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
-//        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
         scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
-//        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
         updateInfo();
-//        updateBooks();
     }
 
     private void updateInfo() {
@@ -117,23 +115,22 @@ public class home_admin extends javax.swing.JFrame {
                         school_n.setText(_childValue.get("school_name").toString());
                         idnum.setText(_childValue.get("school_id").toString());
                         durl = _childValue.get("url").toString();
-
-                        Timer timer = new Timer(500, e -> {
-                            try {
-                                GlassPanePopup.showPopup(new loading());
-                                URL url1 = new URL(durl);
-                                BufferedImage image1 = ImageIO.read(url1);
-                                ImageIcon icon = new ImageIcon(image1);
-                                imageAvatar1.setIcon(icon);
-                                GlassPanePopup.closePopupLast();
-                            } catch (MalformedURLException ex) {
-                                Logger.getLogger(home_admin.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (IOException ex) {
-                                Logger.getLogger(home_admin.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        });
-                        timer.setRepeats(false);
-                        timer.start();
+                        //Timer timer = new Timer(500, e -> {
+                        try {
+                            GlassPanePopup.showPopup(new loading());
+                            URL url1 = new URL(durl);
+                            BufferedImage image1 = ImageIO.read(url1);
+                            ImageIcon icon = new ImageIcon(image1);
+                            imageAvatar1.setIcon(icon);
+                            GlassPanePopup.closePopupLast();
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+//                        });
+//                        timer.setRepeats(false);
+//                        timer.start();
                         Option option = new DefaultOption() {
                             @Override
                             public float opacity() {
@@ -149,35 +146,33 @@ public class home_admin extends javax.swing.JFrame {
                             public Color background() {
                                 return new Color(33, 33, 33);
                             }
-
                         };
-                        String subscriptionDateString = _childValue.get("subscription_date").toString();
-                        String limitDateString = _childValue.get("limit").toString();
-
-                        LocalDate subscriptionDate = LocalDate.parse(subscriptionDateString);
-                        LocalDate limitDate = LocalDate.parse(limitDateString);
-
-                        LocalDate currentDate = LocalDate.now();
-
                         if (_childValue.get("status").toString().equals("Pending")) {
                             GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
                         }
 
-                        if (currentDate.isAfter(limitDate)) {
+                        String limitDateString = _childValue.get("limit_date").toString();
+
+                        //LocalDate limitDate = LocalDate.parse(limitDateString);
+                        LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
+
+                        LocalDate currentDate = LocalDate.now();
+
+                        if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("status", "Pending");
-                            v.pushData("users/" + new getUID().getUid(), m);
+                            v.pushData("users", m);
                             m.clear();
                             if (_childValue.get("status").toString().equals("Pending")) {
                                 GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                            } else {
-                                LocalDate newDate = subscriptionDate.plusMonths(1);
+                            } else if (_childValue.get("status").toString().equals("Approved")) {
+                                LocalDate newDate = currentDate.plusMonths(1);
+                                String newDateString = newDate.format(formatter);
                                 v = new pushValueExisting(_childKey);
                                 m = new HashMap<>();
-                                m.put("limit", newDate.toString());
-                                m.put("subscription_date", currentDate);
-                                v.pushData("users/" + new getUID().getUid(), m);
+                                m.put("limit_date", newDateString);
+                                v.pushData("users", m);
                                 m.clear();
                             }
                         }
@@ -210,13 +205,35 @@ public class home_admin extends javax.swing.JFrame {
                             imageAvatar1.setIcon(icon);
                             GlassPanePopup.closePopupLast();
                         } catch (MalformedURLException ex) {
-                            Logger.getLogger(home_admin.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
-                            Logger.getLogger(home_admin.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     });
                     timer.setRepeats(false);
                     timer.start();
+
+                    Option option = new DefaultOption() {
+                        @Override
+                        public float opacity() {
+                            return 0.6f;
+                        }
+
+                        @Override
+                        public boolean closeWhenClickOutside() {
+                            return false;
+                        }
+
+                        @Override
+                        public Color background() {
+                            return new Color(33, 33, 33);
+                        }
+
+                    };
+
+                    if (_childValue.get("status").toString().equals("Pending")) {
+                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
+                    }
                 }
             }
 
@@ -378,8 +395,8 @@ public class home_admin extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -425,9 +442,9 @@ public class home_admin extends javax.swing.JFrame {
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -542,7 +559,7 @@ public class home_admin extends javax.swing.JFrame {
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new logout_dialog());
+        GlassPanePopup.showPopup(new logout_admin_dialog());
 //        splash splash = new splash();
 //        String filePath = "uid.txt";
 //        File file = new File(filePath);

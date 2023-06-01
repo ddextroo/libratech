@@ -20,11 +20,11 @@ import libratech.design.GlassPanePopup;
  *
  * @author Carocoy
  */
-public class logout_dialog extends javax.swing.JPanel {
+public class logout_admin_dialog extends javax.swing.JPanel {
 
     private String type;
 
-    public logout_dialog() {
+    public logout_admin_dialog() {
         initComponents();
         this.type = type;
         setOpaque(false);
@@ -122,7 +122,7 @@ public class logout_dialog extends javax.swing.JPanel {
         File file = new File(filePath);
         String filePath1 = "remember.txt";
         File file1 = new File(filePath1);
-        home home = (home) SwingUtilities.getWindowAncestor(logout_dialog.this);
+        home_admin home = (home_admin) SwingUtilities.getWindowAncestor(logout_admin_dialog.this);
 
         if (file.exists()) {
             boolean deleted = file.delete();

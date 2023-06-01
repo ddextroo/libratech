@@ -2,6 +2,6 @@
 package libratech.user.students;
 
 public enum StatusTypeStudent {
-    Active, Restricted, Pending
+    Active, Restricted, Pending, Approved
 }
 

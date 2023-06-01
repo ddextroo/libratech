@@ -12,8 +12,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
@@ -36,9 +41,9 @@ public class user_menu_admin extends javax.swing.JPanel {
 
     private List<Student> students;
     private DatabaseReference dbRef;
-    private DatabaseReference dbRef2;
+    private DatabaseReference dbRef1;
     DefaultTableModel mod;
-    DefaultTableModel mod2;
+    DefaultTableModel mod1;
     private String path = "analytics/" + new getUID().getUid() + "/";
     private DatabaseReference analytics = FirebaseDatabase.getInstance().getReference(path);
     private HashMap<String, Object> m;
@@ -49,17 +54,109 @@ public class user_menu_admin extends javax.swing.JPanel {
         initComponents();
         initFont();
         this.mod = (DefaultTableModel) studentTable1.getModel();
-        this.mod2 = (DefaultTableModel) studentTable2.getModel();
+        this.mod1 = (DefaultTableModel) studentTable2.getModel();
         new firebaseInit().initFirebase();
         studentTable1.fixTable(jScrollPane2);
-        studentTable2.fixTable(jScrollPane4);
-        retrieveDataGeneral();
-        retrieveDataRestricted();
-//        scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
-
+        studentTable2.fixTable(jScrollPane3);
+        retrieveDataApproved();
+        retrieveDataPending();
     }
 
-    private void retrieveDataGeneral() {
+    private void retrieveDataPending() {
+        // Fetch data from Firebase and create table
+        EventActionStudent eventAction = new EventActionStudent() {
+
+            @Override
+            public void update(Student student) {
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new change_status_admin(student.getUID()), option, "change");
+            }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("users/");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod.setRowCount(0);
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.child("status").getValue(String.class).equals("Pending")) {
+                        String key = child.child("uid").getValue(String.class);
+                        String email = child.child("email").getValue(String.class);
+                        String school_name = child.child("school_name").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+                        String date1 = child.child("limit_date").getValue(String.class);
+                        Date dueDate = null;
+                        try {
+                            dueDate = dateFormat.parse(date1);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(user_menu_admin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        Date date = new Date();
+
+                        long differenceInMilliseconds = date.getTime() - dueDate.getTime();
+                        long days_remaining = Math.abs(differenceInMilliseconds / (24 * 60 * 60 * 1000));
+
+                        TableStatusStudent statust = new TableStatusStudent();
+
+                        if (status.equals("Pending")) {
+                            statust.setType(StatusTypeStudent.Pending);
+                            days_remaining = 0;
+                        } else if (status.equals("Approved")) {
+                            statust.setType(StatusTypeStudent.Approved);
+                        }
+
+                        studentTable1.addRow(new Student(school_name, key, email, days_remaining, statust.getType()).toRowTablePromptUsers(eventAction));
+                        new Student().setUID(key);
+                        mod.fireTableDataChanged();
+                        studentTable1.repaint();
+                        studentTable1.revalidate();
+                    }
+                    v = new pushValue("pending");
+                    m = new HashMap<>();
+                    m.put("total", mod.getRowCount());
+                    v.pushData(path, m);
+                    m.clear();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+    private void retrieveDataApproved() {
         // Fetch data from Firebase and create table
         EventActionStudent eventAction = new EventActionStudent() {
 
@@ -97,102 +194,54 @@ public class user_menu_admin extends javax.swing.JPanel {
             }
         };
 
-        dbRef = FirebaseDatabase.getInstance().getReference("users/");
-        dbRef.addValueEventListener(new ValueEventListener() {
+        dbRef1 = FirebaseDatabase.getInstance().getReference("users/");
+        dbRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("aagaaaa");
-                mod.setRowCount(0);
+                mod1.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("status")) {
+                    if (child.child("status").getValue(String.class).equals("Approved")) {
                         String key = child.child("uid").getValue(String.class);
-                        String email = child.child("school_name").getValue(String.class);
-                        String IDnumber = child.child("school_id").getValue(String.class);
-
-                        studentTable1.addRow(new Student(email, IDnumber, StatusTypeStudent.Active).toRowTable(eventAction));
-                        new Student().setIDnumber(key);
-                        mod.fireTableDataChanged();
-                        studentTable1.repaint();
-                        studentTable1.revalidate();
-                    }
-                }
-                v = new pushValue("approved");
-                m = new HashMap<>();
-                m.put("total", mod.getRowCount());
-                v.pushData(path, m);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void retrieveDataRestricted() {
-        // Fetch data from Firebase and create table
-        EventActionStudent eventAction = new EventActionStudent() {
-
-            @Override
-            public void update(Student student) {
-                System.out.println("Ck: " + student.getIDnumber());
-                Option option = new DefaultOption() {
-                    @Override
-                    public float opacity() {
-                        return 0.6f;
-                    }
-
-                    @Override
-                    public boolean closeWhenClickOutside() {
-                        return false;
-                    }
-
-                    @Override
-                    public Color background() {
-                        return new Color(33, 33, 33);
-                    }
-
-                };
-                GlassPanePopup.showPopup(new clear_penalties(student.getIDnumber()), option, "clear");
-            }
-
-            @Override
-            public void selectIDNumber(String idNumber) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-
-            @Override
-            public String getSelectedIDNumber() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        };
-
-        dbRef2 = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
-        dbRef2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mod2.setRowCount(0);
-
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) >= 3) {
-                        String key = child.child("idno").getValue(String.class);
                         String email = child.child("email").getValue(String.class);
-                        String IDnumber = child.child("idno").getValue(String.class);
+                        String school_name = child.child("school_name").getValue(String.class);
+                        String status = child.child("status").getValue(String.class);
 
-                        studentTable2.addRow(new Student(email, IDnumber, StatusTypeStudent.Restricted).toRowTable(eventAction));
-                        new Student().setIDnumber(key);
-                        mod.fireTableDataChanged();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+                        String date1 = child.child("limit_date").getValue(String.class);
+                        Date dueDate = null;
+                        try {
+                            dueDate = dateFormat.parse(date1);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(user_menu_admin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        Date date = new Date();
+
+                        long differenceInMilliseconds = date.getTime() - dueDate.getTime();
+                        long days_remaining = Math.abs(differenceInMilliseconds / (24 * 60 * 60 * 1000));
+
+                        TableStatusStudent statust = new TableStatusStudent();
+
+                        if (status.equals("Pending")) {
+                            statust.setType(StatusTypeStudent.Pending);
+                            days_remaining = 0;
+                        } else if (status.equals("Approved")) {
+                            statust.setType(StatusTypeStudent.Approved);
+                        }
+
+                        studentTable2.addRow(new Student(school_name, key, email, days_remaining, statust.getType()).toRowTablePromptUsers(eventAction));
+                        new Student().setUID(key);
+                        mod1.fireTableDataChanged();
                         studentTable2.repaint();
                         studentTable2.revalidate();
                     }
+                    v = new pushValue("approved");
+                    m = new HashMap<>();
+                    m.put("total", mod1.getRowCount());
+                    v.pushData(path, m);
+                    m.clear();
                 }
-                v = new pushValue("restricted");
-                m = new HashMap<>();
-                m.put("total", mod2.getRowCount());
-                v.pushData(path, m);
-
             }
 
             @Override
@@ -217,13 +266,12 @@ public class user_menu_admin extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         userslabel = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
+        materialTabbed1 = new libratech.design.MaterialTabbed();
         jScrollPane2 = new javax.swing.JScrollPane();
-        studentTable1 = new libratech.user.students.studentTable();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        studentTable2 = new libratech.user.students.studentTable();
+        studentTable1 = new libratech.user.students.adminUserTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        studentTable2 = new libratech.user.students.adminUserTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -261,27 +309,52 @@ public class user_menu_admin extends javax.swing.JPanel {
         jPanel9.setBackground(new java.awt.Color(224, 224, 224));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
-        materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
-
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
+        materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
+
         studentTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "School Name", "UID", "Email Address", "Days Remaining", "Status", "Actions"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(studentTable1);
+        if (studentTable1.getColumnModel().getColumnCount() > 0) {
+            studentTable1.getColumnModel().getColumn(0).setResizable(false);
+            studentTable1.getColumnModel().getColumn(1).setResizable(false);
+            studentTable1.getColumnModel().getColumn(2).setResizable(false);
+            studentTable1.getColumnModel().getColumn(3).setResizable(false);
+            studentTable1.getColumnModel().getColumn(4).setResizable(false);
+            studentTable1.getColumnModel().getColumn(5).setResizable(false);
+            studentTable1.getColumnModel().getColumn(5).setHeaderValue("Actions");
+        }
+
+        materialTabbed1.addTab("Pending", jScrollPane2);
+
+        studentTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
-                "School Name", "School ID", "Email Address", "Status", "Actions"
+                "School Name", "UID", "Email Address", "Days Remaining", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -292,48 +365,20 @@ public class user_menu_admin extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(studentTable1);
+        jScrollPane3.setViewportView(studentTable2);
+        if (studentTable2.getColumnModel().getColumnCount() > 0) {
+            studentTable2.getColumnModel().getColumn(0).setResizable(false);
+            studentTable2.getColumnModel().getColumn(1).setResizable(false);
+            studentTable2.getColumnModel().getColumn(2).setResizable(false);
+            studentTable2.getColumnModel().getColumn(3).setResizable(false);
+            studentTable2.getColumnModel().getColumn(4).setResizable(false);
+        }
 
-        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        materialTabbed1.addTab("Approved", jScrollPane3);
 
-        materialTabbed1.addTab("Approved Users", jPanel2);
+        jPanel2.add(materialTabbed1, java.awt.BorderLayout.CENTER);
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        studentTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "School Name", "School ID", "Email Address", "Status", "Actions"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(studentTable2);
-
-        jPanel5.add(jScrollPane4, java.awt.BorderLayout.CENTER);
-
-        materialTabbed1.addTab("Pending Users", jPanel5);
-
-        jPanel9.add(materialTabbed1);
+        jPanel9.add(jPanel2);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.CENTER);
         jPanel1.add(filler1, java.awt.BorderLayout.LINE_START);
@@ -350,21 +395,20 @@ public class user_menu_admin extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane3;
     private libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
-    private libratech.user.students.studentTable studentTable1;
-    private libratech.user.students.studentTable studentTable2;
+    private libratech.user.students.adminUserTable studentTable1;
+    private libratech.user.students.adminUserTable studentTable2;
     private javax.swing.JLabel userslabel;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         userslabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
-//        myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
+        materialTabbed2.setFont(new Font("Poppins Regular", Font.BOLD, 16));
 
     }
 

@@ -5,37 +5,36 @@
 package libratech.dashboard;
 
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.util.HashMap;
 import libratech.design.GlassPanePopup;
 import libratech.models.getUID;
+import libratech.models.pushValueExisting;
+import libratech.util.firebaseInit;
 
 /**
  *
  * @author Carocoy
  */
-public class subscription extends javax.swing.JPanel {
+public class change_status_admin extends javax.swing.JPanel {
 
-    /**
-     * Creates new form exit_dialog
-     */
-    public subscription(String title, String description) {
+    private String UID;
+    private HashMap<String, Object> m;
+    private pushValueExisting v;
+
+    public change_status_admin(String UID) {
         initComponents();
+        new firebaseInit().initFirebase();
+        this.UID = UID;
         setOpaque(false);
-        confirmlabel.setText(title);
-        txt.setText(description);
         txt.setBackground(new Color(0, 0, 0, 0));
-        txt.setForeground(new Color(33, 33, 33));
         txt.setOpaque(false);
         txt.setEditable(false);
-        txt.setText(txt.getText() + "\nUID: " + new getUID().getUid());
         initFont();
     }
 
@@ -64,21 +63,21 @@ public class subscription extends javax.swing.JPanel {
         cancel = new libratech.design.MyButtonborder();
 
         confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        confirmlabel.setText("Subscription Payment Required");
+        confirmlabel.setText("Change Status");
 
         exit.setForeground(new java.awt.Color(224, 224, 224));
-        exit.setText("Subscribe Now");
+        exit.setText("Proceed");
         exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitActionPerformed(evt);
             }
         });
 
-        txt.setText("Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!");
+        txt.setText("Are you sure to change this user Pending to Approved?");
         txt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Exit");
+        cancel.setText("Cancel");
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
@@ -90,16 +89,18 @@ public class subscription extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 61, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(confirmlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .addGap(178, 178, 178)
+                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(confirmlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(271, 271, 271)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,28 +108,29 @@ public class subscription extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(confirmlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new logout_dialog());
+        GlassPanePopup.closePopupLast();
     }//GEN-LAST:event_cancelActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
-        try {
-            URI uri = new URI("https://www.facebook.com/profile.php?id=100088807875457");
-            Desktop.getDesktop().browse(uri);
-        } catch (URISyntaxException | IOException ex) {
-            ex.printStackTrace();
-        }
+        v = new pushValueExisting(UID);
+        m = new HashMap<>();
+        m.put("status", "Approved");
+        v.pushData("users", m);
+        m.clear();
+        GlassPanePopup.closePopupLast();
+
     }//GEN-LAST:event_exitActionPerformed
 
 

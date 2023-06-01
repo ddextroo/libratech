@@ -5,20 +5,13 @@ import java.util.regex.Pattern;
 
 public class EmailValidation {
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile(
-            "^[A-Z0-9._%+\\-#']+@[A-Z0-9.-]+\\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$", Pattern.CASE_INSENSITIVE);
+    private final String EMAIL_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    public static boolean validate(String email) {
-        String[] invalidStrings = {
-                "..", ".@"
-        };
-        for (String illegal : invalidStrings) {
-            if (email.contains(illegal)) {
-                return false;
-            }
-        }
-
-        Matcher m = EMAIL_PATTERN.matcher(email.trim());
-        return m.matches();
+    public boolean validate(String email)
+    {
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

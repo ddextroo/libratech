@@ -66,7 +66,6 @@ public class auth {
             m.put("timestamp", getnow);
             m.put("barcode_name", "LIBRATECH");
             m.put("days_limit", 6);
-            m.put("subscription_date", currentDateString);
             m.put("limit_date", currentDateString);
             m.put("overdue_fines", 2);
             m.put("status", "Pending");
