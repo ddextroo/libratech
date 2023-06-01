@@ -57,9 +57,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -90,6 +89,12 @@ public class settingsmenu extends javax.swing.JPanel {
         libratech.setBackground(new Color(0, 0, 0, 0));
         libratech.setOpaque(false);
         libratech.setEditable(false);
+        mission.setBackground(new Color(0, 0, 0, 0));
+        mission.setOpaque(false);
+        mission.setEditable(false);
+        vision.setBackground(new Color(0, 0, 0, 0));
+        vision.setOpaque(false);
+        vision.setEditable(false);
         goals.setBackground(new Color(0, 0, 0, 0));
         goals.setOpaque(false);
         goals.setEditable(false);
@@ -97,57 +102,57 @@ public class settingsmenu extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
 
         StyledDocument doc = libratech.getStyledDocument();
-        libratech.setStyledDocument(doc);
 
         SimpleAttributeSet paragraphAttributes = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributes, StyleConstants.ALIGN_JUSTIFIED);
         doc.setParagraphAttributes(0, doc.getLength(), paragraphAttributes, false);
 
-        try {
-            doc.insertString(0, libratech.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            doc.insertString(doc.getLength(), libratech.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
 
+        
         StyledDocument docmission = mission.getStyledDocument();
         mission.setStyledDocument(docmission);
 
         SimpleAttributeSet paragraphAttributesmission = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesmission, StyleConstants.ALIGN_JUSTIFIED);
         docmission.setParagraphAttributes(0, docmission.getLength(), paragraphAttributesmission, false);
-
-        try {
-            docmission.insertString(0, mission.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-
+        
+//        try {
+//            docmission.insertString(0, mission.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
+        
         StyledDocument docvision = vision.getStyledDocument();
         vision.setStyledDocument(docvision);
 
         SimpleAttributeSet paragraphAttributesvision = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesvision, StyleConstants.ALIGN_JUSTIFIED);
         docvision.setParagraphAttributes(0, docvision.getLength(), paragraphAttributesvision, false);
-
-        try {
-            docmission.insertString(0, vision.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-
+        
+//        try {
+//            docvision.insertString(0, vision.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
+        
         StyledDocument docgoals = goals.getStyledDocument();
         goals.setStyledDocument(docgoals);
 
         SimpleAttributeSet paragraphAttributesgoals = new SimpleAttributeSet();
         StyleConstants.setAlignment(paragraphAttributesgoals, StyleConstants.ALIGN_JUSTIFIED);
         docgoals.setParagraphAttributes(0, docgoals.getLength(), paragraphAttributesgoals, false);
-
-        try {
-            docmission.insertString(0, goals.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-
+        
+//        try {
+//            docgoals.insertString(0, goals.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
+//        
         ScrollBarCustom sb = new ScrollBarCustom();
         sb.setPreferredSize(new Dimension(12, 50));
         jScrollPane1.setVerticalScrollBar(sb);
@@ -1069,7 +1074,7 @@ public class settingsmenu extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1138,7 +1143,7 @@ public class settingsmenu extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(missionlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mission, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(visionlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1146,8 +1151,8 @@ public class settingsmenu extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(goalslabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1166, Short.MAX_VALUE))
+                .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1016, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
@@ -1587,69 +1592,64 @@ public class settingsmenu extends javax.swing.JPanel {
 
             };
             GlassPanePopup.showPopup(new loading(), option);
-
-            Timer timer = new Timer(1000, e -> {
-                File selectedFile = fileChooser.getSelectedFile();
-                this.localFilePath = selectedFile.getAbsolutePath();
-                this.remoteFilePath = "cover/" + selectedFile.getName();
-                StringBuilder jsonContent = new StringBuilder();
-                try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        jsonContent.append(line);
-                    }
-                } catch (IOException ee) {
-                    ee.printStackTrace();
+            File selectedFile = fileChooser.getSelectedFile();
+            this.localFilePath = selectedFile.getAbsolutePath();
+            this.remoteFilePath = "cover/" + selectedFile.getName();
+            StringBuilder jsonContent = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonContent.append(line);
                 }
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<Map<String, Object>>>() {
-                }.getType();
-                List<Map<String, Object>> data = gson.fromJson(jsonContent.toString(), listType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Map<String, Object>>>() {
+            }.getType();
+            List<Map<String, Object>> data = gson.fromJson(jsonContent.toString(), listType);
 
-                System.out.println(new Gson().toJson(data));
+            System.out.println(new Gson().toJson(data));
 
-                for (int count = 0; count < data.size(); count++) {
-                    mtest = data.get(count);
-                    String bcode = (String) mtest.get("barcode");
-                    v = new pushValueExisting(bcode);
-                    m = new HashMap<>();
-                    m.put("booktitle", mtest.get("booktitle"));
-                    m.put("bookauthor", mtest.get("bookauthor"));
-                    m.put("publisher", mtest.get("publisher"));
-                    m.put("isbn", mtest.get("isbn"));
-                    m.put("classification_code", mtest.get("classification_code"));
-                    m.put("barcode", mtest.get("barcode"));
-                    m.put("classification_pos", Integer.valueOf((String) mtest.get("classification_pos")));
-                    m.put("classification", mtest.get("classification"));
-                    m.put("date", mtest.get("date"));
-                    m.put("copies", Integer.valueOf((String) mtest.get("copies")));
-                    m.put("edition", mtest.get("edition"));
-                    m.put("shelf", mtest.get("shelf"));
-                    m.put("deck", mtest.get("deck"));
-                    m.put("key", mtest.get("key"));
-                    m.put("status", mtest.get("status"));
-                    m.put("timestamp", mtest.get("timestamp"));
-                    m.put("remaining_copies", Integer.valueOf((String) mtest.get("remaining_copies")));
-                    m.put("price", Double.valueOf((String) mtest.get("price")));
-                    m.put("cover", mtest.get("cover"));
-                    m.put("borrowed_books", Integer.valueOf((String) mtest.get("borrowed_books")));
-                    m.put("overdue_books", Integer.valueOf((String) mtest.get("overdue_books")));
-                    m.put("lost_books", Integer.valueOf((String) mtest.get("lost_books")));
-                    m.put("damaged_books", Integer.valueOf((String) mtest.get("damaged_books")));
-                    v.pushData("books/" + new getUID().getUid(), m);
-                    m.clear();
+            for (int count = 0; count < data.size(); count++) {
+                mtest = data.get(count);
+                String bcode = (String) mtest.get("barcode");
+                v = new pushValueExisting(bcode);
+                m = new HashMap<>();
+                m.put("booktitle", mtest.get("booktitle"));
+                m.put("bookauthor", mtest.get("bookauthor"));
+                m.put("publisher", mtest.get("publisher"));
+                m.put("isbn", mtest.get("isbn"));
+                m.put("classification_code", mtest.get("classification_code"));
+                m.put("barcode", mtest.get("barcode"));
+                m.put("classification_pos", Integer.valueOf((String) mtest.get("classification_pos")));
+                m.put("classification", mtest.get("classification"));
+                m.put("date", mtest.get("date"));
+                m.put("copies", Integer.valueOf((String) mtest.get("copies")));
+                m.put("edition", mtest.get("edition"));
+                m.put("shelf", mtest.get("shelf"));
+                m.put("deck", mtest.get("deck"));
+                m.put("key", mtest.get("key"));
+                m.put("status", mtest.get("status"));
+                m.put("timestamp", mtest.get("timestamp"));
+                m.put("remaining_copies", Integer.valueOf((String) mtest.get("remaining_copies")));
+                m.put("price", Integer.valueOf((String) mtest.get("price")));
+                m.put("cover", mtest.get("cover"));
+                m.put("borrowed_books", Integer.valueOf((String) mtest.get("borrowed_books")));
+                m.put("overdue_books", Integer.valueOf((String) mtest.get("overdue_books")));
+                m.put("lost_books", Integer.valueOf((String) mtest.get("lost_books")));
+                m.put("damaged_books", Integer.valueOf((String) mtest.get("damaged_books")));
+                v.pushData("books/" + new getUID().getUid(), m);
+                m.clear();
 
-                    try {
-                        TimeUnit.SECONDS.sleep(1); // Delay for 1 second
-                    } catch (InterruptedException ee) {
-                        ee.printStackTrace();
-                    }
+                try {
+                    TimeUnit.SECONDS.sleep(1); // Delay for 1 second
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                GlassPanePopup.closePopupLast();
-                GlassPanePopup.showPopup(new done_import());
-            });
-            timer.setRepeats(false);
-            timer.start();
+            }
+            GlassPanePopup.closePopupLast();
+            GlassPanePopup.showPopup(new done_import());
         }
     }//GEN-LAST:event_myButtonborderless5ActionPerformed
 

@@ -223,7 +223,7 @@
                                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                       <Component id="jPanel33" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jPanel18" min="-2" pref="257" max="-2" attributes="0"/>
+                                      <Component id="jPanel18" min="-2" pref="377" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1339,16 +1339,16 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="missionlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="mission" min="-2" pref="52" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="mission" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                       <Component id="visionlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="vision" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                       <Component id="goalslabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="goals" min="-2" pref="399" max="-2" attributes="0"/>
-                                      <EmptySpace pref="1166" max="32767" attributes="0"/>
+                                      <Component id="goals" min="-2" pref="549" max="-2" attributes="0"/>
+                                      <EmptySpace pref="1016" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
