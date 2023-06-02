@@ -13,6 +13,8 @@ import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
+import libratech.design.RoundedPanel;
 
 /**
  *
@@ -20,15 +22,13 @@ import libratech.design.GlassPanePopup;
  */
 public class plan extends javax.swing.JPanel {
 
-    /**
-     * Creates new form exit_dialog
-     */
+    ImageScaler scaler = new ImageScaler();
+    
     public plan() {
         initComponents();
         setOpaque(false);
-        txt.setBackground(new Color(0, 0, 0, 0));
-        txt.setOpaque(false);
-        txt.setEditable(false);
+        scaler.scaleImage(jLabel1, "src\\main\\resources\\paper-plane.png");
+        scaler.scaleImage(jLabel2, "src\\main\\resources\\shuttle.png");
         initFont();
     }
 
@@ -51,90 +51,278 @@ public class plan extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        confirmlabel = new javax.swing.JLabel();
-        exit = new libratech.design.MyButtonborderless();
-        txt = new javax.swing.JTextPane();
-        cancel = new libratech.design.MyButtonborder();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        planlabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        standard_card = new RoundedPanel(12, new Color(250,250,250));
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        standard = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        monthly = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        maximum = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        features = new javax.swing.JLabel();
+        start = new libratech.design.MyButtonborder();
+        premium_card = new RoundedPanel(12, new Color(250,250,250));
+        jPanel9 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        premium = new javax.swing.JPanel();
+        standard1 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        monthlypremium = new javax.swing.JLabel();
+        books = new javax.swing.JPanel();
+        maximum1 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        featureunli = new javax.swing.JLabel();
+        startpremium = new libratech.design.MyButtonborder();
 
-        confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        confirmlabel.setText("Confirm Exit");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
-        exit.setForeground(new java.awt.Color(224, 224, 224));
-        exit.setText("Exit");
-        exit.addActionListener(new java.awt.event.ActionListener() {
+        planlabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        planlabel.setText("Plans");
+        jPanel2.add(planlabel);
+
+        jPanel3.setLayout(new java.awt.GridLayout(1, 2, 30, 0));
+
+        standard_card.setBackground(new java.awt.Color(250, 250, 250));
+
+        jPanel4.setBackground(new java.awt.Color(250, 250, 250));
+
+        jLabel1.setPreferredSize(new java.awt.Dimension(80, 80));
+        jPanel4.add(jLabel1);
+
+        jPanel5.setBackground(new java.awt.Color(250, 250, 250));
+
+        standard.setBackground(new java.awt.Color(158, 158, 158));
+        standard.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        standard.setText("STANDARD");
+        jPanel5.add(standard);
+
+        jPanel6.setBackground(new java.awt.Color(250, 250, 250));
+
+        monthly.setForeground(new java.awt.Color(158, 158, 158));
+        monthly.setText("P149 /monthly");
+        jPanel6.add(monthly);
+
+        jPanel7.setBackground(new java.awt.Color(250, 250, 250));
+
+        maximum.setText("Maximum of 250 Books");
+        jPanel7.add(maximum);
+
+        jPanel8.setBackground(new java.awt.Color(250, 250, 250));
+
+        features.setText("Limited Features");
+        jPanel8.add(features);
+
+        start.setForeground(new java.awt.Color(23, 23, 23));
+        start.setText("Start now");
+        start.setPreferredSize(new java.awt.Dimension(102, 23));
+        start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitActionPerformed(evt);
+                startActionPerformed(evt);
             }
         });
 
-        txt.setText("Are you sure you want to exit LibraTech?");
-        txt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        javax.swing.GroupLayout standard_cardLayout = new javax.swing.GroupLayout(standard_card);
+        standard_card.setLayout(standard_cardLayout);
+        standard_cardLayout.setHorizontalGroup(
+            standard_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standard_cardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(standard_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standard_cardLayout.createSequentialGroup()
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        standard_cardLayout.setVerticalGroup(
+            standard_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(standard_cardLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
 
-        cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Cancel");
-        cancel.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.add(standard_card);
+
+        premium_card.setBackground(new java.awt.Color(250, 250, 250));
+
+        jPanel9.setBackground(new java.awt.Color(250, 250, 250));
+
+        jLabel2.setPreferredSize(new java.awt.Dimension(80, 80));
+        jPanel9.add(jLabel2);
+
+        premium.setBackground(new java.awt.Color(250, 250, 250));
+
+        standard1.setBackground(new java.awt.Color(158, 158, 158));
+        standard1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        standard1.setText("PREMIUM");
+        premium.add(standard1);
+
+        jPanel11.setBackground(new java.awt.Color(250, 250, 250));
+
+        monthlypremium.setForeground(new java.awt.Color(158, 158, 158));
+        monthlypremium.setText("P549 /monthly");
+        jPanel11.add(monthlypremium);
+
+        books.setBackground(new java.awt.Color(250, 250, 250));
+
+        maximum1.setText("Unlimited Books");
+        books.add(maximum1);
+
+        jPanel13.setBackground(new java.awt.Color(250, 250, 250));
+
+        featureunli.setText("Unlimited Features");
+        jPanel13.add(featureunli);
+
+        startpremium.setForeground(new java.awt.Color(23, 23, 23));
+        startpremium.setText("Start now");
+        startpremium.setPreferredSize(new java.awt.Dimension(102, 23));
+        startpremium.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelActionPerformed(evt);
+                startpremiumActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout premium_cardLayout = new javax.swing.GroupLayout(premium_card);
+        premium_card.setLayout(premium_cardLayout);
+        premium_cardLayout.setHorizontalGroup(
+            premium_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, premium_cardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(premium_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(books, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(premium, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, premium_cardLayout.createSequentialGroup()
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addComponent(startpremium, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        premium_cardLayout.setVerticalGroup(
+            premium_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(premium_cardLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(premium, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(books, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(startpremium, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(premium_card);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(confirmlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(291, 291, 291))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(178, 178, 178)
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(35, 35, 35)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(confirmlabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                .addGap(37, 37, 37)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 35, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+    private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
         // TODO add your handling code here:
-        GlassPanePopup.closePopupLast();
-    }//GEN-LAST:event_cancelActionPerformed
+    }//GEN-LAST:event_startActionPerformed
 
-    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+    private void startpremiumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startpremiumActionPerformed
         // TODO add your handling code here:
-        //GlassPanePopup.closePopupLast();
-    }//GEN-LAST:event_exitActionPerformed
+    }//GEN-LAST:event_startpremiumActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private libratech.design.MyButtonborder cancel;
-    private javax.swing.JLabel confirmlabel;
-    private libratech.design.MyButtonborderless exit;
-    private javax.swing.JTextPane txt;
+    private javax.swing.JPanel books;
+    private javax.swing.JLabel features;
+    private javax.swing.JLabel featureunli;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel maximum;
+    private javax.swing.JLabel maximum1;
+    private javax.swing.JLabel monthly;
+    private javax.swing.JLabel monthlypremium;
+    private javax.swing.JLabel planlabel;
+    private javax.swing.JPanel premium;
+    private javax.swing.JPanel premium_card;
+    private javax.swing.JLabel standard;
+    private javax.swing.JLabel standard1;
+    private javax.swing.JPanel standard_card;
+    private libratech.design.MyButtonborder start;
+    private libratech.design.MyButtonborder startpremium;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
-        confirmlabel.setFont(new Font("Poppins Regular", Font.BOLD, 20));
-        txt.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
-        exit.setFont(new Font("Poppins Regular", Font.BOLD, 12));
-        cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        planlabel.setFont(new Font("Poppins Regular", Font.BOLD, 40));
+        standard.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        standard1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        monthly.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        maximum.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        features.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        start.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        premium.setFont(new Font("Poppins Regular", Font.BOLD, 18));
+        monthlypremium.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        maximum1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        featureunli.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        startpremium.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }
