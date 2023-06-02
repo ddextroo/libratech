@@ -634,7 +634,7 @@ public class signup extends javax.swing.JFrame {
         boolean authenticated = false;
         String downloadUrl = "";
 
-        if (localFilePath.equals("")) {
+        if (this.localFilePath.equals("")) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             GlassPanePopup.closePopupLast();
         } else {

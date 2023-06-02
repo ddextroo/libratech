@@ -136,11 +136,6 @@ public class select_user extends javax.swing.JPanel {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getChildrenCount() < 5) {
-                            v = new pushValueExisting(student.getIDnumber());
-                            m = new HashMap<>();
-                            m.put(key, "true");
-                            v.pushData("students/" + new getUID().getUid(), m);
-                            m.clear();
                             v = new pushValueExisting("borrower");
                             m = new HashMap<>();
                             m.put("idno", student.getIDnumber());

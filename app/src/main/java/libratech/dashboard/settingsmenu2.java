@@ -63,6 +63,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import libratech.models.PasswordValidation;
 import libratech.models.pushValue;
 
 /**
@@ -108,7 +109,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
 //        } catch (BadLocationException e) {
 //            e.printStackTrace();
 //        }
-
         StyledDocument docmission = mission.getStyledDocument();
         mission.setStyledDocument(docmission);
 
@@ -121,7 +121,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
 //        } catch (BadLocationException e) {
 //            e.printStackTrace();
 //        }
-
         StyledDocument docvision = vision.getStyledDocument();
         vision.setStyledDocument(docvision);
 
@@ -134,7 +133,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
 //        } catch (BadLocationException e) {
 //            e.printStackTrace();
 //        }
-
         StyledDocument docgoals = goals.getStyledDocument();
         goals.setStyledDocument(docgoals);
 
@@ -147,7 +145,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
 //        } catch (BadLocationException e) {
 //            e.printStackTrace();
 //        }
-
         ScrollBarCustom sb = new ScrollBarCustom();
         sb.setPreferredSize(new Dimension(12, 50));
         jScrollPane1.setVerticalScrollBar(sb);
@@ -682,8 +679,10 @@ public class settingsmenu2 extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
 
+        email.setEditable(false);
         email.setBackground(new java.awt.Color(250, 250, 250));
         email.setBorder(null);
+        email.setEnabled(false);
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
@@ -1450,28 +1449,33 @@ public class settingsmenu2 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (oldpassword.equals(passwd) && newpassword.equals(conpassword)) {
+                if (new PasswordValidation().isValidPassword(newpassword)) {
 
-                String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-                String key = uid;
+                    String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                    String key = uid;
 
-                v = new pushValueExisting(key);
-                m = new HashMap<>();
-                m.put("school_name", schoolname.getText());
-                m.put("school_id", schoolid.getText());
-                m.put("timestamp", getnow);
-                m.put("url", downloadUrl);
-                m.put("pass", newpassword);
-                m.put("email", email.getText());
-                m.put("uid", uid);
-                v.pushData("users/", m);
-                JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
-                GlassPanePopup.closePopupAll();
+                    v = new pushValueExisting(key);
+                    m = new HashMap<>();
+                    m.put("school_name", schoolname.getText());
+                    m.put("school_id", schoolid.getText());
+                    m.put("timestamp", getnow);
+                    m.put("url", downloadUrl);
+                    m.put("pass", newpassword);
+                    m.put("email", email.getText());
+                    m.put("uid", uid);
+                    v.pushData("users/", m);
+                    JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
+                    GlassPanePopup.closePopupAll();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Password must be less than 20 and more than 8 characters in length.\nPassword must have atleast one uppercase character\nPassword must have atleast one lowercase character\nPassword must have atleast one number\nPassword must have atleast one special character among @#$%", "Error", ERROR_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
                 pass.setText("");
                 pass1.setText("");
                 pass2.setText("");
             }
+
         }
     }//GEN-LAST:event_myButtonborderless4ActionPerformed
 

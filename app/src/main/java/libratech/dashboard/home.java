@@ -32,6 +32,7 @@ import libratech.models.Dashboard.*;
 import libratech.util.firebaseInit;
 import java.util.Calendar;
 import javax.swing.SwingUtilities;
+import libratech.admin.user_menu_admin;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.StatusType;
 import libratech.design.DefaultOption;
@@ -55,6 +56,7 @@ public class home extends javax.swing.JFrame {
     books_menu book_menu = new books_menu();
     user_menu user_menu = new user_menu();
     settingsmenu2 setting_menu = new settingsmenu2();
+    boolean done = false;
     private String uid;
     private ChildEventListener accinfo;
     private final String path = "users/";
@@ -258,22 +260,41 @@ public class home extends javax.swing.JFrame {
                         });
                         timer.setRepeats(false);
                         timer.start();
-//                        Option option = new DefaultOption() {
-//                            @Override
-//                            public float opacity() {
-//                                return 0.6f;
-//                            }
-//
-//                            @Override
-//                            public boolean closeWhenClickOutside() {
-//                                return false;
-//                            }
-//
-//                            @Override
-//                            public Color background() {
-//                                return new Color(33, 33, 33);
-//                            }
-//                        };
+                        Option option = new DefaultOption() {
+                            @Override
+                            public float opacity() {
+                                return 0.6f;
+                            }
+
+                            @Override
+                            public boolean closeWhenClickOutside() {
+                                return false;
+                            }
+
+                            @Override
+                            public Color background() {
+                                return new Color(33, 33, 33);
+                            }
+                        };
+
+                        String date1 = _childValue.get("limit_date").toString();
+                        Date dueDate = null;
+                        try {
+                            dueDate = dateFormat.parse(date1);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        Date date = new Date();
+
+                        long differenceInMilliseconds = date.getTime() - dueDate.getTime();
+                        long days_remaining = Math.abs(differenceInMilliseconds / (24 * 60 * 60 * 1000));
+
+                        if (days_remaining <= 2) {
+                            if (!done) {
+                                GlassPanePopup.showPopup(new subscription("Subscription Renewal Alert", "Stay on top of your subscription status with our Subscription Renewal Alert feature. Get notified when your subscription is about to expire, giving you ample time to renew.", 0));
+                                done = true;
+                            }
+                        }
 
                         String limitDateString = _childValue.get("limit_date").toString();
 
@@ -282,7 +303,7 @@ public class home extends javax.swing.JFrame {
                         LocalDate currentDate = LocalDate.now();
 
                         if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
-                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"));
+                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!", 1), option);
                             v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("status", "Pending");
@@ -334,7 +355,7 @@ public class home extends javax.swing.JFrame {
                     LocalDate currentDate = LocalDate.now();
 
                     if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
-                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"));
+                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!", 1));
                     }
 
                 }

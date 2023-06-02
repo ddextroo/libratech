@@ -377,7 +377,7 @@ public class cartreturn extends javax.swing.JPanel {
                             fine = 10 + (differenceInDays - 1) * overdue_fines;
                             v = new pushValueExisting(barcode);
                             m = new HashMap<>();
-                            m.put("fines", (int) fine);
+                            m.put("fines", (double) fine);
                             v.pushData("borrowerlist/" + new getUID().getUid() + "/" + key, m);
                             m.clear();
                         }

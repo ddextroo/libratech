@@ -819,12 +819,14 @@
                                       <SubComponents>
                                         <Component class="javax.swing.JTextField" name="email">
                                           <Properties>
+                                            <Property name="editable" type="boolean" value="false"/>
                                             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                               <Connection code="new java.awt.Color(250, 250, 250)" type="code"/>
                                             </Property>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="null"/>
                                             </Property>
+                                            <Property name="enabled" type="boolean" value="false"/>
                                           </Properties>
                                           <Events>
                                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailActionPerformed"/>

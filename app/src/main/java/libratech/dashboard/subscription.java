@@ -23,19 +23,35 @@ import libratech.models.getUID;
  */
 public class subscription extends javax.swing.JPanel {
 
-    /**
-     * Creates new form exit_dialog
-     */
-    public subscription(String title, String description) {
+    private String title;
+    private String description;
+    private int choose;
+
+    public subscription(String title, String description, int choose) {
         initComponents();
+        this.title = title;
+        this.description = description;
+        this.choose = choose;
         setOpaque(false);
-        confirmlabel.setText(title);
-        txt.setText(description);
-        txt.setBackground(new Color(0, 0, 0, 0));
-        txt.setForeground(new Color(33, 33, 33));
-        txt.setOpaque(false);
-        txt.setEditable(false);
-        txt.setText(txt.getText() + "\nUID: " + new getUID().getUid());
+
+        if (choose == 0) {
+            confirmlabel.setText(title);
+            txt.setText(description);
+            txt.setBackground(new Color(0, 0, 0, 0));
+            txt.setForeground(new Color(33, 33, 33));
+            exit.setVisible(false);
+            txt.setOpaque(false);
+            txt.setEditable(false);
+        } else if (choose == 1) {
+            confirmlabel.setText(title);
+            txt.setText(description);
+            txt.setBackground(new Color(0, 0, 0, 0));
+            txt.setForeground(new Color(33, 33, 33));
+            txt.setOpaque(false);
+            exit.setVisible(true);
+            txt.setEditable(false);
+            txt.setText(txt.getText() + "\nUID: " + new getUID().getUid());
+        }
         initFont();
     }
 
@@ -78,7 +94,7 @@ public class subscription extends javax.swing.JPanel {
         txt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
-        cancel.setText("Exit");
+        cancel.setText("Close");
         cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionPerformed(evt);
@@ -118,7 +134,11 @@ public class subscription extends javax.swing.JPanel {
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
-        GlassPanePopup.showPopup(new logout_dialog());
+        if (choose == 0) {
+            GlassPanePopup.closePopupAll();
+        } else if (choose == 1) {
+            GlassPanePopup.showPopup(new logout_dialog());
+        }
     }//GEN-LAST:event_cancelActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed

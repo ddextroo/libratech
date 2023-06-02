@@ -375,10 +375,15 @@ public class cart extends javax.swing.JPanel {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    v2 = new pushValue(key);
+                    v = new pushValueExisting(idnum);
+                    m = new HashMap<>();
+                    m.put(child.child("book_key").getValue(String.class), "true");
+                    v.pushData("students/" + new getUID().getUid(), m);
+                    m.clear();
+                    v = new pushValueExisting(key);
                     m = new HashMap<>();
                     m.put("idno", idnum);
-                    v2.pushData("borrowerlist/" + new getUID().getUid(), m);
+                    v.pushData("borrowerlist/" + new getUID().getUid(), m);
                     m.clear();
                     v = new pushValueExisting(child.child("book_key").getValue(String.class));
                     m = new HashMap<>();

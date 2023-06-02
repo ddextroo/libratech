@@ -147,35 +147,7 @@ public class home_admin extends javax.swing.JFrame {
                                 return new Color(33, 33, 33);
                             }
                         };
-                        if (_childValue.get("status").toString().equals("Pending")) {
-                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                        }
 
-                        String limitDateString = _childValue.get("limit_date").toString();
-
-                        //LocalDate limitDate = LocalDate.parse(limitDateString);
-                        LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
-
-                        LocalDate currentDate = LocalDate.now();
-
-                        if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
-                            v = new pushValueExisting(_childKey);
-                            m = new HashMap<>();
-                            m.put("status", "Pending");
-                            v.pushData("users", m);
-                            m.clear();
-                            if (_childValue.get("status").toString().equals("Pending")) {
-                                GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                            } else if (_childValue.get("status").toString().equals("Approved")) {
-                                LocalDate newDate = currentDate.plusMonths(1);
-                                String newDateString = newDate.format(formatter);
-                                v = new pushValueExisting(_childKey);
-                                m = new HashMap<>();
-                                m.put("limit_date", newDateString);
-                                v.pushData("users", m);
-                                m.clear();
-                            }
-                        }
                     }
                 }
             }
@@ -230,10 +202,6 @@ public class home_admin extends javax.swing.JFrame {
                         }
 
                     };
-
-                    if (_childValue.get("status").toString().equals("Pending")) {
-                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                    }
                 }
             }
 

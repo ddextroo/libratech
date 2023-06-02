@@ -61,6 +61,7 @@ public class returntype extends javax.swing.JPanel {
 
     private ChildEventListener borrow_added;
     private DatabaseReference borrow;
+    private DatabaseReference borrow_student;
 
     public returntype(Object columnData, double fines, String key, String barcode, String idnum, int penalties, double user_fines) {
         this.fines = fines;
@@ -73,6 +74,7 @@ public class returntype extends javax.swing.JPanel {
         System.out.println(user_fines);
 
         this.transaction = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key);
+        this.borrow_student = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid() + "/" + idnum);
         this.borrow = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key + "/");
         this.columnData = (List<Object>) columnData;
         initComponents();
@@ -215,6 +217,14 @@ public class returntype extends javax.swing.JPanel {
                         m.put("fines", (double) fines + user_fines);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
+
+                        borrow_student.child(barcode).removeValue((DatabaseError error, DatabaseReference ref) -> {
+                            if (error == null) {
+                                System.out.println("Child value removed successfully.");
+                            } else {
+                                System.err.println("Failed to remove child value: " + error.getMessage());
+                            }
+                        });
                     }
                     break;
                 }
@@ -290,6 +300,13 @@ public class returntype extends javax.swing.JPanel {
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
+                        borrow_student.child(barcode).removeValue((DatabaseError error, DatabaseReference ref) -> {
+                            if (error == null) {
+                                System.out.println("Child value removed successfully.");
+                            } else {
+                                System.err.println("Failed to remove child value: " + error.getMessage());
+                            }
+                        });
 
                     }
                     break;
@@ -365,6 +382,13 @@ public class returntype extends javax.swing.JPanel {
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
+                        borrow_student.child(barcode).removeValue((DatabaseError error, DatabaseReference ref) -> {
+                            if (error == null) {
+                                System.out.println("Child value removed successfully.");
+                            } else {
+                                System.err.println("Failed to remove child value: " + error.getMessage());
+                            }
+                        });
                     }
                     break;
                 }

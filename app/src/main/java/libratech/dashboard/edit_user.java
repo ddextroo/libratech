@@ -553,10 +553,8 @@ public class edit_user extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(0, 0, 0));
         jPanel11.setOpaque(false);
 
-        penalties.setEditable(false);
         penalties.setBackground(new java.awt.Color(250, 250, 250,0));
         penalties.setBorder(null);
-        penalties.setEnabled(false);
         penalties.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 penaltiesActionPerformed(evt);
@@ -638,8 +636,8 @@ public class edit_user extends javax.swing.JPanel {
                                 .addGap(21, 21, 21)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 291, Short.MAX_VALUE)
+                                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 291, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(coursegradelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -806,6 +804,7 @@ public class edit_user extends javax.swing.JPanel {
         String number = phone.getText();
         String user_address = address.getText();
         String fine = fines.getText();
+        String penalty = penalties.getText();
         String user_sex = sex.getSelectedItem().toString();
 
         if (fullname.getText().equals("") || idno.getText().equals("") || dateofbirth.getText().equals("") || email.getText().equals("") || coursegrade.getText().equals("") || phone.getText().equals("") || address.getText().equals("") || sex.getSelectedItem().toString().equals("")) {
@@ -825,6 +824,7 @@ public class edit_user extends javax.swing.JPanel {
             m.put("address", user_address);
             m.put("sex", user_sex);
             m.put("fines", Double.valueOf(fine));
+            m.put("penalties", Integer.valueOf(penalty));
             m.put("key", idnum);
             m.put("timestamp", getnow);
             v.pushData("students/" + uidpath, m);
@@ -841,7 +841,7 @@ public class edit_user extends javax.swing.JPanel {
     private void fullnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fullnameKeyTyped
         // TODO add your handling code here
         char c = evt.getKeyChar();
-        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE)) {
+        if (!(Character.isLetter(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == KeyEvent.VK_SPACE || c == KeyEvent.VK_PERIOD)) {
             evt.consume();
         }
 
