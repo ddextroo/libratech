@@ -131,24 +131,29 @@ public class select_user extends javax.swing.JPanel {
 
             @Override
             public void update(Student student) {
-                dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+                dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
                 dbRef1.addValueEventListener(data = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getChildrenCount() < 5) {
+                            v = new pushValueExisting(student.getIDnumber());
+                            m = new HashMap<>();
+                            m.put(key, "true");
+                            v.pushData("students/" + new getUID().getUid(), m);
+                            m.clear();
                             v = new pushValueExisting("borrower");
                             m = new HashMap<>();
                             m.put("idno", student.getIDnumber());
                             v.pushData("latest_borrower/" + new getUID().getUid(), m);
                             m.clear();
-                            v2 = new pushValue(key);
+                            v = new pushValueExisting(key);
                             m = new HashMap<>();
                             m.put("idno", student.getIDnumber());
                             m.put("book_title", title);
                             m.put("book_key", key);
                             m.put("due_date", duedate.getText());
                             m.put("borrowed_date", dateborrowed.getText());
-                            v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
+                            v.pushData("cart/" + new getUID().getUid(), m);
                             m.clear();
                             dbRef1.removeEventListener(data);
                             GlassPanePopup.closePopupAll();
@@ -185,14 +190,18 @@ public class select_user extends javax.swing.JPanel {
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if ("Active".equals(child.child("status").getValue(String.class)) && child.child("idno").getValue(String.class).contains(idn)) {
-                        String fullname = child.child("fullname").getValue(String.class);
-                        String IDnumber = child.child("idno").getValue(String.class);
+                        if (child.hasChild(key)) {
 
-                        studentTable1.addRow(new Student(fullname, IDnumber).toRowTableSelectUser(eventAction));
-                        eventAction.selectIDNumber(IDnumber);
-                        mod.fireTableDataChanged();
-                        studentTable1.repaint();
-                        studentTable1.revalidate();
+                        } else {
+                            String fullname = child.child("fullname").getValue(String.class);
+                            String IDnumber = child.child("idno").getValue(String.class);
+
+                            studentTable1.addRow(new Student(fullname, IDnumber).toRowTableSelectUser(eventAction));
+                            eventAction.selectIDNumber(IDnumber);
+                            mod.fireTableDataChanged();
+                            studentTable1.repaint();
+                            studentTable1.revalidate();
+                        }
                     }
                 }
 
@@ -601,7 +610,7 @@ public class select_user extends javax.swing.JPanel {
         m.put("book_key", key);
         m.put("due_date", duedate.getText());
         m.put("borrowed_date", dateborrowed.getText());
-        v2.pushData("cart/" + new getUID().getUid() + "/borrower", m);
+        v2.pushData("cart/" + new getUID().getUid(), m);
         m.clear();
         GlassPanePopup.closePopupAll();
     }//GEN-LAST:event_borrowActionPerformed

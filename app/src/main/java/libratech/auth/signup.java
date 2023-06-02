@@ -66,12 +66,12 @@ public class signup extends javax.swing.JFrame {
     private String remoteFilePath;
     SchoolInfo info = new SchoolInfo();
     EmailValidation validate = new EmailValidation();
+    ImageScaler scaler = new ImageScaler();
+    boolean passwordVisible = false;
 
     public signup() {
         ImageIcon icon = new ImageIcon("resources1/logo.png");
         this.setIconImage(icon.getImage());
-
-        ImageScaler scaler = new ImageScaler();
 
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -97,6 +97,7 @@ public class signup extends javax.swing.JFrame {
         GlassPanePopup.install(this);
         new firebaseInit().initFirebase();
         scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
+        scaler.scaleImage(jLabel7, "src\\main\\resources\\eyeline.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
         schoolid.setText(String.format("%d", info.getSchoolID()[schoolname.getSelectedIndex()]));
     }
@@ -123,6 +124,7 @@ public class signup extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
         schoolidlabel = new javax.swing.JLabel();
         confirmpasslabel = new javax.swing.JLabel();
         jPanel13 = new RoundedPanel(12, new Color(245,245,245));
@@ -240,9 +242,9 @@ public class signup extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -268,20 +270,32 @@ public class signup extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("jLabel7");
+        jLabel7.setPreferredSize(new java.awt.Dimension(20, 20));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -503,7 +517,7 @@ public class signup extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(myButtonborderless2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 66, Short.MAX_VALUE))
+                                .addGap(0, 69, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,7 +554,7 @@ public class signup extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1);
@@ -714,6 +728,18 @@ public class signup extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_photoCover1MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        passwordVisible = !passwordVisible;
+        if (passwordVisible) {
+            pass.setEchoChar((char) 0);
+            scaler.scaleImage(jLabel7, "src\\main\\resources\\eyeoffline.png");
+        } else {
+            pass.setEchoChar('\u2022');
+            scaler.scaleImage(jLabel7, "src\\main\\resources\\eyeline.png");
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
     public void ScaleImage() {
         ImageIcon icon = new ImageIcon("resources1\\logo.png");
         Image img = icon.getImage().getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_SMOOTH);
@@ -786,6 +812,7 @@ public class signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;

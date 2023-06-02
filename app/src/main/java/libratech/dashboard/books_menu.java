@@ -82,7 +82,7 @@ public class books_menu extends javax.swing.JPanel {
     }
 
     private void checkTransaction() {
-        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
         dbRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -584,11 +584,11 @@ public class books_menu extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status", "Actions"
+                "Book Title", "Book Publisher", "Classification", "Book Author", "Book Code", "Number of Copies", "Book Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -596,9 +596,6 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
         jScrollPane2.setViewportView(inshelfTable2);
-        if (inshelfTable2.getColumnModel().getColumnCount() > 0) {
-            inshelfTable2.getColumnModel().getColumn(7).setResizable(false);
-        }
 
         jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 

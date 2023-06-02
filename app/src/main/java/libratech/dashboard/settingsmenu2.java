@@ -639,7 +639,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
         jPanel14.setOpaque(false);
 
-        schoolid.setEditable(false);
         schoolid.setBackground(new java.awt.Color(250, 250, 250));
         schoolid.setBorder(null);
         schoolid.setEnabled(false);
@@ -683,7 +682,6 @@ public class settingsmenu2 extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(0, 0, 0));
 
-        email.setEditable(false);
         email.setBackground(new java.awt.Color(250, 250, 250));
         email.setBorder(null);
         email.addActionListener(new java.awt.event.ActionListener() {
@@ -701,7 +699,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(email)
                 .addContainerGap())

@@ -65,6 +65,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.CardLayout;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import libratech.design.DefaultOption;
@@ -81,7 +82,7 @@ public class cart extends javax.swing.JPanel {
 
     ImageScaler scaler = new ImageScaler();
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference transaction = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower/");
+    private DatabaseReference transaction = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
     private ChildEventListener accinfo;
     private final String path_selectuser = "latest_borrower/" + new getUID().getUid() + "/";
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path_selectuser);
@@ -101,7 +102,7 @@ public class cart extends javax.swing.JPanel {
     private DatabaseReference dbRef3;
 
     DefaultTableModel mod;
-    String key = databaseReference.push().getKey();
+    String key;
     String email_add;
     String fname;
     String idnum;
@@ -118,7 +119,19 @@ public class cart extends javax.swing.JPanel {
     private pushValue v2;
 
     public cart() {
+        Random random = new Random();
         initComponents();
+
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 20; i++) {
+            int index = random.nextInt(characters.length());
+            char randomChar = characters.charAt(index);
+            sb.append(randomChar);
+        }
+        String randomString = sb.toString();
+
+        this.key = randomString;
         new firebaseInit().initFirebase();
         initFont();
         barcode(key);
@@ -261,7 +274,7 @@ public class cart extends javax.swing.JPanel {
     }
 
     private void checkTransaction() {
-        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef1 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
         dbRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -328,7 +341,7 @@ public class cart extends javax.swing.JPanel {
                 frame.dispose();
             }
         };
-        dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
         dbRef.addValueEventListener(data = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -356,7 +369,7 @@ public class cart extends javax.swing.JPanel {
 
     private void storeTransaction() {
 
-        dbRef2 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid() + "/borrower");
+        dbRef2 = FirebaseDatabase.getInstance().getReference("cart/" + new getUID().getUid());
         dbRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

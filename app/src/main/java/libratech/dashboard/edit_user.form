@@ -52,35 +52,21 @@
                                   <Component id="jPanel8" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
                                   <Component id="jPanel9" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
+                              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jPanel14" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jPanel13" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jPanel12" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                              <Component id="sexlabel" min="-2" pref="146" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                              <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="coursegradelabel" min="-2" pref="143" max="-2" attributes="0"/>
+                                          <Component id="contactnumberlabel" min="-2" pref="143" max="-2" attributes="0"/>
+                                          <Component id="addresslabel" min="-2" pref="90" max="-2" attributes="0"/>
+                                          <Component id="sexlabel" min="-2" pref="146" max="-2" attributes="0"/>
+                                          <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
+                                          <Component id="fineslabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jPanel14" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="jPanel13" max="32767" attributes="0"/>
-                                          <Component id="jPanel12" alignment="0" pref="0" max="32767" attributes="0"/>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="coursegradelabel" min="-2" pref="143" max="-2" attributes="0"/>
-                                                  <Component id="contactnumberlabel" min="-2" pref="143" max="-2" attributes="0"/>
-                                                  <Component id="addresslabel" min="-2" pref="90" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -104,13 +90,10 @@
                                   <Component id="jPanel11" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="fineslabel" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <Component id="jPanel15" alignment="0" min="-2" pref="296" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jPanel15" min="-2" pref="296" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -142,7 +125,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -158,8 +141,9 @@
                                               <Component id="addresslabel" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="sexlabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
@@ -170,18 +154,18 @@
                           </Group>
                           <Component id="contactnumberlabel" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="penaltieslabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                       <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="fineslabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel15" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="99" max="32767" attributes="0"/>
+              <EmptySpace pref="87" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="addbutton" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="cancelbutton" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
@@ -756,6 +740,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextField" name="penalties">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new java.awt.Color(250, 250, 250,0)" type="code"/>
             </Property>
