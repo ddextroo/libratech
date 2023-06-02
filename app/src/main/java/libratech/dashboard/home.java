@@ -54,7 +54,7 @@ public class home extends javax.swing.JFrame {
     dashboard_menu dashboard_menu = new dashboard_menu();
     books_menu book_menu = new books_menu();
     user_menu user_menu = new user_menu();
-    settingsmenu setting_menu = new settingsmenu();
+    settingsmenu2 setting_menu = new settingsmenu2();
     private String uid;
     private ChildEventListener accinfo;
     private final String path = "users/";
@@ -258,64 +258,36 @@ public class home extends javax.swing.JFrame {
                         });
                         timer.setRepeats(false);
                         timer.start();
-                        Option option = new DefaultOption() {
-                            @Override
-                            public float opacity() {
-                                return 0.6f;
-                            }
-
-                            @Override
-                            public boolean closeWhenClickOutside() {
-                                return false;
-                            }
-
-                            @Override
-                            public Color background() {
-                                return new Color(33, 33, 33);
-                            }
-                        };
-                        if (_childValue.get("status").toString().equals("Pending")) {
-                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                        }
+//                        Option option = new DefaultOption() {
+//                            @Override
+//                            public float opacity() {
+//                                return 0.6f;
+//                            }
+//
+//                            @Override
+//                            public boolean closeWhenClickOutside() {
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public Color background() {
+//                                return new Color(33, 33, 33);
+//                            }
+//                        };
 
                         String limitDateString = _childValue.get("limit_date").toString();
 
-                        //LocalDate limitDate = LocalDate.parse(limitDateString);
                         LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
 
                         LocalDate currentDate = LocalDate.now();
 
                         if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
-                            v = new pushValueExisting(new getUID().getUid());
+                            GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"));
+                            v = new pushValueExisting(_childKey);
                             m = new HashMap<>();
                             m.put("status", "Pending");
                             v.pushData("users", m);
                             m.clear();
-                            if (_childValue.get("status").toString().equals("Pending")) {
-                                GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
-                            } else if (_childValue.get("status").toString().equals("Approved")) {
-                                LocalDate newDate = currentDate.plusMonths(1);
-                                String newDateString = newDate.format(formatter);
-                                v = new pushValueExisting(_childKey);
-                                m = new HashMap<>();
-                                m.put("limit_date", newDateString);
-                                v.pushData("users", m);
-                                m.clear();
-                                home home = new home();
-                                home.setVisible(true);
-                                home.jPanel15.setBackground(Color.decode("#041C34"));
-                                home.jPanel10.setBackground(Color.decode("#0E2C4A"));
-                                home.jPanel18.setBackground(Color.decode("#041C34"));
-                                home.jPanel20.setBackground(Color.decode("#041C34"));
-                                scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-fill.png");
-                                scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-line.png");
-                                scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
-                                scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
-                                CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
-                                cardLayout.show(home.jPanel3, "dashboard");
-                                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(home.this);
-                                frame.dispose();
-                            }
                         }
                     }
                 }
@@ -355,26 +327,14 @@ public class home extends javax.swing.JFrame {
                     timer.setRepeats(false);
                     timer.start();
 
-                    Option option = new DefaultOption() {
-                        @Override
-                        public float opacity() {
-                            return 0.6f;
-                        }
+                    String limitDateString = _childValue.get("limit_date").toString();
 
-                        @Override
-                        public boolean closeWhenClickOutside() {
-                            return false;
-                        }
+                    LocalDate limitDate = LocalDate.parse(limitDateString, formatter);
 
-                        @Override
-                        public Color background() {
-                            return new Color(33, 33, 33);
-                        }
+                    LocalDate currentDate = LocalDate.now();
 
-                    };
-
-                    if (_childValue.get("status").toString().equals("Pending")) {
-                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"), option);
+                    if (currentDate.isEqual(limitDate) || currentDate.isAfter(limitDate)) {
+                        GlassPanePopup.showPopup(new subscription("Subscription Payment Required", "Welcome to Libratech! To continue enjoying our premium features and exclusive content, a subscription payment is required. Don't miss out on the full potential of Libratech; unlock all the benefits today!"));
                     }
 
                 }

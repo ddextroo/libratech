@@ -103,11 +103,11 @@ public class settingsmenu2 extends javax.swing.JPanel {
         StyleConstants.setAlignment(paragraphAttributes, StyleConstants.ALIGN_JUSTIFIED);
         doc.setParagraphAttributes(0, doc.getLength(), paragraphAttributes, false);
 
-        try {
-            doc.insertString(0, libratech.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            doc.insertString(0, libratech.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
 
         StyledDocument docmission = mission.getStyledDocument();
         mission.setStyledDocument(docmission);
@@ -116,11 +116,11 @@ public class settingsmenu2 extends javax.swing.JPanel {
         StyleConstants.setAlignment(paragraphAttributesmission, StyleConstants.ALIGN_JUSTIFIED);
         docmission.setParagraphAttributes(0, docmission.getLength(), paragraphAttributesmission, false);
 
-        try {
-            docmission.insertString(0, mission.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            docmission.insertString(0, mission.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
 
         StyledDocument docvision = vision.getStyledDocument();
         vision.setStyledDocument(docvision);
@@ -129,11 +129,11 @@ public class settingsmenu2 extends javax.swing.JPanel {
         StyleConstants.setAlignment(paragraphAttributesvision, StyleConstants.ALIGN_JUSTIFIED);
         docvision.setParagraphAttributes(0, docvision.getLength(), paragraphAttributesvision, false);
 
-        try {
-            docmission.insertString(0, vision.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            docmission.insertString(0, vision.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
 
         StyledDocument docgoals = goals.getStyledDocument();
         goals.setStyledDocument(docgoals);
@@ -142,11 +142,11 @@ public class settingsmenu2 extends javax.swing.JPanel {
         StyleConstants.setAlignment(paragraphAttributesgoals, StyleConstants.ALIGN_JUSTIFIED);
         docgoals.setParagraphAttributes(0, docgoals.getLength(), paragraphAttributesgoals, false);
 
-        try {
-            docmission.insertString(0, goals.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            docmission.insertString(0, goals.getText(), null);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
 
         ScrollBarCustom sb = new ScrollBarCustom();
         sb.setPreferredSize(new Dimension(12, 50));
@@ -639,8 +639,10 @@ public class settingsmenu2 extends javax.swing.JPanel {
         jPanel14.setBackground(new java.awt.Color(0, 0, 0));
         jPanel14.setOpaque(false);
 
+        schoolid.setEditable(false);
         schoolid.setBackground(new java.awt.Color(250, 250, 250));
         schoolid.setBorder(null);
+        schoolid.setEnabled(false);
         schoolid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 schoolidActionPerformed(evt);
@@ -1026,12 +1028,12 @@ public class settingsmenu2 extends javax.swing.JPanel {
                         .addComponent(jSeparator1)
                         .addGap(33, 33, 33))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 955, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1042,7 +1044,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
                             .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(schoolnamelabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 570, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -1069,7 +1071,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1084,22 +1086,26 @@ public class settingsmenu2 extends javax.swing.JPanel {
 
         libratechlabel.setText("Libratech");
 
+        libratech.setEditable(false);
         libratech.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         libratech.setText("LibraTech, a modern solution for efficient library management that is an ultimate destination for a vast collection of knowledge and information. As a cutting-edge e-library, we are dedicated to providing convenient access to an extensive range of digital resources, making learning and exploration accessible to all.\n\nAt LibraTech, we understand the importance of embracing the digital age and harnessing technology to revolutionize the way we engage with literature and research. Our platform brings together a diverse selection of e-books, academic journals, magazines, research papers, and multimedia content, all at your fingertips.\n\nOur user-friendly interface and intuitive search capabilities can easily navigate through our extensive catalog and discover a wealth of knowledge across various subjects and disciplines. Our e-library provides an immense set of knowledge that is designed to your interest and academic goals for students, teachers, researchers or even just simply for an avid reader. With the collaboration with renowned publishers, institutions, and authors worldwide to build a comprehensive collection that spans both classic and contemporary works. From literary masterpieces to scientific breakthroughs, our very own e-library houses a treasure trove of resources that cater to the needs of learners and enthusiasts from all walks of life.\n\nIn addition to our wide collection, we are committed to providing a seamless and personalized user experience. Our platform allows you to create your own virtual bookshelves, bookmark favorite titles, and highlight important passages. You can also customize your reading preferences, such as font size and background color, for enhanced comfort and accessibility.\n\nAt LibraTech, we believe in fostering a vibrant and inclusive community of learners. Through our interactive forums and discussion boards, you can connect with fellow enthusiasts, exchange ideas, and engage in intellectual discourse. Our commitment to collaboration extends to partnerships with educational institutions, enabling seamless integration with academic curricula and research initiatives.\n\nWe are constantly evolving and expanding our collection to ensure that our e-library remains a dynamic and enriching resource for our users. Our dedicated team of librarians and technology experts work tirelessly to enhance the user experience and incorporate the latest advancements in digital library services.");
         libratech.setOpaque(false);
 
         visionlabel.setText("Vision");
 
+        mission.setEditable(false);
         mission.setText("Empower individuals with convenient and comprehensive access to knowledge, strengthening a lifelong love for learning and intellectual growth. We strive to revolutionize the way people engage with literature and research by providing a digital platform that transcends physical limitations and expands the horizons of knowledge.");
         mission.setOpaque(false);
 
         goalslabel.setText("Goals");
 
+        goals.setEditable(false);
         goals.setText("1. Curate a Vast and Diverse Collection: Continuously expand and curate our collection to offer a comprehensive range of e-books, academic journals, research papers, and multimedia content across various subjects and disciplines. Strive to include both classic and contemporary works that cater to the evolving needs and interests of our users.\n\n2. Enhance User Experience: Continually improve our platform's user interface, search capabilities, and personalization features to ensure a seamless and engaging experience for our users. Enable easy navigation, customizable reading preferences, virtual bookshelves, and interactive features that promote collaboration and knowledge sharing.\n\n3. Foster a Learning Community: Facilitate intellectual discourse and foster a vibrant community of learners through interactive forums, discussion boards, and virtual events. Encourage users to connect, exchange ideas, and engage in meaningful conversations that enrich their learning journey.\n\n4. Promote Accessibility and Inclusivity: Prioritize accessibility and inclusivity by implementing features such as adjustable font sizes, screen reader compatibility, and translations to cater to individuals with diverse needs and language preferences. Strive to break down barriers and ensure that knowledge is accessible to everyone.\n\n5. Collaborate with Publishers and Institutions: Forge partnerships with renowned publishers, educational institutions, and authors to expand our collection, enhance content quality, and enable seamless integration with academic curricula and research initiatives. Collaborate to bring exclusive resources and facilitate scholarly engagement.\n\n6. Embrace Technological Advancements: Embrace emerging technologies and trends in digital library services to stay at the forefront of innovation. Leverage artificial intelligence, machine learning, and data analytics to enhance search algorithms, recommend personalized content, and provide valuable insights for users and institutions.\n\n7. Measure and Improve Impact: Continuously evaluate and measure our impact on users' learning outcomes, satisfaction levels, and engagement. Utilize user feedback, data analytics, and performance indicators to identify areas for improvement and enhance the effectiveness of our services.\n\nBy alienating our mission, vision, and goals, we aim to create a transformative and inclusive digital library experience that empowers individuals, expands knowledge horizons, and fosters a lifelong passion for learning.");
         goals.setOpaque(false);
 
         missionlabel.setText("Mission");
 
+        vision.setEditable(false);
         vision.setText("To be the premier online digital library, steering to be recognized globally for its exceptional collection, user-friendly interface, and commitment to innovation. We aim to inspire and educate millions of users or readers, regardless of their geographical location or socioeconomic status, by delivering a thorough and diverse collection of digital resources and fostering a thriving community of learners.");
         vision.setOpaque(false);
 
@@ -1134,8 +1140,8 @@ public class settingsmenu2 extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addComponent(libratechlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(libratech, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(libratech, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(missionlabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1146,8 +1152,8 @@ public class settingsmenu2 extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(goalslabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1016, Short.MAX_VALUE))
+                .addComponent(goals, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(949, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);

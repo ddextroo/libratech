@@ -16,7 +16,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,5,62,0,0,6,125"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,5,-110,0,0,6,125"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -170,14 +170,14 @@
                                               <Component id="jSeparator1" max="32767" attributes="0"/>
                                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                              <Component id="jPanel32" min="-2" pref="448" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                          </Group>
                                           <Group type="102" attributes="0">
                                               <Component id="jPanel15" min="-2" pref="955" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                              <Component id="jPanel32" min="-2" pref="542" max="-2" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -192,7 +192,7 @@
                                                   <Component id="jPanel13" alignment="0" min="-2" pref="715" max="-2" attributes="0"/>
                                                   <Component id="schoolnamelabel1" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="570" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -223,7 +223,7 @@
                                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                       <Component id="jPanel33" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jPanel18" min="-2" pref="377" max="-2" attributes="0"/>
+                                      <Component id="jPanel18" min="-2" pref="487" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -757,12 +757,14 @@
                                       <SubComponents>
                                         <Component class="javax.swing.JTextField" name="schoolid">
                                           <Properties>
+                                            <Property name="editable" type="boolean" value="false"/>
                                             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                               <Connection code="new java.awt.Color(250, 250, 250)" type="code"/>
                                             </Property>
                                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                               <Border info="null"/>
                                             </Property>
+                                            <Property name="enabled" type="boolean" value="false"/>
                                           </Properties>
                                           <Events>
                                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="schoolidActionPerformed"/>
@@ -1335,8 +1337,8 @@
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Component id="libratechlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="libratech" min="-2" pref="324" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="libratech" min="-2" pref="429" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="missionlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="mission" min="-2" max="-2" attributes="0"/>
@@ -1347,8 +1349,8 @@
                                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                       <Component id="goalslabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="goals" min="-2" pref="549" max="-2" attributes="0"/>
-                                      <EmptySpace pref="1016" max="32767" attributes="0"/>
+                                      <Component id="goals" min="-2" pref="616" max="-2" attributes="0"/>
+                                      <EmptySpace pref="949" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -1361,6 +1363,7 @@
                             </Component>
                             <Component class="javax.swing.JTextPane" name="libratech">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                                     <EmptyBorder/>
@@ -1377,6 +1380,7 @@
                             </Component>
                             <Component class="javax.swing.JTextPane" name="mission">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="text" type="java.lang.String" value="Empower individuals with convenient and comprehensive access to knowledge, strengthening a lifelong love for learning and intellectual growth. We strive to revolutionize the way people engage with literature and research by providing a digital platform that transcends physical limitations and expands the horizons of knowledge."/>
                                 <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
@@ -1388,6 +1392,7 @@
                             </Component>
                             <Component class="javax.swing.JTextPane" name="goals">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="text" type="java.lang.String" value="1. Curate a Vast and Diverse Collection: Continuously expand and curate our collection to offer a comprehensive range of e-books, academic journals, research papers, and multimedia content across various subjects and disciplines. Strive to include both classic and contemporary works that cater to the evolving needs and interests of our users.&#xa;&#xa;2. Enhance User Experience: Continually improve our platform&apos;s user interface, search capabilities, and personalization features to ensure a seamless and engaging experience for our users. Enable easy navigation, customizable reading preferences, virtual bookshelves, and interactive features that promote collaboration and knowledge sharing.&#xa;&#xa;3. Foster a Learning Community: Facilitate intellectual discourse and foster a vibrant community of learners through interactive forums, discussion boards, and virtual events. Encourage users to connect, exchange ideas, and engage in meaningful conversations that enrich their learning journey.&#xa;&#xa;4. Promote Accessibility and Inclusivity: Prioritize accessibility and inclusivity by implementing features such as adjustable font sizes, screen reader compatibility, and translations to cater to individuals with diverse needs and language preferences. Strive to break down barriers and ensure that knowledge is accessible to everyone.&#xa;&#xa;5. Collaborate with Publishers and Institutions: Forge partnerships with renowned publishers, educational institutions, and authors to expand our collection, enhance content quality, and enable seamless integration with academic curricula and research initiatives. Collaborate to bring exclusive resources and facilitate scholarly engagement.&#xa;&#xa;6. Embrace Technological Advancements: Embrace emerging technologies and trends in digital library services to stay at the forefront of innovation. Leverage artificial intelligence, machine learning, and data analytics to enhance search algorithms, recommend personalized content, and provide valuable insights for users and institutions.&#xa;&#xa;7. Measure and Improve Impact: Continuously evaluate and measure our impact on users&apos; learning outcomes, satisfaction levels, and engagement. Utilize user feedback, data analytics, and performance indicators to identify areas for improvement and enhance the effectiveness of our services.&#xa;&#xa;By alienating our mission, vision, and goals, we aim to create a transformative and inclusive digital library experience that empowers individuals, expands knowledge horizons, and fosters a lifelong passion for learning."/>
                                 <Property name="opaque" type="boolean" value="false"/>
                               </Properties>
@@ -1399,6 +1404,7 @@
                             </Component>
                             <Component class="javax.swing.JTextPane" name="vision">
                               <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
                                 <Property name="text" type="java.lang.String" value="To be the premier online digital library, steering to be recognized globally for its exceptional collection, user-friendly interface, and commitment to innovation. We aim to inspire and educate millions of users or readers, regardless of their geographical location or socioeconomic status, by delivering a thorough and diverse collection of digital resources and fostering a thriving community of learners."/>
                                 <Property name="opaque" type="boolean" value="false"/>
                               </Properties>

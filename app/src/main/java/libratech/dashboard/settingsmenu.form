@@ -1335,8 +1335,8 @@
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Component id="libratechlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="libratech" min="-2" pref="324" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="libratech" min="-2" pref="395" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="missionlabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="mission" min="-2" max="-2" attributes="0"/>
