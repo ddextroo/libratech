@@ -114,7 +114,7 @@ public class plan extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(250, 250, 250));
 
         monthly.setForeground(new java.awt.Color(158, 158, 158));
-        monthly.setText("P149 /monthly");
+        monthly.setText("PHP 249 /monthly");
         jPanel6.add(monthly);
 
         jPanel7.setBackground(new java.awt.Color(250, 250, 250));
@@ -143,16 +143,18 @@ public class plan extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standard_cardLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(standard_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(standard_cardLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, standard_cardLayout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addGap(40, 40, 40))
         );
         standard_cardLayout.setVerticalGroup(
             standard_cardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,9 +169,9 @@ public class plan extends javax.swing.JPanel {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(42, 42, 42)
                 .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jPanel3.add(standard_card);
@@ -191,7 +193,7 @@ public class plan extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(250, 250, 250));
 
         monthlypremium.setForeground(new java.awt.Color(158, 158, 158));
-        monthlypremium.setText("P549 /monthly");
+        monthlypremium.setText("PHP 549 /monthly");
         jPanel11.add(monthlypremium);
 
         books.setBackground(new java.awt.Color(250, 250, 250));
@@ -274,10 +276,12 @@ public class plan extends javax.swing.JPanel {
 
     private void startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startActionPerformed
         // TODO add your handling code here:
+        GlassPanePopup.showPopup(new payment(standard.getText(), monthly.getText(), 0));
     }//GEN-LAST:event_startActionPerformed
 
     private void startpremiumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startpremiumActionPerformed
         // TODO add your handling code here:
+        GlassPanePopup.showPopup(new payment(standard1.getText(), monthlypremium.getText(), 1));
     }//GEN-LAST:event_startpremiumActionPerformed
 
 
