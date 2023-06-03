@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import libratech.admin.planChecker;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
@@ -60,6 +61,8 @@ public class user_menu extends javax.swing.JPanel {
         retrieveDataRestricted();
         retrieveDataTransactions();
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
+        
+        
 
     }
 

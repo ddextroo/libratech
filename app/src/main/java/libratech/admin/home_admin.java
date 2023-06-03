@@ -185,23 +185,6 @@ public class home_admin extends javax.swing.JFrame {
                     timer.setRepeats(false);
                     timer.start();
 
-                    Option option = new DefaultOption() {
-                        @Override
-                        public float opacity() {
-                            return 0.6f;
-                        }
-
-                        @Override
-                        public boolean closeWhenClickOutside() {
-                            return false;
-                        }
-
-                        @Override
-                        public Color background() {
-                            return new Color(33, 33, 33);
-                        }
-
-                    };
                 }
             }
 

@@ -14,8 +14,11 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.Option;
 import libratech.models.getUID;
+import libratech.user.subscription.plan;
 
 /**
  *
@@ -143,12 +146,23 @@ public class subscription extends javax.swing.JPanel {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
-        try {
-            URI uri = new URI("https://www.facebook.com/profile.php?id=100088807875457");
-            Desktop.getDesktop().browse(uri);
-        } catch (URISyntaxException | IOException ex) {
-            ex.printStackTrace();
-        }
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+        };
+        GlassPanePopup.showPopup(new plan(), option);
     }//GEN-LAST:event_exitActionPerformed
 
 

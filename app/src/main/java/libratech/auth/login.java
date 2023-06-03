@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.awt.Container;
 import libratech.dashboard.home;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -42,12 +43,19 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedPanelBorderless;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import libratech.admin.home_admin;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.loading;
 import libratech.models.EmailValidation;
 import libratech.models.aes;
+import libratech.models.getUID;
+import libratech.models.pushValueExisting;
 
 /**
  *
@@ -264,6 +272,11 @@ public class login extends javax.swing.JFrame {
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passActionPerformed(evt);
+            }
+        });
+        pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passKeyPressed(evt);
             }
         });
 
@@ -564,6 +577,124 @@ public class login extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_myButtonborderless1ActionPerformed
+
+    private void passKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            GlassPanePopup.showPopup(new loading());
+            if (email.getText().toString().equals("") || pass.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
+            } else {
+                dbRef = FirebaseDatabase.getInstance().getReference("users");
+                dbRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        try {
+                            String loginn = "", key = "", passwd;
+                            String email_address = email.getText();
+                            char[] passwordChars = pass.getPassword();
+                            String password = new String(passwordChars);
+                            UserRecord userRecord = firebaseAuth.getUserByEmail(email_address);
+                            String uid1 = userRecord.getUid();
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                String uiddb = child.child("uid").getValue(String.class);
+                                String passdb = child.child("pass").getValue(String.class);
+                                System.out.println("UID_DB = " + uiddb + ": UID = " + uid1);
+                                System.out.println("PASS_DB = " + passdb + ": PASS = " + password);
+                                if (uiddb.equals(uid1) && passdb.equals(password)) {
+
+                                    GlassPanePopup.closePopupAll();
+                                    authh = true;
+                                    key = uiddb;
+                                    loginn = "true";
+                                    System.out.println(key + " " + loginn);
+
+                                    if (validate.validate(email_address)) {
+                                        if (selected) {
+                                            try {
+                                                System.out.println("Key: " + key);
+                                                key = aes.encryptString(key, aes.getPassword());
+                                                try {
+                                                    FileWriter writer = new FileWriter(file);
+                                                    FileWriter writer1 = new FileWriter(file1);
+                                                    writer.write(key);
+                                                    writer.close();
+                                                    writer1.write("true");
+                                                    writer1.close();
+
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } catch (Exception ex) {
+                                                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+
+                                        } else {
+                                            try {
+                                                key = aes.encryptString(key, aes.getPassword());
+                                                try {
+                                                    FileWriter writer = new FileWriter(file);
+                                                    writer.write(key);
+                                                    writer.close();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            } catch (Exception ex) {
+                                                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                            if (file1.exists()) {
+                                                file1.delete();
+                                            }
+                                        }
+                                        try {
+                                            if (uid1.equals("sy01q5KeBdMnX1vpS2Lk86NcCdp1")) {
+                                                home_admin home = new home_admin();
+                                                String decrypted = aes.decryptString(key, aes.getPassword());
+                                                home.updateLabelText(decrypted);
+                                                home.setVisible(true);
+                                                GlassPanePopup.closePopupLast();
+                                                exit();
+                                            } else {
+                                                home home = new home();
+                                                String decrypted = aes.decryptString(key, aes.getPassword());
+                                                home.updateLabelText(decrypted);
+                                                home.setVisible(true);
+                                                GlassPanePopup.closePopupLast();
+                                                exit();
+                                            }
+
+                                        } catch (Exception ex) {
+                                            Logger.getLogger(splash.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Error: Must valid format", "Error", ERROR_MESSAGE);
+                                    }
+                                    break;
+                                }
+                            }
+                        } catch (FirebaseAuthException ex) {
+                            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (!authh) {
+                            JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
+                            GlassPanePopup.closePopupAll();
+                            email.setText("");
+                            pass.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("Error: " + databaseError.getMessage());
+                    }
+                });
+            }
+
+        }
+    }//GEN-LAST:event_passKeyPressed
 
     /**
      * @param args the command line arguments

@@ -63,6 +63,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import libratech.admin.planChecker;
 import libratech.models.PasswordValidation;
 import libratech.models.pushValue;
 
@@ -96,6 +97,14 @@ public class settingsmenu2 extends javax.swing.JPanel {
         goals.setEditable(false);
         initFont();
         new firebaseInit().initFirebase();
+        
+        if (new planChecker(new getUID().getUid()).isStandard()) {
+            myButtonborderless5.setVisible(false);
+            cancel.setVisible(false);
+            barcodename.setEnabled(false);
+            limit.setEnabled(false);
+            overduefines.setEnabled(false);
+        }
 
         StyledDocument doc = libratech.getStyledDocument();
         libratech.setStyledDocument(doc);

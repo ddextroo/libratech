@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -28,8 +29,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
 import libratech.design.loading;
 import libratech.models.getUID;
 import libratech.models.pushValueExisting;
@@ -49,9 +53,15 @@ public class change_status_admin extends javax.swing.JPanel {
     private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     LocalDate currentDate = LocalDate.now();
+    private String transactionKey;
+    ImageScaler scaler = new ImageScaler();
+    private DatabaseReference.CompletionListener completionListener;
+    private DatabaseReference users2;
 
-    public change_status_admin(String UID) {
+    public change_status_admin(String UID, String transactionKey) {
         initComponents();
+        this.UID = UID;
+        this.transactionKey = transactionKey;
         new firebaseInit().initFirebase();
         this.UID = UID;
         setOpaque(false);
@@ -59,6 +69,15 @@ public class change_status_admin extends javax.swing.JPanel {
         txt.setOpaque(false);
         txt.setEditable(false);
         initFont();
+        users2 = FirebaseDatabase.getInstance().getReference("admin_reference" + "/" + transactionKey);
+
+        completionListener = (DatabaseError error, DatabaseReference ref) -> {
+            if (error != null) {
+                System.out.println("Error removing value: " + error.getMessage());
+            } else {
+                System.out.println("Value removed successfully.");
+            }
+        };
     }
 
     @Override
@@ -155,7 +174,8 @@ public class change_status_admin extends javax.swing.JPanel {
         m.put("limit_date", newDateString);
         v.pushData("users", m);
         m.clear();
-        GlassPanePopup.closePopupLast();
+        users2.getRef().removeValue(completionListener);
+        GlassPanePopup.closePopupAll();
 
     }//GEN-LAST:event_exitActionPerformed
 

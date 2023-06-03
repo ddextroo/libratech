@@ -81,16 +81,57 @@ public class smtp {
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setText(message);
-        
+
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
         mimeBodyPart = new MimeBodyPart();
-        
+
         DataSource source = new FileDataSource(PDF_FILE);
         mimeBodyPart.setDataHandler(new DataHandler(source));
         mimeBodyPart.setFileName(new File(PDF_FILE).getName());
         multipart.addBodyPart(mimeBodyPart);
         email.setContent(multipart);
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        email.writeTo(buffer);
+        byte[] rawMessageBytes = buffer.toByteArray();
+        String encodedEmail = Base64.encodeBase64URLSafeString(rawMessageBytes);
+        Message msg = new Message();
+        msg.setRaw(encodedEmail);
+
+        try {
+            // Create send message
+            msg = service.users().messages().send("me", msg).execute();
+            System.out.println("Message id: " + msg.getId());
+            System.out.println(msg.toPrettyString());
+        } catch (GoogleJsonResponseException e) {
+            // TODO(developer) - handle error appropriately
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to send message: " + e.getDetails());
+            } else {
+                throw e;
+            }
+        }
+
+    }
+
+    public void sendMail(String subject, String message, String receipient) throws Exception {
+        // Encode as MIME message
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+        MimeMessage email = new MimeMessage(session);
+        email.setFrom(new InternetAddress(TEST_EMAIL));
+        email.addRecipient(javax.mail.Message.RecipientType.TO,
+                new InternetAddress(receipient));
+        email.setSubject(subject);
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setText(message);
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        mimeBodyPart = new MimeBodyPart();
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);

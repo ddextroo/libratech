@@ -4,6 +4,12 @@
  */
 package libratech.user.subscription;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import libratech.dashboard.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,9 +19,22 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
 import libratech.design.RoundedPanel;
+import libratech.models.getUID;
+import libratech.models.pushValue;
+import libratech.models.pushValueExisting;
+import libratech.util.firebaseInit;
+import libratech.util.smtp;
 
 /**
  *
@@ -26,13 +45,37 @@ public class payment extends javax.swing.JPanel {
     private String plan_name;
     private String plan_price;
     private int choose;
-    
+    private HashMap<String, Object> m;
+    private pushValueExisting v;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEEE MMMMM yyyy");
+    private ChildEventListener userinfo;
+    private final String path_user = "users";
+    private final DatabaseReference user = FirebaseDatabase.getInstance().getReference(path_user);
+    private String school_name;
+    private String school_id;
+    private String email_add;
+    LocalDate currentDate = LocalDate.now();
+    String randomString;
+
     public payment(String plan_name, String plan_price, int choose) {
-        
+        initComponents();
+
+        Random random = new Random();
+        initComponents();
+
+        new firebaseInit().initFirebase();
         this.plan_name = plan_name;
         this.plan_price = plan_price;
         this.choose = choose;
-        initComponents();
+        String characters = "0123456789";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 12; i++) {
+            int index = random.nextInt(characters.length());
+            char randomChar = characters.charAt(index);
+            sb.append(randomChar);
+        }
+        randomString = sb.toString();
+        System.out.println(new getUID().getUid() + "qwqw 1 1 1 1");
         setOpaque(false);
         initFont();
         ImageScaler scaler = new ImageScaler();
@@ -48,6 +91,49 @@ public class payment extends javax.swing.JPanel {
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
         g2.dispose();
         super.paintComponent(graphics);
+    }
+
+    private void retrieveDataBooksInfo() {
+
+        userinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (new getUID().getUid().equals(_childKey)) {
+                    school_name = _childValue.get("school_name").toString();
+                    school_id = _childValue.get("school_id").toString();
+                    email_add = _childValue.get("email").toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        user.addChildEventListener(userinfo);
+
     }
 
     /**
@@ -213,9 +299,28 @@ public class payment extends javax.swing.JPanel {
     private void payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payActionPerformed
         // TODO add your handling code here:
         //GlassPanePopup.closePopupLast();
-        if (accountnumber.getText().equals("") && accountname.getText().equals("")) {
-            
-        } 
+
+        v = new pushValueExisting(randomString);
+        m = new HashMap<>();
+        m.put("plan", choose);
+        m.put("account_number", accountnumber.getText());
+        m.put("account_name", accountname.getText());
+        m.put("reference_no", randomString);
+        m.put("transaction_date", currentDate.format(formatter));
+        m.put("uid", new getUID().getUid());
+        v.pushData("admin_reference", m);
+        m.clear();
+        v = new pushValueExisting(new getUID().getUid());
+        m = new HashMap<>();
+        m.put("plan", choose);
+        v.pushData("users", m);
+        m.clear();
+//                new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
+//                        + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
+//                        + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
+//                        + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
+//                        + "\n\nBest regards,"
+//                        + "\n\nLibratech Team", email_add);
     }//GEN-LAST:event_payActionPerformed
 
     private void accountnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountnumberActionPerformed

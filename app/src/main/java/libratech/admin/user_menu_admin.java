@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,8 +59,29 @@ public class user_menu_admin extends javax.swing.JPanel {
         new firebaseInit().initFirebase();
         studentTable1.fixTable(jScrollPane2);
         studentTable2.fixTable(jScrollPane3);
+        scaler.scaleImage(notificationLabel1, "src\\main\\resources\\notification-line.png");
         retrieveDataApproved();
         retrieveDataPending();
+        checkTransaction();
+    }
+
+    private void checkTransaction() {
+        dbRef1 = FirebaseDatabase.getInstance().getReference("admin_reference");
+        dbRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    notificationLabel1.showBadge();
+                } else {
+                    notificationLabel1.hideBadge();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
     }
 
     private void retrieveDataPending() {
@@ -68,24 +90,7 @@ public class user_menu_admin extends javax.swing.JPanel {
 
             @Override
             public void update(Student student) {
-                Option option = new DefaultOption() {
-                    @Override
-                    public float opacity() {
-                        return 0.6f;
-                    }
-
-                    @Override
-                    public boolean closeWhenClickOutside() {
-                        return false;
-                    }
-
-                    @Override
-                    public Color background() {
-                        return new Color(33, 33, 33);
-                    }
-
-                };
-                GlassPanePopup.showPopup(new change_status_admin(student.getUID()), option, "change");
+                //GlassPanePopup.showPopup(new change_status_admin(student.getUID()));
             }
 
             @Override
@@ -156,6 +161,7 @@ public class user_menu_admin extends javax.swing.JPanel {
         });
 
     }
+
     private void retrieveDataApproved() {
         // Fetch data from Firebase and create table
         EventActionStudent eventAction = new EventActionStudent() {
@@ -265,6 +271,7 @@ public class user_menu_admin extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         userslabel = new javax.swing.JLabel();
+        notificationLabel1 = new libratech.design.NotificationLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         materialTabbed1 = new libratech.design.MaterialTabbed();
@@ -287,6 +294,14 @@ public class user_menu_admin extends javax.swing.JPanel {
         userslabel.setForeground(new java.awt.Color(58, 58, 58));
         userslabel.setText("Users");
 
+        notificationLabel1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        notificationLabel1.setPreferredSize(new java.awt.Dimension(25, 25));
+        notificationLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                notificationLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -294,14 +309,20 @@ public class user_menu_admin extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(userslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1176, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1118, Short.MAX_VALUE)
+                .addComponent(notificationLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(userslabel)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(notificationLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(userslabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel8, java.awt.BorderLayout.PAGE_START);
@@ -316,17 +337,17 @@ public class user_menu_admin extends javax.swing.JPanel {
 
         studentTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "School Name", "UID", "Email Address", "Days Remaining", "Status", "Actions"
+                "School Name", "UID", "Email Address", "Days Remaining", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -340,8 +361,6 @@ public class user_menu_admin extends javax.swing.JPanel {
             studentTable1.getColumnModel().getColumn(2).setResizable(false);
             studentTable1.getColumnModel().getColumn(3).setResizable(false);
             studentTable1.getColumnModel().getColumn(4).setResizable(false);
-            studentTable1.getColumnModel().getColumn(5).setResizable(false);
-            studentTable1.getColumnModel().getColumn(5).setHeaderValue("Actions");
         }
 
         materialTabbed1.addTab("Pending", jScrollPane2);
@@ -388,6 +407,28 @@ public class user_menu_admin extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void notificationLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notificationLabel1MouseClicked
+        // TODO add your handling code here:
+        Option option = new DefaultOption() {
+            @Override
+            public float opacity() {
+                return 0.6f;
+            }
+
+            @Override
+            public boolean closeWhenClickOutside() {
+                return false;
+            }
+
+            @Override
+            public Color background() {
+                return new Color(33, 33, 33);
+            }
+
+        };
+        GlassPanePopup.showPopup(new reference_list(), option);
+    }//GEN-LAST:event_notificationLabel1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -399,8 +440,9 @@ public class user_menu_admin extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private libratech.design.MaterialTabbed materialTabbed1;
+    public libratech.design.MaterialTabbed materialTabbed1;
     private libratech.design.MaterialTabbed materialTabbed2;
+    private libratech.design.NotificationLabel notificationLabel1;
     private libratech.user.students.adminUserTable studentTable1;
     private libratech.user.students.adminUserTable studentTable2;
     private javax.swing.JLabel userslabel;

@@ -13,6 +13,10 @@ public class Student {
     private int booksBorrowed;
     private long days_remaining;
 
+    private String account_name;
+    private String account_number;
+    private String plan;
+
     public String getUID() {
         return UID;
     }
@@ -69,6 +73,11 @@ public class Student {
         return new Object[]{schoolName, UID, email, days_remaining, Status, new ModelActionStudent(this, event)};
     }
 
+    public Object[] toRowTablePayment(EventActionStudent event) {
+
+        return new Object[]{account_name, UID, plan, new ModelActionStudent(this, event)};
+    }
+
     public Student(String email, String IDnumber, StatusTypeStudent Status) {
         this.email = email;
         this.IDnumber = IDnumber;
@@ -93,6 +102,13 @@ public class Student {
         this.email = email;
         this.Status = Status;
         this.days_remaining = days_remaining;
+    }
+
+    public Student(String account_name, String UID, String plan, String transactionKey) {
+        this.account_name = account_name;
+        this.UID = UID;
+        this.plan = plan;
+        this.transactionKey = transactionKey;
     }
 
     public Student() {

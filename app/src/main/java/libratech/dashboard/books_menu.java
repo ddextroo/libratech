@@ -18,6 +18,7 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
+import libratech.admin.planChecker;
 import libratech.books.inshelf.Book;
 import libratech.books.inshelf.EventAction;
 import libratech.books.inshelf.StatusType;
@@ -78,6 +79,11 @@ public class books_menu extends javax.swing.JPanel {
         retrieveDataborrowedOverdue();
         retrieveDataborrowedLost();
         retrieveDataborrowedDamaged();
+        
+        System.out.println(new planChecker(new getUID().getUid()).isStandard());
+        if (new planChecker(new getUID().getUid()).isStandard()) {
+            scanner.setVisible(false);
+        }
 
     }
 
