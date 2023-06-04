@@ -270,7 +270,6 @@ public class signup extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("jLabel7");
         jLabel7.setPreferredSize(new java.awt.Dimension(20, 20));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

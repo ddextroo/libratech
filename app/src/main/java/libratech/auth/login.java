@@ -76,12 +76,15 @@ public class login extends javax.swing.JFrame {
     aes aes = new aes();
     boolean authh = false;
     EmailValidation validate = new EmailValidation();
+    ImageScaler scaler = new ImageScaler();
+    boolean passwordVisible;
 
     public login() {
 
         this.firebaseAuth = FirebaseAuth.getInstance();
         new firebaseInit().initFirebase();
         this.dbRef = FirebaseDatabase.getInstance().getReference("users");
+        
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 posX = e.getX();
@@ -105,6 +108,7 @@ public class login extends javax.swing.JFrame {
         this.setIconImage(icon1.getImage());
         ImageScaler scaler = new ImageScaler();
         scaler.scaleImage(jLabel4, "src\\main\\resources\\logo.png");
+        scaler.scaleImage(jLabel8, "src\\main\\resources\\eyeline.png");
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 12, 12));
 
     }
@@ -131,6 +135,7 @@ public class login extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         jPanel7 = new RoundedPanel(12, new Color(245,245,245));
         pass = new javax.swing.JPasswordField();
+        jLabel8 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250,0));
         jLabel5 = new javax.swing.JLabel();
@@ -280,20 +285,33 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setPreferredSize(new java.awt.Dimension(20, 20));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -696,6 +714,18 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passKeyPressed
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        passwordVisible = !passwordVisible;
+        if (passwordVisible) {
+            pass.setEchoChar((char) 0);
+            scaler.scaleImage(jLabel8, "src\\main\\resources\\eyeoffline.png");
+        } else {
+            pass.setEchoChar('\u2022');
+            scaler.scaleImage(jLabel8, "src\\main\\resources\\eyeline.png");
+        }
+    }//GEN-LAST:event_jLabel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -749,6 +779,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;

@@ -389,6 +389,8 @@ public class home extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel8 = new RoundedPanelBorderless(12, new Color(0, 4, 36, 0));
+        minimize = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new RoundedPanelBorderless(12, new java.awt.Color(4,28,52,0));
         jPanel14 = new RoundedPanelBorderless(12, new java.awt.Color(41,182,246, 0));
@@ -434,11 +436,17 @@ public class home extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(4, 28, 52));
 
-        jPanel7.setBackground(new java.awt.Color(129, 14, 26));
+        jPanel7.setBackground(new java.awt.Color(4, 28, 52));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel7MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel7MouseExited(evt);
             }
         });
         jPanel7.setLayout(new java.awt.GridBagLayout());
@@ -464,6 +472,26 @@ public class home extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(250, 250, 250));
         jLabel9.setText("Library System Solution");
 
+        jPanel8.setBackground(new java.awt.Color(4, 28, 52));
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
+        minimize.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        minimize.setForeground(new java.awt.Color(255, 255, 255));
+        minimize.setText("-");
+        minimize.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+        });
+        jPanel8.add(minimize, new java.awt.GridBagConstraints());
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -475,7 +503,9 @@ public class home extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 750, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 689, Short.MAX_VALUE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -490,6 +520,7 @@ public class home extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addComponent(jLabel9)))
                 .addContainerGap(12, Short.MAX_VALUE))
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -810,6 +841,7 @@ public class home extends javax.swing.JFrame {
             file.delete();
         }
         System.exit(0);*/
+        jPanel7.setBackground(new Color(129,14,26));
         GlassPanePopup.showPopup(new exit_dialog());
     }//GEN-LAST:event_jPanel7MouseClicked
 
@@ -980,6 +1012,26 @@ public class home extends javax.swing.JFrame {
         updateInfo();
     }//GEN-LAST:event_jPanel21MouseClicked
 
+    private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
+        // TODO add your handling code here:
+        jPanel7.setBackground(new Color(129,14,26));
+    }//GEN-LAST:event_jPanel7MouseEntered
+
+    private void jPanel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseExited
+        // TODO add your handling code here:
+        jPanel7.setBackground(new Color(4, 28,52));
+    }//GEN-LAST:event_jPanel7MouseExited
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_minimizeMouseClicked
+
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_jPanel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1057,7 +1109,9 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel minimize;
     private libratech.design.MyButton myButton1;
     private javax.swing.JLabel school_n;
     // End of variables declaration//GEN-END:variables
@@ -1072,5 +1126,6 @@ public class home extends javax.swing.JFrame {
         school_n.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         idnum.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         myButton1.setFont(new Font("Poppins Regular", Font.PLAIN, 16));
+        minimize.setFont(new Font("Poppins Regular", Font.BOLD, 24));
     }
 }

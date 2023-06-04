@@ -65,6 +65,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import libratech.admin.planChecker;
 import libratech.models.PasswordValidation;
+import libratech.models.getUserInfo;
 import libratech.models.pushValue;
 
 /**
@@ -85,10 +86,12 @@ public class settingsmenu2 extends javax.swing.JPanel {
     String downloadUrl = "";
     boolean upload = false;
     private String passwd;
-
+    private int plan;
+    
     public settingsmenu2() {
         initComponents();
         setOpaque(false);
+        System.out.println(new getUserInfo());
         libratech.setBackground(new Color(0, 0, 0, 0));
         libratech.setOpaque(false);
         libratech.setEditable(false);
@@ -97,14 +100,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
         goals.setEditable(false);
         initFont();
         new firebaseInit().initFirebase();
-        
-        if (new planChecker(new getUID().getUid()).isStandard()) {
-            myButtonborderless5.setVisible(false);
-            cancel.setVisible(false);
-            barcodename.setEnabled(false);
-            limit.setEnabled(false);
-            overduefines.setEnabled(false);
-        }
+       
 
         StyledDocument doc = libratech.getStyledDocument();
         libratech.setStyledDocument(doc);
@@ -187,12 +183,23 @@ public class settingsmenu2 extends javax.swing.JPanel {
                         }
                         schoolname.setText(_childValue.get("school_name").toString());
                         passwd = _childValue.get("pass").toString();
+                        plan = Integer.parseInt(_childValue.get("plan").toString());
                         schoolid.setText(_childValue.get("school_id").toString());
                         email.setText(_childValue.get("email").toString());
                         URL url = new URL(_childValue.get("url").toString());
                         BufferedImage image = ImageIO.read(url);
                         photoCover1.setImage(image);
                         downloadUrl = _childValue.get("url").toString();
+                        
+                        if (plan == 0){
+                            barcodename.setEnabled(false);
+                            limit.setEnabled(false);
+                            overduefines.setEnabled(false);
+                            cancel.setVisible(false);
+                            myButtonborderless5.setVisible(false);
+                        }
+                        
+                        
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(edit_book.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {

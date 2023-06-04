@@ -4,15 +4,24 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.table.DefaultTableModel;
 import libratech.admin.planChecker;
 import libratech.design.DefaultOption;
@@ -46,6 +55,10 @@ public class user_menu extends javax.swing.JPanel {
     private HashMap<String, Object> m;
     private pushValue v;
     ImageScaler scaler = new ImageScaler();
+    int plan;
+    private ChildEventListener accinfo;
+    private final String path1 = "users/";
+    private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path1);
 
     public user_menu() {
         initComponents();
@@ -61,9 +74,52 @@ public class user_menu extends javax.swing.JPanel {
         retrieveDataRestricted();
         retrieveDataTransactions();
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
-        
-        
 
+        accinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                System.out.println(_childKey);
+                if (_childKey.equals(new getUID().getUid())) {
+                    plan = Integer.parseInt(_childValue.get("plan").toString());
+
+                    if (plan == 0) {
+                        scanner.setVisible(false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.equals(new getUID().getUid())) {
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        acc.addChildEventListener(accinfo);
     }
 
     private void retrieveDataGeneral() {
@@ -254,16 +310,16 @@ public class user_menu extends javax.swing.JPanel {
                 mod3.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        
-                        int booksBorrowed = (int) child.getChildrenCount() - 1;
-                        String key = child.getKey();
-                        String IDnumber = child.child("idno").getValue(String.class);
 
-                        transactionTable1.addRow(new Student(key, IDnumber, booksBorrowed, StatusTypeStudent.Pending).toRowTableSelectTransaction(eventAction));
-                        new Student().setIDnumber(key);
-                        mod3.fireTableDataChanged();
-                        transactionTable1.repaint();
-                        transactionTable1.revalidate();
+                    int booksBorrowed = (int) child.getChildrenCount() - 1;
+                    String key = child.getKey();
+                    String IDnumber = child.child("idno").getValue(String.class);
+
+                    transactionTable1.addRow(new Student(key, IDnumber, booksBorrowed, StatusTypeStudent.Pending).toRowTableSelectTransaction(eventAction));
+                    new Student().setIDnumber(key);
+                    mod3.fireTableDataChanged();
+                    transactionTable1.repaint();
+                    transactionTable1.revalidate();
                 }
             }
 

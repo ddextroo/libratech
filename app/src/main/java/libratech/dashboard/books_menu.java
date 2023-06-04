@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
@@ -72,6 +73,7 @@ public class books_menu extends javax.swing.JPanel {
         inshelfTable5.fixTable(jScrollPane5);
         scaler.scaleImage(notificationLabel1, "src\\main\\resources\\bookmark-line.png");
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
+        scaler.scaleImage(searchicon, "src\\main\\resources\\search-line.png");
         notificationLabel1.setEnabled(false);
         checkTransaction();
         retrieveData();
@@ -171,6 +173,80 @@ public class books_menu extends javax.swing.JPanel {
                 v.pushData(path, m);
                 m.clear();
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+    
+       private void searchData() {
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                System.out.println("Ck: " + book.getChildKey());
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()), option, "edit");
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod.setRowCount(0);
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
+                        if(child.child("booktitle").getValue(String.class).equals(searchbar.getText())) {
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("remaining_copies").getValue(Integer.class);
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        mod.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
+                    }
+                }
+                int columnIndex = 5;
+                int rowCount = mod.getRowCount();
+                int totalSum = 0;
+
+                for (int i = 0; i < rowCount; i++) {
+                    Object value = mod.getValueAt(i, columnIndex);
+                    if (value instanceof Integer) {
+                        totalSum += (Integer) value;
+                    }
+                }
+                v = new pushValue("inshelf");
+                m = new HashMap<>();
+                m.put("total", totalSum);
+                v.pushData(path, m);
+                m.clear();
+                }
             }
 
             @Override
@@ -366,6 +442,7 @@ public class books_menu extends javax.swing.JPanel {
         });
 
     }
+    
 
     private void retrieveDataborrowedDamaged() {
         EventAction eventAction = new EventAction() {
@@ -455,6 +532,9 @@ public class books_menu extends javax.swing.JPanel {
         myButtonborderless1 = new libratech.design.MyButtonborderless();
         notificationLabel1 = new libratech.design.NotificationLabel();
         scanner = new javax.swing.JLabel();
+        jPanel10 = new RoundedPanel(12, new Color(245,245,245,0));
+        searchbar = new javax.swing.JTextField();
+        searchicon = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -520,6 +600,50 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
 
+        jPanel10.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel10.setOpaque(false);
+
+        searchbar.setBackground(new java.awt.Color(250, 250, 250, 0));
+        searchbar.setBorder(null);
+        searchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbarActionPerformed(evt);
+            }
+        });
+        searchbar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchbarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchbarKeyTyped(evt);
+            }
+        });
+
+        searchicon.setPreferredSize(new java.awt.Dimension(20, 20));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchicon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(searchbar)
+                    .addComponent(searchicon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel6.setOpaque(false);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -527,7 +651,9 @@ public class books_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1129, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 839, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notificationLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -539,11 +665,13 @@ public class books_menu extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(notificationLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(myButtonborderless1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(notificationLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -775,6 +903,92 @@ public class books_menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_scannerMouseExited
 
+    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchbarActionPerformed
+
+    private void searchbarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+        }
+    }//GEN-LAST:event_searchbarKeyPressed
+
+    private void searchbarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyTyped
+        // TODO add your handling code here:
+        EventAction eventAction = new EventAction() {
+            @Override
+            public void update(Book book) {
+                System.out.println("Ck: " + book.getChildKey());
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_book(book.getChildKey()), option, "edit");
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod.setRowCount(0);
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
+                        if(child.child("booktitle").getValue(String.class).toLowerCase().contains(searchbar.getText())) {
+                            System.out.print(searchbar.getText());
+                        String key = child.child("key").getValue(String.class);
+                        String bookTitle = child.child("booktitle").getValue(String.class);
+                        String publisher = child.child("publisher").getValue(String.class);
+                        String barcode = child.child("barcode").getValue(String.class);
+                        String classification = child.child("classification").getValue(String.class);
+                        String author = child.child("bookauthor").getValue(String.class);
+                        int copies = child.child("remaining_copies").getValue(Integer.class);
+                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
+                        new Book().setChildKey(key);
+                        mod.fireTableDataChanged();
+                        inshelfTable1.repaint();
+                        inshelfTable1.revalidate();
+                    }
+                }
+                int columnIndex = 5;
+                int rowCount = mod.getRowCount();
+                int totalSum = 0;
+
+                for (int i = 0; i < rowCount; i++) {
+                    Object value = mod.getValueAt(i, columnIndex);
+                    if (value instanceof Integer) {
+                        totalSum += (Integer) value;
+                    }
+                }
+                v = new pushValue("inshelf");
+                m = new HashMap<>();
+                m.put("total", totalSum);
+                v.pushData(path, m);
+                m.clear();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }//GEN-LAST:event_searchbarKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -787,6 +1001,7 @@ public class books_menu extends javax.swing.JPanel {
     public libratech.books.inshelf.InshelfTable inshelfTable5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -803,11 +1018,14 @@ public class books_menu extends javax.swing.JPanel {
     private libratech.design.MyButtonborderless myButtonborderless1;
     private libratech.design.NotificationLabel notificationLabel1;
     private javax.swing.JLabel scanner;
+    private javax.swing.JTextField searchbar;
+    private javax.swing.JLabel searchicon;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        searchbar.setFont(new Font("Poppins Regular",Font.PLAIN, 12));
     }
 
 }
