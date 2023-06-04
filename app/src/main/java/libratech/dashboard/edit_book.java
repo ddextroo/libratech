@@ -90,6 +90,9 @@ public class edit_book extends javax.swing.JPanel {
     private retBooks listener;
     private ChildEventListener booksinfo;
     private DatabaseReference.CompletionListener completionListener;
+    private ChildEventListener booksuserinfo;
+    private final String path_bookuserinfo = "users/";
+    private final DatabaseReference bookuser = FirebaseDatabase.getInstance().getReference(path_bookuserinfo);
     String downloadUrl = "";
     String remaining_copies = "";
     boolean upload = false;
@@ -101,6 +104,7 @@ public class edit_book extends javax.swing.JPanel {
     private pushValue t;
     ClassificationInfo info = new ClassificationInfo();
     ImageScaler scaler = new ImageScaler();
+    String barcode_name;
 
     public edit_book(String key1) {
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -110,6 +114,7 @@ public class edit_book extends javax.swing.JPanel {
         this.listener = new retBooks(key1);
         this.ck = key1;
         this.books2 = FirebaseDatabase.getInstance().getReference(path + ck);
+        userBookInfo();
         initFont();
 
         classification.setEditable(true);
@@ -213,6 +218,52 @@ public class edit_book extends javax.swing.JPanel {
             }
         };
 
+    }
+    
+        private void userBookInfo() {
+        booksuserinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (new getUID().getUid().equals(_childKey)) {
+                    if (_childValue.containsKey("barcode_name")) {
+                        barcode_name = _childValue.get("barcode_name").toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (new getUID().getUid().equals(_childKey)) {
+                    if (_childValue.containsKey("barcode_name")) {
+                        barcode_name = _childValue.get("barcode_name").toString();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        bookuser.addChildEventListener(booksuserinfo);
     }
 
     private void barcode(String code, boolean save, String name) {
@@ -986,6 +1037,8 @@ public class edit_book extends javax.swing.JPanel {
             String getnow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
             String uidpath = new getUID().getUid();
             String call_no = genr + "-" + shelff + deckk + "-" + date1;
+            String bcode = barcode_name + genr + shelff + deckk + String.format("%04d", Integer.valueOf(book_copies)) + book_edition;
+            String key = bcode;
 
             v = new pushValueExisting(ck);
             m = new HashMap<>();
@@ -993,6 +1046,7 @@ public class edit_book extends javax.swing.JPanel {
             m.put("bookauthor", book_author);
             m.put("publisher", publ);
             m.put("isbn", book_isbn);
+            m.put("barcode", bcode);
             m.put("classification", genr);
             m.put("classification_code", genr);
             m.put("classification_pos", classification.getSelectedIndex());
