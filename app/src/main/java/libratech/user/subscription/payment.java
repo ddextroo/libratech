@@ -47,7 +47,7 @@ public class payment extends javax.swing.JPanel {
     private int choose;
     private HashMap<String, Object> m;
     private pushValueExisting v;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy; hh:mm a");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private ChildEventListener userinfo;
     private final String path_user = "users";
     private final DatabaseReference user = FirebaseDatabase.getInstance().getReference(path_user);
@@ -317,22 +317,21 @@ public class payment extends javax.swing.JPanel {
             m.put("plan", choose);
             v.pushData("users", m);
             m.clear();
-            new smtp().sendMail("Waiting for Approval", "Dear" + school_name + ",\n\n" +
+            new smtp().sendMail("Waiting for Approval", "Dear " + school_name + ",\n\n" +
                     "Thank you for choosing LibraTech. This is regarding your recent online transaction you made. As of now, the transaction is still pending and we are actively working on processing it.\n\n" +
-                    "Plan Transaction Details:\n" +
+                    "Plan Transaction Details:\n\n" +
                     "Reference Number:\t" + randomString + "\n" +
                     "School Name:\t" + school_name + "\n" +
-                    "Student ID:\t" + school_id + "\n" +
-                    "Transaction Date/Time:\t" + currentDate.format(formatter) + "\n" +
+                    "School ID:\t" + school_id + "\n" +
+                    "Transaction Date:\t" + currentDate.format(formatter) + "\n" +
                     "Subscription:\t" + plan_name + "\n" +
-                    "Payment Amount:\t" + plan_name + "\n\n" +
+                    "Payment Amount:\t" + plan_price + "\n\n" +
                     "Our team is currently working diligently to ensure that your payment is processed successfully. We apologize for any delay this may cause and appreciate your patience throughout this process.\n\n" +
                     "Rest assured, we are giving this transaction our utmost attention, and we will notify you promptly once it has been successfully processed. If you have any questions or require further information, please feel free to reach out to our customer support team at LibraCare. We are here to assist you.\n\n" +
                     "Thank you for your understanding and cooperation in this matter. We value your business and are committed to resolving this pending transaction as soon as possible.\n\n" +
                     "Best regards,\n" +
                     "LibraTech Team", email_add);
-            GlassPanePopup.closePopupLast();
-            GlassPanePopup.showPopup(new approval_dialog());
+            System.exit(0);
         } catch (Exception ex) {
             Logger.getLogger(payment.class.getName()).log(Level.SEVERE, null, ex);
         }

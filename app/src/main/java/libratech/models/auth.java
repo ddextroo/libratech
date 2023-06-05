@@ -33,14 +33,21 @@ public class auth {
     private retrieve r;
     private Calendar cal = Calendar.getInstance();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    aes aes = new aes();
+    String password1;
 
     public auth(String email, String password) throws FileNotFoundException {
-        this.firebaseAuth = FirebaseAuth.getInstance();
-        new firebaseInit().initFirebase();
-        this.dbRef = FirebaseDatabase.getInstance().getReference("users");
-        this.email = email;
-        this.password = password;
-        this.uid = uid;
+        try {
+            this.firebaseAuth = FirebaseAuth.getInstance();
+            new firebaseInit().initFirebase();
+            this.dbRef = FirebaseDatabase.getInstance().getReference("users");
+            this.email = email;
+            this.password = password;
+            this.uid = uid;
+            password1 = aes.encryptString(password, aes.getPassword());
+        } catch (Exception ex) {
+            Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean signUp(String school_name, String school_id, String url) throws FirebaseAuthException {
@@ -56,10 +63,11 @@ public class auth {
                     .setPassword(password);
             UserRecord userRecord = firebaseAuth.createUser(request);
             uid = userRecord.getUid();
+            
             v = new pushValue(userRecord.getUid());
             m = new HashMap<>();
             m.put("email", email);
-            m.put("pass", password);
+            m.put("pass", password1);
             m.put("school_name", school_name);
             m.put("school_id", school_id);
             m.put("url", url);

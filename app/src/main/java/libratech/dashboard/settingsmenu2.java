@@ -65,6 +65,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import libratech.admin.planChecker;
 import libratech.models.PasswordValidation;
+import libratech.models.aes;
 import libratech.models.getUserInfo;
 import libratech.models.pushValue;
 
@@ -87,6 +88,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
     boolean upload = false;
     private String passwd;
     private int plan;
+    aes aes = new aes();
     
     public settingsmenu2() {
         initComponents();
@@ -1475,22 +1477,26 @@ public class settingsmenu2 extends javax.swing.JPanel {
         } else {
             if (oldpassword.equals(passwd) && newpassword.equals(conpassword)) {
                 if (new PasswordValidation().isValidPassword(newpassword)) {
-
-                    String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-                    String key = uid;
-
-                    v = new pushValueExisting(key);
-                    m = new HashMap<>();
-                    m.put("school_name", schoolname.getText());
-                    m.put("school_id", schoolid.getText());
-                    m.put("timestamp", getnow);
-                    m.put("url", downloadUrl);
-                    m.put("pass", newpassword);
-                    m.put("email", email.getText());
-                    m.put("uid", uid);
-                    v.pushData("users/", m);
-                    JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
-                    GlassPanePopup.closePopupAll();
+                    try {
+                        String password1 = aes.encryptString(newpassword, aes.getPassword());
+                        String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                        String key = uid;
+                        
+                        v = new pushValueExisting(key);
+                        m = new HashMap<>();
+                        m.put("school_name", schoolname.getText());
+                        m.put("school_id", schoolid.getText());
+                        m.put("timestamp", getnow);
+                        m.put("url", downloadUrl);
+                        m.put("pass", password1);
+                        m.put("email", email.getText());
+                        m.put("uid", uid);
+                        v.pushData("users/", m);
+                        JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
+                        GlassPanePopup.closePopupAll();
+                    } catch (Exception ex) {
+                        Logger.getLogger(settingsmenu2.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Password must be less than 20 and more than 8 characters in length.\nPassword must have atleast one uppercase character\nPassword must have atleast one lowercase character\nPassword must have atleast one number\nPassword must have atleast one special character among @#$%", "Error", ERROR_MESSAGE);
                 }
