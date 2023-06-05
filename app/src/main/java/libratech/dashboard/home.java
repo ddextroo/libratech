@@ -45,6 +45,7 @@ import libratech.models.pushValueExisting;
 import org.quartz.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import libratech.util.smtp;
 
 /**
  *
@@ -84,33 +85,33 @@ public class home extends javax.swing.JFrame {
     String tempID;
 
     public home() {
-        initComponents();
-        this.add(jPanel3);
-        jPanel3.add(dashboard_menu, "dashboard");
-        jPanel3.add(book_menu, "book");
-        jPanel3.add(user_menu, "user");
-        jPanel3.add(setting_menu, "setting");
-        CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
-        cardLayout.show(jPanel3, "dashboard");
-        jPanel10.setBackground(Color.decode("#0E2C4A"));
-        jPanel15.setBackground(Color.decode("#041C34"));
-        jPanel18.setBackground(Color.decode("#041C34"));
-        jPanel20.setBackground(Color.decode("#041C34"));
-        ImageIcon icon1 = new ImageIcon("resources1/logo.png");
-        this.setIconImage(icon1.getImage());
-        new firebaseInit().initFirebase();
-        GlassPanePopup.install(this);
+            initComponents();
+            this.add(jPanel3);
+            jPanel3.add(dashboard_menu, "dashboard");
+            jPanel3.add(book_menu, "book");
+            jPanel3.add(user_menu, "user");
+            jPanel3.add(setting_menu, "setting");
+            CardLayout cardLayout = (CardLayout) jPanel3.getLayout();
+            cardLayout.show(jPanel3, "dashboard");
+            jPanel10.setBackground(Color.decode("#0E2C4A"));
+            jPanel15.setBackground(Color.decode("#041C34"));
+            jPanel18.setBackground(Color.decode("#041C34"));
+            jPanel20.setBackground(Color.decode("#041C34"));
+            ImageIcon icon1 = new ImageIcon("resources1/logo.png");
+            this.setIconImage(icon1.getImage());
+            new firebaseInit().initFirebase();
+            GlassPanePopup.install(this);
+            
+            scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
+            scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
+            scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
+            scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
+            scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+            initFont();
+            updateInfo();
+            updateBooks();
 
-        scaler.scaleImage(jLabel3, "src\\main\\resources\\logo.png");
-        scaler.scaleImage(jLabel10, "src\\main\\resources\\dashboard-fill.png");
-        scaler.scaleImage(jLabel15, "src\\main\\resources\\book-line.png");
-        scaler.scaleImage(jLabel18, "src\\main\\resources\\user-line.png");
-        scaler.scaleImage(jLabel21, "src\\main\\resources\\settings-line.png");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        initFont();
-        updateInfo();
-        updateBooks();
-        
     }
 
     private void updateBooks() {
@@ -181,8 +182,6 @@ public class home extends javax.swing.JFrame {
                                                     @Override
                                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                                         for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                            System.out.println(tempID);
-                                                            System.out.println(child.getKey());
                                                             if (child.getKey().equals(tempID)) {
                                                                 System.out.println(child.child("penalties").getValue(Integer.class));
                                                                 penalties = child.child("penalties").getValue(Integer.class);
@@ -197,13 +196,16 @@ public class home extends javax.swing.JFrame {
                                                         System.out.println("Error: " + databaseError.getMessage());
                                                     }
                                                 });
-
                                                 if (borrowed.after(DaysLater)) {
-                                                    v = new pushValueExisting(child.child("idno").getValue(String.class));
-                                                    m = new HashMap<>();
-                                                    m.put("penalties", penalties + 1);
-                                                    v.pushData("students/" + new getUID().getUid(), m);
-                                                    m.clear();
+                                                    Timer timer2 = new Timer(500, e -> {
+                                                        v = new pushValueExisting(child.child("idno").getValue(String.class));
+                                                        m = new HashMap<>();
+                                                        m.put("penalties", penalties + 1);
+                                                        v.pushData("students/" + new getUID().getUid(), m);
+                                                        m.clear();
+                                                    });
+                                                    timer2.setRepeats(false);
+                                                    timer2.start();
                                                 }
                                             }
 
@@ -844,7 +846,7 @@ public class home extends javax.swing.JFrame {
             file.delete();
         }
         System.exit(0);*/
-        jPanel7.setBackground(new Color(129,14,26));
+        jPanel7.setBackground(new Color(129, 14, 26));
         GlassPanePopup.showPopup(new exit_dialog());
     }//GEN-LAST:event_jPanel7MouseClicked
 
@@ -1017,12 +1019,12 @@ public class home extends javax.swing.JFrame {
 
     private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
         // TODO add your handling code here:
-        jPanel7.setBackground(new Color(129,14,26));
+        jPanel7.setBackground(new Color(129, 14, 26));
     }//GEN-LAST:event_jPanel7MouseEntered
 
     private void jPanel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseExited
         // TODO add your handling code here:
-        jPanel7.setBackground(new Color(4, 28,52));
+        jPanel7.setBackground(new Color(4, 28, 52));
     }//GEN-LAST:event_jPanel7MouseExited
 
     private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked

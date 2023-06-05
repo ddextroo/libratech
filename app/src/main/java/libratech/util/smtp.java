@@ -71,7 +71,7 @@ public class smtp {
 
     }
 
-    public void sendMail(String subject, String message, String receipient, String PDF_FILE) throws Exception {
+    public void sendMail1(String subject, String message, String receipient, String PDF_FILE) throws Exception {
         // Encode as MIME message
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);

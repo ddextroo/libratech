@@ -874,7 +874,7 @@ public class settingsmenu2 extends javax.swing.JPanel {
 
         limitlabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         limitlabel.setForeground(new java.awt.Color(51, 51, 51));
-        limitlabel.setText("Days Limit");
+        limitlabel.setText("Grace Period");
 
         jPanel21.setBackground(new java.awt.Color(0, 0, 0));
         jPanel21.setOpaque(false);
@@ -1475,36 +1475,41 @@ public class settingsmenu2 extends javax.swing.JPanel {
         if (pass.getPassword().length == 0 || pass1.getPassword().length == 0 || pass2.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
-            if (oldpassword.equals(passwd) && newpassword.equals(conpassword)) {
-                if (new PasswordValidation().isValidPassword(newpassword)) {
-                    try {
-                        String password1 = aes.encryptString(newpassword, aes.getPassword());
-                        String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-                        String key = uid;
-                        
-                        v = new pushValueExisting(key);
-                        m = new HashMap<>();
-                        m.put("school_name", schoolname.getText());
-                        m.put("school_id", schoolid.getText());
-                        m.put("timestamp", getnow);
-                        m.put("url", downloadUrl);
-                        m.put("pass", password1);
-                        m.put("email", email.getText());
-                        m.put("uid", uid);
-                        v.pushData("users/", m);
-                        JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
-                        GlassPanePopup.closePopupAll();
-                    } catch (Exception ex) {
-                        Logger.getLogger(settingsmenu2.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                String password1 = aes.decryptString(passwd, aes.getPassword());
+                if (oldpassword.equals(password1) && newpassword.equals(conpassword)) {
+                    if (new PasswordValidation().isValidPassword(newpassword)) {
+                        try {
+                            String password2 = aes.encryptString(newpassword, aes.getPassword());
+                            String getnow = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+                            String key = uid;
+                            
+                            v = new pushValueExisting(key);
+                            m = new HashMap<>();
+                            m.put("school_name", schoolname.getText());
+                            m.put("school_id", schoolid.getText());
+                            m.put("timestamp", getnow);
+                            m.put("url", downloadUrl);
+                            m.put("pass", password2);
+                            m.put("email", email.getText());
+                            m.put("uid", uid);
+                            v.pushData("users/", m);
+                            JOptionPane.showMessageDialog(null, "Password Sucessfully changed", "Error", INFORMATION_MESSAGE);
+                            GlassPanePopup.closePopupAll();
+                        } catch (Exception ex) {
+                            Logger.getLogger(settingsmenu2.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password must be less than 20 and more than 8 characters in length.\nPassword must have atleast one uppercase character\nPassword must have atleast one lowercase character\nPassword must have atleast one number\nPassword must have atleast one special character among @#$%", "Error", ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Password must be less than 20 and more than 8 characters in length.\nPassword must have atleast one uppercase character\nPassword must have atleast one lowercase character\nPassword must have atleast one number\nPassword must have atleast one special character among @#$%", "Error", ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
+                    pass.setText("");
+                    pass1.setText("");
+                    pass2.setText("");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Password doesn't match", "Error", ERROR_MESSAGE);
-                pass.setText("");
-                pass1.setText("");
-                pass2.setText("");
+            } catch (Exception ex) {
+                Logger.getLogger(settingsmenu2.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

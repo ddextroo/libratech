@@ -223,7 +223,18 @@ public class change_status_admin extends javax.swing.JPanel {
             v.pushData("users", m);
             m.clear();
             users2.getRef().removeValue(completionListener);
-            new smtp().sendMail("Account Approved", "Greetings,\n\nWe are pleased to inform you that your account with LibraTech has been approved and is now ready for use. We appreciate your interest in our services and are delighted to have you as a valued member of our community.\n\nWith your newly approved account, you can now access all the features and benefits associated with our platform.\n\nBest regards,\nLibraTech Admin", email_add);
+            new smtp().sendMail("Account Approved", """
+                                                    Hi,
+                                                    
+                                                    We are pleased to inform you that your account with LibraTech has been approved and is now ready for use. We appreciate your interest in our services and are delighted to have you as a valued member of our community.
+                                                    
+                                                    With your newly approved account, you can now access all the features and benefits associated with our platform. We assure you that our team is committed to providing you with the best possible experience.
+                                                    
+                                                    We are excited about the possibilities that lie ahead and are confident that our platform will meet and exceed your expectations. Thank you for choosing LibtraTech as your library system solution. We look forward to serving you and ensuring your success.
+                                                    
+                                                    
+                                                    Best regards,
+                                                    LibraTech Admin""", email_add);
             GlassPanePopup.closePopupAll();
         } catch (Exception ex) {
             Logger.getLogger(change_status_admin.class.getName()).log(Level.SEVERE, null, ex);

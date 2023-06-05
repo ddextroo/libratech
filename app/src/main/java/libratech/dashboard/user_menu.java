@@ -249,7 +249,7 @@ public class user_menu extends javax.swing.JPanel {
                     if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) >= 3) {
                         String key = child.child("idno").getValue(String.class);
                         String email = child.child("email").getValue(String.class);
-                        String IDnumber = child.child("idno").getValue(String.class) + " - " + child.child("fname").getValue(String.class);
+                        String IDnumber = child.child("idno").getValue(String.class);
 
                         studentTable2.addRow(new Student(email, IDnumber, StatusTypeStudent.Restricted).toRowTable(eventAction));
                         new Student().setIDnumber(key);

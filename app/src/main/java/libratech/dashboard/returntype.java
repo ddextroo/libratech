@@ -78,6 +78,8 @@ public class returntype extends javax.swing.JPanel {
         this.borrow = FirebaseDatabase.getInstance().getReference("borrowerlist/" + new getUID().getUid() + "/" + key + "/");
         this.columnData = (List<Object>) columnData;
         initComponents();
+        jPanel11.setVisible(false);
+        penancelabel.setVisible(false);
         new firebaseInit().initFirebase();
         setOpaque(false);
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Inshelf", "Lost", "Damaged"}));
@@ -378,7 +380,7 @@ public class returntype extends javax.swing.JPanel {
                         m.clear();
                         v = new pushValueExisting(idnum);
                         m = new HashMap<>();
-                        m.put("fines", (double) fines + user_fines + price);
+                        m.put("fines", (double) fines + user_fines + (Integer.parseInt(penance.getText()) / price) * 100);
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();
@@ -435,6 +437,9 @@ public class returntype extends javax.swing.JPanel {
         cancel = new libratech.design.MyButtonborder();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250,0));
         comboBoxSuggestion1 = new libratech.design.ComboBoxSuggestion();
+        jPanel11 = new RoundedPanel(12, new Color(250,250,250,0));
+        penance = new javax.swing.JTextField();
+        penancelabel = new javax.swing.JLabel();
 
         confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         confirmlabel.setText("Return as");
@@ -483,6 +488,38 @@ public class returntype extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel11.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel11.setOpaque(false);
+
+        penance.setBackground(new java.awt.Color(245, 245, 245));
+        penance.setBorder(null);
+        penance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                penanceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(penance, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(penance, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        penancelabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        penancelabel.setForeground(new java.awt.Color(51, 51, 51));
+        penancelabel.setText("Penance for Damage Book (% of the book price)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -491,17 +528,23 @@ public class returntype extends javax.swing.JPanel {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(confirmlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(291, 291, 291))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(178, 178, 178)
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(returnn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(returnn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(penancelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,7 +553,11 @@ public class returntype extends javax.swing.JPanel {
                 .addComponent(confirmlabel)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(penancelabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(returnn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -538,8 +585,22 @@ public class returntype extends javax.swing.JPanel {
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
         // TODO add your handling code here:
+        if (comboBoxSuggestion1.getSelectedItem().toString().equals("Inshelf")) {
+            jPanel11.setVisible(false);
+            penancelabel.setVisible(false);
+        } else if (comboBoxSuggestion1.getSelectedItem().toString().equals("Lost")) {
+            jPanel11.setVisible(false);
+            penancelabel.setVisible(false);
+        } else {
+            jPanel11.setVisible(true);
+            penancelabel.setVisible(true);
+        }
         //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
     }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+
+    private void penanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penanceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_penanceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -547,6 +608,9 @@ public class returntype extends javax.swing.JPanel {
     private libratech.design.ComboBoxSuggestion comboBoxSuggestion1;
     private javax.swing.JLabel confirmlabel;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JTextField penance;
+    private javax.swing.JLabel penancelabel;
     private libratech.design.MyButtonborderless returnn;
     // End of variables declaration//GEN-END:variables
     public void initFont() {
@@ -554,5 +618,7 @@ public class returntype extends javax.swing.JPanel {
         comboBoxSuggestion1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
         returnn.setFont(new Font("Poppins Regular", Font.BOLD, 12));
         cancel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
+        penance.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        penancelabel.setFont(new Font("Poppins Regular", Font.BOLD, 12));
     }
 }
