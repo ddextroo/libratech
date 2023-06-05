@@ -515,6 +515,7 @@ public class login extends javax.swing.JFrame {
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             String uiddb = child.child("uid").getValue(String.class);
                             String passdb = aes.decryptString(child.child("pass").getValue(String.class), aes.getPassword());
+                            //hehe
                             System.out.println("UID_DB = " + uiddb + ": UID = " + uid1);
                             System.out.println("PASS_DB = " + passdb + ": PASS = " + password);
                             if (uiddb.equals(uid1) && passdb.equals(password)) {
