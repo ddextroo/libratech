@@ -196,6 +196,9 @@
                       <Dimension value="[20, 20]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="searchiconMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

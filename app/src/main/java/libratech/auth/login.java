@@ -56,6 +56,7 @@ import libratech.models.EmailValidation;
 import libratech.models.aes;
 import libratech.models.getUID;
 import libratech.models.pushValueExisting;
+import libratech.util.smtp;
 
 /**
  *
@@ -84,7 +85,7 @@ public class login extends javax.swing.JFrame {
         this.firebaseAuth = FirebaseAuth.getInstance();
         new firebaseInit().initFirebase();
         this.dbRef = FirebaseDatabase.getInstance().getReference("users");
-        
+
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 posX = e.getX();
@@ -137,6 +138,7 @@ public class login extends javax.swing.JFrame {
         pass = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        forgotpass = new javax.swing.JLabel();
         jPanel4 = new RoundedPanelBorderless(12, new Color(250, 250, 250,0));
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -286,6 +288,7 @@ public class login extends javax.swing.JFrame {
         });
 
         jLabel8.setPreferredSize(new java.awt.Dimension(20, 20));
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
@@ -330,6 +333,17 @@ public class login extends javax.swing.JFrame {
         jPanel3.add(jCheckBox1);
         jCheckBox1.setBounds(10, 130, 130, 30);
 
+        forgotpass.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        forgotpass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        forgotpass.setText("Forgot Password?");
+        forgotpass.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forgotpassMouseClicked(evt);
+            }
+        });
+        jPanel3.add(forgotpass);
+        forgotpass.setBounds(150, 130, 170, 30);
+
         jPanel4.setOpaque(false);
         jPanel4.setBackground(new java.awt.Color(250, 250, 250));
         jPanel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -346,6 +360,7 @@ public class login extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel4.add(jLabel5, new java.awt.GridBagConstraints());
 
+        donthave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         donthave.setText("Don't have an account yet? Click");
         jPanel5.add(donthave);
 
@@ -578,6 +593,8 @@ public class login extends javax.swing.JFrame {
                         }
                     } catch (FirebaseAuthException ex) {
                         Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     if (!authh) {
                         JOptionPane.showMessageDialog(null, "Error: Incorrect credentials", "Error", ERROR_MESSAGE);
@@ -726,6 +743,21 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void forgotpassMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotpassMouseClicked
+        // TODO add your handling code here:
+        if (email.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Field is empty");
+        } else {
+            try {
+                new smtp().sendMail("Reset Your Libratech Password", "We recently received a request to reset your password for your Libratech account. We apologize for any inconvenience caused. To regain access to your account, please follow the instructions below.\n\nPlease click on the following link to reset your password:\n" + email.getText() + "\n\nPlease note that this link is valid for a limited time only, so make sure to reset your password as soon as possible. If you did not request a password reset, please disregard this email.\n\nIf you encounter any difficulties or have any questions, please don't hesitate to contact our support team at [Support Email]. We are here to assist you.\n\nThank you for using Libratech. We appreciate your understanding and cooperation.\n\nBest regards,\n\nLibratech Support Team", email.getText());
+                JOptionPane.showMessageDialog(null, "Generated Link Sent to your Email");
+            } catch (Exception ex) {
+                Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_forgotpassMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -770,6 +802,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel donthave;
     private javax.swing.JTextField email;
     private javax.swing.JLabel emailaddlabel;
+    private javax.swing.JLabel forgotpass;
     private javax.swing.JLabel here;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
@@ -812,6 +845,7 @@ public class login extends javax.swing.JFrame {
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 18));
         jLabel3.setFont(new Font("Poppins Regular", Font.PLAIN, 14));
         jCheckBox1.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
+        forgotpass.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
     public static boolean validateEmail(String email) {

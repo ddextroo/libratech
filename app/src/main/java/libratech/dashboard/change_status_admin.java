@@ -38,6 +38,7 @@ import libratech.design.loading;
 import libratech.models.getUID;
 import libratech.models.pushValueExisting;
 import libratech.util.firebaseInit;
+import libratech.util.smtp;
 
 /**
  *
@@ -57,6 +58,10 @@ public class change_status_admin extends javax.swing.JPanel {
     ImageScaler scaler = new ImageScaler();
     private DatabaseReference.CompletionListener completionListener;
     private DatabaseReference users2;
+    private ChildEventListener userinfo;
+    private final String path_user = "users";
+    private final DatabaseReference user = FirebaseDatabase.getInstance().getReference(path_user);
+    private String email_add;
 
     public change_status_admin(String UID, String transactionKey) {
         initComponents();
@@ -70,6 +75,7 @@ public class change_status_admin extends javax.swing.JPanel {
         txt.setEditable(false);
         initFont();
         users2 = FirebaseDatabase.getInstance().getReference("admin_reference" + "/" + transactionKey);
+        retrieveDataUserInfo();
 
         completionListener = (DatabaseError error, DatabaseReference ref) -> {
             if (error != null) {
@@ -88,6 +94,47 @@ public class change_status_admin extends javax.swing.JPanel {
         g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 15, 15));
         g2.dispose();
         super.paintComponent(graphics);
+    }
+    
+    private void retrieveDataUserInfo() {
+
+        userinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                if (UID.equals(_childKey)) {
+                    email_add = _childValue.get("email").toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        user.addChildEventListener(userinfo);
+
     }
 
     /**
@@ -165,17 +212,22 @@ public class change_status_admin extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        // TODO add your handling code here:
-        LocalDate newDate = currentDate.plusMonths(1);
-        String newDateString = newDate.format(formatter);
-        v = new pushValueExisting(UID);
-        m = new HashMap<>();
-        m.put("status", "Approved");
-        m.put("limit_date", newDateString);
-        v.pushData("users", m);
-        m.clear();
-        users2.getRef().removeValue(completionListener);
-        GlassPanePopup.closePopupAll();
+        try {
+            // TODO add your handling code here:
+            LocalDate newDate = currentDate.plusMonths(1);
+            String newDateString = newDate.format(formatter);
+            v = new pushValueExisting(UID);
+            m = new HashMap<>();
+            m.put("status", "Approved");
+            m.put("limit_date", newDateString);
+            v.pushData("users", m);
+            m.clear();
+            users2.getRef().removeValue(completionListener);
+            new smtp().sendMail("Account Approved", "Greetings,\n\nWe are pleased to inform you that your account with LibraTech has been approved and is now ready for use. We appreciate your interest in our services and are delighted to have you as a valued member of our community.\n\nWith your newly approved account, you can now access all the features and benefits associated with our platform.\n\nBest regards,\nLibraTech Admin", email_add);
+            GlassPanePopup.closePopupAll();
+        } catch (Exception ex) {
+            Logger.getLogger(change_status_admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_exitActionPerformed
 

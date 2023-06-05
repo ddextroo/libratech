@@ -407,6 +407,9 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel7MouseClicked"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

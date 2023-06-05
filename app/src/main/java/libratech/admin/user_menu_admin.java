@@ -60,6 +60,7 @@ public class user_menu_admin extends javax.swing.JPanel {
         studentTable1.fixTable(jScrollPane2);
         studentTable2.fixTable(jScrollPane3);
         scaler.scaleImage(notificationLabel1, "src\\main\\resources\\notification-line.png");
+        materialTabbed1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         retrieveDataApproved();
         retrieveDataPending();
         checkTransaction();
@@ -235,12 +236,13 @@ public class user_menu_admin extends javax.swing.JPanel {
                         } else if (status.equals("Approved")) {
                             statust.setType(StatusTypeStudent.Approved);
                         }
-
-                        studentTable2.addRow(new Student(school_name, key, email, days_remaining, statust.getType()).toRowTablePromptUsers(eventAction));
-                        new Student().setUID(key);
-                        mod1.fireTableDataChanged();
-                        studentTable2.repaint();
-                        studentTable2.revalidate();
+                        if (!child.child("school_name").getValue(String.class).equals("ADMIN")) {
+                            studentTable2.addRow(new Student(school_name, key, email, days_remaining, statust.getType()).toRowTablePromptUsers(eventAction));
+                            new Student().setUID(key);
+                            mod1.fireTableDataChanged();
+                            studentTable2.repaint();
+                            studentTable2.revalidate();
+                        }
                     }
                     v = new pushValue("approved");
                     m = new HashMap<>();
@@ -267,7 +269,6 @@ public class user_menu_admin extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        materialTabbed2 = new libratech.design.MaterialTabbed();
         jPanel1 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         userslabel = new javax.swing.JLabel();
@@ -441,7 +442,6 @@ public class user_menu_admin extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     public libratech.design.MaterialTabbed materialTabbed1;
-    private libratech.design.MaterialTabbed materialTabbed2;
     private libratech.design.NotificationLabel notificationLabel1;
     private libratech.user.students.adminUserTable studentTable1;
     private libratech.user.students.adminUserTable studentTable2;
@@ -450,8 +450,6 @@ public class user_menu_admin extends javax.swing.JPanel {
     public void initFont() {
         userslabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
-        materialTabbed2.setFont(new Font("Poppins Regular", Font.BOLD, 16));
-
     }
 
 }

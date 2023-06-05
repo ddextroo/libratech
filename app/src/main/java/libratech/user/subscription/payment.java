@@ -47,7 +47,7 @@ public class payment extends javax.swing.JPanel {
     private int choose;
     private HashMap<String, Object> m;
     private pushValueExisting v;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEEE MMMMM yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy; hh:mm a");
     private ChildEventListener userinfo;
     private final String path_user = "users";
     private final DatabaseReference user = FirebaseDatabase.getInstance().getReference(path_user);
@@ -80,6 +80,7 @@ public class payment extends javax.swing.JPanel {
         initFont();
         ImageScaler scaler = new ImageScaler();
         planstandardlabel1.setText("Plan - " + plan_name + " " + plan_price);
+        retrieveDataBooksInfo();
         //scaler.scaleImage(jLabel1, "src\\main\\resources\\arrow-left-line.png");
     }
 
@@ -297,30 +298,44 @@ public class payment extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payActionPerformed
-        // TODO add your handling code here:
-        //GlassPanePopup.closePopupLast();
-
-        v = new pushValueExisting(randomString);
-        m = new HashMap<>();
-        m.put("plan", choose);
-        m.put("account_number", accountnumber.getText());
-        m.put("account_name", accountname.getText());
-        m.put("reference_no", randomString);
-        m.put("transaction_date", currentDate.format(formatter));
-        m.put("uid", new getUID().getUid());
-        v.pushData("admin_reference", m);
-        m.clear();
-        v = new pushValueExisting(new getUID().getUid());
-        m = new HashMap<>();
-        m.put("plan", choose);
-        v.pushData("users", m);
-        m.clear();
-//                new smtp().sendMail("Receipt for Book Borrowing - " + key, "Dear " + fname + ",\n\n"
-//                        + "We sincerely hope that this email reaches you in a state of excellent well-being. We would like to express our gratitude for utilizing our Library Management System and making use of our book-borrowing services. In response to your request, we have generated a PDF receipt containing the details of your borrowing transaction. Enclosed herewith is the attached PDF document, encompassing all the pertinent details of the receipt."
-//                        + "\n\nWe highly value your ongoing patronage and encourage you to explore the wide range of resources available in our library. Should you have any inquiries or concerns, please feel free to contact our dedicated support team."
-//                        + "\n\nOnce again, we would like to thank you for selecting our Library Management System. We fervently hope that you have a delightful reading experience, and we eagerly anticipate the opportunity to assist you again in the future."
-//                        + "\n\nBest regards,"
-//                        + "\n\nLibratech Team", email_add);
+        try {
+            // TODO add your handling code here:
+            //GlassPanePopup.closePopupLast();
+            
+            v = new pushValueExisting(randomString);
+            m = new HashMap<>();
+            m.put("plan", choose);
+            m.put("account_number", accountnumber.getText());
+            m.put("account_name", accountname.getText());
+            m.put("reference_no", randomString);
+            m.put("transaction_date", currentDate.format(formatter));
+            m.put("uid", new getUID().getUid());
+            v.pushData("admin_reference", m);
+            m.clear();
+            v = new pushValueExisting(new getUID().getUid());
+            m = new HashMap<>();
+            m.put("plan", choose);
+            v.pushData("users", m);
+            m.clear();
+            new smtp().sendMail("Waiting for Approval", "Dear" + school_name + ",\n\n" +
+                    "Thank you for choosing LibraTech. This is regarding your recent online transaction you made. As of now, the transaction is still pending and we are actively working on processing it.\n\n" +
+                    "Plan Transaction Details:\n" +
+                    "Reference Number:\t" + randomString + "\n" +
+                    "School Name:\t" + school_name + "\n" +
+                    "Student ID:\t" + school_id + "\n" +
+                    "Transaction Date/Time:\t" + currentDate.format(formatter) + "\n" +
+                    "Subscription:\t" + plan_name + "\n" +
+                    "Payment Amount:\t" + plan_name + "\n\n" +
+                    "Our team is currently working diligently to ensure that your payment is processed successfully. We apologize for any delay this may cause and appreciate your patience throughout this process.\n\n" +
+                    "Rest assured, we are giving this transaction our utmost attention, and we will notify you promptly once it has been successfully processed. If you have any questions or require further information, please feel free to reach out to our customer support team at LibraCare. We are here to assist you.\n\n" +
+                    "Thank you for your understanding and cooperation in this matter. We value your business and are committed to resolving this pending transaction as soon as possible.\n\n" +
+                    "Best regards,\n" +
+                    "LibraTech Team", email_add);
+            GlassPanePopup.closePopupLast();
+            GlassPanePopup.showPopup(new approval_dialog());
+        } catch (Exception ex) {
+            Logger.getLogger(payment.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_payActionPerformed
 
     private void accountnumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountnumberActionPerformed

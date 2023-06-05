@@ -34,7 +34,9 @@ import java.util.Set;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -122,8 +124,7 @@ public class smtp {
         Session session = Session.getDefaultInstance(props, null);
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(TEST_EMAIL));
-        email.addRecipient(javax.mail.Message.RecipientType.TO,
-                new InternetAddress(receipient));
+        email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(receipient));
         email.setSubject(subject);
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
@@ -131,7 +132,7 @@ public class smtp {
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
-        mimeBodyPart = new MimeBodyPart();
+        email.setContent(multipart);
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
@@ -154,6 +155,6 @@ public class smtp {
                 throw e;
             }
         }
-
     }
+
 }

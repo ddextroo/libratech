@@ -1022,7 +1022,7 @@ public class edit_book extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
         } else {
             if (upload) {
-                if (this.localFilePath.equals("")) {
+                if (localFilePath == null) {
                     JOptionPane.showMessageDialog(null, "Error: Cover is empty", "Error", ERROR_MESSAGE);
                 } else {
                     storage uploader = new storage(this.localFilePath, this.remoteFilePath);

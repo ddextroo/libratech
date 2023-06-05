@@ -104,7 +104,7 @@ public class returnlostdamaged_dialog extends javax.swing.JPanel {
         quantity = new javax.swing.JTextField();
 
         confirmlabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        confirmlabel.setText("Number of books");
+        confirmlabel.setText("Return number of books");
 
         cancel.setForeground(new java.awt.Color(23, 23, 23));
         cancel.setText("Cancel");

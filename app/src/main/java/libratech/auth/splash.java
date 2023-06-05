@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,9 +19,12 @@ import libratech.auth.login;
 import libratech.dashboard.home;
 import libratech.design.RoundedPanelBorderless;
 import java.net.*;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import libratech.admin.home_admin;
+import libratech.design.GlassPanePopup;
 import libratech.design.ImageScaler;
+import libratech.design.loading;
 import libratech.models.aes;
 
 public class splash extends javax.swing.JFrame {
@@ -283,8 +287,12 @@ public class splash extends javax.swing.JFrame {
                 jProgressBar1.setValue(++val + 20);
                 if (val > 50) {
                     if (!isInternetConnected()) {
-                        JOptionPane.showMessageDialog(null, "No internet connection available.", "Error", JOptionPane.ERROR_MESSAGE);
-                        timerTonext();
+                        JOptionPane.showMessageDialog(null, "No internet connection available : Closing the app", "Error", JOptionPane.ERROR_MESSAGE);
+                        Timer timer1 = new Timer(1000, ee -> {
+                            System.exit(0);
+                        });
+                        timer1.setRepeats(false);
+                        timer1.start();
                     }
                 }
                 try {

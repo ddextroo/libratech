@@ -424,6 +424,9 @@
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel8MouseClicked"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -440,6 +443,20 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="10" y="130" width="130" height="30"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="javax.swing.JLabel" name="forgotpass">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="4" postCode="forgotpass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+                <Property name="text" type="java.lang.String" value="Forgot Password?"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="forgotpassMouseClicked"/>
+              </Events>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="150" y="130" width="170" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -491,6 +508,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Don&apos;t have an account yet? Click"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="donthave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="here">
               <Properties>

@@ -100,6 +100,7 @@ public class home_admin extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initFont();
         updateInfo();
+        idnum.setVisible(false);
     }
 
     private void updateInfo() {

@@ -11,8 +11,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,6 +25,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import libratech.admin.planChecker;
 import libratech.design.DefaultOption;
@@ -74,6 +79,8 @@ public class user_menu extends javax.swing.JPanel {
         retrieveDataRestricted();
         retrieveDataTransactions();
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
+        scaler.scaleImage(searchicon, "src\\main\\resources\\search-line.png");
+        materialTabbed1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         accinfo = new ChildEventListener() {
             @Override
@@ -242,7 +249,7 @@ public class user_menu extends javax.swing.JPanel {
                     if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) >= 3) {
                         String key = child.child("idno").getValue(String.class);
                         String email = child.child("email").getValue(String.class);
-                        String IDnumber = child.child("idno").getValue(String.class);
+                        String IDnumber = child.child("idno").getValue(String.class) + " - " + child.child("fname").getValue(String.class);
 
                         studentTable2.addRow(new Student(email, IDnumber, StatusTypeStudent.Restricted).toRowTable(eventAction));
                         new Student().setIDnumber(key);
@@ -346,6 +353,9 @@ public class user_menu extends javax.swing.JPanel {
         userslabel = new javax.swing.JLabel();
         myButtonborderless1 = new libratech.design.MyButtonborderless();
         scanner = new javax.swing.JLabel();
+        jPanel10 = new RoundedPanel(12, new Color(245,245,245,0));
+        searchbar = new javax.swing.JTextField();
+        searchicon = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         materialTabbed1 = new libratech.design.MaterialTabbed();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
@@ -396,6 +406,55 @@ public class user_menu extends javax.swing.JPanel {
             }
         });
 
+        jPanel10.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel10.setOpaque(false);
+
+        searchbar.setBackground(new java.awt.Color(250, 250, 250, 0));
+        searchbar.setBorder(null);
+        searchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbarActionPerformed(evt);
+            }
+        });
+        searchbar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchbarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchbarKeyTyped(evt);
+            }
+        });
+
+        searchicon.setPreferredSize(new java.awt.Dimension(20, 20));
+        searchicon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchiconMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchicon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(searchbar)
+                    .addComponent(searchicon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel10.setOpaque(false);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -403,7 +462,9 @@ public class user_menu extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(userslabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 969, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 654, Short.MAX_VALUE)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(myButtonborderless1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -419,7 +480,9 @@ public class user_menu extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scanner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -603,12 +666,115 @@ public class user_menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_scannerMouseExited
 
+    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchbarActionPerformed
+
+    private void searchbarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+        }
+    }//GEN-LAST:event_searchbarKeyPressed
+
+    private void searchbarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyTyped
+        // TODO add your handling code here:
+        EventActionStudent eventAction = new EventActionStudent() {
+
+            @Override
+            public void update(Student student) {
+                System.out.println("Ck: " + student.getIDnumber());
+                Option option = new DefaultOption() {
+                    @Override
+                    public float opacity() {
+                        return 0.6f;
+                    }
+
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return false;
+                    }
+
+                    @Override
+                    public Color background() {
+                        return new Color(33, 33, 33);
+                    }
+
+                };
+                GlassPanePopup.showPopup(new edit_user(student.getIDnumber()), option, "edit");
+            }
+
+            @Override
+            public void selectIDNumber(String idNumber) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public String getSelectedIDNumber() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+
+        dbRef = FirebaseDatabase.getInstance().getReference("students/" + new getUID().getUid());
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mod.setRowCount(0);
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    if (child.hasChild("penalties") && child.child("penalties").getValue(Integer.class) < 3) {
+                        if (child.child("idno").getValue(String.class).toLowerCase().contains(searchbar.getText())) {
+                            String key = child.child("idno").getValue(String.class);
+                            String email = child.child("email").getValue(String.class);
+                            String IDnumber = child.child("idno").getValue(String.class);
+
+                            studentTable1.addRow(new Student(email, IDnumber, StatusTypeStudent.Active).toRowTable(eventAction));
+                            new Student().setIDnumber(key);
+                            mod.fireTableDataChanged();
+                            studentTable1.repaint();
+                            studentTable1.revalidate();
+                        }
+                    }
+                }
+                v = new pushValue("active");
+                m = new HashMap<>();
+                m.put("total", mod.getRowCount());
+                v.pushData(path, m);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }//GEN-LAST:event_searchbarKeyTyped
+
+    private void searchiconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchiconMouseClicked
+        // TODO add your handling code here:
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#041C34"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-line.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-fill.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "user");
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(user_menu.this);
+        frame.dispose();
+    }//GEN-LAST:event_searchiconMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -621,6 +787,8 @@ public class user_menu extends javax.swing.JPanel {
     private libratech.design.MaterialTabbed materialTabbed2;
     private libratech.design.MyButtonborderless myButtonborderless1;
     private javax.swing.JLabel scanner;
+    private javax.swing.JTextField searchbar;
+    private javax.swing.JLabel searchicon;
     private libratech.user.students.studentTable studentTable1;
     private libratech.user.students.studentTable studentTable2;
     private libratech.user.students.transactionTable transactionTable1;
@@ -630,6 +798,7 @@ public class user_menu extends javax.swing.JPanel {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         userslabel.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
+        searchbar.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
 
     }
 

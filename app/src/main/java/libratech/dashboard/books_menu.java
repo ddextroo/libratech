@@ -4,6 +4,7 @@
  */
 package libratech.dashboard;
 
+import com.google.firebase.database.ChildEventListener;
 import java.awt.Font;
 import libratech.design.GlassPanePopup;
 import java.util.List;
@@ -11,13 +12,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.AWTEvent;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import libratech.admin.planChecker;
 import libratech.books.inshelf.Book;
@@ -56,6 +61,10 @@ public class books_menu extends javax.swing.JPanel {
     private pushValue v;
     ImageScaler scaler = new ImageScaler();
     boolean exist;
+    private ChildEventListener accinfo;
+    private final String path1 = "users/";
+    private final DatabaseReference acc = FirebaseDatabase.getInstance().getReference(path1);
+    int plan;
 
     public books_menu() {
         initComponents();
@@ -75,6 +84,7 @@ public class books_menu extends javax.swing.JPanel {
         scaler.scaleImage(scanner, "src\\main\\resources\\qr-scan-line.png");
         scaler.scaleImage(searchicon, "src\\main\\resources\\search-line.png");
         notificationLabel1.setEnabled(false);
+        materialTabbed1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         checkTransaction();
         retrieveData();
         retrieveDataborrowed();
@@ -82,10 +92,51 @@ public class books_menu extends javax.swing.JPanel {
         retrieveDataborrowedLost();
         retrieveDataborrowedDamaged();
         
-        System.out.println(new planChecker(new getUID().getUid()).isStandard());
-        if (new planChecker(new getUID().getUid()).isStandard()) {
-            scanner.setVisible(false);
-        }
+        accinfo = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = dataSnapshot.getKey();
+                final HashMap<String, Object> _childValue = dataSnapshot.getValue(_ind);
+                System.out.println(_childKey);
+                if (_childKey.equals(new getUID().getUid())) {
+                    plan = Integer.parseInt(_childValue.get("plan").toString());
+
+                    if (plan == 0) {
+                        scanner.setVisible(false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot ds, String string) {
+                GenericTypeIndicator<HashMap<String, Object>> _ind = new GenericTypeIndicator<HashMap<String, Object>>() {
+                };
+                final String _childKey = ds.getKey();
+                final HashMap<String, Object> _childValue = ds.getValue(_ind);
+                if (_childKey.equals(new getUID().getUid())) {
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        acc.addChildEventListener(accinfo);
 
     }
 
@@ -173,80 +224,6 @@ public class books_menu extends javax.swing.JPanel {
                 v.pushData(path, m);
                 m.clear();
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error: " + databaseError.getMessage());
-            }
-        });
-
-    }
-    
-       private void searchData() {
-        EventAction eventAction = new EventAction() {
-            @Override
-            public void update(Book book) {
-                System.out.println("Ck: " + book.getChildKey());
-                Option option = new DefaultOption() {
-                    @Override
-                    public float opacity() {
-                        return 0.6f;
-                    }
-
-                    @Override
-                    public boolean closeWhenClickOutside() {
-                        return false;
-                    }
-
-                    @Override
-                    public Color background() {
-                        return new Color(33, 33, 33);
-                    }
-
-                };
-                GlassPanePopup.showPopup(new edit_book(book.getChildKey()), option, "edit");
-            }
-        };
-
-        dbRef = FirebaseDatabase.getInstance().getReference("books/" + new getUID().getUid());
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mod.setRowCount(0);
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
-                        if(child.child("booktitle").getValue(String.class).equals(searchbar.getText())) {
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("remaining_copies").getValue(Integer.class);
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        mod.fireTableDataChanged();
-                        inshelfTable1.repaint();
-                        inshelfTable1.revalidate();
-                    }
-                }
-                int columnIndex = 5;
-                int rowCount = mod.getRowCount();
-                int totalSum = 0;
-
-                for (int i = 0; i < rowCount; i++) {
-                    Object value = mod.getValueAt(i, columnIndex);
-                    if (value instanceof Integer) {
-                        totalSum += (Integer) value;
-                    }
-                }
-                v = new pushValue("inshelf");
-                m = new HashMap<>();
-                m.put("total", totalSum);
-                v.pushData(path, m);
-                m.clear();
-                }
             }
 
             @Override
@@ -442,7 +419,6 @@ public class books_menu extends javax.swing.JPanel {
         });
 
     }
-    
 
     private void retrieveDataborrowedDamaged() {
         EventAction eventAction = new EventAction() {
@@ -620,6 +596,11 @@ public class books_menu extends javax.swing.JPanel {
         });
 
         searchicon.setPreferredSize(new java.awt.Dimension(20, 20));
+        searchicon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchiconMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -910,7 +891,7 @@ public class books_menu extends javax.swing.JPanel {
     private void searchbarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+
         }
     }//GEN-LAST:event_searchbarKeyPressed
 
@@ -948,37 +929,37 @@ public class books_menu extends javax.swing.JPanel {
                 mod.setRowCount(0);
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (child.hasChild("remaining_copies") && child.child("remaining_copies").getValue(Integer.class) > 0) {
-                        if(child.child("booktitle").getValue(String.class).toLowerCase().contains(searchbar.getText())) {
+                        if (child.child("booktitle").getValue(String.class).toLowerCase().contains(searchbar.getText())) {
                             System.out.print(searchbar.getText());
-                        String key = child.child("key").getValue(String.class);
-                        String bookTitle = child.child("booktitle").getValue(String.class);
-                        String publisher = child.child("publisher").getValue(String.class);
-                        String barcode = child.child("barcode").getValue(String.class);
-                        String classification = child.child("classification").getValue(String.class);
-                        String author = child.child("bookauthor").getValue(String.class);
-                        int copies = child.child("remaining_copies").getValue(Integer.class);
-                        inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
-                        new Book().setChildKey(key);
-                        mod.fireTableDataChanged();
-                        inshelfTable1.repaint();
-                        inshelfTable1.revalidate();
+                            String key = child.child("key").getValue(String.class);
+                            String bookTitle = child.child("booktitle").getValue(String.class);
+                            String publisher = child.child("publisher").getValue(String.class);
+                            String barcode = child.child("barcode").getValue(String.class);
+                            String classification = child.child("classification").getValue(String.class);
+                            String author = child.child("bookauthor").getValue(String.class);
+                            int copies = child.child("remaining_copies").getValue(Integer.class);
+                            inshelfTable1.addRow(new Book(bookTitle, publisher, classification, author, barcode, copies, StatusType.Available, key).toRowTable(eventAction));
+                            new Book().setChildKey(key);
+                            mod.fireTableDataChanged();
+                            inshelfTable1.repaint();
+                            inshelfTable1.revalidate();
+                        }
                     }
-                }
-                int columnIndex = 5;
-                int rowCount = mod.getRowCount();
-                int totalSum = 0;
+                    int columnIndex = 5;
+                    int rowCount = mod.getRowCount();
+                    int totalSum = 0;
 
-                for (int i = 0; i < rowCount; i++) {
-                    Object value = mod.getValueAt(i, columnIndex);
-                    if (value instanceof Integer) {
-                        totalSum += (Integer) value;
+                    for (int i = 0; i < rowCount; i++) {
+                        Object value = mod.getValueAt(i, columnIndex);
+                        if (value instanceof Integer) {
+                            totalSum += (Integer) value;
+                        }
                     }
-                }
-                v = new pushValue("inshelf");
-                m = new HashMap<>();
-                m.put("total", totalSum);
-                v.pushData(path, m);
-                m.clear();
+                    v = new pushValue("inshelf");
+                    m = new HashMap<>();
+                    m.put("total", totalSum);
+                    v.pushData(path, m);
+                    m.clear();
                 }
             }
 
@@ -988,6 +969,24 @@ public class books_menu extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_searchbarKeyTyped
+
+    private void searchiconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchiconMouseClicked
+        // TODO add your handling code here:
+        home home = new home();
+        home.setVisible(true);
+        home.jPanel15.setBackground(Color.decode("#0E2C4A"));
+        home.jPanel10.setBackground(Color.decode("#041C34"));
+        home.jPanel18.setBackground(Color.decode("#041C34"));
+        home.jPanel20.setBackground(Color.decode("#041C34"));
+        scaler.scaleImage(home.jLabel10, "src\\main\\resources\\dashboard-line.png");
+        scaler.scaleImage(home.jLabel15, "src\\main\\resources\\book-fill.png");
+        scaler.scaleImage(home.jLabel18, "src\\main\\resources\\user-line.png");
+        scaler.scaleImage(home.jLabel21, "src\\main\\resources\\settings-line.png");
+        CardLayout cardLayout = (CardLayout) home.jPanel3.getLayout();
+        cardLayout.show(home.jPanel3, "book");
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(books_menu.this);
+        frame.dispose();
+    }//GEN-LAST:event_searchiconMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1025,7 +1024,7 @@ public class books_menu extends javax.swing.JPanel {
         materialTabbed1.setFont(new Font("Poppins Regular", Font.BOLD, 16));
         jLabel1.setFont(new Font("Poppins Regular", Font.BOLD, 24));
         myButtonborderless1.setFont(new Font("Poppins Regular", Font.BOLD, 14));
-        searchbar.setFont(new Font("Poppins Regular",Font.PLAIN, 12));
+        searchbar.setFont(new Font("Poppins Regular", Font.PLAIN, 12));
     }
 
 }

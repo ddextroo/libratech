@@ -43,6 +43,8 @@ import libratech.models.getUID;
 import libratech.models.pushValue;
 import libratech.models.pushValueExisting;
 import org.quartz.*;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 
 /**
  *
@@ -108,6 +110,7 @@ public class home extends javax.swing.JFrame {
         initFont();
         updateInfo();
         updateBooks();
+        
     }
 
     private void updateBooks() {
@@ -289,7 +292,7 @@ public class home extends javax.swing.JFrame {
                         long differenceInMilliseconds = date.getTime() - dueDate.getTime();
                         long days_remaining = Math.abs(differenceInMilliseconds / (24 * 60 * 60 * 1000));
 
-                        if (days_remaining <= 2) {
+                        if (days_remaining <= 2 && days_remaining > 0) {
                             if (!done) {
                                 GlassPanePopup.showPopup(new subscription("Subscription Renewal Alert", "Stay on top of your subscription status with our Subscription Renewal Alert feature. Get notified when your subscription is about to expire, giving you ample time to renew.", 0));
                                 done = true;

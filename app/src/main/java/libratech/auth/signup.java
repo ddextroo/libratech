@@ -271,6 +271,7 @@ public class signup extends javax.swing.JFrame {
         });
 
         jLabel7.setPreferredSize(new java.awt.Dimension(20, 20));
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel7MouseClicked(evt);
@@ -633,7 +634,7 @@ public class signup extends javax.swing.JFrame {
         boolean authenticated = false;
         String downloadUrl = "";
 
-        if (this.localFilePath.equals("")) {
+        if (localFilePath == null) {
             JOptionPane.showMessageDialog(null, "Error: Field is empty", "Error", ERROR_MESSAGE);
             GlassPanePopup.closePopupLast();
         } else {
