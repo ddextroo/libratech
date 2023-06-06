@@ -250,7 +250,7 @@ public class books_menu extends javax.swing.JPanel {
                 mod1.setRowCount(0);
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    if (child.hasChild("borrowed_books") && child.child("borrowed_books").getValue(Integer.class) > 0) {
+                    if (child.child("status1").getValue(String.class).contains("Borrowed")) {
                         String key = child.child("key").getValue(String.class);
                         String bookTitle = child.child("booktitle").getValue(String.class);
                         String publisher = child.child("publisher").getValue(String.class);

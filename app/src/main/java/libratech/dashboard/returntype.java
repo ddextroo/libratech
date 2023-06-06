@@ -19,6 +19,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
@@ -62,6 +63,7 @@ public class returntype extends javax.swing.JPanel {
     private ChildEventListener borrow_added;
     private DatabaseReference borrow;
     private DatabaseReference borrow_student;
+    DecimalFormat decfor = new DecimalFormat("0.00");  
 
     public returntype(Object columnData, double fines, String key, String barcode, String idnum, int penalties, double user_fines) {
         this.fines = fines;
@@ -294,6 +296,7 @@ public class returntype extends javax.swing.JPanel {
                             m.put("status", "Available");
                         }
                         m.put("borrowed_books", borrowed_books - 1);
+                        m.put("status1", "Available");
                         v.pushData("books/" + new getUID().getUid(), m);
                         m.clear();
                         v = new pushValueExisting(idnum);
@@ -380,7 +383,8 @@ public class returntype extends javax.swing.JPanel {
                         m.clear();
                         v = new pushValueExisting(idnum);
                         m = new HashMap<>();
-                        m.put("fines", (double) fines + user_fines + (Integer.parseInt(penance.getText()) / price) * 100);
+                        double formula = Double.parseDouble(decfor.format((Double.parseDouble(penance.getText()) / 100) * price));
+                        m.put("fines", (double) fines + user_fines + formula);
                         m.put("penalties", penalties + 1);
                         v.pushData("students/" + new getUID().getUid(), m);
                         m.clear();

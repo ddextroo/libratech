@@ -30,7 +30,7 @@ import libratech.models.getUID;
 
 /**
  *
- * @author HBUSER
+ * @author hehe
  */
 public class dashboard_menu extends javax.swing.JPanel {
 

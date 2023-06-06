@@ -276,10 +276,10 @@ public class user_menu_admin extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         jPanel2 = new RoundedPanel(12, new Color(255,255,255));
         materialTabbed1 = new libratech.design.MaterialTabbed();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        studentTable1 = new libratech.user.students.adminUserTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         studentTable2 = new libratech.user.students.adminUserTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        studentTable1 = new libratech.user.students.adminUserTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
@@ -336,36 +336,6 @@ public class user_menu_admin extends javax.swing.JPanel {
 
         materialTabbed1.setBackground(new java.awt.Color(250, 250, 250));
 
-        studentTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "School Name", "UID", "Email Address", "Days Remaining", "Status"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(studentTable1);
-        if (studentTable1.getColumnModel().getColumnCount() > 0) {
-            studentTable1.getColumnModel().getColumn(0).setResizable(false);
-            studentTable1.getColumnModel().getColumn(1).setResizable(false);
-            studentTable1.getColumnModel().getColumn(2).setResizable(false);
-            studentTable1.getColumnModel().getColumn(3).setResizable(false);
-            studentTable1.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        materialTabbed1.addTab("Pending", jScrollPane2);
-
         studentTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -395,6 +365,36 @@ public class user_menu_admin extends javax.swing.JPanel {
         }
 
         materialTabbed1.addTab("Approved", jScrollPane3);
+
+        studentTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "School Name", "UID", "Email Address", "Days Remaining", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(studentTable1);
+        if (studentTable1.getColumnModel().getColumnCount() > 0) {
+            studentTable1.getColumnModel().getColumn(0).setResizable(false);
+            studentTable1.getColumnModel().getColumn(1).setResizable(false);
+            studentTable1.getColumnModel().getColumn(2).setResizable(false);
+            studentTable1.getColumnModel().getColumn(3).setResizable(false);
+            studentTable1.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        materialTabbed1.addTab("Pending", jScrollPane2);
 
         jPanel2.add(materialTabbed1, java.awt.BorderLayout.CENTER);
 

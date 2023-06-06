@@ -51,7 +51,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Payment Options: GCASH"/>
+            <Property name="text" type="java.lang.String" value="Payment Method: G-Cash"/>
           </Properties>
         </Component>
       </SubComponents>

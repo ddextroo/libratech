@@ -878,6 +878,7 @@ public class add_book extends javax.swing.JPanel {
             m.put("deck", deckk);
             m.put("key", key);
             m.put("status", "Available");
+            m.put("status1", "Available");
             m.put("timestamp", getnow);
             m.put("remaining_copies", Integer.valueOf(book_copies));
             m.put("cover", downloadUrl);
