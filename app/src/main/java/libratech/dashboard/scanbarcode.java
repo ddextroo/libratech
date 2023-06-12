@@ -14,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import libratech.design.DefaultOption;
 import libratech.design.GlassPanePopup;
+import libratech.design.ImageScaler;
 import libratech.design.Option;
 import libratech.design.RoundedPanel;
 import libratech.design.RoundedWebcamPanel;
@@ -24,9 +25,11 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
      * Creates new form scan barcode
      */
     private Webcam webcam = null;
+    ImageScaler scaler = new ImageScaler();
 
     public scanbarcode() {
         initComponents();
+        scaler.scaleImage(jLabel1, "src\\main\\resources\\arrow-left-line.png");
         setOpaque(false);
         startCameraPreview();
 
@@ -40,10 +43,9 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
             webcams[wc] = Webcam.getWebcams().toString();
         }
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(webcams));
-        comboBoxSuggestion1.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250,0));
+        comboBoxSuggestion1.getEditor().getEditorComponent().setBackground(new Color(250, 250, 250, 0));
         //webcam = Webcam.getWebcams().get(comboBoxSuggestion1.getSelectedIndex());
-                webcam = Webcam.getWebcams().get(1);
-
+        webcam = Webcam.getWebcams().get(1);
 
         Dimension size = WebcamResolution.VGA.getSize();
         webcam.setViewSize(size);
@@ -54,8 +56,7 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
         panel.setMirrored(false);
 
         jPanel3.add(panel, BorderLayout.CENTER);
-        
-        
+
         new Thread(this).start();
     }
 
@@ -141,12 +142,13 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new RoundedPanel(12, new Color(250,250,250,0));
         comboBoxSuggestion1 = new libratech.design.ComboBoxSuggestion();
+        jLabel1 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(33, 33, 33));
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBackground(new java.awt.Color(33, 33, 33));
+        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
 
         jPanel10.setBackground(new java.awt.Color(0, 0, 0));
         jPanel10.setOpaque(false);
@@ -159,20 +161,31 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
             }
         });
 
+        jLabel1.setPreferredSize(new java.awt.Dimension(25, 25));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -203,9 +216,20 @@ public class scanbarcode extends javax.swing.JPanel implements Runnable {
         //JOptionPane.showMessageDialog(null, comboBoxSuggestion1, "Select", JOptionPane.QUESTION_MESSAGE);
     }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        GlassPanePopup.closePopupAll();
+        if (webcam.isOpen()) {
+            webcam.close();
+        }
+    }//GEN-LAST:event_jLabel1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private libratech.design.ComboBoxSuggestion comboBoxSuggestion1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel3;
